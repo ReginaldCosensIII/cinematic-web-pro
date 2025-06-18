@@ -1,44 +1,63 @@
 
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
+  const location = useLocation();
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 p-6">
       <div className="glass-effect rounded-2xl px-8 py-4 mx-auto max-w-7xl">
         <div className="flex items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-webdev-silver tracking-tight">
+            <Link to="/" className="text-2xl font-bold text-webdev-silver tracking-tight hover:text-white transition-colors">
               WebDevPro
-            </h1>
+            </Link>
           </div>
           
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a 
-              href="#home" 
-              className="text-webdev-silver hover:text-white transition-colors duration-300 text-sm font-medium tracking-wide"
+            <Link 
+              to="/" 
+              className={`transition-colors duration-300 text-sm font-medium tracking-wide ${
+                isActive('/') 
+                  ? 'text-white' 
+                  : 'text-webdev-soft-gray hover:text-webdev-silver'
+              }`}
             >
               Home
-            </a>
+            </Link>
             <a 
               href="#featuredwork" 
               className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
             >
               Portfolio
             </a>
-            <a 
-              href="#blog" 
-              className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
+            <Link 
+              to="/blog" 
+              className={`transition-colors duration-300 text-sm font-medium tracking-wide ${
+                isActive('/blog') 
+                  ? 'text-white' 
+                  : 'text-webdev-soft-gray hover:text-webdev-silver'
+              }`}
             >
               Blog
-            </a>
-            <a 
-              href="#contact" 
-              className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
+            </Link>
+            <Link 
+              to="/contact" 
+              className={`transition-colors duration-300 text-sm font-medium tracking-wide ${
+                isActive('/contact') 
+                  ? 'text-white' 
+                  : 'text-webdev-soft-gray hover:text-webdev-silver'
+              }`}
             >
               Contact
-            </a>
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}

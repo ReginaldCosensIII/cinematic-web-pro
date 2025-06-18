@@ -1,0 +1,275 @@
+
+import React, { useState } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import SmokeBackground from '../components/SmokeBackground';
+import { Mail, MapPin, Phone, Send, CheckCircle } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    projectType: '',
+    budget: '',
+    message: ''
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would normally send the form data to your backend
+    console.log('Form submitted:', formData);
+    setIsSubmitted(true);
+    
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      setIsSubmitted(false);
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        projectType: '',
+        budget: '',
+        message: ''
+      });
+    }, 3000);
+  };
+
+  const projectTypes = [
+    'Website Development',
+    'E-commerce Platform',
+    'Web Application',
+    'Mobile App',
+    'Portfolio Website',
+    'Landing Page',
+    'Other'
+  ];
+
+  const budgetRanges = [
+    '$1,000 - $5,000',
+    '$5,000 - $10,000',
+    '$10,000 - $25,000',
+    '$25,000 - $50,000',
+    '$50,000+'
+  ];
+
+  return (
+    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+      <SmokeBackground />
+      <Header />
+      
+      <main className="relative z-10 pt-32 pb-20">
+        <div className="max-w-6xl mx-auto px-6">
+          {/* Page Header */}
+          <div className="text-center animate-fade-in-up mb-16">
+            <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
+              Let's Work Together
+            </h1>
+            <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
+              Ready to bring your vision to life? Get in touch and let's discuss your next web development project.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Contact Info */}
+            <div className="animate-fade-in-up">
+              <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
+                <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
+                  Get In Touch
+                </h2>
+                <p className="text-webdev-soft-gray mb-8 leading-relaxed">
+                  I'm always excited to work on new projects and collaborate with innovative teams. 
+                  Whether you need a complete web solution or want to enhance your existing platform, 
+                  I'm here to help.
+                </p>
+
+                <div className="space-y-6">
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
+                      <Mail className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-webdev-silver font-medium">Email</p>
+                      <p className="text-webdev-soft-gray">contact@webdevpro.com</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
+                      <Phone className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-webdev-silver font-medium">Phone</p>
+                      <p className="text-webdev-soft-gray">+1 (555) 123-4567</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
+                      <MapPin className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-webdev-silver font-medium">Location</p>
+                      <p className="text-webdev-soft-gray">Available Worldwide</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-webdev-glass-border">
+                  <h3 className="text-lg font-medium text-webdev-silver mb-4">
+                    What I Can Help With
+                  </h3>
+                  <ul className="space-y-2">
+                    {[
+                      'Custom Web Development',
+                      'E-commerce Solutions',
+                      'Performance Optimization',
+                      'UI/UX Implementation',
+                      'Technical Consulting',
+                      'Maintenance & Support'
+                    ].map((service, index) => (
+                      <li key={index} className="flex items-center text-webdev-soft-gray">
+                        <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
+                        {service}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
+                {isSubmitted ? (
+                  <div className="text-center py-12">
+                    <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-webdev-silver mb-2">
+                      Message Sent Successfully!
+                    </h3>
+                    <p className="text-webdev-soft-gray">
+                      Thank you for reaching out. I'll get back to you within 24 hours.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
+                      Start Your Project
+                    </h2>
+                    
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="name" className="text-webdev-silver">Name *</Label>
+                          <Input
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver focus:border-webdev-gradient-blue"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="email" className="text-webdev-silver">Email *</Label>
+                          <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver focus:border-webdev-gradient-blue"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="company" className="text-webdev-silver">Company</Label>
+                        <Input
+                          id="company"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleInputChange}
+                          className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver focus:border-webdev-gradient-blue"
+                        />
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="projectType" className="text-webdev-silver">Project Type</Label>
+                          <select
+                            id="projectType"
+                            name="projectType"
+                            value={formData.projectType}
+                            onChange={handleInputChange}
+                            className="w-full h-10 rounded-md border border-webdev-glass-border bg-webdev-darker-gray px-3 py-2 text-webdev-silver focus:border-webdev-gradient-blue focus:outline-none"
+                          >
+                            <option value="">Select project type</option>
+                            {projectTypes.map(type => (
+                              <option key={type} value={type}>{type}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <Label htmlFor="budget" className="text-webdev-silver">Budget Range</Label>
+                          <select
+                            id="budget"
+                            name="budget"
+                            value={formData.budget}
+                            onChange={handleInputChange}
+                            className="w-full h-10 rounded-md border border-webdev-glass-border bg-webdev-darker-gray px-3 py-2 text-webdev-silver focus:border-webdev-gradient-blue focus:outline-none"
+                          >
+                            <option value="">Select budget range</option>
+                            {budgetRanges.map(range => (
+                              <option key={range} value={range}>{range}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="message" className="text-webdev-silver">Project Details *</Label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          rows={5}
+                          className="w-full rounded-md border border-webdev-glass-border bg-webdev-darker-gray px-3 py-2 text-webdev-silver focus:border-webdev-gradient-blue focus:outline-none resize-none"
+                          placeholder="Tell me about your project, goals, and timeline..."
+                          required
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 transition-opacity"
+                      >
+                        <Send className="w-4 h-4 mr-2" />
+                        Send Message
+                      </Button>
+                    </form>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default Contact;
