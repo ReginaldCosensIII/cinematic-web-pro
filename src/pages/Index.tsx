@@ -1,12 +1,26 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import SmokeBackground from '../components/SmokeBackground';
+import VideoHero from '../components/VideoHero';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+      {/* Animated smoke background */}
+      <SmokeBackground />
+      
+      {/* Glassmorphic header */}
+      <Header />
+      
+      {/* Main content */}
+      <main className="relative z-10">
+        <VideoHero />
+      </main>
+      
+      {/* Glassmorphic footer */}
+      <Footer />
     </div>
   );
 };

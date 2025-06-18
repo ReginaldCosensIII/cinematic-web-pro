@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom WebDevPro theme colors
+				'webdev': {
+					'black': '#000000',
+					'dark-gray': '#0a0a0a',
+					'darker-gray': '#1a1a1a',
+					'silver': '#c0c0c0',
+					'soft-gray': '#888888',
+					'glass': 'rgba(26, 26, 26, 0.3)',
+					'glass-border': 'rgba(192, 192, 192, 0.1)',
+					'gradient-blue': '#4285f4',
+					'gradient-purple': '#8a2be2'
 				}
 			},
 			borderRadius: {
@@ -84,11 +97,51 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'smoke-float': {
+					'0%': {
+						transform: 'translateY(100vh) scale(0.8)',
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '0.3'
+					},
+					'100%': {
+						transform: 'translateY(-100vh) scale(1.2)',
+						opacity: '0'
+					}
+				},
+				'smoke-drift': {
+					'0%': {
+						transform: 'translateX(-50px) rotate(0deg)',
+						opacity: '0.2'
+					},
+					'50%': {
+						transform: 'translateX(50px) rotate(180deg)',
+						opacity: '0.4'
+					},
+					'100%': {
+						transform: 'translateX(-50px) rotate(360deg)',
+						opacity: '0.2'
+					}
+				},
+				'fade-in-up': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(30px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'smoke-float': 'smoke-float 20s linear infinite',
+				'smoke-drift': 'smoke-drift 15s ease-in-out infinite',
+				'fade-in-up': 'fade-in-up 0.8s ease-out',
 			}
 		}
 	},

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,6 +99,34 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-webdev-black text-webdev-silver;
+    overflow-x: hidden;
   }
+}
+
+/* Custom glassmorphism utilities */
+@layer utilities {
+  .glass-effect {
+    background: rgba(26, 26, 26, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(192, 192, 192, 0.1);
+  }
+  
+  .glass-border {
+    border: 1px solid rgba(192, 192, 192, 0.1);
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 20px rgba(192, 192, 192, 0.3);
+  }
+}
+
+/* Smoke effect background elements */
+.smoke-element {
+  position: absolute;
+  background: radial-gradient(circle, rgba(192, 192, 192, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(1px);
 }
