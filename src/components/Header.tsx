@@ -16,7 +16,7 @@ const Header = () => {
           {/* Brand Logo */}
           <div className="flex items-center">
             <Link to="/" className="text-2xl font-bold text-webdev-silver tracking-tight hover:text-white transition-colors">
-              WebDevPro
+            &lt/WebDevPro>
             </Link>
           </div>
           
