@@ -28,16 +28,16 @@ const Header = () => {
               Portfolio
             </a>
             <a 
-              href="#contact" 
-              className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
-            >
-              Contact
-            </a>
-            <a 
               href="#blog" 
               className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
             >
               Blog
+            </a>
+            <a 
+              href="#contact" 
+              className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
+            >
+              Contact
             </a>
           </nav>
 
