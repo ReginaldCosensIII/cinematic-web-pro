@@ -22,7 +22,7 @@ const Header = () => {
               Home
             </a>
             <a 
-              href="#portfolio" 
+              href="#featuredwork" 
               className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
             >
               Portfolio
