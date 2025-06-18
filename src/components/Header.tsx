@@ -33,6 +33,12 @@ const Header = () => {
             >
               Contact
             </a>
+            <a 
+              href="#blog" 
+              className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
+            >
+              Blog
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
