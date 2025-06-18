@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Palette, Code, TestTube, Rocket } from 'lucide-react';
 import {
@@ -81,7 +80,7 @@ const ProcessSection = () => {
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
+        <div className="relative max-w-3xl mx-auto">
           <Carousel
             setApi={setApi}
             opts={{
@@ -95,30 +94,30 @@ const ProcessSection = () => {
                 const IconComponent = step.icon;
                 return (
                   <CarouselItem key={step.number} className="basis-full">
-                    <div className="p-6">
-                      <div className="bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-12 text-center">
-                        <div className="flex flex-col items-center mb-8">
-                          <div className="w-20 h-20 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-6">
-                            <IconComponent className="w-10 h-10 text-white" />
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
-                              {step.number}
-                            </div>
-                            <h4 className="text-2xl font-semibold text-webdev-silver">
-                              {step.title}
-                            </h4>
-                          </div>
+                    <div className="p-4">
+                      <div className="relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-8 text-center max-w-md mx-auto">
+                        {/* Stage number in top left corner */}
+                        <div className="absolute top-4 left-4 w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
+                          {step.number}
                         </div>
                         
-                        <p className="text-webdev-soft-gray text-lg mb-8 leading-relaxed max-w-md mx-auto">
+                        <div className="flex flex-col items-center mb-6">
+                          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-4">
+                            <IconComponent className="w-8 h-8 text-white" />
+                          </div>
+                          <h4 className="text-xl font-semibold text-webdev-silver">
+                            {step.title}
+                          </h4>
+                        </div>
+                        
+                        <p className="text-webdev-soft-gray text-base mb-6 leading-relaxed">
                           {step.description}
                         </p>
                         
-                        <ul className="space-y-3 max-w-sm mx-auto">
+                        <ul className="space-y-2">
                           {step.details.map((detail, index) => (
-                            <li key={index} className="text-webdev-soft-gray flex items-center justify-center">
-                              <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
+                            <li key={index} className="text-webdev-soft-gray text-sm flex items-center justify-center">
+                              <div className="w-1.5 h-1.5 rounded-full bg-webdev-gradient-blue mr-2"></div>
                               {detail}
                             </li>
                           ))}
