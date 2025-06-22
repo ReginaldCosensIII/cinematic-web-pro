@@ -111,13 +111,25 @@ const Services = () => {
 
         {/* Call to Action */}
         <div className="text-center animate-fade-in-up">
-          <div className="glass-effect rounded-xl p-8 max-w-2xl mx-auto">
-            <p className="text-webdev-silver text-lg leading-relaxed mb-6 tracking-wide">
-              Ready to elevate your online presence? Let's build something powerful together.
-            </p>
-            <button className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:shadow-lg hover:shadow-webdev-gradient-blue/20">
-              Start Your Project
-            </button>
+          <div className="glass-effect rounded-xl overflow-hidden max-w-2xl mx-auto">
+            {/* Image at the top spanning full width */}
+            <div className="w-full">
+              <img 
+                src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
+                alt="Let's Build Together" 
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            
+            {/* Content below the image */}
+            <div className="p-8">
+              <p className="text-webdev-silver text-lg leading-relaxed mb-6 tracking-wide">
+                Ready to elevate your online presence? Let's build something powerful together.
+              </p>
+              <button className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:shadow-lg hover:shadow-webdev-gradient-blue/20">
+                Start Your Project
+              </button>
+            </div>
           </div>
         </div>
       </div>
