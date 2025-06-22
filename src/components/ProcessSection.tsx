@@ -102,9 +102,9 @@ const ProcessSection = () => {
                   <CarouselItem key={step.number} className="basis-full">
                     <div className="p-4">
                       <div className="relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-6 text-center max-w-sm mx-auto">
-                        {/* Stage number in top left corner */}
-                        <div className="absolute top-3 left-3 w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
-                          {step.number}
+                        {/* Gradient icon in top left corner */}
+                        <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
+                          <IconComponent className="w-4 h-4 text-white" />
                         </div>
                         
                         {/* Image section */}
