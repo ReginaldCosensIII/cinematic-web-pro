@@ -101,7 +101,10 @@ const ProcessSection = () => {
                 return (
                   <CarouselItem key={step.number} className="basis-full">
                     <div className="p-4">
-                      <div className="relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-6 text-center max-w-sm mx-auto">
+                      <div className="group relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-6 text-center max-w-sm mx-auto transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+                        {/* Gradient border effect on hover */}
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
+                        
                         {/* Image section */}
                         <div className="mb-6">
                           <img 
@@ -115,23 +118,26 @@ const ProcessSection = () => {
                           <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-3">
                             <IconComponent className="w-6 h-6 text-white" />
                           </div>
-                          <h4 className="text-lg font-semibold text-webdev-silver">
+                          <h4 className="text-lg font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300">
                             {step.title}
                           </h4>
                         </div>
                         
-                        <p className="text-webdev-soft-gray text-sm mb-4 leading-relaxed">
+                        <p className="text-webdev-soft-gray text-sm mb-4 leading-relaxed group-hover:text-webdev-silver transition-colors duration-300">
                           {step.description}
                         </p>
                         
                         <ul className="space-y-1">
                           {step.details.map((detail, index) => (
-                            <li key={index} className="text-webdev-soft-gray text-xs flex items-center justify-center">
+                            <li key={index} className="text-webdev-soft-gray text-xs flex items-center justify-center group-hover:text-webdev-silver transition-colors duration-300">
                               <div className="w-1 h-1 rounded-full bg-webdev-gradient-blue mr-2"></div>
                               {detail}
                             </li>
                           ))}
                         </ul>
+
+                        {/* Subtle glow effect */}
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       </div>
                     </div>
                   </CarouselItem>

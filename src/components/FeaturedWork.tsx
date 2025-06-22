@@ -88,7 +88,10 @@ const FeaturedWork = () => {
                 return (
                   <CarouselItem key={project.number} className="basis-full">
                     <div className="p-6">
-                      <div className="relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-12 text-center">
+                      <div className="group relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+                        {/* Gradient border effect on hover */}
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
+                        
                         {/* Project number in top left corner */}
                         <div className="absolute top-4 left-4 w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
                           {project.number}
@@ -98,7 +101,7 @@ const FeaturedWork = () => {
                           <div className="w-20 h-20 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-6">
                             <IconComponent className="w-10 h-10 text-white" />
                           </div>
-                          <h4 className="text-2xl font-semibold text-webdev-silver mb-2">
+                          <h4 className="text-2xl font-semibold text-webdev-silver mb-2 group-hover:text-white transition-colors duration-300">
                             {project.title}
                           </h4>
                           <span className="text-webdev-gradient-blue text-sm font-medium">
@@ -106,23 +109,23 @@ const FeaturedWork = () => {
                           </span>
                         </div>
                         
-                        <p className="text-webdev-soft-gray text-lg mb-6 leading-relaxed max-w-md mx-auto">
+                        <p className="text-webdev-soft-gray text-lg mb-6 leading-relaxed max-w-md mx-auto group-hover:text-webdev-silver transition-colors duration-300">
                           {project.description}
                         </p>
 
                         {/* Placeholder for screenshot */}
                         <div className="w-full h-48 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
-                          <span className="text-webdev-soft-gray text-sm">Project Screenshot</span>
+                          <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">Project Screenshot</span>
                         </div>
                         
                         <div className="mb-6">
-                          <span className="text-webdev-silver text-sm font-medium">Technologies: </span>
-                          <span className="text-webdev-soft-gray text-sm">{project.technologies}</span>
+                          <span className="text-webdev-silver text-sm font-medium group-hover:text-white transition-colors duration-300">Technologies: </span>
+                          <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">{project.technologies}</span>
                         </div>
 
                         <ul className="space-y-3 max-w-sm mx-auto mb-8">
                           {project.details.map((detail, index) => (
-                            <li key={index} className="text-webdev-soft-gray flex items-center justify-center">
+                            <li key={index} className="text-webdev-soft-gray flex items-center justify-center group-hover:text-webdev-silver transition-colors duration-300">
                               <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
                               {detail}
                             </li>
@@ -139,6 +142,9 @@ const FeaturedWork = () => {
                             Source Code
                           </button>
                         </div>
+
+                        {/* Subtle glow effect */}
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       </div>
                     </div>
                   </CarouselItem>
