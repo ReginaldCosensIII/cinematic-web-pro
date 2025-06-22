@@ -112,7 +112,7 @@ const ProcessSection = () => {
                           <img 
                             src={step.image} 
                             alt={`${step.title} phase visualization`}
-                            className="w-full h-32 object-cover rounded-lg border border-webdev-glass-border"
+                            className="w-full h-48 object-cover rounded-lg border border-webdev-glass-border"
                           />
                         </div>
                         
