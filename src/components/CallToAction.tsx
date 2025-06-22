@@ -11,7 +11,7 @@ const CallToAction = () => {
             <img 
               src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
               alt="Get Your Project Started" 
-              className="w-full h-32 object-cover"
+              className="w-full h-48 object-cover"
             />
           </div>
           
