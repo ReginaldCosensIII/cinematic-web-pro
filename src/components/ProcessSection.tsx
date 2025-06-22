@@ -76,7 +76,7 @@ const ProcessSection = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center animate-fade-in-up mb-16">
           <h2 className="text-4xl font-light text-webdev-silver tracking-wide mb-6">
-            My Process
+            Design Process
           </h2>
           <h3 className="text-xl font-light text-webdev-soft-gray tracking-wide mb-4">
             Strategic Development Approach
@@ -102,13 +102,8 @@ const ProcessSection = () => {
                   <CarouselItem key={step.number} className="basis-full">
                     <div className="p-4">
                       <div className="relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-6 text-center max-w-sm mx-auto">
-                        {/* Gradient icon in top left corner */}
-                        <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
-                          <IconComponent className="w-4 h-4 text-white" />
-                        </div>
-                        
                         {/* Image section */}
-                        <div className="mb-6 mt-2">
+                        <div className="mb-6">
                           <img 
                             src={step.image} 
                             alt={`${step.title} phase visualization`}
