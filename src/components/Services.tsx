@@ -117,7 +117,7 @@ const Services = () => {
               <img 
                 src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
                 alt="Let's Build Together" 
-                className="w-full h-48 object-cover"
+                className="w-full h-auto object-cover"
               />
             </div>
             
