@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Search, Palette, Code, TestTube, Rocket } from 'lucide-react';
 import {
@@ -20,35 +21,40 @@ const ProcessSection = () => {
       title: "Discovery",
       description: "Understanding your business goals and target audience.",
       details: ["Business analysis", "Competitor research", "Goal definition"],
-      icon: Search
+      icon: Search,
+      image: "/lovable-uploads/71b95a9c-eb0e-46ba-a82e-e946c84a5d50.png"
     },
     {
       number: "2", 
       title: "Design",
       description: "Creating wireframes and visual designs that align with your brand.",
       details: ["Wireframing", "Visual design", "User experience"],
-      icon: Palette
+      icon: Palette,
+      image: "/lovable-uploads/e5aa85ee-0948-48da-9260-74a62953c120.png"
     },
     {
       number: "3",
       title: "Build", 
       description: "Developing your website with clean, modern code.",
       details: ["Frontend development", "Backend integration", "Responsive design"],
-      icon: Code
+      icon: Code,
+      image: "/lovable-uploads/bc4782ae-06ce-4d94-9a5e-1defbd96627d.png"
     },
     {
       number: "4",
       title: "Test",
       description: "Ensuring everything works perfectly across all devices.",
       details: ["Cross-browser testing", "Mobile optimization", "Performance testing"],
-      icon: TestTube
+      icon: TestTube,
+      image: "/lovable-uploads/ab14eb1e-52ba-449c-88ca-fdc83ffd9fb6.png"
     },
     {
       number: "5",
       title: "Launch",
       description: "Going live with ongoing support and monitoring.",
       details: ["Domain setup", "Launch monitoring", "Ongoing support"],
-      icon: Rocket
+      icon: Rocket,
+      image: "/lovable-uploads/ca774afa-4747-44e2-b7a2-7b339070cf34.png"
     }
   ];
 
@@ -95,29 +101,38 @@ const ProcessSection = () => {
                 return (
                   <CarouselItem key={step.number} className="basis-full">
                     <div className="p-4">
-                      <div className="relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-8 text-center max-w-md mx-auto">
+                      <div className="relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-6 text-center max-w-sm mx-auto">
                         {/* Stage number in top left corner */}
-                        <div className="absolute top-4 left-4 w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
+                        <div className="absolute top-3 left-3 w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
                           {step.number}
                         </div>
                         
-                        <div className="flex flex-col items-center mb-6">
-                          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-4">
-                            <IconComponent className="w-8 h-8 text-white" />
+                        {/* Image section */}
+                        <div className="mb-6 mt-2">
+                          <img 
+                            src={step.image} 
+                            alt={`${step.title} phase visualization`}
+                            className="w-full h-32 object-cover rounded-lg border border-webdev-glass-border"
+                          />
+                        </div>
+                        
+                        <div className="flex flex-col items-center mb-4">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-3">
+                            <IconComponent className="w-6 h-6 text-white" />
                           </div>
-                          <h4 className="text-xl font-semibold text-webdev-silver">
+                          <h4 className="text-lg font-semibold text-webdev-silver">
                             {step.title}
                           </h4>
                         </div>
                         
-                        <p className="text-webdev-soft-gray text-base mb-6 leading-relaxed">
+                        <p className="text-webdev-soft-gray text-sm mb-4 leading-relaxed">
                           {step.description}
                         </p>
                         
-                        <ul className="space-y-2">
+                        <ul className="space-y-1">
                           {step.details.map((detail, index) => (
-                            <li key={index} className="text-webdev-soft-gray text-sm flex items-center justify-center">
-                              <div className="w-1.5 h-1.5 rounded-full bg-webdev-gradient-blue mr-2"></div>
+                            <li key={index} className="text-webdev-soft-gray text-xs flex items-center justify-center">
+                              <div className="w-1 h-1 rounded-full bg-webdev-gradient-blue mr-2"></div>
                               {detail}
                             </li>
                           ))}
