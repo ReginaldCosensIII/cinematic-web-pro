@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Code, Palette, Search, RefreshCw } from 'lucide-react';
 
@@ -74,10 +73,8 @@ const Services = () => {
                   animationDelay: `${index * 150}ms`
                 }}
               >
-                {/* Gradient border effect on hover */}
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                 
-                {/* Icon */}
                 <div className="flex items-center mb-6">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
                     <IconComponent className="w-6 h-6 text-white" />
@@ -87,12 +84,10 @@ const Services = () => {
                   </h4>
                 </div>
 
-                {/* Description */}
                 <p className="text-webdev-soft-gray text-base leading-relaxed mb-6 group-hover:text-webdev-silver transition-colors duration-300">
                   {service.description}
                 </p>
 
-                {/* Features List */}
                 <ul className="space-y-3">
                   {service.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300">
@@ -102,22 +97,21 @@ const Services = () => {
                   ))}
                 </ul>
 
-                {/* Subtle glow effect */}
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               </div>
             );
           })}
         </div>
 
-        {/* Call to Action */}
+        {/* Call to Action with responsive image */}
         <div className="text-center animate-fade-in-up">
           <div className="glass-effect rounded-xl overflow-hidden max-w-2xl mx-auto">
-            {/* Image at the top spanning full width */}
-            <div className="w-full">
+            {/* Image at the top spanning full width with responsive aspect ratio */}
+            <div className="w-full aspect-[16/9] md:aspect-[20/9]">
               <img 
                 src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
                 alt="Let's Build Together" 
-                className="w-full h-48 object-cover"
+                className="w-full h-full object-cover object-center"
               />
             </div>
             
@@ -126,7 +120,7 @@ const Services = () => {
               <p className="text-webdev-silver text-lg leading-relaxed mb-6 tracking-wide">
                 Ready to elevate your online presence? Let's build something powerful together.
               </p>
-              <button className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:shadow-lg hover:shadow-webdev-gradient-blue/20">
+              <button className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20">
                 Start Your Project
               </button>
             </div>

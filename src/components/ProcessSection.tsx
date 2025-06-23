@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Palette, Code, TestTube, Rocket } from 'lucide-react';
 import {
@@ -105,12 +104,12 @@ const ProcessSection = () => {
                         {/* Gradient border effect on hover */}
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                         
-                        {/* Image section */}
-                        <div className="mb-6">
+                        {/* Image section with responsive aspect ratio */}
+                        <div className="mb-6 w-full aspect-[4/3]">
                           <img 
                             src={step.image} 
                             alt={`${step.title} phase visualization`}
-                            className="w-full h-64 object-cover rounded-lg border border-webdev-glass-border"
+                            className="w-full h-full object-cover object-center rounded-lg border border-webdev-glass-border"
                           />
                         </div>
                         
@@ -148,7 +147,6 @@ const ProcessSection = () => {
             <CarouselNext className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white -right-16" />
           </Carousel>
 
-          {/* Progress indicator */}
           <div className="mt-8 flex justify-center">
             <div className="flex space-x-2">
               {processSteps.map((_, index) => (

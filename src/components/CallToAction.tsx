@@ -7,11 +7,11 @@ const CallToAction = () => {
       <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
         <div className="glass-effect rounded-xl overflow-hidden">
           {/* Image at the top spanning full width */}
-          <div className="w-full">
+          <div className="w-full aspect-[16/9] md:aspect-[20/9]">
             <img 
               src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
               alt="Get Your Project Started" 
-              className="w-full h-48 object-cover"
+              className="w-full h-full object-cover object-center"
             />
           </div>
           
