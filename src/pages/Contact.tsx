@@ -92,7 +92,12 @@ const Contact = () => {
                     <div className="relative w-12 h-12 rounded-full mr-4">
                       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                         <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                          <Mail className="w-5 h-5 text-webdev-silver" />
+                          <Mail className="w-5 h-5 text-transparent" style={{
+                            background: 'linear-gradient(45deg, #4285f4, #8a2be2)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            filter: 'drop-shadow(0 0 1px rgba(66, 133, 244, 0.5))'
+                          }} />
                         </div>
                       </div>
                     </div>
@@ -106,7 +111,12 @@ const Contact = () => {
                     <div className="relative w-12 h-12 rounded-full mr-4">
                       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                         <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                          <Phone className="w-5 h-5 text-webdev-silver" />
+                          <Phone className="w-5 h-5 text-transparent" style={{
+                            background: 'linear-gradient(45deg, #4285f4, #8a2be2)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            filter: 'drop-shadow(0 0 1px rgba(66, 133, 244, 0.5))'
+                          }} />
                         </div>
                       </div>
                     </div>
@@ -120,7 +130,12 @@ const Contact = () => {
                     <div className="relative w-12 h-12 rounded-full mr-4">
                       <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                         <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                          <MapPin className="w-5 h-5 text-webdev-silver" />
+                          <MapPin className="w-5 h-5 text-transparent" style={{
+                            background: 'linear-gradient(45deg, #4285f4, #8a2be2)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            filter: 'drop-shadow(0 0 1px rgba(66, 133, 244, 0.5))'
+                          }} />
                         </div>
                       </div>
                     </div>

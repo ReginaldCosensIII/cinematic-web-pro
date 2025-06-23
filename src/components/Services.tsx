@@ -81,7 +81,12 @@ const Services = () => {
                   <div className="relative w-12 h-12 rounded-lg mr-4">
                     <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                       <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
-                        <IconComponent className="w-6 h-6 text-webdev-silver" />
+                        <IconComponent className="w-6 h-6 text-transparent bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text" style={{
+                          background: 'linear-gradient(45deg, #4285f4, #8a2be2)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          filter: 'drop-shadow(0 0 1px rgba(66, 133, 244, 0.5))'
+                        }} />
                       </div>
                     </div>
                   </div>
@@ -115,7 +120,7 @@ const Services = () => {
             {/* Image at the top spanning full width with shorter aspect ratio */}
             <div className="w-full aspect-[3/1] sm:aspect-[4/1] md:aspect-[5/1]">
               <img 
-                src="/lovable-uploads/7d0e81ef-8dd7-40b8-b981-7dddd6bd89f4.png"
+                src="/lovable-uploads/36f998a7-1959-4ab7-b352-a792d2cb3812.png"
                 alt="Let's Build Together" 
                 className="w-full h-full object-cover object-center"
               />

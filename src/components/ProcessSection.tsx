@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Search, Palette, Code, TestTube, Rocket } from 'lucide-react';
 import {
@@ -114,8 +115,17 @@ const ProcessSection = () => {
                         </div>
                         
                         <div className="flex flex-col items-center mb-4">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-3">
-                            <IconComponent className="w-6 h-6 text-white" />
+                          <div className="relative w-12 h-12 rounded-full mb-3">
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                              <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
+                                <IconComponent className="w-6 h-6 text-transparent" style={{
+                                  background: 'linear-gradient(45deg, #4285f4, #8a2be2)',
+                                  WebkitBackgroundClip: 'text',
+                                  WebkitTextFillColor: 'transparent',
+                                  filter: 'drop-shadow(0 0 1px rgba(66, 133, 244, 0.5))'
+                                }} />
+                              </div>
+                            </div>
                           </div>
                           <h4 className="text-lg font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300">
                             {step.title}
