@@ -25,11 +25,9 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would normally send the form data to your backend
     console.log('Form submitted:', formData);
     setIsSubmitted(true);
     
-    // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
@@ -68,27 +66,25 @@ const Contact = () => {
       
       <main className="relative z-10 pt-32 pb-20">
         <div className="max-w-6xl mx-auto px-6">
-          {/* Page Header */}
           <div className="text-center animate-fade-in-up mb-16">
             <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
-              Let's Work Together
+              Let&apos;s Work Together
             </h1>
             <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
-              Ready to bring your vision to life? Get in touch and let's discuss your next web development project.
+              Ready to bring your vision to life? Get in touch and let&apos;s discuss your next web development project.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Info */}
             <div className="animate-fade-in-up">
               <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
                 <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
                   Get In Touch
                 </h2>
                 <p className="text-webdev-soft-gray mb-8 leading-relaxed">
-                  I'm always excited to work on new projects and collaborate with innovative teams. 
+                  I&apos;m always excited to work on new projects and collaborate with innovative teams. 
                   Whether you need a complete web solution or want to enhance your existing platform, 
-                  I'm here to help.
+                  I&apos;m here to help.
                 </p>
 
                 <div className="space-y-6">
@@ -146,7 +142,6 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
                 {isSubmitted ? (
@@ -156,7 +151,7 @@ const Contact = () => {
                       Message Sent Successfully!
                     </h3>
                     <p className="text-webdev-soft-gray">
-                      Thank you for reaching out. I'll get back to you within 24 hours.
+                      Thank you for reaching out. I&apos;ll get back to you within 24 hours.
                     </p>
                   </div>
                 ) : (
@@ -231,7 +226,7 @@ const Contact = () => {
                             <option value="">Select budget range</option>
                             {budgetRanges.map(range => (
                               <option key={range} value={range}>{range}</option>
-                            </option>
+                            ))}
                           </select>
                         </div>
                       </div>
