@@ -1,13 +1,18 @@
-
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
-import { Mail, MapPin, Phone, Send, CheckCircle } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, CheckCircle, User, LogOut } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,28 +22,70 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        projectType: '',
-        budget: '',
-        message: ''
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('submit-contact', {
+        body: {
+          ...formData,
+          userId: user?.id
+        }
       });
-    }, 3000);
+
+      if (error) {
+        throw error;
+      }
+
+      console.log('Contact form submitted:', data);
+      setIsSubmitted(true);
+      
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for reaching out. I'll get back to you within 24 hours."
+      });
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          company: '',
+          projectType: '',
+          budget: '',
+          message: ''
+        });
+      }, 3000);
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed Out",
+        description: "You have been successfully signed out."
+      });
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   const projectTypes = [
@@ -66,16 +113,42 @@ const Contact = () => {
       
       <main className="relative z-10 pt-32 pb-20">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center animate-fade-in-up mb-16">
-            <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
-              Let&apos;s Work Together
-            </h1>
-            <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
-              Ready to bring your vision to life? Get in touch and let&apos;s discuss your next web development project.
-            </p>
+          {/* User Authentication Status */}
+          <div className="mb-8 flex justify-between items-center">
+            <div className="text-center animate-fade-in-up">
+              <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
+                Let&apos;s Work Together
+              </h1>
+              <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
+                Ready to bring your vision to life? Get in touch and let&apos;s discuss your next web development project.
+              </p>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {user ? (
+                <div className="glass-effect rounded-xl p-4 flex items-center gap-3">
+                  <User className="w-5 h-5 text-webdev-gradient-blue" />
+                  <span className="text-webdev-silver">{user.email}</span>
+                  <button
+                    onClick={handleSignOut}
+                    className="p-1 hover:text-webdev-gradient-blue transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/auth"
+                  className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300"
+                >
+                  Sign In
+                </Link>
+              )}
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
+            {/* Contact Info Section - keep existing code */}
             <div className="animate-fade-in-up">
               <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
                 <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
@@ -169,6 +242,7 @@ const Contact = () => {
               </div>
             </div>
 
+            {/* Contact Form Section */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
                 {isSubmitted ? (
@@ -188,6 +262,7 @@ const Contact = () => {
                     </h2>
                     
                     <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* Form fields - keep existing code structure but update form submission */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="name" className="text-webdev-silver">Name *</Label>
@@ -271,13 +346,14 @@ const Contact = () => {
                           required
                         />
                       </div>
-
+                      
                       <button
                         type="submit"
-                        className="w-full glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center justify-center gap-2"
+                        disabled={isSubmitting}
+                        className="w-full glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center justify-center gap-2 disabled:opacity-50"
                       >
                         <Send className="w-4 h-4" />
-                        Send Message
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
                       </button>
                     </form>
                   </>
