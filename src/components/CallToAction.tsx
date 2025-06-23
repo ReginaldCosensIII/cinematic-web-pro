@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,8 +6,8 @@ const CallToAction = () => {
     <section className="relative py-16 px-6">
       <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
         <div className="glass-effect rounded-xl overflow-hidden">
-          {/* Updated image source */}
-          <div className="w-full aspect-[2/1] sm:aspect-[18/9] md:aspect-[20/9]">
+          {/* Updated image source with shorter aspect ratio */}
+          <div className="w-full aspect-[3/1] sm:aspect-[4/1] md:aspect-[5/1]">
             <img 
               src="/lovable-uploads/36f998a7-1959-4ab7-b352-a792d2cb3812.png" 
               alt="Let's Build Together" 

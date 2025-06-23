@@ -107,8 +107,8 @@ const Services = () => {
         {/* Call to Action with responsive image */}
         <div className="text-center animate-fade-in-up">
           <div className="glass-effect rounded-xl overflow-hidden max-w-2xl mx-auto">
-            {/* Image at the top spanning full width with responsive aspect ratio */}
-            <div className="w-full aspect-[2/1] sm:aspect-[18/9] md:aspect-[20/9]">
+            {/* Image at the top spanning full width with shorter aspect ratio */}
+            <div className="w-full aspect-[3/1] sm:aspect-[4/1] md:aspect-[5/1]">
               <img 
                 src="/lovable-uploads/7d0e81ef-8dd7-40b8-b981-7dddd6bd89f4.png"
                 alt="Let's Build Together" 
