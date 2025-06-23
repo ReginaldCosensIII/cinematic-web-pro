@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Code, Palette, Search, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -77,8 +78,12 @@ const Services = () => {
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                 
                 <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
-                    <IconComponent className="w-6 h-6 text-white" />
+                  <div className="relative w-12 h-12 rounded-lg mr-4">
+                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                      <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
+                        <IconComponent className="w-6 h-6 text-webdev-silver" />
+                      </div>
+                    </div>
                   </div>
                   <h4 className="text-xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300">
                     {service.title}

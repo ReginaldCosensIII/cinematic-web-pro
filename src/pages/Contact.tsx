@@ -89,8 +89,12 @@ const Contact = () => {
 
                 <div className="space-y-6">
                   <div className="flex items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
-                      <Mail className="w-5 h-5 text-white" />
+                    <div className="relative w-12 h-12 rounded-full mr-4">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                        <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
+                          <Mail className="w-5 h-5 text-webdev-silver" />
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <p className="text-webdev-silver font-medium">Email</p>
@@ -99,8 +103,12 @@ const Contact = () => {
                   </div>
 
                   <div className="flex items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
-                      <Phone className="w-5 h-5 text-white" />
+                    <div className="relative w-12 h-12 rounded-full mr-4">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                        <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
+                          <Phone className="w-5 h-5 text-webdev-silver" />
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <p className="text-webdev-silver font-medium">Phone</p>
@@ -109,8 +117,12 @@ const Contact = () => {
                   </div>
 
                   <div className="flex items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
-                      <MapPin className="w-5 h-5 text-white" />
+                    <div className="relative w-12 h-12 rounded-full mr-4">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                        <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
+                          <MapPin className="w-5 h-5 text-webdev-silver" />
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <p className="text-webdev-silver font-medium">Location</p>
