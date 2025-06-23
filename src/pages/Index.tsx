@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
 import VideoIntro from '../components/VideoIntro';
+import ScrollIndicator from '../components/ScrollIndicator';
 import HeroSection from '../components/HeroSection';
 import FeaturedWork from '../components/FeaturedWork';
 import Services from '../components/Services';
@@ -22,8 +23,11 @@ const Index = () => {
       {/* Video Intro Section */}
       <VideoIntro />
       
-      {/* Main content */}
-      <main className="relative z-10">
+      {/* Scroll Indicator */}
+      <ScrollIndicator />
+      
+      {/* Main content with top margin to push it down */}
+      <main className="relative z-10 mt-20">
         <HeroSection />
         <FeaturedWork />
         <Services />
