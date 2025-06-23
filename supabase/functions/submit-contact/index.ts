@@ -1,6 +1,7 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { Resend } from 'npm:resend@2.0.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -16,6 +17,8 @@ interface ContactFormData {
   message: string;
   userId?: string;
 }
+
+const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -62,6 +65,33 @@ serve(async (req) => {
     }
 
     console.log('Contact submission saved:', data);
+
+    // Send notification email
+    try {
+      const emailResponse = await resend.emails.send({
+        from: 'Contact Form <onboarding@resend.dev>',
+        to: ['your-email@example.com'], // Replace with your actual email
+        subject: `New Contact Form Submission from ${name}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+          <p><strong>Project Type:</strong> ${projectType || 'Not provided'}</p>
+          <p><strong>Budget:</strong> ${budget || 'Not provided'}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message}</p>
+          <hr>
+          <p><small>Submission ID: ${data.id}</small></p>
+          <p><small>Submitted at: ${new Date(data.created_at).toLocaleString()}</small></p>
+        `,
+      });
+
+      console.log('Notification email sent successfully:', emailResponse);
+    } catch (emailError) {
+      console.error('Failed to send notification email:', emailError);
+      // Don't fail the entire request if email fails - the contact was still saved
+    }
 
     return new Response(
       JSON.stringify({ success: true, data }),
