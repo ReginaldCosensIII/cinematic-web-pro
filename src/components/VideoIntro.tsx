@@ -3,7 +3,7 @@ import React from 'react';
 
 const VideoIntro = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] xl:h-[600px] flex items-center justify-center overflow-hidden">
       {/* YouTube Video Background */}
       <div className="absolute inset-0 w-full h-full">
         <iframe
@@ -15,7 +15,7 @@ const VideoIntro = () => {
             minWidth: '100%',
             width: '100vw',
             height: '56.25vw', // 16:9 aspect ratio
-            minHeight: '100vh',
+            minHeight: '100%',
             objectFit: 'cover'
           }}
         />
