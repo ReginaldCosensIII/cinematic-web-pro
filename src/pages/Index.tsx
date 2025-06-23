@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
-import HeroSection from '../components/HeroSection';
+import VideoHero from '../components/VideoHero';
 import FeaturedWork from '../components/FeaturedWork';
 import Services from '../components/Services';
 import ProcessSection from '../components/ProcessSection';
@@ -20,7 +20,7 @@ const Index = () => {
       
       {/* Main content */}
       <main className="relative z-10">
-        <HeroSection />
+        <VideoHero />
         <FeaturedWork />
         <Services />
         <ProcessSection />
