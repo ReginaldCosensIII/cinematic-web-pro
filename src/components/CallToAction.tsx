@@ -7,11 +7,11 @@ const CallToAction = () => {
     <section className="relative py-16 px-6">
       <div className="max-w-3xl mx-auto text-center animate-fade-in-up">
         <div className="glass-effect rounded-xl overflow-hidden">
-          {/* Image at the top spanning full width */}
+          {/* Updated image source */}
           <div className="w-full aspect-[2/1] sm:aspect-[18/9] md:aspect-[20/9]">
             <img 
-              src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
-              alt="Get Your Project Started" 
+              src="/lovable-uploads/36f998a7-1959-4ab7-b352-a792d2cb3812.png" 
+              alt="Let's Build Together" 
               className="w-full h-full object-cover object-center"
             />
           </div>
@@ -22,7 +22,7 @@ const CallToAction = () => {
               Get Your Project Started
             </h2>
             <p className="text-webdev-soft-gray text-lg tracking-wide mb-8 leading-relaxed">
-              Ready to bring your vision to life? Let's discuss your project and create something extraordinary together.
+              Ready to bring your vision to life? Let&apos;s discuss your project and create something extraordinary together.
             </p>
             <Link 
               to="/contact"

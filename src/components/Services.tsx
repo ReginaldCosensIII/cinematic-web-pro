@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Code, Palette, Search, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -111,7 +110,7 @@ const Services = () => {
             {/* Image at the top spanning full width with responsive aspect ratio */}
             <div className="w-full aspect-[2/1] sm:aspect-[18/9] md:aspect-[20/9]">
               <img 
-                src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
+                src="/lovable-uploads/7d0e81ef-8dd7-40b8-b981-7dddd6bd89f4.png"
                 alt="Let's Build Together" 
                 className="w-full h-full object-cover object-center"
               />
