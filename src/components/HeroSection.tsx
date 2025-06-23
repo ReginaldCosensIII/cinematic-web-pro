@@ -35,13 +35,17 @@ const HeroSection = () => {
           </button>
         </div>
 
-        {/* Additional Scroll Indicator pointing to Featured Work */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="flex flex-col items-center space-y-2 animate-bounce-slow">
-            <span className="text-webdev-silver/80 text-sm tracking-widest uppercase">
+        {/* View My Work Animation - positioned between button and next section */}
+        <div className="pt-12 pb-8">
+          <div className="group flex flex-col items-center space-y-3 cursor-pointer transition-all duration-300 hover:scale-105">
+            <span className="text-webdev-silver/80 text-sm tracking-widest uppercase group-hover:text-white transition-colors duration-300 group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple group-hover:bg-clip-text group-hover:text-transparent">
               View My Work
             </span>
-            <ArrowDown className="w-6 h-6 text-webdev-silver/60 animate-bounce" />
+            <div className="relative">
+              <ArrowDown className="w-6 h-6 text-webdev-silver/60 animate-bounce group-hover:text-webdev-gradient-blue transition-colors duration-300" />
+              <div className="absolute inset-0 w-6 h-6 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-sm"></div>
+            </div>
+            <div className="w-8 h-0.5 bg-webdev-silver/30 rounded-full group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple transition-all duration-300"></div>
           </div>
         </div>
       </div>
