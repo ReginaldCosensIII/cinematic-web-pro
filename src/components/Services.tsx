@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Code, Palette, Search, RefreshCw } from 'lucide-react';
 
@@ -107,7 +108,7 @@ const Services = () => {
         <div className="text-center animate-fade-in-up">
           <div className="glass-effect rounded-xl overflow-hidden max-w-2xl mx-auto">
             {/* Image at the top spanning full width with responsive aspect ratio */}
-            <div className="w-full aspect-[16/9] md:aspect-[20/9]">
+            <div className="w-full aspect-[16/9] sm:aspect-[18/9] md:aspect-[20/9]">
               <img 
                 src="/lovable-uploads/ba50c50c-474d-42c1-983c-b5244966e5ec.png" 
                 alt="Let's Build Together" 
