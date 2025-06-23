@@ -26,8 +26,8 @@ const Index = () => {
       {/* Scroll Indicator */}
       <ScrollIndicator />
       
-      {/* Main content with top margin to push it down */}
-      <main className="relative z-10 mt-20">
+      {/* Main content with reduced top margin */}
+      <main className="relative z-10 mt-8">
         <HeroSection />
         <FeaturedWork />
         <Services />

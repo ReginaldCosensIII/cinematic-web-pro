@@ -3,7 +3,7 @@ import React from 'react';
 
 const VideoIntro = () => {
   return (
-    <section className="relative h-[90vh] flex items-center justify-center px-6 py-20">
+    <section className="relative h-[90vh] flex items-center justify-center px-6 py-8">
       {/* Video Container with Glass Frame */}
       <div className="relative w-full max-w-6xl mx-auto">
         <div className="glass-effect rounded-3xl overflow-hidden shadow-2xl animate-fade-in-up border border-webdev-glass-border">

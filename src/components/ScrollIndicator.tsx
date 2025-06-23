@@ -3,7 +3,7 @@ import React from 'react';
 
 const ScrollIndicator = () => {
   return (
-    <div className="relative py-8 flex justify-center">
+    <div className="relative py-4 flex justify-center -mt-12">
       <div className="flex flex-col items-center space-y-2 animate-bounce-slow">
         <span className="text-white text-sm tracking-widest uppercase">
           Scroll Down

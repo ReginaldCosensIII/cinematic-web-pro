@@ -81,7 +81,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 glass-effect border-b border-webdev-glass-border">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-webdev-black/95 backdrop-blur-lg border-b border-webdev-glass-border">
             <div className="px-6 py-4 space-y-4">
               {navigation.map((item) => (
                 <Link
