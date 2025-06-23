@@ -26,7 +26,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="text-2xl font-semibold text-webdev-silver hover:text-white transition-colors">
-            WebDev<span className="text-webdev-gradient-blue">Pro</span>
+            &lt;/WebDev<span className="text-webdev-gradient-blue">Pro</span>&gt;
           </Link>
 
           {/* Desktop Navigation */}

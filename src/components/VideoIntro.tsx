@@ -21,33 +21,17 @@ const VideoIntro = () => {
         />
       </div>
       
-      {/* Content Overlay */}
-      <div className="relative z-10 text-center space-y-6 px-6">
-        {/* Main Title */}
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide">
-          <span className="text-webdev-silver text-glow">Brought to you by </span>
-          <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-            &lt;/WebDevPro&gt;
-          </span>
-        </h1>
-        
-        {/* Subtitle */}
-        <p className="text-xl md:text-2xl text-webdev-silver/90 text-glow tracking-wide">
-          Modern Web Solutions | WebDevPro.io
-        </p>
-      </div>
-      
       {/* Animated Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
         <div className="flex flex-col items-center space-y-2 animate-bounce-slow">
-          <span className="text-webdev-silver/80 text-sm tracking-widest uppercase text-glow">
+          <span className="text-white text-sm tracking-widest uppercase">
             Scroll Down
           </span>
-          <div className="w-6 h-10 border-2 border-webdev-silver/40 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple rounded-full mt-2 animate-scroll-indicator"></div>
+          <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-scroll-indicator"></div>
           </div>
           <svg 
-            className="w-6 h-6 text-webdev-silver/60" 
+            className="w-6 h-6 text-white/80" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
