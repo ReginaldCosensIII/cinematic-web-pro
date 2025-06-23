@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
+import VideoIntro from '../components/VideoIntro';
 import HeroSection from '../components/HeroSection';
 import FeaturedWork from '../components/FeaturedWork';
 import Services from '../components/Services';
@@ -17,6 +18,9 @@ const Index = () => {
       
       {/* Glassmorphic header */}
       <Header />
+      
+      {/* Video Intro Section */}
+      <VideoIntro />
       
       {/* Main content */}
       <main className="relative z-10">

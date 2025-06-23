@@ -134,6 +134,28 @@ export default {
 						opacity: '1',
 						transform: 'translateY(0)'
 					}
+				},
+				'bounce-slow': {
+					'0%, 100%': {
+						transform: 'translateY(0)',
+						animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
+					},
+					'50%': {
+						transform: 'translateY(-25%)',
+						animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
+					}
+				},
+				'scroll-indicator': {
+					'0%': {
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '1'
+					},
+					'100%': {
+						opacity: '0',
+						transform: 'translateY(20px)'
+					}
 				}
 			},
 			animation: {
@@ -142,6 +164,8 @@ export default {
 				'smoke-float': 'smoke-float 20s linear infinite',
 				'smoke-drift': 'smoke-drift 15s ease-in-out infinite',
 				'fade-in-up': 'fade-in-up 0.8s ease-out',
+				'bounce-slow': 'bounce-slow 3s ease-in-out infinite',
+				'scroll-indicator': 'scroll-indicator 2s ease-in-out infinite'
 			}
 		}
 	},
