@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 
 const VideoHero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
-  const handleExploreWork = () => {
+  const handleScrollToFeaturedWork = () => {
     // Scroll to the featured work section
     const featuredWorkSection = document.querySelector('#featured-work');
     if (featuredWorkSection) {
@@ -69,27 +69,30 @@ const VideoHero = () => {
           </div>
         </div>
 
-        {/* Call to Action Button */}
+        {/* Animated Scroll Indicator */}
         <div className="flex justify-center">
-          <Button
-            onClick={handleExploreWork}
-            className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:from-webdev-gradient-purple hover:to-webdev-gradient-blue text-white font-semibold text-lg rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+          <div 
+            onClick={handleScrollToFeaturedWork}
+            className="group cursor-pointer flex flex-col items-center space-y-2 animate-bounce hover:animate-none transition-all duration-300"
           >
-            <span className="relative z-10 flex items-center gap-2">
+            <span className="text-webdev-soft-gray text-sm font-light tracking-wide group-hover:text-webdev-silver transition-colors duration-300">
               Explore My Work
-              <svg 
-                className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
             </span>
+            <div className="relative">
+              {/* Glowing background circle */}
+              <div className="absolute inset-0 w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-300"></div>
+              
+              {/* Main chevron container */}
+              <div className="relative w-12 h-12 glass-effect rounded-full flex items-center justify-center border border-webdev-glass-border group-hover:border-webdev-gradient-blue/50 transition-all duration-300 group-hover:scale-110">
+                <ChevronDown 
+                  className="w-6 h-6 text-webdev-silver group-hover:text-webdev-gradient-blue transition-colors duration-300" 
+                />
+              </div>
+            </div>
             
-            {/* Animated background glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"></div>
-          </Button>
+            {/* Animated line */}
+            <div className="w-px h-8 bg-gradient-to-b from-webdev-gradient-blue/50 to-transparent group-hover:from-webdev-gradient-blue transition-all duration-300"></div>
+          </div>
         </div>
         
         {/* Decorative accent elements */}
