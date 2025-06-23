@@ -13,7 +13,6 @@ const VideoIntro = () => {
           allowFullScreen={false}
           style={{
             minWidth: '100%',
-            minHeight: '100%',
             width: '100vw',
             height: '56.25vw', // 16:9 aspect ratio
             minHeight: '100vh',
@@ -21,9 +20,6 @@ const VideoIntro = () => {
           }}
         />
       </div>
-      
-      {/* Glassmorphic Overlay */}
-      <div className="absolute inset-0 glass-effect bg-webdev-black/40"></div>
       
       {/* Content Overlay */}
       <div className="relative z-10 text-center space-y-6 px-6">
