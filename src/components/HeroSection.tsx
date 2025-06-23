@@ -4,7 +4,7 @@ import { ArrowRight, ArrowDown } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
+    <section className="relative min-h-screen flex items-center justify-center px-6 py-16">
       <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10">
         {/* Main CTA */}
         <div className="space-y-6">
@@ -36,7 +36,7 @@ const HeroSection = () => {
         </div>
 
         {/* View My Work Animation - positioned between button and next section */}
-        <div className="pt-12 pb-8">
+        <div className="pt-8 pb-12">
           <div className="group flex flex-col items-center space-y-3 cursor-pointer transition-all duration-300 hover:scale-105">
             <span className="text-webdev-silver/80 text-sm tracking-widest uppercase group-hover:text-white transition-colors duration-300 group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple group-hover:bg-clip-text group-hover:text-transparent">
               View My Work

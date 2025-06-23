@@ -48,7 +48,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="relative py-20 px-6">
+    <section className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center animate-fade-in-up mb-16">
