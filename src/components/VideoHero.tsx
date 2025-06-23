@@ -69,11 +69,11 @@ const VideoHero = () => {
           </div>
         </div>
 
-        {/* Animated Scroll Indicator */}
+        {/* Animated Scroll Indicator - Slowed down bounce */}
         <div className="flex justify-center">
           <div 
             onClick={handleScrollToFeaturedWork}
-            className="group cursor-pointer flex flex-col items-center space-y-2 animate-bounce hover:animate-none transition-all duration-300"
+            className="group cursor-pointer flex flex-col items-center space-y-2 animate-[bounce_3s_ease-in-out_infinite] hover:animate-none transition-all duration-300"
           >
             <span className="text-webdev-soft-gray text-sm font-light tracking-wide group-hover:text-webdev-silver transition-colors duration-300">
               Explore My Work
