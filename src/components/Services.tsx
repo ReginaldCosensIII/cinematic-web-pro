@@ -81,12 +81,12 @@ const Services = () => {
                   <div className="relative w-12 h-12 rounded-lg mr-4">
                     <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                       <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
-                        <IconComponent className="w-6 h-6 text-transparent bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text" style={{
-                          background: 'linear-gradient(45deg, #4285f4, #8a2be2)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          filter: 'drop-shadow(0 0 1px rgba(66, 133, 244, 0.5))'
-                        }} />
+                        <IconComponent 
+                          className="w-6 h-6" 
+                          stroke="url(#icon-gradient)" 
+                          fill="none"
+                          strokeWidth={2}
+                        />
                       </div>
                     </div>
                   </div>
@@ -140,6 +140,16 @@ const Services = () => {
             </div>
           </div>
         </div>
+
+        {/* SVG Gradient Definition */}
+        <svg width="0" height="0" className="absolute">
+          <defs>
+            <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#4285f4" />
+              <stop offset="100%" stopColor="#8a2be2" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
     </section>
   );
