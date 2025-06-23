@@ -9,6 +9,13 @@ const Header = () => {
     return location.pathname === path;
   };
 
+  const scrollToFeaturedWork = () => {
+    const element = document.getElementById('featuredwork');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 p-6">
       <div className="glass-effect rounded-2xl px-8 py-4 mx-auto max-w-7xl">
@@ -32,12 +39,12 @@ const Header = () => {
             >
               Home
             </Link>
-            <a 
-              href="#featuredwork" 
+            <button 
+              onClick={scrollToFeaturedWork}
               className="text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-sm font-medium tracking-wide"
             >
               Portfolio
-            </a>
+            </button>
             <Link 
               to="/blog" 
               className={`transition-colors duration-300 text-sm font-medium tracking-wide ${

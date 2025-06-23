@@ -28,16 +28,16 @@ const SmokeBackground = () => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
       {/* Base gradient overlay with more opacity */}
-      <div className="absolute inset-0 bg-gradient-to-b from-webdev-black via-webdev-dark-gray to-webdev-black opacity-90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-webdev-black via-webdev-dark-gray to-webdev-black opacity-95" />
       
-      {/* Additional atmospheric layers */}
-      <div className="absolute inset-0 bg-gradient-radial from-webdev-gradient-blue/10 via-transparent to-webdev-gradient-purple/10 opacity-60" />
+      {/* Additional atmospheric layers - changed to silver tones */}
+      <div className="absolute inset-0 bg-gradient-radial from-webdev-silver/5 via-transparent to-webdev-silver/3 opacity-40" />
       
-      {/* Animated smoke elements with higher opacity */}
+      {/* Animated smoke elements with silver/black tones */}
       {smokeElements.map((element) => (
         <div
           key={element.id}
-          className="smoke-element-prominent absolute animate-smoke-float"
+          className="smoke-element-subtle absolute animate-smoke-float"
           style={{
             left: `${element.x}%`,
             top: `${element.y}%`,
@@ -49,11 +49,11 @@ const SmokeBackground = () => {
         />
       ))}
       
-      {/* Additional drifting elements with more visibility */}
+      {/* Additional drifting elements with more subtle visibility */}
       {smokeElements.slice(0, 6).map((element) => (
         <div
           key={`drift-${element.id}`}
-          className="smoke-element-prominent absolute animate-smoke-drift"
+          className="smoke-element-subtle absolute animate-smoke-drift"
           style={{
             left: `${element.x + 20}%`,
             top: `${element.y + 10}%`,
@@ -69,7 +69,7 @@ const SmokeBackground = () => {
       {smokeElements.slice(0, 8).map((element) => (
         <div
           key={`particle-${element.id}`}
-          className="smoke-particle absolute animate-smoke-float"
+          className="smoke-particle-subtle absolute animate-smoke-float"
           style={{
             left: `${element.x + 40}%`,
             top: `${element.y + 20}%`,

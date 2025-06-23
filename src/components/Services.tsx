@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Code, Palette, Search, RefreshCw } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Services = () => {
   const services = [
@@ -121,9 +122,12 @@ const Services = () => {
               <p className="text-webdev-silver text-lg leading-relaxed mb-6 tracking-wide">
                 Ready to elevate your online presence? Let's build something powerful together.
               </p>
-              <button className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20">
+              <Link 
+                to="/contact"
+                className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 inline-block"
+              >
                 Start Your Project
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CallToAction = () => {
   return (
@@ -23,9 +24,12 @@ const CallToAction = () => {
             <p className="text-webdev-soft-gray text-lg tracking-wide mb-8 leading-relaxed">
               Ready to bring your vision to life? Let's discuss your project and create something extraordinary together.
             </p>
-            <button className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20">
+            <Link 
+              to="/contact"
+              className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 inline-block"
+            >
               Contact Me
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -6,7 +6,6 @@ import SmokeBackground from '../components/SmokeBackground';
 import { Mail, MapPin, Phone, Send, CheckCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -232,7 +231,7 @@ const Contact = () => {
                             <option value="">Select budget range</option>
                             {budgetRanges.map(range => (
                               <option key={range} value={range}>{range}</option>
-                            ))}
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -251,13 +250,13 @@ const Contact = () => {
                         />
                       </div>
 
-                      <Button
+                      <button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 transition-opacity"
+                        className="w-full glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center justify-center gap-2"
                       >
-                        <Send className="w-4 h-4 mr-2" />
+                        <Send className="w-4 h-4" />
                         Send Message
-                      </Button>
+                      </button>
                     </form>
                   </>
                 )}

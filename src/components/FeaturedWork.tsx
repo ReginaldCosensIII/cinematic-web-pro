@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, Monitor, Smartphone, Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import {
   Carousel,
   CarouselContent,
@@ -59,7 +60,7 @@ const FeaturedWork = () => {
   }, [api]);
 
   return (
-    <section className="relative py-20 px-6">
+    <section id="featuredwork" className="relative py-20 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center animate-fade-in-up mb-16">
           <h2 className="text-4xl font-light text-webdev-silver tracking-wide mb-6">
@@ -133,11 +134,11 @@ const FeaturedWork = () => {
                         </ul>
 
                         <div className="flex gap-3 justify-center">
-                          <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white rounded-lg hover:opacity-90 transition-opacity">
+                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center gap-2">
                             <ExternalLink className="w-4 h-4" />
                             View Live
                           </button>
-                          <button className="flex items-center gap-2 px-4 py-2 border border-webdev-glass-border text-webdev-silver rounded-lg hover:bg-webdev-glass transition-colors">
+                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center gap-2">
                             <Github className="w-4 h-4" />
                             Source Code
                           </button>

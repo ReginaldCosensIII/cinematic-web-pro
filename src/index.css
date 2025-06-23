@@ -143,10 +143,26 @@
   filter: blur(2px);
 }
 
+.smoke-element-subtle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(192, 192, 192, 0.08) 0%, rgba(26, 26, 26, 0.05) 30%, transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(3px);
+}
+
 .smoke-particle {
   position: absolute;
   background: radial-gradient(circle, rgba(192, 192, 192, 0.4) 0%, rgba(66, 133, 244, 0.2) 50%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
   filter: blur(0.5px);
+}
+
+.smoke-particle-subtle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(192, 192, 192, 0.12) 0%, rgba(26, 26, 26, 0.06) 50%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(1px);
 }
