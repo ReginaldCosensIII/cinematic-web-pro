@@ -29,7 +29,7 @@ const HeroSection = () => {
 
         {/* CTA Button */}
         <div className="flex justify-center">
-          <button className="glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group flex items-center gap-2 border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
+          <button className="glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group flex items-center gap-2 border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
             <span className="relative z-10">Start Your Project</span>
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 relative z-10" />
           </button>

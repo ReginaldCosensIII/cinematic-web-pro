@@ -159,8 +159,6 @@ const FeaturedWork = () => {
                   <CarouselItem key={index} className="basis-full">
                     <div className="p-6">
                       <div className="group relative glass-effect hover:glass-border rounded-xl p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
-                        {/* Gradient border effect on hover */}
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                         
                         <div className="flex flex-col items-center mb-8">
                           <div className="relative w-20 h-20 rounded-full mb-6">
