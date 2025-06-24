@@ -35,10 +35,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-sm font-medium transition-colors hover:text-white ${
+                className={`text-sm font-medium transition-colors ${
                   location.pathname === item.href
-                    ? 'text-white'
-                    : 'text-webdev-soft-gray'
+                    ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
+                    : 'text-webdev-soft-gray hover:bg-gradient-to-r hover:from-webdev-gradient-blue hover:to-webdev-gradient-purple hover:bg-clip-text hover:text-transparent'
                 }`}
               >
                 {item.name}
@@ -63,7 +63,7 @@ const Header = () => {
             ) : (
               <Link
                 to="/auth"
-                className="glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group"
+                className="glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 <span className="relative z-10">Sign In</span>
@@ -88,10 +88,10 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`block text-sm font-medium transition-colors hover:text-white ${
+                  className={`block text-sm font-medium transition-colors ${
                     location.pathname === item.href
-                      ? 'text-white'
-                      : 'text-webdev-soft-gray'
+                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
+                      : 'text-webdev-soft-gray hover:bg-gradient-to-r hover:from-webdev-gradient-blue hover:to-webdev-gradient-purple hover:bg-clip-text hover:text-transparent'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -118,7 +118,7 @@ const Header = () => {
                 <div className="border-t border-webdev-glass-border pt-4">
                   <Link
                     to="/auth"
-                    className="block text-center glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group"
+                    className="block text-center glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -243,12 +242,12 @@ const FeaturedWork = () => {
                         </ul>
 
                         <div className="flex gap-3 justify-center">
-                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple/20 flex items-center gap-2 relative overflow-hidden group">
+                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg flex items-center gap-2 relative overflow-hidden group border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
                             <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                             <ExternalLink className="w-4 h-4 relative z-10" />
                             <span className="relative z-10">View Live</span>
                           </button>
-                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple/20 flex items-center gap-2 relative overflow-hidden group">
+                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg flex items-center gap-2 relative overflow-hidden group border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
                             <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                             <Github className="w-4 h-4 relative z-10" />
                             <span className="relative z-10">Source Code</span>
