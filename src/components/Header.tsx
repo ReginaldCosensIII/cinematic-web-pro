@@ -26,7 +26,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="text-2xl font-semibold text-webdev-silver hover:text-white transition-colors">
-            &lt;/WebDev<span className="text-webdev-gradient-blue">Pro</span>&gt;
+            &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">Pro</span>&gt;
           </Link>
 
           {/* Desktop Navigation */}
@@ -63,9 +63,10 @@ const Header = () => {
             ) : (
               <Link
                 to="/auth"
-                className="glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20"
+                className="glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group"
               >
-                Sign In
+                <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                <span className="relative z-10">Sign In</span>
               </Link>
             )}
           </nav>
@@ -117,10 +118,11 @@ const Header = () => {
                 <div className="border-t border-webdev-glass-border pt-4">
                   <Link
                     to="/auth"
-                    className="block text-center glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20"
+                    className="block text-center glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Sign In
+                    <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                    <span className="relative z-10">Sign In</span>
                   </Link>
                 </div>
               )}

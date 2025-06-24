@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -70,9 +71,8 @@ const FeaturedWork = () => {
 
   const featuredProjects = [
     {
-      number: "1",
       title: "Atomic's BookNook",
-      description: "A comprehensive online bookstore featuring user authentication, dynamic product catalog, review system, and secure checkout process. Built with modern web technologies and responsive design principles.",
+      description: "A polished online bookstore built during a 5-week team sprint. Features role-based login, dynamic product displays, and a fully functional shopping cart and checkout system.",
       details: ["Role-Based User Auth", "Modular Flask Blueprints", "Dynamic Reviews System", "Cart & Order Management", "Mobile Responsive Design"],
       icon: BookNookIcon,
       technologies: "Flask, PostgreSQL, Jinja2, HTML/CSS/JavaScript",
@@ -80,7 +80,6 @@ const FeaturedWork = () => {
       hasCarousel: true
     },
     {
-      number: "2", 
       title: "Portfolio Website",
       description: "Clean, minimalist portfolio showcasing creative work with smooth animations and interactive elements.",
       details: ["Custom Animations", "Interactive UI", "Performance Optimized", "Modern Design"],
@@ -95,7 +94,6 @@ const FeaturedWork = () => {
       status: "Recently Completed"
     },
     {
-      number: "3",
       title: "Mobile App Landing", 
       description: "Converting landing page for a mobile application with compelling CTAs and feature highlights.",
       details: ["High Conversion Rate", "A/B Tested", "Analytics Integration", "Cross-platform"],
@@ -156,10 +154,10 @@ const FeaturedWork = () => {
             className="w-full"
           >
             <CarouselContent>
-              {featuredProjects.map((project) => {
+              {featuredProjects.map((project, index) => {
                 const IconComponent = project.icon;
                 return (
-                  <CarouselItem key={project.number} className="basis-full">
+                  <CarouselItem key={index} className="basis-full">
                     <div className="p-6">
                       <div className="group relative glass-effect hover:glass-border rounded-xl p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
                         {/* Gradient border effect on hover */}
@@ -245,13 +243,15 @@ const FeaturedWork = () => {
                         </ul>
 
                         <div className="flex gap-3 justify-center">
-                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center gap-2">
-                            <ExternalLink className="w-4 h-4" />
-                            View Live
+                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple/20 flex items-center gap-2 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                            <ExternalLink className="w-4 h-4 relative z-10" />
+                            <span className="relative z-10">View Live</span>
                           </button>
-                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center gap-2">
-                            <Github className="w-4 h-4" />
-                            Source Code
+                          <button className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple/20 flex items-center gap-2 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                            <Github className="w-4 h-4 relative z-10" />
+                            <span className="relative z-10">Source Code</span>
                           </button>
                         </div>
 

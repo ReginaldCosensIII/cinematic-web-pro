@@ -26,9 +26,10 @@ const CallToAction = () => {
             </p>
             <Link 
               to="/contact"
-              className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 inline-block"
+              className="glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group inline-block"
             >
-              Contact Me
+              <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              <span className="relative z-10">Contact Me</span>
             </Link>
           </div>
         </div>

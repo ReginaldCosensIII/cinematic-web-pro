@@ -29,9 +29,10 @@ const HeroSection = () => {
 
         {/* CTA Button */}
         <div className="flex justify-center">
-          <button className="glass-effect hover:glass-border px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center gap-2">
-            <span>Start Your Project</span>
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          <button className="glass-effect hover:glass-border px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group flex items-center gap-2">
+            <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+            <span className="relative z-10">Start Your Project</span>
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 relative z-10" />
           </button>
         </div>
 
@@ -42,8 +43,9 @@ const HeroSection = () => {
               View My Work
             </span>
             <div className="relative">
-              <ArrowDown className="w-6 h-6 text-webdev-silver/60 animate-bounce group-hover:text-webdev-gradient-blue transition-colors duration-300" />
-              <div className="absolute inset-0 w-6 h-6 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-sm"></div>
+              <ArrowDown className="w-6 h-6 text-webdev-silver/60 animate-bounce group-hover:text-transparent transition-colors duration-300" />
+              <div className="absolute inset-0 w-6 h-6 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full blur-sm"></div>
+              <ArrowDown className="absolute inset-0 w-6 h-6 animate-bounce opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{background: 'linear-gradient(to right, #4285f4, #8a2be2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
             </div>
             <div className="w-8 h-0.5 bg-webdev-silver/30 rounded-full group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple transition-all duration-300"></div>
           </div>
