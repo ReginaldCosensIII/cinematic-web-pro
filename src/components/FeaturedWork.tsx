@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Github, Monitor, Smartphone, Globe } from 'lucide-react';
+import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
   Carousel,
@@ -15,23 +15,74 @@ const FeaturedWork = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const [screenshotIndex, setScreenshotIndex] = useState(0);
+
+  // BookNook project screenshots
+  const booknookScreenshots = [
+    '/lovable-uploads/6bb88bea-0fe1-493e-bba6-79f91be5c82e.png',
+    '/lovable-uploads/14e57b76-6e9a-437c-beb2-6c7cd7aa45ef.png',
+    '/lovable-uploads/ad13920d-ee62-453e-b69e-67570b06f3dd.png',
+    '/lovable-uploads/2c679128-e7f5-448f-aa45-3b0dcbcb05ae.png',
+    '/lovable-uploads/98391c75-0df0-4353-a43c-f7c6ecd15efe.png',
+    '/lovable-uploads/b1e9fdf3-bc1a-4d0b-a843-b5f8463bfa18.png'
+  ];
+
+  const nextScreenshot = () => {
+    setScreenshotIndex((prev) => (prev + 1) % booknookScreenshots.length);
+  };
+
+  const prevScreenshot = () => {
+    setScreenshotIndex((prev) => (prev - 1 + booknookScreenshots.length) % booknookScreenshots.length);
+  };
+
+  // Custom BookNook SVG Icon Component
+  const BookNookIcon = ({ className }: { className?: string }) => (
+    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="booknook-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#4285f4" />
+          <stop offset="100%" stopColor="#8a2be2" />
+        </linearGradient>
+      </defs>
+      {/* Book spine */}
+      <rect x="8" y="12" width="32" height="24" rx="2" stroke="url(#booknook-gradient)" strokeWidth="2" fill="none"/>
+      {/* Book pages */}
+      <path d="M12 16h24M12 20h24M12 24h20M12 28h22" stroke="url(#booknook-gradient)" strokeWidth="1.5" strokeLinecap="round"/>
+      {/* Digital screen overlay */}
+      <rect x="18" y="18" width="12" height="8" rx="1" stroke="url(#booknook-gradient)" strokeWidth="1.5" fill="none"/>
+      {/* Screen pixels/dots */}
+      <circle cx="21" cy="21" r="0.5" fill="url(#booknook-gradient)"/>
+      <circle cx="24" cy="21" r="0.5" fill="url(#booknook-gradient)"/>
+      <circle cx="27" cy="21" r="0.5" fill="url(#booknook-gradient)"/>
+      <circle cx="21" cy="23" r="0.5" fill="url(#booknook-gradient)"/>
+      <circle cx="24" cy="23" r="0.5" fill="url(#booknook-gradient)"/>
+      <circle cx="27" cy="23" r="0.5" fill="url(#booknook-gradient)"/>
+    </svg>
+  );
 
   const featuredProjects = [
     {
       number: "1",
-      title: "E-Commerce Platform",
-      description: "A modern, responsive e-commerce solution with advanced filtering and seamless checkout experience.",
-      details: ["React & TypeScript", "Stripe Integration", "Mobile Responsive", "SEO Optimized"],
-      icon: Monitor,
-      technologies: "React, Node.js, MongoDB",
-      status: "Live Project"
+      title: "Atomic's BookNook",
+      description: "A feature-rich online bookstore built during a 5-week team sprint. Includes dynamic product displays, user authentication, real-time reviews, cart & checkout functionality, and modular back-end architecture.",
+      details: ["Role-Based User Auth", "Modular Flask Blueprints", "Dynamic Reviews System", "Cart & Order Management", "Mobile Responsive Design"],
+      icon: BookNookIcon,
+      technologies: "Flask, PostgreSQL, Jinja2, HTML/CSS/JavaScript",
+      status: "Live Project",
+      hasCarousel: true
     },
     {
       number: "2", 
       title: "Portfolio Website",
       description: "Clean, minimalist portfolio showcasing creative work with smooth animations and interactive elements.",
       details: ["Custom Animations", "Interactive UI", "Performance Optimized", "Modern Design"],
-      icon: Globe,
+      icon: () => (
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#featured-icon-gradient)" strokeWidth={2}>
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+          <path d="M2 12h20"/>
+        </svg>
+      ),
       technologies: "Next.js, Tailwind CSS, Framer Motion",
       status: "Recently Completed"
     },
@@ -40,7 +91,12 @@ const FeaturedWork = () => {
       title: "Mobile App Landing", 
       description: "Converting landing page for a mobile application with compelling CTAs and feature highlights.",
       details: ["High Conversion Rate", "A/B Tested", "Analytics Integration", "Cross-platform"],
-      icon: Smartphone,
+      icon: () => (
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#featured-icon-gradient)" strokeWidth={2}>
+          <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
+          <path d="M12 18h.01"/>
+        </svg>
+      ),
       technologies: "React, GSAP, Google Analytics",
       status: "High Converting"
     }
@@ -112,9 +168,6 @@ const FeaturedWork = () => {
                               <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
                                 <IconComponent 
                                   className="w-10 h-10" 
-                                  stroke="url(#featured-icon-gradient)" 
-                                  fill="none"
-                                  strokeWidth={2}
                                 />
                               </div>
                             </div>
@@ -131,10 +184,47 @@ const FeaturedWork = () => {
                           {project.description}
                         </p>
 
-                        {/* Placeholder for screenshot */}
-                        <div className="w-full h-48 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
-                          <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">Project Screenshot</span>
-                        </div>
+                        {/* Screenshot carousel for BookNook, placeholder for others */}
+                        {project.hasCarousel ? (
+                          <div className="relative w-full h-48 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
+                            <img 
+                              src={booknookScreenshots[screenshotIndex]} 
+                              alt={`${project.title} Screenshot ${screenshotIndex + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                            {/* Carousel navigation */}
+                            <button 
+                              onClick={prevScreenshot}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-webdev-dark-gray/80 hover:bg-webdev-dark-gray rounded-full flex items-center justify-center transition-colors"
+                            >
+                              <ChevronLeft className="w-4 h-4 text-webdev-silver" />
+                            </button>
+                            <button 
+                              onClick={nextScreenshot}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-webdev-dark-gray/80 hover:bg-webdev-dark-gray rounded-full flex items-center justify-center transition-colors"
+                            >
+                              <ChevronRight className="w-4 h-4 text-webdev-silver" />
+                            </button>
+                            {/* Carousel indicators */}
+                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
+                              {booknookScreenshots.map((_, index) => (
+                                <button
+                                  key={index}
+                                  onClick={() => setScreenshotIndex(index)}
+                                  className={`w-2 h-2 rounded-full transition-colors ${
+                                    index === screenshotIndex 
+                                      ? 'bg-webdev-gradient-blue' 
+                                      : 'bg-webdev-soft-gray/50'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-full h-48 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
+                            <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">Project Screenshot</span>
+                          </div>
+                        )}
                         
                         <div className="mb-6">
                           <span className="text-webdev-silver text-sm font-medium group-hover:text-white transition-colors duration-300">Technologies: </span>
@@ -191,7 +281,6 @@ const FeaturedWork = () => {
             </div>
           </div>
 
-          {/* Project counter */}
           <div className="text-center mt-4">
             <span className="text-webdev-soft-gray text-sm">
               {current} of {count}
