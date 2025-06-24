@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Code, Palette, Search, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -59,7 +58,7 @@ const Services = () => {
             </div>
             
             <h2 className="text-5xl md:text-7xl font-light tracking-tight">
-              <span className="text-webdev-silver">Web Development </span>
+              <span className="text-webdev-silver">Web Development </span> 
               <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
                 Services
               </span>
@@ -141,9 +140,8 @@ const Services = () => {
               </p>
               <Link 
                 to="/contact"
-                className="glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg inline-block border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] relative overflow-hidden group"
+                className="glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group inline-block border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 <span className="relative z-10">Start Your Project</span>
               </Link>
             </div>

@@ -123,6 +123,7 @@ const FeaturedWork = () => {
   return (
     <section id="featuredwork" className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
         <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
           <div className="space-y-6">
             <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
@@ -158,7 +159,7 @@ const FeaturedWork = () => {
                 return (
                   <CarouselItem key={index} className="basis-full">
                     <div className="p-6">
-                      <div className="group relative glass-effect hover:glass-border rounded-xl p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+                      <div className="group relative glass-effect hover:glass-border rounded-xl p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
                         
                         <div className="flex flex-col items-center mb-8">
                           <div className="relative w-20 h-20 rounded-full mb-6">
@@ -240,20 +241,15 @@ const FeaturedWork = () => {
                         </ul>
 
                         <div className="flex gap-3 justify-center">
-                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg flex items-center gap-2 relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
-                            <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center gap-2">
                             <ExternalLink className="w-4 h-4 relative z-10" />
                             <span className="relative z-10">View Live</span>
                           </button>
-                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg flex items-center gap-2 relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
-                            <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center gap-2">
                             <Github className="w-4 h-4 relative z-10" />
                             <span className="relative z-10">Source Code</span>
                           </button>
                         </div>
-
-                        {/* Subtle glow effect */}
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       </div>
                     </div>
                   </CarouselItem>
