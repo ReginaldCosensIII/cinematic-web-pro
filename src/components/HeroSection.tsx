@@ -29,8 +29,7 @@ const HeroSection = () => {
 
         {/* CTA Button */}
         <div className="flex justify-center">
-          <button className="glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group flex items-center gap-2 border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
-            <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+          <button className="glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group flex items-center gap-2 border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]">
             <span className="relative z-10">Start Your Project</span>
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 relative z-10" />
           </button>
@@ -39,13 +38,13 @@ const HeroSection = () => {
         {/* View My Work Animation - positioned between button and next section */}
         <div className="pt-8 pb-12">
           <div className="group flex flex-col items-center space-y-3 cursor-pointer transition-all duration-300 hover:scale-105">
-            <span className="text-webdev-silver/80 text-sm tracking-widest uppercase group-hover:text-white transition-colors duration-300 group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple group-hover:bg-clip-text group-hover:text-transparent">
+            <span className="text-webdev-silver/80 text-sm tracking-widest uppercase group-hover:text-transparent transition-colors duration-300 group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple group-hover:bg-clip-text">
               View My Work
             </span>
             <div className="relative">
               <ArrowDown className="w-6 h-6 text-webdev-silver/60 animate-bounce group-hover:text-transparent transition-colors duration-300" />
               <div className="absolute inset-0 w-6 h-6 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full blur-sm"></div>
-              <ArrowDown className="absolute inset-0 w-6 h-6 animate-bounce opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{background: 'linear-gradient(to right, #4285f4, #8a2be2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}} />
+              <ArrowDown className="absolute inset-0 w-6 h-6 animate-bounce opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent" />
             </div>
             <div className="w-8 h-0.5 bg-webdev-silver/30 rounded-full group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple transition-all duration-300"></div>
           </div>

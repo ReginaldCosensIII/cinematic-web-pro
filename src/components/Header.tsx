@@ -63,9 +63,11 @@ const Header = () => {
             ) : (
               <Link
                 to="/auth"
-                className="glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
+                className="glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group border border-transparent hover:border-gradient-to-r hover:from-webdev-gradient-blue hover:to-webdev-gradient-purple hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
+                style={{
+                  '--hover-border': 'linear-gradient(to right, #4285f4, #8a2be2)'
+                } as React.CSSProperties}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 <span className="relative z-10">Sign In</span>
               </Link>
             )}
@@ -118,10 +120,9 @@ const Header = () => {
                 <div className="border-t border-webdev-glass-border pt-4">
                   <Link
                     to="/auth"
-                    className="block text-center glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group border border-transparent hover:border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
+                    className="block text-center glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                     <span className="relative z-10">Sign In</span>
                   </Link>
                 </div>
