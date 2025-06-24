@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -73,7 +72,7 @@ const FeaturedWork = () => {
     {
       number: "1",
       title: "Atomic's BookNook",
-      description: "A feature-rich online bookstore built during a 5-week team sprint. Includes dynamic product displays, user authentication, real-time reviews, cart & checkout functionality, and modular back-end architecture.",
+      description: "A comprehensive online bookstore featuring user authentication, dynamic product catalog, review system, and secure checkout process. Built with modern web technologies and responsive design principles.",
       details: ["Role-Based User Auth", "Modular Flask Blueprints", "Dynamic Reviews System", "Cart & Order Management", "Mobile Responsive Design"],
       icon: BookNookIcon,
       technologies: "Flask, PostgreSQL, Jinja2, HTML/CSS/JavaScript",
@@ -166,11 +165,6 @@ const FeaturedWork = () => {
                         {/* Gradient border effect on hover */}
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                         
-                        {/* Project number in top left corner */}
-                        <div className="absolute top-4 left-4 w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
-                          {project.number}
-                        </div>
-                        
                         <div className="flex flex-col items-center mb-8">
                           <div className="relative w-20 h-20 rounded-full mb-6">
                             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
@@ -191,7 +185,7 @@ const FeaturedWork = () => {
 
                         {/* Screenshot carousel for BookNook, placeholder for others */}
                         {project.hasCarousel ? (
-                          <div className="relative w-full h-80 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
+                          <div className="relative w-full h-96 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
                             <img 
                               src={booknookScreenshots[screenshotIndex]} 
                               alt={`${project.title} Screenshot ${screenshotIndex + 1}`}
@@ -226,7 +220,7 @@ const FeaturedWork = () => {
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full h-80 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
+                          <div className="w-full h-96 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
                             <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">Project Screenshot</span>
                           </div>
                         )}

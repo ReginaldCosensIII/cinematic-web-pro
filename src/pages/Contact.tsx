@@ -125,7 +125,7 @@ const Contact = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              {user ? (
+              {user && (
                 <div className="glass-effect rounded-xl p-4 flex items-center gap-3">
                   <User className="w-5 h-5 text-webdev-gradient-blue" />
                   <span className="text-webdev-silver">{user.email}</span>
@@ -136,19 +136,12 @@ const Contact = () => {
                     <LogOut className="w-4 h-4" />
                   </button>
                 </div>
-              ) : (
-                <Link
-                  to="/auth"
-                  className="glass-effect hover:glass-border px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300"
-                >
-                  Sign In
-                </Link>
               )}
             </div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Info Section - keep existing code */}
+            {/* Contact Info Section */}
             <div className="animate-fade-in-up">
               <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
                 <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
@@ -262,7 +255,6 @@ const Contact = () => {
                     </h2>
                     
                     <form onSubmit={handleSubmit} className="space-y-6">
-                      {/* Form fields - keep existing code structure but update form submission */}
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="name" className="text-webdev-silver">Name *</Label>

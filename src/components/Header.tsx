@@ -37,7 +37,7 @@ const Header = () => {
                 to={item.href}
                 className={`text-sm font-medium transition-colors hover:text-white ${
                   location.pathname === item.href
-                    ? 'text-webdev-gradient-blue'
+                    ? 'text-white'
                     : 'text-webdev-soft-gray'
                 }`}
               >
@@ -63,7 +63,7 @@ const Header = () => {
             ) : (
               <Link
                 to="/auth"
-                className="glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium"
+                className="glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20"
               >
                 Sign In
               </Link>
@@ -89,7 +89,7 @@ const Header = () => {
                   to={item.href}
                   className={`block text-sm font-medium transition-colors hover:text-white ${
                     location.pathname === item.href
-                      ? 'text-webdev-gradient-blue'
+                      ? 'text-white'
                       : 'text-webdev-soft-gray'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
@@ -117,7 +117,7 @@ const Header = () => {
                 <div className="border-t border-webdev-glass-border pt-4">
                   <Link
                     to="/auth"
-                    className="block text-center glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium"
+                    className="block text-center glass-effect hover:glass-border px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Sign In
