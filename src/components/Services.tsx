@@ -50,17 +50,25 @@ const Services = () => {
   return (
     <section className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
-        <div className="text-center animate-fade-in-up mb-16">
-          <h2 className="text-4xl font-light text-webdev-silver tracking-wide mb-6">
-            Services
-          </h2>
-          <h3 className="text-xl font-light text-webdev-soft-gray tracking-wide mb-4">
-            Comprehensive Web Development Solutions
-          </h3>
-          <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
-            From concept to deployment, I deliver custom web applications, responsive designs, and scalable digital platforms that drive results and elevate your brand presence.
-          </p>
+        {/* Header Section - matching HeroSection style */}
+        <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
+          <div className="space-y-6">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
+              <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
+              <span className="text-webdev-silver text-sm">Professional services</span>
+            </div>
+            
+            <h2 className="text-5xl md:text-7xl font-light tracking-tight">
+              <span className="text-webdev-silver">Web Development </span>
+              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                Services
+              </span>
+            </h2>
+            
+            <p className="text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed">
+              From concept to deployment, I deliver custom web applications and scalable digital platforms that drive results.
+            </p>
+          </div>
         </div>
 
         {/* Services Grid */}

@@ -62,16 +62,24 @@ const FeaturedWork = () => {
   return (
     <section id="featuredwork" className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center animate-fade-in-up mb-16">
-          <h2 className="text-4xl font-light text-webdev-silver tracking-wide mb-6">
-            Featured Work
-          </h2>
-          <h3 className="text-xl font-light text-webdev-soft-gray tracking-wide mb-4">
-            Recent Project Highlights
-          </h3>
-          <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
-            Explore a curated selection of my most impactful projects, showcasing innovative web solutions and digital experiences crafted for forward-thinking brands.
-          </p>
+        <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
+          <div className="space-y-6">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
+              <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
+              <span className="text-webdev-silver text-sm">Featured Projects</span>
+            </div>
+            
+            <h2 className="text-5xl md:text-7xl font-light tracking-tight">
+              <span className="text-webdev-silver">Recent </span>
+              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                Work
+              </span>
+            </h2>
+            
+            <p className="text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed">
+              Explore a curated selection of my most impactful projects, showcasing innovative web solutions and digital experiences.
+            </p>
+          </div>
         </div>
 
         <div className="relative max-w-4xl mx-auto">
@@ -89,9 +97,9 @@ const FeaturedWork = () => {
                 return (
                   <CarouselItem key={project.number} className="basis-full">
                     <div className="p-6">
-                      <div className="group relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+                      <div className="group relative glass-effect hover:glass-border rounded-xl p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
                         {/* Gradient border effect on hover */}
-                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                         
                         {/* Project number in top left corner */}
                         <div className="absolute top-4 left-4 w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center text-white font-bold text-sm">
@@ -154,7 +162,7 @@ const FeaturedWork = () => {
                         </div>
 
                         {/* Subtle glow effect */}
-                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       </div>
                     </div>
                   </CarouselItem>

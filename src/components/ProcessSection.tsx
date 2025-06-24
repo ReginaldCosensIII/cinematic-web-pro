@@ -72,18 +72,26 @@ const ProcessSection = () => {
   }, [api]);
 
   return (
-    <section className="relative py-20 px-6">
+    <section className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center animate-fade-in-up mb-16">
-          <h2 className="text-4xl font-light text-webdev-silver tracking-wide mb-6">
-            Design Process
-          </h2>
-          <h3 className="text-xl font-light text-webdev-soft-gray tracking-wide mb-4">
-            Strategic Development Approach
-          </h3>
-          <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
-            Every project follows a proven methodology combining discovery, design, development, and optimization to ensure exceptional results that exceed expectations.
-          </p>
+        <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
+          <div className="space-y-6">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
+              <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
+              <span className="text-webdev-silver text-sm">Strategic approach</span>
+            </div>
+            
+            <h2 className="text-5xl md:text-7xl font-light tracking-tight">
+              <span className="text-webdev-silver">Design </span>
+              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                Process
+              </span>
+            </h2>
+            
+            <p className="text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed">
+              Every project follows a proven methodology combining discovery, design, development, and optimization to ensure exceptional results.
+            </p>
+          </div>
         </div>
 
         <div className="relative max-w-3xl mx-auto">
@@ -101,9 +109,9 @@ const ProcessSection = () => {
                 return (
                   <CarouselItem key={step.number} className="basis-full">
                     <div className="p-4">
-                      <div className="group relative bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-lg p-6 text-center max-w-sm mx-auto transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+                      <div className="group relative glass-effect hover:glass-border rounded-xl p-6 text-center max-w-sm mx-auto transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
                         {/* Gradient border effect on hover */}
-                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                         
                         {/* Image section with responsive aspect ratio */}
                         <div className="mb-6 w-full aspect-[4/3]">
@@ -146,7 +154,7 @@ const ProcessSection = () => {
                         </ul>
 
                         {/* Subtle glow effect */}
-                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       </div>
                     </div>
                   </CarouselItem>
