@@ -72,7 +72,7 @@ const FeaturedWork = () => {
   const featuredProjects = [
     {
       title: "Atomic's BookNook",
-      description: "A polished online bookstore built during a 5-week team sprint. Features role-based login, dynamic product displays, and a fully functional shopping cart and checkout system.",
+      description: "A feature rich online bookstore. Features role-based login, dynamic product displays, and a fully functional shopping cart and checkout system and more.",
       details: ["Role-Based User Auth", "Modular Flask Blueprints", "Dynamic Reviews System", "Cart & Order Management", "Mobile Responsive Design"],
       icon: BookNookIcon,
       technologies: "Flask, PostgreSQL, Jinja2, HTML/CSS/JavaScript",
