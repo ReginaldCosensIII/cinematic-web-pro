@@ -27,6 +27,15 @@ const FeaturedWork = () => {
     '/lovable-uploads/b1e9fdf3-bc1a-4d0b-a843-b5f8463bfa18.png'
   ];
 
+  // Auto-rotation for BookNook screenshots
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScreenshotIndex((prev) => (prev + 1) % booknookScreenshots.length);
+    }, 4000); // Change image every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [booknookScreenshots.length]);
+
   const nextScreenshot = () => {
     setScreenshotIndex((prev) => (prev + 1) % booknookScreenshots.length);
   };
@@ -179,14 +188,10 @@ const FeaturedWork = () => {
                             {project.status}
                           </span>
                         </div>
-                        
-                        <p className="text-webdev-soft-gray text-lg mb-6 leading-relaxed max-w-md mx-auto group-hover:text-webdev-silver transition-colors duration-300">
-                          {project.description}
-                        </p>
 
                         {/* Screenshot carousel for BookNook, placeholder for others */}
                         {project.hasCarousel ? (
-                          <div className="relative w-full h-48 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
+                          <div className="relative w-full h-80 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
                             <img 
                               src={booknookScreenshots[screenshotIndex]} 
                               alt={`${project.title} Screenshot ${screenshotIndex + 1}`}
@@ -221,10 +226,15 @@ const FeaturedWork = () => {
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full h-48 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
+                          <div className="w-full h-80 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
                             <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">Project Screenshot</span>
                           </div>
                         )}
+                        
+                        {/* Project description moved below screenshots */}
+                        <p className="text-webdev-soft-gray text-lg mb-6 leading-relaxed max-w-md mx-auto group-hover:text-webdev-silver transition-colors duration-300">
+                          {project.description}
+                        </p>
                         
                         <div className="mb-6">
                           <span className="text-webdev-silver text-sm font-medium group-hover:text-white transition-colors duration-300">Technologies: </span>
