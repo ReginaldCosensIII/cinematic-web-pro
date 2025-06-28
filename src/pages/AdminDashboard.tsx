@@ -22,37 +22,44 @@ const AdminDashboard = () => {
   console.log('AdminDashboard - Is Admin:', isAdmin);
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    // Don't make any decisions while still loading
+    if (authLoading || adminLoading) {
+      console.log('AdminDashboard - Still loading, waiting...');
+      return;
+    }
+
+    // If no user after auth loading is complete, redirect to auth
+    if (!user) {
       console.log('AdminDashboard - No user, redirecting to auth');
       navigate('/auth');
       return;
     }
 
-    // Only check admin status after both auth and admin loading are complete
-    if (!authLoading && !adminLoading && user) {
-      if (!isAdmin) {
-        console.log('AdminDashboard - User is not admin, redirecting to dashboard');
-        logSecurityEvent({
-          event_type: 'admin_access',
-          details: { 
-            access_denied: true,
-            user_id: user.id,
-            attempted_path: '/admin'
-          }
-        });
-        navigate('/dashboard');
-      } else {
-        console.log('AdminDashboard - Admin access granted');
-        logSecurityEvent({
-          event_type: 'admin_access',
-          details: { 
-            access_granted: true,
-            user_id: user.id,
-            path: '/admin'
-          }
-        });
-      }
+    // If user exists but is not admin after admin loading is complete, redirect to dashboard
+    if (!isAdmin) {
+      console.log('AdminDashboard - User is not admin, redirecting to dashboard');
+      logSecurityEvent({
+        event_type: 'admin_access',
+        details: { 
+          access_denied: true,
+          user_id: user.id,
+          attempted_path: '/admin'
+        }
+      });
+      navigate('/dashboard');
+      return;
     }
+
+    // If we get here, user is authenticated and is an admin
+    console.log('AdminDashboard - Admin access granted');
+    logSecurityEvent({
+      event_type: 'admin_access',
+      details: { 
+        access_granted: true,
+        user_id: user.id,
+        path: '/admin'
+      }
+    });
   }, [user, isAdmin, authLoading, adminLoading, navigate, logSecurityEvent]);
 
   // Show loading while either auth or admin status is loading

@@ -27,11 +27,11 @@ export const useAdminCheck = () => {
           .select('role')
           .eq('user_id', user.id)
           .eq('role', 'admin')
-          .single();
+          .maybeSingle(); // Changed from .single() to .maybeSingle() to handle no results gracefully
 
         console.log('useAdminCheck - Query result:', { data, error });
 
-        if (error && error.code !== 'PGRST116') {
+        if (error) {
           console.error('Error checking admin status:', error);
           setIsAdmin(false);
         } else {
@@ -47,6 +47,8 @@ export const useAdminCheck = () => {
       }
     };
 
+    // Reset loading state when user changes
+    setLoading(true);
     checkAdminStatus();
   }, [user]);
 
