@@ -23,8 +23,8 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     // Don't make any decisions while still loading
-    if (authLoading || adminLoading) {
-      console.log('AdminDashboard - Still loading, waiting...');
+    if (authLoading) {
+      console.log('AdminDashboard - Auth still loading, waiting...');
       return;
     }
 
@@ -35,7 +35,13 @@ const AdminDashboard = () => {
       return;
     }
 
-    // If user exists but is not admin after admin loading is complete, redirect to dashboard
+    // Wait for admin check to complete before making decisions
+    if (adminLoading) {
+      console.log('AdminDashboard - Admin check still loading, waiting...');
+      return;
+    }
+
+    // Now we can safely check admin status
     if (!isAdmin) {
       console.log('AdminDashboard - User is not admin, redirecting to dashboard');
       logSecurityEvent({

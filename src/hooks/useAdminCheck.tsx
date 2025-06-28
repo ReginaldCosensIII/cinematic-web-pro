@@ -27,7 +27,7 @@ export const useAdminCheck = () => {
           .select('role')
           .eq('user_id', user.id)
           .eq('role', 'admin')
-          .maybeSingle(); // Changed from .single() to .maybeSingle() to handle no results gracefully
+          .maybeSingle();
 
         console.log('useAdminCheck - Query result:', { data, error });
 
@@ -47,8 +47,6 @@ export const useAdminCheck = () => {
       }
     };
 
-    // Reset loading state when user changes
-    setLoading(true);
     checkAdminStatus();
   }, [user]);
 
