@@ -6,18 +6,8 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -37,13 +27,7 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'glass-effect backdrop-blur-xl border-b border-webdev-glass-border' 
-          : 'bg-transparent'
-      }`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 glass-effect backdrop-blur-xl border-b border-webdev-glass-border">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -51,7 +35,7 @@ const Header = () => {
             to="/" 
             className="text-2xl font-light text-webdev-silver hover:text-white transition-colors duration-300 tracking-wide"
           >
-            &lt;/WebDevPro&gt;
+            &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">Pro</span>&gt;
           </Link>
 
           {/* Desktop Navigation */}
@@ -60,18 +44,13 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative text-sm font-medium transition-all duration-300 hover:text-white ${
+                className={`text-sm font-medium transition-all duration-300 hover:text-white ${
                   isActive(item.path) 
-                    ? 'text-webdev-silver' 
+                    ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
                     : 'text-webdev-soft-gray'
-                } group`}
+                }`}
               >
                 {item.name}
-                <span 
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple transition-all duration-300 group-hover:w-full ${
-                    isActive(item.path) ? 'w-full' : ''
-                  }`}
-                />
               </Link>
             ))}
             
@@ -80,18 +59,13 @@ const Header = () => {
               <div className="flex items-center space-x-4">
                 <Link
                   to="/dashboard"
-                  className={`relative text-sm font-medium transition-all duration-300 hover:text-white ${
+                  className={`text-sm font-medium transition-all duration-300 hover:text-white ${
                     isActive('/dashboard') 
-                      ? 'text-webdev-silver' 
+                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
                       : 'text-webdev-soft-gray'
-                  } group`}
+                  }`}
                 >
                   Dashboard
-                  <span 
-                    className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple transition-all duration-300 group-hover:w-full ${
-                      isActive('/dashboard') ? 'w-full' : ''
-                    }`}
-                  />
                 </Link>
                 <button
                   onClick={handleSignOut}
@@ -103,18 +77,9 @@ const Header = () => {
             ) : (
               <Link
                 to="/auth"
-                className={`relative text-sm font-medium transition-all duration-300 hover:text-white ${
-                  isActive('/auth') 
-                    ? 'text-webdev-silver' 
-                    : 'text-webdev-soft-gray'
-                } group`}
+                className="glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
               >
-                Sign In
-                <span 
-                  className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple transition-all duration-300 group-hover:w-full ${
-                    isActive('/auth') ? 'w-full' : ''
-                  }`}
-                />
+                <span className="relative z-10">Sign In</span>
               </Link>
             )}
           </nav>
@@ -140,7 +105,7 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`text-sm font-medium py-2 transition-colors duration-300 ${
                     isActive(item.path) 
-                      ? 'text-webdev-silver' 
+                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
                       : 'text-webdev-soft-gray hover:text-webdev-silver'
                   }`}
                 >
@@ -155,7 +120,7 @@ const Header = () => {
                     onClick={() => setIsMenuOpen(false)}
                     className={`text-sm font-medium py-2 transition-colors duration-300 ${
                       isActive('/dashboard') 
-                        ? 'text-webdev-silver' 
+                        ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
                         : 'text-webdev-soft-gray hover:text-webdev-silver'
                     }`}
                   >
@@ -172,13 +137,9 @@ const Header = () => {
                 <Link
                   to="/auth"
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-sm font-medium py-2 transition-colors duration-300 ${
-                    isActive('/auth') 
-                      ? 'text-webdev-silver' 
-                      : 'text-webdev-soft-gray hover:text-webdev-silver'
-                  }`}
+                  className="glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] inline-block text-center mt-2"
                 >
-                  Sign In
+                  <span className="relative z-10">Sign In</span>
                 </Link>
               )}
             </nav>
