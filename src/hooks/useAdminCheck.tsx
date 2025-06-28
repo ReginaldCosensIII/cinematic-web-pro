@@ -47,9 +47,10 @@ export const useAdminCheck = () => {
       }
     };
 
-    // Always reset state when user changes
-    setLoading(true);
-    setIsAdmin(false);
+    // Only reset loading when user changes, but don't reset isAdmin until we have new data
+    if (loading === false) {
+      setLoading(true);
+    }
     checkAdminStatus();
   }, [user]);
 
