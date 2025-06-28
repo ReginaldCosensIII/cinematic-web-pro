@@ -15,6 +15,7 @@ import DashboardInvoices from "./pages/DashboardInvoices";
 import DashboardMilestones from "./pages/DashboardMilestones";
 import DashboardTimeTracking from "./pages/DashboardTimeTracking";
 import DashboardSettings from "./pages/DashboardSettings";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/dashboard/profile" element={<Dashboard />} />
             <Route path="/dashboard/time-tracking" element={<DashboardTimeTracking />} />
             <Route path="/dashboard/settings" element={<DashboardSettings />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
