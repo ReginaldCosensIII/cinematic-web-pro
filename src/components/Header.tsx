@@ -27,8 +27,8 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-effect backdrop-blur-xl border-b border-webdev-glass-border">
-      <div className="max-w-7xl mx-auto px-6 py-3">
+    <header className="fixed top-0 left-0 right-0 z-50 glass-effect backdrop-blur-xl border border-webdev-glass-border">
+      <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link 
@@ -69,9 +69,9 @@ const Header = () => {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="text-sm font-medium text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300"
+                  className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] text-sm"
                 >
-                  Sign Out
+                  <span className="relative z-10">Sign Out</span>
                 </button>
               </div>
             ) : (
@@ -128,9 +128,9 @@ const Header = () => {
                   </Link>
                   <button
                     onClick={handleSignOut}
-                    className="text-sm font-medium py-2 text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-left"
+                    className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] inline-block text-center mt-2 text-sm"
                   >
-                    Sign Out
+                    <span className="relative z-10">Sign Out</span>
                   </button>
                 </>
               ) : (

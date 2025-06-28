@@ -10,7 +10,8 @@ import {
   MessageSquare, 
   FileText, 
   Settings,
-  LogOut
+  LogOut,
+  Clock
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -19,14 +20,15 @@ const DashboardSidebar = () => {
   const { signOut } = useAuth();
   
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: true },
-    { icon: FolderOpen, label: 'Projects', path: '/dashboard/projects', active: false },
-    { icon: Target, label: 'Milestones', path: '/dashboard/milestones', active: false },
-    { icon: Receipt, label: 'Invoices', path: '/dashboard/invoices', active: false },
-    { icon: MessageSquare, label: 'Messages', path: '/dashboard/messages', active: false },
-    { icon: FileText, label: 'Files', path: '/dashboard/files', active: false },
-    { icon: User, label: 'Profile', path: '/dashboard/profile', active: false },
-    { icon: Settings, label: 'Settings', path: '/dashboard/settings', active: false },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
+    { icon: FolderOpen, label: 'Projects', path: '/dashboard/projects' },
+    { icon: Target, label: 'Milestones', path: '/dashboard/milestones' },
+    { icon: Receipt, label: 'Invoices', path: '/dashboard/invoices' },
+    { icon: Clock, label: 'Time Tracking', path: '/dashboard/time-tracking' },
+    { icon: MessageSquare, label: 'Messages', path: '/dashboard/messages' },
+    { icon: FileText, label: 'Files', path: '/dashboard/files' },
+    { icon: User, label: 'Profile', path: '/dashboard/profile' },
+    { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
   ];
 
   const handleSignOut = async () => {
@@ -37,7 +39,7 @@ const DashboardSidebar = () => {
     <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border h-fit sticky top-32">
       <div className="mb-8">
         <Link to="/" className="text-2xl font-light text-webdev-silver hover:text-white transition-colors">
-          &lt;/WebDevPro&gt;
+          &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">Pro</span>&gt;
         </Link>
         <p className="text-sm text-webdev-soft-gray mt-1">Client Portal</p>
       </div>
