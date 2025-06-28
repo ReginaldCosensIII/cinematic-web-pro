@@ -47,6 +47,9 @@ export const useAdminCheck = () => {
       }
     };
 
+    // Always reset state when user changes
+    setLoading(true);
+    setIsAdmin(false);
     checkAdminStatus();
   }, [user]);
 

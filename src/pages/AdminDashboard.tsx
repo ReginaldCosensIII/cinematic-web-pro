@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -22,9 +21,9 @@ const AdminDashboard = () => {
   console.log('AdminDashboard - Is Admin:', isAdmin);
 
   useEffect(() => {
-    // Don't make any decisions while still loading
-    if (authLoading) {
-      console.log('AdminDashboard - Auth still loading, waiting...');
+    // Don't make any decisions while either auth or admin check is loading
+    if (authLoading || adminLoading) {
+      console.log('AdminDashboard - Still loading, waiting...', { authLoading, adminLoading });
       return;
     }
 
@@ -35,13 +34,7 @@ const AdminDashboard = () => {
       return;
     }
 
-    // Wait for admin check to complete before making decisions
-    if (adminLoading) {
-      console.log('AdminDashboard - Admin check still loading, waiting...');
-      return;
-    }
-
-    // Now we can safely check admin status
+    // Both loading states are false, now we can safely check admin status
     if (!isAdmin) {
       console.log('AdminDashboard - User is not admin, redirecting to dashboard');
       logSecurityEvent({
