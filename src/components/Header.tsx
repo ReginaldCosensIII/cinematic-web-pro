@@ -1,79 +1,129 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, User, LogOut } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
 
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Contact', href: '/contact' },
-  ];
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleSignOut = async () => {
     await signOut();
     setIsMenuOpen(false);
   };
 
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Contact', path: '/contact' }
+  ];
+
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-webdev-glass-border">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled 
+          ? 'glass-effect backdrop-blur-xl border-b border-webdev-glass-border' 
+          : 'bg-transparent'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-semibold text-webdev-silver hover:text-white transition-colors">
-            &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">Pro</span>&gt;
+          <Link 
+            to="/" 
+            className="text-2xl font-light text-webdev-silver hover:text-white transition-colors duration-300 tracking-wide"
+          >
+            &lt;/WebDevPro&gt;
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.name}
-                to={item.href}
-                className={`text-sm font-medium transition-colors ${
-                  location.pathname === item.href
-                    ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
-                    : 'text-webdev-soft-gray hover:bg-gradient-to-r hover:from-webdev-gradient-blue hover:to-webdev-gradient-purple hover:bg-clip-text hover:text-transparent'
-                }`}
+                to={item.path}
+                className={`relative text-sm font-medium transition-all duration-300 hover:text-white ${
+                  isActive(item.path) 
+                    ? 'text-webdev-silver' 
+                    : 'text-webdev-soft-gray'
+                } group`}
               >
                 {item.name}
+                <span 
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple transition-all duration-300 group-hover:w-full ${
+                    isActive(item.path) ? 'w-full' : ''
+                  }`}
+                />
               </Link>
             ))}
             
-            {/* Auth Section */}
+            {/* User Menu */}
             {user ? (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-webdev-silver">
-                  <User className="w-4 h-4" />
-                  <span className="text-sm">{user.email}</span>
-                </div>
+              <div className="flex items-center space-x-4">
+                <Link
+                  to="/dashboard"
+                  className={`relative text-sm font-medium transition-all duration-300 hover:text-white ${
+                    isActive('/dashboard') 
+                      ? 'text-webdev-silver' 
+                      : 'text-webdev-soft-gray'
+                  } group`}
+                >
+                  Dashboard
+                  <span 
+                    className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple transition-all duration-300 group-hover:w-full ${
+                      isActive('/dashboard') ? 'w-full' : ''
+                    }`}
+                  />
+                </Link>
                 <button
                   onClick={handleSignOut}
-                  className="p-2 text-webdev-soft-gray hover:text-white transition-colors"
-                  title="Sign Out"
+                  className="text-sm font-medium text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300"
                 >
-                  <LogOut className="w-4 h-4" />
+                  Sign Out
                 </button>
               </div>
             ) : (
               <Link
                 to="/auth"
-                className="glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
+                className={`relative text-sm font-medium transition-all duration-300 hover:text-white ${
+                  isActive('/auth') 
+                    ? 'text-webdev-silver' 
+                    : 'text-webdev-soft-gray'
+                } group`}
               >
-                <span className="relative z-10">Sign In</span>
+                Sign In
+                <span 
+                  className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple transition-all duration-300 group-hover:w-full ${
+                    isActive('/auth') ? 'w-full' : ''
+                  }`}
+                />
               </Link>
             )}
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-webdev-silver hover:text-white transition-colors"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={toggleMenu}
+            className="md:hidden text-webdev-silver hover:text-white transition-colors duration-300"
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -81,50 +131,57 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-webdev-black/95 backdrop-blur-lg border-b border-webdev-glass-border">
-            <div className="px-6 py-4 space-y-4">
-              {navigation.map((item) => (
+          <div className="md:hidden mt-4 glass-effect rounded-lg border border-webdev-glass-border backdrop-blur-xl">
+            <nav className="flex flex-col space-y-2 p-4">
+              {navItems.map((item) => (
                 <Link
                   key={item.name}
-                  to={item.href}
-                  className={`block text-sm font-medium transition-colors ${
-                    location.pathname === item.href
-                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
-                      : 'text-webdev-soft-gray hover:bg-gradient-to-r hover:from-webdev-gradient-blue hover:to-webdev-gradient-purple hover:bg-clip-text hover:text-transparent'
-                  }`}
+                  to={item.path}
                   onClick={() => setIsMenuOpen(false)}
+                  className={`text-sm font-medium py-2 transition-colors duration-300 ${
+                    isActive(item.path) 
+                      ? 'text-webdev-silver' 
+                      : 'text-webdev-soft-gray hover:text-webdev-silver'
+                  }`}
                 >
                   {item.name}
                 </Link>
               ))}
               
-              {/* Mobile Auth Section */}
               {user ? (
-                <div className="border-t border-webdev-glass-border pt-4">
-                  <div className="flex items-center gap-2 text-webdev-silver mb-3">
-                    <User className="w-4 h-4" />
-                    <span className="text-sm">{user.email}</span>
-                  </div>
+                <>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`text-sm font-medium py-2 transition-colors duration-300 ${
+                      isActive('/dashboard') 
+                        ? 'text-webdev-silver' 
+                        : 'text-webdev-soft-gray hover:text-webdev-silver'
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
                   <button
                     onClick={handleSignOut}
-                    className="flex items-center gap-2 text-webdev-soft-gray hover:text-white transition-colors text-sm"
+                    className="text-sm font-medium py-2 text-webdev-soft-gray hover:text-webdev-silver transition-colors duration-300 text-left"
                   >
-                    <LogOut className="w-4 h-4" />
                     Sign Out
                   </button>
-                </div>
+                </>
               ) : (
-                <div className="border-t border-webdev-glass-border pt-4">
-                  <Link
-                    to="/auth"
-                    className="block text-center glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 text-sm font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span className="relative z-10">Sign In</span>
-                  </Link>
-                </div>
+                <Link
+                  to="/auth"
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`text-sm font-medium py-2 transition-colors duration-300 ${
+                    isActive('/auth') 
+                      ? 'text-webdev-silver' 
+                      : 'text-webdev-soft-gray hover:text-webdev-silver'
+                  }`}
+                >
+                  Sign In
+                </Link>
               )}
-            </div>
+            </nav>
           </div>
         )}
       </div>
