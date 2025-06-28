@@ -35,8 +35,6 @@ const App = () => (
             <Route path="/dashboard/projects" element={<DashboardProjects />} />
             <Route path="/dashboard/invoices" element={<DashboardInvoices />} />
             <Route path="/dashboard/milestones" element={<DashboardMilestones />} />
-            <Route path="/dashboard/messages" element={<Dashboard />} />
-            <Route path="/dashboard/files" element={<Dashboard />} />
             <Route path="/dashboard/profile" element={<Dashboard />} />
             <Route path="/dashboard/time-tracking" element={<DashboardTimeTracking />} />
             <Route path="/dashboard/settings" element={<DashboardSettings />} />

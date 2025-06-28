@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -7,8 +6,6 @@ import {
   Target, 
   Receipt, 
   User, 
-  MessageSquare, 
-  FileText, 
   Settings,
   LogOut,
   Clock
@@ -25,8 +22,6 @@ const DashboardSidebar = () => {
     { icon: Target, label: 'Milestones', path: '/dashboard/milestones' },
     { icon: Receipt, label: 'Invoices', path: '/dashboard/invoices' },
     { icon: Clock, label: 'Time Tracking', path: '/dashboard/time-tracking' },
-    { icon: MessageSquare, label: 'Messages', path: '/dashboard/messages' },
-    { icon: FileText, label: 'Files', path: '/dashboard/files' },
     { icon: User, label: 'Profile', path: '/dashboard/profile' },
     { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
   ];
