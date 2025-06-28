@@ -1,13 +1,13 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Clock, FolderOpen, Target } from 'lucide-react';
+import { Clock, FolderOpen, Target, Menu, X } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface TimeLog {
@@ -23,9 +23,11 @@ interface TimeLog {
 const DashboardTimeTracking = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [timeLogs, setTimeLogs] = useState<TimeLog[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [totalHours, setTotalHours] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -119,46 +121,76 @@ const DashboardTimeTracking = () => {
       <SmokeBackground />
       <Header />
       
-      <main className="relative z-10 pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6">
+      <main className="relative z-10 pt-24 md:pt-32 pb-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex gap-8">
+            {/* Mobile Sidebar Toggle */}
+            {isMobile && (
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
+              >
+                {sidebarOpen ? (
+                  <X className="w-5 h-5 text-webdev-silver" />
+                ) : (
+                  <Menu className="w-5 h-5 text-webdev-silver" />
+                )}
+              </button>
+            )}
+
             {/* Sidebar */}
-            <div className="hidden lg:block w-64 flex-shrink-0">
-              <DashboardSidebar />
+            <div className={`
+              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
+              ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
+            `}>
+              {isMobile && (
+                <div className="pt-24">
+                  <DashboardSidebar />
+                </div>
+              )}
+              {!isMobile && <DashboardSidebar />}
             </div>
+
+            {/* Mobile Sidebar Overlay */}
+            {isMobile && sidebarOpen && (
+              <div 
+                className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+                onClick={() => setSidebarOpen(false)}
+              />
+            )}
             
             {/* Main Content */}
-            <div className="flex-1">
-              <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
-                <div className="flex items-center gap-4 mb-8">
-                  <Clock className="w-8 h-8 text-webdev-gradient-blue" />
-                  <h1 className="text-3xl font-light text-webdev-silver">Time Tracking</h1>
+            <div className={`flex-1 ${isMobile ? 'ml-0' : ''}`}>
+              <div className="glass-effect rounded-2xl p-4 md:p-8 border border-webdev-glass-border">
+                <div className="flex items-center gap-4 mb-6 md:mb-8">
+                  <Clock className="w-6 md:w-8 h-6 md:h-8 text-webdev-gradient-blue" />
+                  <h1 className="text-2xl md:text-3xl font-light text-webdev-silver">Time Tracking</h1>
                 </div>
 
                 {/* Summary Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div className="glass-effect rounded-xl p-6 border border-webdev-glass-border">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+                  <div className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border">
                     <div className="flex items-center gap-3 mb-2">
-                      <Clock className="w-6 h-6 text-webdev-gradient-blue" />
-                      <h3 className="text-lg font-medium text-webdev-silver">Total Hours</h3>
+                      <Clock className="w-5 md:w-6 h-5 md:h-6 text-webdev-gradient-blue" />
+                      <h3 className="text-base md:text-lg font-medium text-webdev-silver">Total Hours</h3>
                     </div>
-                    <p className="text-3xl font-light text-white">{totalHours}</p>
+                    <p className="text-2xl md:text-3xl font-light text-white">{totalHours}</p>
                   </div>
                   
-                  <div className="glass-effect rounded-xl p-6 border border-webdev-glass-border">
+                  <div className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border">
                     <div className="flex items-center gap-3 mb-2">
-                      <Target className="w-6 h-6 text-webdev-gradient-purple" />
-                      <h3 className="text-lg font-medium text-webdev-silver">Milestones</h3>
+                      <Target className="w-5 md:w-6 h-5 md:h-6 text-webdev-gradient-purple" />
+                      <h3 className="text-base md:text-lg font-medium text-webdev-silver">Milestones</h3>
                     </div>
-                    <p className="text-3xl font-light text-white">{timeLogs.length}</p>
+                    <p className="text-2xl md:text-3xl font-light text-white">{timeLogs.length}</p>
                   </div>
                   
-                  <div className="glass-effect rounded-xl p-6 border border-webdev-glass-border">
+                  <div className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border sm:col-span-2 lg:col-span-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <FolderOpen className="w-6 h-6 text-green-400" />
-                      <h3 className="text-lg font-medium text-webdev-silver">Completed</h3>
+                      <FolderOpen className="w-5 md:w-6 h-5 md:h-6 text-green-400" />
+                      <h3 className="text-base md:text-lg font-medium text-webdev-silver">Completed</h3>
                     </div>
-                    <p className="text-3xl font-light text-white">
+                    <p className="text-2xl md:text-3xl font-light text-white">
                       {timeLogs.filter(log => log.status === 'completed').length}
                     </p>
                   </div>
@@ -167,41 +199,41 @@ const DashboardTimeTracking = () => {
                 {loadingData ? (
                   <div className="animate-pulse space-y-4">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className="h-20 bg-webdev-darker-gray/50 rounded-xl"></div>
+                      <div key={i} className="h-16 md:h-20 bg-webdev-darker-gray/50 rounded-xl"></div>
                     ))}
                   </div>
                 ) : timeLogs.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Clock className="w-16 h-16 text-webdev-soft-gray mx-auto mb-4 opacity-50" />
-                    <h3 className="text-xl font-light text-webdev-silver mb-2">No Time Logged Yet</h3>
-                    <p className="text-webdev-soft-gray">
+                  <div className="text-center py-8 md:py-12">
+                    <Clock className="w-12 md:w-16 h-12 md:h-16 text-webdev-soft-gray mx-auto mb-4 opacity-50" />
+                    <h3 className="text-lg md:text-xl font-light text-webdev-silver mb-2">No Time Logged Yet</h3>
+                    <p className="text-webdev-soft-gray text-sm md:text-base">
                       Time will appear here as work is completed on your projects and milestones.
                     </p>
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    <h2 className="text-xl font-light text-webdev-silver mb-4">Logged Hours by Milestone</h2>
+                    <h2 className="text-lg md:text-xl font-light text-webdev-silver mb-4">Logged Hours by Milestone</h2>
                     {timeLogs.map((log) => (
                       <div
                         key={log.id}
-                        className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300"
+                        className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300"
                       >
-                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div className="flex flex-col gap-4">
                           <div className="flex-1">
                             <div className="flex items-center gap-3 mb-2">
-                              <FolderOpen className="w-5 h-5 text-webdev-gradient-blue" />
-                              <h3 className="text-lg font-medium text-webdev-silver">
+                              <FolderOpen className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
+                              <h3 className="text-base md:text-lg font-medium text-webdev-silver">
                                 {log.project_title}
                               </h3>
                             </div>
                             <div className="flex items-center gap-3 mb-3">
-                              <Target className="w-4 h-4 text-webdev-gradient-purple" />
-                              <span className="text-webdev-soft-gray">{log.milestone_title}</span>
-                              <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(log.status)}`}>
+                              <Target className="w-3 md:w-4 h-3 md:h-4 text-webdev-gradient-purple" />
+                              <span className="text-sm md:text-base text-webdev-soft-gray">{log.milestone_title}</span>
+                              <span className={`px-2 md:px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(log.status)}`}>
                                 {formatStatus(log.status)}
                               </span>
                             </div>
-                            <div className="flex items-center gap-6 text-sm text-webdev-soft-gray">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-xs md:text-sm text-webdev-soft-gray">
                               {log.due_date && (
                                 <span>Due: {format(new Date(log.due_date), 'MMM d, yyyy')}</span>
                               )}
@@ -210,12 +242,10 @@ const DashboardTimeTracking = () => {
                               )}
                             </div>
                           </div>
-                          <div className="text-right">
-                            <div className="flex items-center gap-2 justify-end lg:justify-start">
-                              <Clock className="w-5 h-5 text-webdev-gradient-blue" />
-                              <span className="text-2xl font-light text-white">{log.hours_logged}</span>
-                              <span className="text-webdev-soft-gray">hours</span>
-                            </div>
+                          <div className="flex items-center gap-2 sm:justify-end">
+                            <Clock className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
+                            <span className="text-xl md:text-2xl font-light text-white">{log.hours_logged}</span>
+                            <span className="text-webdev-soft-gray text-sm md:text-base">hours</span>
                           </div>
                         </div>
                       </div>
