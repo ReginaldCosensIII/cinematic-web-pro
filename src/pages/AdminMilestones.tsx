@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -30,10 +29,10 @@ interface Milestone {
   projects?: {
     title: string;
     profiles?: {
-      full_name: string;
-      username: string;
-    };
-  };
+      full_name: string | null;
+      username: string | null;
+    } | null;
+  } | null;
 }
 
 const AdminMilestones = () => {
