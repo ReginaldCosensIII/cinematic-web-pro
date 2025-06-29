@@ -226,7 +226,7 @@ const UsersTable = () => {
           user={selectedUser}
           isOpen={!!selectedUser}
           onClose={() => setSelectedUser(null)}
-          onSuccess={fetchUsers}
+          onRefresh={fetchUsers}
         />
       )}
     </div>
