@@ -73,28 +73,46 @@ const AdminInvoices = () => {
   const { data: invoices, isLoading } = useQuery({
     queryKey: ['admin-invoices'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First get all invoices
+      const { data: invoicesData, error: invoicesError } = await supabase
         .from('invoices')
-        .select(`
-          *,
-          profiles(full_name, username),
-          projects(title)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      
-      // Transform the data to ensure it matches our Invoice interface
-      return (data || []).map(item => ({
-        ...item,
-        profiles: item.profiles ? {
-          full_name: item.profiles.full_name || null,
-          username: item.profiles.username || null,
-        } : null,
-        projects: item.projects ? {
-          title: item.projects.title
-        } : null
-      })) as Invoice[];
+      if (invoicesError) throw invoicesError;
+
+      // Then get all profiles
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, full_name, username');
+
+      if (profilesError) throw profilesError;
+
+      // Get all projects
+      const { data: projectsData, error: projectsError } = await supabase
+        .from('projects')
+        .select('id, title');
+
+      if (projectsError) throw projectsError;
+
+      // Manually join the data
+      const invoicesWithRelations = (invoicesData || []).map(invoice => {
+        const profile = profilesData?.find(p => p.id === invoice.user_id);
+        const project = projectsData?.find(p => p.id === invoice.project_id);
+        
+        return {
+          ...invoice,
+          profiles: profile ? {
+            full_name: profile.full_name,
+            username: profile.username
+          } : null,
+          projects: project ? {
+            title: project.title
+          } : null
+        };
+      });
+
+      return invoicesWithRelations as Invoice[];
     }
   });
 

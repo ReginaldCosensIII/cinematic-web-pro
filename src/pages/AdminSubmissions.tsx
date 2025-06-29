@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -18,7 +17,6 @@ interface ContactSubmission {
   id: string;
   name: string;
   email: string;
-  phone: string | null;
   company: string | null;
   message: string;
   budget: string | null;
@@ -50,7 +48,6 @@ const AdminSubmissions = () => {
       // Transform the data to match our interface, adding default values for missing fields
       return (data || []).map(item => ({
         ...item,
-        phone: item.phone || null,
         status: 'new', // Default status since it's not in the database
       })) as ContactSubmission[];
     }
@@ -381,13 +378,18 @@ const AdminSubmissions = () => {
                     
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <h4 className="text-webdev-silver font-medium mb-2">Phone</h4>
-                        <p className="text-webdev-soft-gray">{selectedSubmission.phone || 'Not provided'}</p>
-                      </div>
-                      <div>
                         <h4 className="text-webdev-silver font-medium mb-2">Company</h4>
                         <p className="text-webdev-soft-gray">{selectedSubmission.company || 'Not provided'}</p>
                       </div>
+                      <div>
+                        <h4 className="text-webdev-silver font-medium mb-2">Budget</h4>
+                        <p className="text-webdev-soft-gray">{selectedSubmission.budget || 'Not provided'}</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-webdev-silver font-medium mb-2">Project Type</h4>
+                      <p className="text-webdev-soft-gray">{selectedSubmission.project_type || 'Not provided'}</p>
                     </div>
 
                     <div>
