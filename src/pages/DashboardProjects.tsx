@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import ProjectDetailsModal from '@/components/dashboard/ProjectDetailsModal';
 import { FolderOpen, Calendar, Clock, Target, Menu, X } from 'lucide-react';
 
 interface Project {
@@ -16,6 +17,7 @@ interface Project {
   status: string;
   start_date: string;
   last_updated: string;
+  total_hours: number;
 }
 
 const DashboardProjects = () => {
@@ -25,6 +27,8 @@ const DashboardProjects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -85,6 +89,16 @@ const DashboardProjects = () => {
   if (!user) {
     return null;
   }
+
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedProject(null);
+  };
 
   return (
     <div className="min-h-screen bg-webdev-black relative overflow-hidden">
@@ -150,10 +164,16 @@ const DashboardProjects = () => {
                 ) : (
                   <div className="space-y-4">
                     {projects.map((project) => (
-                      <div key={project.id} className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/30 transition-all duration-300">
+                      <div 
+                        key={project.id} 
+                        className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/30 transition-all duration-300 cursor-pointer group"
+                        onClick={() => handleProjectClick(project)}
+                      >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex-1">
-                            <h3 className="text-xl font-semibold text-webdev-silver mb-2">{project.title}</h3>
+                            <h3 className="text-xl font-semibold text-webdev-silver mb-2 group-hover:text-white transition-colors">
+                              {project.title}
+                            </h3>
                             <p className="text-webdev-soft-gray mb-4">{project.description || 'No description provided'}</p>
                           </div>
                           <div className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)} bg-webdev-darker-gray/50`}>
@@ -170,6 +190,12 @@ const DashboardProjects = () => {
                             <Clock className="w-4 h-4" />
                             <span>Updated: {new Date(project.last_updated).toLocaleDateString()}</span>
                           </div>
+                          <div className="flex items-center gap-2">
+                            <Target className="w-4 h-4 text-webdev-gradient-blue" />
+                            <span className="text-webdev-gradient-blue font-medium">
+                              {project.total_hours.toFixed(1)}h logged
+                            </span>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -182,6 +208,12 @@ const DashboardProjects = () => {
       </main>
       
       <Footer />
+      
+      <ProjectDetailsModal
+        project={selectedProject}
+        isOpen={modalOpen}
+        onClose={closeModal}
+      />
     </div>
   );
 };

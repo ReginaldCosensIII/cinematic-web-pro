@@ -61,12 +61,10 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Validate full name
     if (!formData.full_name || formData.full_name.length < 2) {
       newErrors.full_name = 'Full name must be at least 2 characters long';
     }
 
-    // Validate password change if attempted
     if (formData.new_password || formData.current_password || formData.confirm_password) {
       if (!formData.current_password) {
         newErrors.current_password = 'Current password is required to change password';
@@ -92,7 +90,6 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
     const sanitizedValue = field === 'full_name' ? sanitizeInput(value) : value;
     setFormData(prev => ({ ...prev, [field]: sanitizedValue }));
     
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
@@ -109,7 +106,6 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
     setIsUpdating(true);
 
     try {
-      // Update profile metadata
       const { error: profileError } = await supabase.auth.updateUser({
         data: { full_name: formData.full_name }
       });
@@ -120,7 +116,6 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
         return;
       }
 
-      // Update password if provided
       if (formData.new_password && formData.current_password) {
         const { error: passwordError } = await supabase.auth.updateUser({
           password: formData.new_password
@@ -136,7 +131,6 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
           return;
         }
 
-        // Clear password fields on success
         setFormData(prev => ({
           ...prev,
           current_password: '',
@@ -305,7 +299,7 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
 
           <Button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white"
+            className="w-full glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300"
             disabled={isUpdating}
           >
             {isUpdating ? 'Updating...' : 'Update Profile'}

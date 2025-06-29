@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -251,8 +250,7 @@ const DashboardInvoices = () => {
                               <TableCell>
                                 <Button
                                   size="sm"
-                                  variant="outline"
-                                  className="border-webdev-glass-border hover:bg-webdev-darker-gray text-xs"
+                                  className="glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300 text-xs"
                                 >
                                   <Download className="w-3 h-3 md:w-4 md:h-4 md:mr-1" />
                                   <span className="hidden md:inline">Download</span>
