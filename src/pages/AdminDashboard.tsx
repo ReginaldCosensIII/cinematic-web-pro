@@ -1,3 +1,4 @@
+// src/pages/AdminDashboard.tsx
 
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,30 +17,17 @@ const AdminDashboard = () => {
   const { logSecurityEvent } = useSecurityLogger();
   const navigate = useNavigate();
 
-  console.log('AdminDashboard - Auth Loading:', authLoading);
-  console.log('AdminDashboard - Admin Loading:', adminLoading);
-  console.log('AdminDashboard - User:', user?.id);
-  console.log('AdminDashboard - Is Admin:', isAdmin);
-
   useEffect(() => {
-    // CRITICAL: Don't make ANY decisions while either loading state is true
     if (authLoading || adminLoading) {
-      console.log('AdminDashboard - Still loading, waiting...', { authLoading, adminLoading });
       return;
     }
 
-    // If no user after auth loading is complete, redirect to auth
     if (!user) {
-      console.log('AdminDashboard - No user, redirecting to auth');
       navigate('/auth');
       return;
     }
 
-    // BOTH loading states are false - now we can safely check admin status
-    console.log('AdminDashboard - All loading complete, checking admin status:', { isAdmin });
-    
-    if (!isAdmin) {
-      console.log('AdminDashboard - User is not admin, redirecting to dashboard');
+    if (isAdmin === false) { // Check for explicit false
       logSecurityEvent({
         event_type: 'admin_access',
         details: { 
@@ -52,31 +40,31 @@ const AdminDashboard = () => {
       return;
     }
 
-    // If we get here, user is authenticated and is an admin
-    console.log('AdminDashboard - Admin access granted');
-    logSecurityEvent({
-      event_type: 'admin_access',
-      details: { 
-        access_granted: true,
-        user_id: user.id,
-        path: '/admin'
-      }
-    });
+    if (isAdmin === true) { // Check for explicit true
+        logSecurityEvent({
+          event_type: 'admin_access',
+          details: { 
+            access_granted: true,
+            user_id: user.id,
+            path: '/admin'
+          }
+        });
+    }
+
   }, [user, isAdmin, authLoading, adminLoading, navigate, logSecurityEvent]);
 
-  // Show loading while either auth or admin status is loading
-  if (authLoading || adminLoading) {
+  if (authLoading || adminLoading || isAdmin === null) { // Also wait for isAdmin to be resolved
     return (
       <div className="min-h-screen bg-webdev-black flex items-center justify-center">
         <div className="text-webdev-silver">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue mx-auto mb-4"></div>
-          Loading admin dashboard...
+          Verifying permissions...
         </div>
       </div>
     );
   }
 
-  // Don't render anything if user is not authenticated or not admin
+  // This check is an additional safeguard.
   if (!user || !isAdmin) {
     return null;
   }
