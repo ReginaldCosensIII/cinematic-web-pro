@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -45,6 +44,7 @@ const AdminInvoices = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
   const [newInvoice, setNewInvoice] = useState({
     invoice_number: '',
     user_id: '',
@@ -158,6 +158,40 @@ const AdminInvoices = () => {
       toast({
         title: "Error",
         description: "Failed to create invoice",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async (invoiceData: any) => {
+      const { error } = await supabase
+        .from('invoices')
+        .update({
+          invoice_number: invoiceData.invoice_number,
+          amount: parseFloat(invoiceData.amount),
+          description: invoiceData.description,
+          project_id: invoiceData.project_id || null,
+          issue_date: invoiceData.issue_date,
+          due_date: invoiceData.due_date,
+          status: invoiceData.status
+        })
+        .eq('id', invoiceData.id);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-invoices'] });
+      setEditingInvoice(null);
+      toast({
+        title: "Success",
+        description: "Invoice updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update invoice",
         variant: "destructive",
       });
     }
@@ -454,6 +488,7 @@ const AdminInvoices = () => {
                                   <Button
                                     size="sm"
                                     variant="outline"
+                                    onClick={() => setEditingInvoice(invoice)}
                                     className="border-yellow-500 text-yellow-400 hover:bg-yellow-500/10 p-1 md:p-2"
                                   >
                                     <Edit className="w-3 h-3 md:w-4 md:h-4" />
@@ -491,6 +526,97 @@ const AdminInvoices = () => {
           </div>
         </div>
       </main>
+
+      {/* Edit Invoice Modal */}
+      {editingInvoice && (
+        <Dialog open={!!editingInvoice} onOpenChange={() => setEditingInvoice(null)}>
+          <DialogContent className="glass-effect border-webdev-glass-border max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-webdev-silver">Edit Invoice</DialogTitle>
+              <DialogDescription className="text-webdev-soft-gray">
+                Update invoice details
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 mt-4">
+              <div>
+                <label className="block text-sm font-medium text-webdev-silver mb-2">Invoice Number</label>
+                <Input
+                  value={editingInvoice.invoice_number}
+                  onChange={(e) => setEditingInvoice({...editingInvoice, invoice_number: e.target.value})}
+                  className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-webdev-silver mb-2">Amount</label>
+                <Input
+                  type="number"
+                  step="0.01"
+                  value={editingInvoice.amount}
+                  onChange={(e) => setEditingInvoice({...editingInvoice, amount: parseFloat(e.target.value)})}
+                  className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-webdev-silver mb-2">Status</label>
+                <select
+                  value={editingInvoice.status}
+                  onChange={(e) => setEditingInvoice({...editingInvoice, status: e.target.value})}
+                  className="w-full p-2 bg-webdev-darker-gray border border-webdev-glass-border rounded-md text-webdev-silver"
+                >
+                  <option value="draft">Draft</option>
+                  <option value="sent">Sent</option>
+                  <option value="paid">Paid</option>
+                  <option value="overdue">Overdue</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-webdev-silver mb-2">Description</label>
+                <Input
+                  value={editingInvoice.description || ''}
+                  onChange={(e) => setEditingInvoice({...editingInvoice, description: e.target.value})}
+                  className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-webdev-silver mb-2">Issue Date</label>
+                  <Input
+                    type="date"
+                    value={editingInvoice.issue_date}
+                    onChange={(e) => setEditingInvoice({...editingInvoice, issue_date: e.target.value})}
+                    className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-webdev-silver mb-2">Due Date</label>
+                  <Input
+                    type="date"
+                    value={editingInvoice.due_date}
+                    onChange={(e) => setEditingInvoice({...editingInvoice, due_date: e.target.value})}
+                    className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-3 pt-4">
+                <Button
+                  onClick={() => updateMutation.mutate(editingInvoice)}
+                  className="flex-1 bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                >
+                  Update Invoice
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setEditingInvoice(null)}
+                  className="border-webdev-glass-border hover:bg-webdev-darker-gray"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
       
       <Footer />
     </div>

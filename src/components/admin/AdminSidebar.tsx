@@ -9,7 +9,8 @@ import {
   Receipt, 
   FileText,
   Settings,
-  LogOut
+  LogOut,
+  Target
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -21,6 +22,7 @@ const AdminSidebar = () => {
     { icon: LayoutDashboard, label: 'Overview', path: '/admin' },
     { icon: FolderOpen, label: 'Projects', path: '/admin/projects' },
     { icon: User, label: 'Clients', path: '/admin/users' },
+    { icon: Target, label: 'Milestones', path: '/admin/milestones' },
     { icon: Clock, label: 'Hours Logged', path: '/admin/hours' },
     { icon: Receipt, label: 'Invoices', path: '/admin/invoices' },
     { icon: FileText, label: 'Form Submissions', path: '/admin/submissions' },
