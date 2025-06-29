@@ -1,19 +1,19 @@
-// src/hooks/useAdminCheck.tsx
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 
 export const useAdminCheck = () => {
-  const { user } = useAuth();
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const { user, loading: authLoading } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      setLoading(true);
-      setIsAdmin(null); // Reset on user change
+    // Do not run the check until the authentication is complete
+    if (authLoading) {
+      return;
+    }
 
+    const checkAdminStatus = async () => {
       if (!user) {
         setIsAdmin(false);
         setLoading(false);
@@ -22,30 +22,28 @@ export const useAdminCheck = () => {
 
       try {
         const { data, error } = await supabase
-          .rpc('has_role', { _user_id: user.id, _role: 'admin' });
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .eq('role', 'admin')
+          .single(); // Use single() for a more direct check
 
-
-        if (error) {
+        if (error && error.code !== 'PGRST116') { // Ignore 'PGRST116' (No rows found)
           console.error('Error checking admin status:', error);
           setIsAdmin(false);
         } else {
-          setIsAdmin(data);
+          setIsAdmin(!!data);
         }
-      } catch (error) {
-        console.error('Exception in admin check:', error);
+      } catch (err) {
+        console.error('Exception during admin check:', err);
         setIsAdmin(false);
       } finally {
         setLoading(false);
       }
     };
 
-    if (user) {
-        checkAdminStatus();
-    } else {
-        setIsAdmin(false);
-        setLoading(false);
-    }
-  }, [user]);
+    checkAdminStatus();
+  }, [user, authLoading]);
 
-  return { isAdmin, loading };
+  return { isAdmin, loading: authLoading || loading };
 };

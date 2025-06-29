@@ -1,5 +1,3 @@
-// src/pages/AdminDashboard.tsx
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,26 +16,39 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
+    // Wait until both auth and admin checks are complete
+    if (authLoading || adminLoading) {
+      return;
     }
-  }, [user, authLoading, navigate]);
 
-  useEffect(() => {
-    if (!adminLoading && isAdmin === false) {
-      logSecurityEvent({
-        event_type: 'admin_access',
-        details: {
-          access_denied: true,
-          user_id: user?.id,
-          attempted_path: '/admin'
-        }
-      });
-      navigate('/dashboard');
+    // If there's no user, or if the user is not an admin, redirect
+    if (!user || !isAdmin) {
+      if (user) { // Log only if a non-admin user tried to access
+          logSecurityEvent({
+            event_type: 'admin_access',
+            details: {
+              access_denied: true,
+              user_id: user.id,
+              attempted_path: '/admin'
+            }
+          });
+      }
+      navigate(user ? '/dashboard' : '/auth');
+    } else {
+        // Log successful admin access
+        logSecurityEvent({
+          event_type: 'admin_access',
+          details: { 
+            access_granted: true,
+            user_id: user.id,
+            path: '/admin'
+          }
+        });
     }
-  }, [isAdmin, adminLoading, user, logSecurityEvent, navigate]);
+  }, [user, isAdmin, authLoading, adminLoading, navigate, logSecurityEvent]);
 
-  if (authLoading || adminLoading || isAdmin === null) {
+  // Unified loading state
+  if (authLoading || adminLoading) {
     return (
       <div className="min-h-screen bg-webdev-black flex items-center justify-center">
         <div className="text-webdev-silver">
@@ -48,11 +59,13 @@ const AdminDashboard = () => {
     );
   }
 
-  if (isAdmin) {
+  // Only render the dashboard if the user is an admin
+  if (user && isAdmin) {
     return (
       <div className="min-h-screen bg-webdev-black relative overflow-hidden">
         <SmokeBackground />
         <Header />
+        
         <main className="relative z-10 pt-24 md:pt-32 pb-20">
           <div className="max-w-7xl mx-auto px-4 md:px-6">
             <div className="flex gap-8">
@@ -69,41 +82,17 @@ const AdminDashboard = () => {
                   </p>
                 </div>
                 <AdminStats />
-                <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border">
-                  <h2 className="text-xl font-semibold text-webdev-silver mb-4">Quick Actions</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <button 
-                      onClick={() => navigate('/admin/users')}
-                      className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
-                    >
-                      <h3 className="font-medium text-webdev-silver mb-2">Manage Users</h3>
-                      <p className="text-sm text-webdev-soft-gray">View and edit user profiles</p>
-                    </button>
-                    <button 
-                      onClick={() => navigate('/admin/projects')}
-                      className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
-                    >
-                      <h3 className="font-medium text-webdev-silver mb-2">Create Project</h3>
-                      <p className="text-sm text-webdev-soft-gray">Add new projects and milestones</p>
-                    </button>
-                    <button 
-                      onClick={() => navigate('/admin/submissions')}
-                      className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
-                    >
-                      <h3 className="font-medium text-webdev-silver mb-2">View Submissions</h3>
-                      <p className="text-sm text-webdev-soft-gray">Check contact form submissions</p>
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </main>
+        
         <Footer />
       </div>
     );
   }
-  
+
+  // In the brief moment before redirection, render nothing.
   return null;
 };
 
