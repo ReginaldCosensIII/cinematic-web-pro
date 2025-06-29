@@ -1,19 +1,20 @@
-
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useIsMobile } from '@/hooks/use-mobile';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, Edit, Trash2, Receipt, DollarSign, Calendar, User } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Search, Receipt, Calendar, DollarSign, FileText, Download, Plus, Edit, Trash2, Menu, X } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface Invoice {
   id: string;
@@ -24,22 +25,40 @@ interface Invoice {
   due_date: string;
   paid_date: string | null;
   description: string | null;
-  user_id: string;
   project_id: string | null;
+  user_id: string;
+  created_at: string;
   profiles: {
-    full_name: string | null;
-    username: string | null;
+    full_name: string;
+    username: string;
   } | null;
   projects: {
     title: string;
   } | null;
 }
 
+interface Project {
+  id: string;
+  title: string;
+}
+
+interface User {
+  id: string;
+  full_name: string;
+  username: string;
+}
+
 const AdminInvoices = () => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+
   const [formData, setFormData] = useState({
     invoice_number: '',
     amount: '',
@@ -47,11 +66,11 @@ const AdminInvoices = () => {
     issue_date: '',
     due_date: '',
     description: '',
-    user_id: '',
-    project_id: ''
+    project_id: '',
+    user_id: ''
   });
 
-  const { data: invoices, isLoading, refetch } = useQuery({
+  const { data: invoices, isLoading } = useQuery({
     queryKey: ['admin-invoices'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -68,139 +87,153 @@ const AdminInvoices = () => {
     }
   });
 
-  const { data: users } = useQuery({
-    queryKey: ['users-for-invoices'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('id, full_name, username');
-      
-      if (error) throw error;
-      return data;
-    }
-  });
-
   const { data: projects } = useQuery({
-    queryKey: ['projects-for-invoices'],
+    queryKey: ['projects'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('projects')
-        .select('id, title, user_id');
-      
+        .select('id, title')
+        .order('title');
+
       if (error) throw error;
-      return data;
+      return data as Project[];
     }
   });
 
-  const handleCreateInvoice = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      const { error } = await supabase
-        .from('invoices')
-        .insert({
-          invoice_number: formData.invoice_number,
-          amount: parseFloat(formData.amount),
-          status: formData.status,
-          issue_date: formData.issue_date,
-          due_date: formData.due_date,
-          description: formData.description || null,
-          user_id: formData.user_id,
-          project_id: formData.project_id || null
-        });
+  const { data: users } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, full_name, username')
+        .order('full_name');
 
       if (error) throw error;
+      return data as User[];
+    }
+  });
 
-      toast.success('Invoice created successfully');
-      setIsCreateModalOpen(false);
-      setFormData({
-        invoice_number: '',
-        amount: '',
-        status: 'draft',
-        issue_date: '',
-        due_date: '',
-        description: '',
-        user_id: '',
-        project_id: ''
+  const createMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const { error } = await supabase
+        .from('invoices')
+        .insert([{ ...data, amount: parseFloat(data.amount) }]);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-invoices'] });
+      setCreateModalOpen(false);
+      resetForm();
+      toast({
+        title: "Success",
+        description: "Invoice created successfully",
       });
-      refetch();
-    } catch (error) {
-      console.error('Error creating invoice:', error);
-      toast.error('Failed to create invoice');
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to create invoice",
+        variant: "destructive",
+      });
     }
-  };
+  });
 
-  const handleEditInvoice = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedInvoice) return;
-
-    try {
-      const updateData: any = {
-        invoice_number: formData.invoice_number,
-        amount: parseFloat(formData.amount),
-        status: formData.status,
-        issue_date: formData.issue_date,
-        due_date: formData.due_date,
-        description: formData.description || null,
-        user_id: formData.user_id,
-        project_id: formData.project_id || null
-      };
-
-      if (formData.status === 'paid' && selectedInvoice.status !== 'paid') {
-        updateData.paid_date = new Date().toISOString().split('T')[0];
-      } else if (formData.status !== 'paid') {
-        updateData.paid_date = null;
-      }
-
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, ...data }: any) => {
       const { error } = await supabase
         .from('invoices')
-        .update(updateData)
-        .eq('id', selectedInvoice.id);
-
+        .update({ ...data, amount: parseFloat(data.amount) })
+        .eq('id', id);
+      
       if (error) throw error;
-
-      toast.success('Invoice updated successfully');
-      setIsEditModalOpen(false);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-invoices'] });
+      setEditModalOpen(false);
       setSelectedInvoice(null);
-      refetch();
-    } catch (error) {
-      console.error('Error updating invoice:', error);
-      toast.error('Failed to update invoice');
+      resetForm();
+      toast({
+        title: "Success",
+        description: "Invoice updated successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to update invoice",
+        variant: "destructive",
+      });
     }
-  };
+  });
 
-  const handleDeleteInvoice = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this invoice?')) return;
-
-    try {
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
       const { error } = await supabase
         .from('invoices')
         .delete()
         .eq('id', id);
-
+      
       if (error) throw error;
-
-      toast.success('Invoice deleted successfully');
-      refetch();
-    } catch (error) {
-      console.error('Error deleting invoice:', error);
-      toast.error('Failed to delete invoice');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-invoices'] });
+      toast({
+        title: "Success",
+        description: "Invoice deleted successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to delete invoice",
+        variant: "destructive",
+      });
     }
+  });
+
+  const resetForm = () => {
+    setFormData({
+      invoice_number: '',
+      amount: '',
+      status: 'draft',
+      issue_date: '',
+      due_date: '',
+      description: '',
+      project_id: '',
+      user_id: ''
+    });
   };
 
-  const openEditModal = (invoice: Invoice) => {
+  const handleCreate = () => {
+    createMutation.mutate(formData);
+  };
+
+  const handleEdit = (invoice: Invoice) => {
     setSelectedInvoice(invoice);
     setFormData({
       invoice_number: invoice.invoice_number,
       amount: invoice.amount.toString(),
       status: invoice.status,
-      issue_date: invoice.issue_date,
-      due_date: invoice.due_date,
+      issue_date: invoice.issue_date.split('T')[0],
+      due_date: invoice.due_date.split('T')[0],
       description: invoice.description || '',
-      user_id: invoice.user_id,
-      project_id: invoice.project_id || ''
+      project_id: invoice.project_id || '',
+      user_id: invoice.user_id
     });
-    setIsEditModalOpen(true);
+    setEditModalOpen(true);
+  };
+
+  const handleUpdate = () => {
+    if (selectedInvoice) {
+      updateMutation.mutate({ id: selectedInvoice.id, ...formData });
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    if (confirm('Are you sure you want to delete this invoice?')) {
+      deleteMutation.mutate(id);
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -228,23 +261,60 @@ const AdminInvoices = () => {
   const totalAmount = invoices?.reduce((sum, invoice) => sum + invoice.amount, 0) || 0;
   const paidAmount = invoices?.filter(i => i.status === 'paid').reduce((sum, invoice) => sum + invoice.amount, 0) || 0;
   const pendingAmount = totalAmount - paidAmount;
+  const overdueInvoices = invoices?.filter(i => i.status === 'overdue').length || 0;
+
+  if (!user) {
+    return <div>Please log in to view admin invoices.</div>;
+  }
 
   return (
     <div className="min-h-screen bg-webdev-black">
       <div className="max-w-7xl mx-auto p-6 pt-32">
+        {/* Mobile Sidebar Toggle */}
+        {isMobile && (
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
+          >
+            {sidebarOpen ? (
+              <X className="w-5 h-5 text-webdev-silver" />
+            ) : (
+              <Menu className="w-5 h-5 text-webdev-silver" />
+            )}
+          </button>
+        )}
+
         <div className="grid lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
-            <AdminSidebar />
+          {/* Sidebar */}
+          <div className={`
+            lg:col-span-1
+            ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : ''}
+            ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
+          `}>
+            {isMobile && (
+              <div className="pt-24">
+                <AdminSidebar />
+              </div>
+            )}
+            {!isMobile && <AdminSidebar />}
           </div>
+
+          {/* Mobile Sidebar Overlay */}
+          {isMobile && sidebarOpen && (
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
 
           <div className="lg:col-span-3">
             <div className="mb-8">
               <h1 className="text-3xl font-light text-webdev-silver mb-2">Invoice Management</h1>
-              <p className="text-webdev-soft-gray">Manage and track all project invoices</p>
+              <p className="text-webdev-soft-gray">Manage all client invoices and billing</p>
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
               <Card className="glass-effect border-webdev-glass-border">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
@@ -261,7 +331,7 @@ const AdminInvoices = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-webdev-soft-gray text-sm">Paid Amount</p>
+                      <p className="text-webdev-soft-gray text-sm">Paid</p>
                       <p className="text-2xl font-bold text-green-400">${paidAmount.toFixed(2)}</p>
                     </div>
                     <Receipt className="w-8 h-8 text-green-400" />
@@ -273,16 +343,28 @@ const AdminInvoices = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-webdev-soft-gray text-sm">Pending Amount</p>
+                      <p className="text-webdev-soft-gray text-sm">Pending</p>
                       <p className="text-2xl font-bold text-yellow-400">${pendingAmount.toFixed(2)}</p>
                     </div>
                     <Calendar className="w-8 h-8 text-yellow-400" />
                   </div>
                 </CardContent>
               </Card>
+
+              <Card className="glass-effect border-webdev-glass-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-webdev-soft-gray text-sm">Overdue</p>
+                      <p className="text-2xl font-bold text-red-400">{overdueInvoices}</p>
+                    </div>
+                    <FileText className="w-8 h-8 text-red-400" />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            {/* Controls */}
+            {/* Search and Create */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-webdev-soft-gray w-4 h-4" />
@@ -293,138 +375,142 @@ const AdminInvoices = () => {
                   className="pl-10 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
                 />
               </div>
-              
-              <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+              <Dialog open={createModalOpen} onOpenChange={setCreateModalOpen}>
                 <DialogTrigger asChild>
-                  <Button className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90">
+                  <Button className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80">
                     <Plus className="w-4 h-4 mr-2" />
                     Create Invoice
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="glass-effect border-webdev-glass-border text-webdev-silver max-w-2xl">
+                <DialogContent className="bg-webdev-black border-webdev-glass-border">
                   <DialogHeader>
-                    <DialogTitle>Create New Invoice</DialogTitle>
+                    <DialogTitle className="text-webdev-silver">Create New Invoice</DialogTitle>
+                    <DialogDescription className="text-webdev-soft-gray">
+                      Create a new invoice for a client project.
+                    </DialogDescription>
                   </DialogHeader>
-                  <form onSubmit={handleCreateInvoice} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="invoice_number">Invoice Number</Label>
-                        <Input
-                          id="invoice_number"
-                          value={formData.invoice_number}
-                          onChange={(e) => setFormData({...formData, invoice_number: e.target.value})}
-                          className="bg-webdev-darker-gray border-webdev-glass-border"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="amount">Amount ($)</Label>
-                        <Input
-                          id="amount"
-                          type="number"
-                          step="0.01"
-                          value={formData.amount}
-                          onChange={(e) => setFormData({...formData, amount: e.target.value})}
-                          className="bg-webdev-darker-gray border-webdev-glass-border"
-                          required
-                        />
-                      </div>
+                  <div className="grid gap-4 py-4">
+                    {/* Form fields for creating invoice */}
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="invoice_number" className="text-right text-webdev-silver">
+                        Invoice #
+                      </Label>
+                      <Input
+                        id="invoice_number"
+                        value={formData.invoice_number}
+                        onChange={(e) => setFormData({...formData, invoice_number: e.target.value})}
+                        className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                      />
                     </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="user_id">Client</Label>
-                        <Select value={formData.user_id} onValueChange={(value) => setFormData({...formData, user_id: value})}>
-                          <SelectTrigger className="bg-webdev-darker-gray border-webdev-glass-border">
-                            <SelectValue placeholder="Select client" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {users?.map((user) => (
-                              <SelectItem key={user.id} value={user.id}>
-                                {user.full_name || user.username || 'Unknown User'}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="project_id">Project (Optional)</Label>
-                        <Select value={formData.project_id} onValueChange={(value) => setFormData({...formData, project_id: value})}>
-                          <SelectTrigger className="bg-webdev-darker-gray border-webdev-glass-border">
-                            <SelectValue placeholder="Select project" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="">No Project</SelectItem>
-                            {projects?.map((project) => (
-                              <SelectItem key={project.id} value={project.id}>
-                                {project.title}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="user_id" className="text-right text-webdev-silver">
+                        Client
+                      </Label>
+                      <Select value={formData.user_id} onValueChange={(value) => setFormData({...formData, user_id: value})}>
+                        <SelectTrigger className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver">
+                          <SelectValue placeholder="Select client" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
+                          {users?.map((user) => (
+                            <SelectItem key={user.id} value={user.id} className="text-webdev-silver">
+                              {user.full_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
-
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <Label htmlFor="status">Status</Label>
-                        <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
-                          <SelectTrigger className="bg-webdev-darker-gray border-webdev-glass-border">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="draft">Draft</SelectItem>
-                            <SelectItem value="sent">Sent</SelectItem>
-                            <SelectItem value="paid">Paid</SelectItem>
-                            <SelectItem value="overdue">Overdue</SelectItem>
-                            <SelectItem value="cancelled">Cancelled</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="issue_date">Issue Date</Label>
-                        <Input
-                          id="issue_date"
-                          type="date"
-                          value={formData.issue_date}
-                          onChange={(e) => setFormData({...formData, issue_date: e.target.value})}
-                          className="bg-webdev-darker-gray border-webdev-glass-border"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="due_date">Due Date</Label>
-                        <Input
-                          id="due_date"
-                          type="date"
-                          value={formData.due_date}
-                          onChange={(e) => setFormData({...formData, due_date: e.target.value})}
-                          className="bg-webdev-darker-gray border-webdev-glass-border"
-                          required
-                        />
-                      </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="project_id" className="text-right text-webdev-silver">
+                        Project
+                      </Label>
+                      <Select value={formData.project_id} onValueChange={(value) => setFormData({...formData, project_id: value})}>
+                        <SelectTrigger className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver">
+                          <SelectValue placeholder="Select project" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
+                          {projects?.map((project) => (
+                            <SelectItem key={project.id} value={project.id} className="text-webdev-silver">
+                              {project.title}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
-
-                    <div>
-                      <Label htmlFor="description">Description</Label>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="amount" className="text-right text-webdev-silver">
+                        Amount
+                      </Label>
+                      <Input
+                        id="amount"
+                        type="number"
+                        step="0.01"
+                        value={formData.amount}
+                        onChange={(e) => setFormData({...formData, amount: e.target.value})}
+                        className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="status" className="text-right text-webdev-silver">
+                        Status
+                      </Label>
+                      <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
+                        <SelectTrigger className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
+                          <SelectItem value="draft" className="text-webdev-silver">Draft</SelectItem>
+                          <SelectItem value="sent" className="text-webdev-silver">Sent</SelectItem>
+                          <SelectItem value="paid" className="text-webdev-silver">Paid</SelectItem>
+                          <SelectItem value="overdue" className="text-webdev-silver">Overdue</SelectItem>
+                          <SelectItem value="cancelled" className="text-webdev-silver">Cancelled</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="issue_date" className="text-right text-webdev-silver">
+                        Issue Date
+                      </Label>
+                      <Input
+                        id="issue_date"
+                        type="date"
+                        value={formData.issue_date}
+                        onChange={(e) => setFormData({...formData, issue_date: e.target.value})}
+                        className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="due_date" className="text-right text-webdev-silver">
+                        Due Date
+                      </Label>
+                      <Input
+                        id="due_date"
+                        type="date"
+                        value={formData.due_date}
+                        onChange={(e) => setFormData({...formData, due_date: e.target.value})}
+                        className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="description" className="text-right text-webdev-silver">
+                        Description
+                      </Label>
                       <Textarea
                         id="description"
                         value={formData.description}
                         onChange={(e) => setFormData({...formData, description: e.target.value})}
-                        className="bg-webdev-darker-gray border-webdev-glass-border"
-                        rows={3}
+                        className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
                       />
                     </div>
-
-                    <div className="flex gap-2 pt-4">
-                      <Button type="submit" className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple">
-                        Create Invoice
-                      </Button>
-                      <Button type="button" variant="outline" onClick={() => setIsCreateModalOpen(false)}>
-                        Cancel
-                      </Button>
-                    </div>
-                  </form>
+                  </div>
+                  <DialogFooter>
+                    <Button 
+                      onClick={handleCreate}
+                      disabled={createMutation.isPending}
+                      className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                    >
+                      {createMutation.isPending ? 'Creating...' : 'Create Invoice'}
+                    </Button>
+                  </DialogFooter>
                 </DialogContent>
               </Dialog>
             </div>
@@ -466,7 +552,7 @@ const AdminInvoices = () => {
                           <TableRow key={invoice.id} className="border-webdev-glass-border hover:bg-webdev-darker-gray/20">
                             <TableCell className="text-webdev-silver font-mono">{invoice.invoice_number}</TableCell>
                             <TableCell className="text-webdev-silver">
-                              {invoice.profiles?.full_name || invoice.profiles?.username || 'Unknown User'}
+                              {invoice.profiles?.full_name || 'Unknown'}
                             </TableCell>
                             <TableCell className="text-webdev-silver">
                               {invoice.projects?.title || 'No Project'}
@@ -486,7 +572,7 @@ const AdminInvoices = () => {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => openEditModal(invoice)}
+                                  onClick={() => handleEdit(invoice)}
                                   className="border-webdev-glass-border hover:bg-webdev-darker-gray"
                                 >
                                   <Edit className="w-4 h-4" />
@@ -494,7 +580,7 @@ const AdminInvoices = () => {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => handleDeleteInvoice(invoice.id)}
+                                  onClick={() => handleDelete(invoice.id)}
                                   className="border-red-500 text-red-400 hover:bg-red-500/10"
                                 >
                                   <Trash2 className="w-4 h-4" />
@@ -507,136 +593,147 @@ const AdminInvoices = () => {
                     </Table>
                   </div>
                 )}
+
+                {filteredInvoices.length === 0 && !isLoading && (
+                  <div className="text-center py-8">
+                    <Receipt className="w-12 h-12 text-webdev-soft-gray mx-auto mb-4" />
+                    <p className="text-webdev-soft-gray">No invoices found</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
             {/* Edit Modal */}
-            <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-              <DialogContent className="glass-effect border-webdev-glass-border text-webdev-silver max-w-2xl">
+            <Dialog open={editModalOpen} onOpenChange={setEditModalOpen}>
+              <DialogContent className="bg-webdev-black border-webdev-glass-border">
                 <DialogHeader>
-                  <DialogTitle>Edit Invoice</DialogTitle>
+                  <DialogTitle className="text-webdev-silver">Edit Invoice</DialogTitle>
+                  <DialogDescription className="text-webdev-soft-gray">
+                    Update invoice details.
+                  </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleEditInvoice} className="space-y-4">
-                  {/* ... same form fields as create modal ... */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="edit_invoice_number">Invoice Number</Label>
-                      <Input
-                        id="edit_invoice_number"
-                        value={formData.invoice_number}
-                        onChange={(e) => setFormData({...formData, invoice_number: e.target.value})}
-                        className="bg-webdev-darker-gray border-webdev-glass-border"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="edit_amount">Amount ($)</Label>
-                      <Input
-                        id="edit_amount"
-                        type="number"
-                        step="0.01"
-                        value={formData.amount}
-                        onChange={(e) => setFormData({...formData, amount: e.target.value})}
-                        className="bg-webdev-darker-gray border-webdev-glass-border"
-                        required
-                      />
-                    </div>
+                <div className="grid gap-4 py-4">
+                  {/* Same form fields as create modal */}
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_invoice_number" className="text-right text-webdev-silver">
+                      Invoice #
+                    </Label>
+                    <Input
+                      id="edit_invoice_number"
+                      value={formData.invoice_number}
+                      onChange={(e) => setFormData({...formData, invoice_number: e.target.value})}
+                      className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                    />
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="edit_user_id">Client</Label>
-                      <Select value={formData.user_id} onValueChange={(value) => setFormData({...formData, user_id: value})}>
-                        <SelectTrigger className="bg-webdev-darker-gray border-webdev-glass-border">
-                          <SelectValue placeholder="Select client" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {users?.map((user) => (
-                            <SelectItem key={user.id} value={user.id}>
-                              {user.full_name || user.username || 'Unknown User'}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <Label htmlFor="edit_project_id">Project (Optional)</Label>
-                      <Select value={formData.project_id} onValueChange={(value) => setFormData({...formData, project_id: value})}>
-                        <SelectTrigger className="bg-webdev-darker-gray border-webdev-glass-border">
-                          <SelectValue placeholder="Select project" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="">No Project</SelectItem>
-                          {projects?.map((project) => (
-                            <SelectItem key={project.id} value={project.id}>
-                              {project.title}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_user_id" className="text-right text-webdev-silver">
+                      Client
+                    </Label>
+                    <Select value={formData.user_id} onValueChange={(value) => setFormData({...formData, user_id: value})}>
+                      <SelectTrigger className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver">
+                        <SelectValue placeholder="Select client" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
+                        {users?.map((user) => (
+                          <SelectItem key={user.id} value={user.id} className="text-webdev-silver">
+                            {user.full_name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <Label htmlFor="edit_status">Status</Label>
-                      <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
-                        <SelectTrigger className="bg-webdev-darker-gray border-webdev-glass-border">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="draft">Draft</SelectItem>
-                          <SelectItem value="sent">Sent</SelectItem>
-                          <SelectItem value="paid">Paid</SelectItem>
-                          <SelectItem value="overdue">Overdue</SelectItem>
-                          <SelectItem value="cancelled">Cancelled</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <Label htmlFor="edit_issue_date">Issue Date</Label>
-                      <Input
-                        id="edit_issue_date"
-                        type="date"
-                        value={formData.issue_date}
-                        onChange={(e) => setFormData({...formData, issue_date: e.target.value})}
-                        className="bg-webdev-darker-gray border-webdev-glass-border"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="edit_due_date">Due Date</Label>
-                      <Input
-                        id="edit_due_date"
-                        type="date"
-                        value={formData.due_date}
-                        onChange={(e) => setFormData({...formData, due_date: e.target.value})}
-                        className="bg-webdev-darker-gray border-webdev-glass-border"
-                        required
-                      />
-                    </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_project_id" className="text-right text-webdev-silver">
+                      Project
+                    </Label>
+                    <Select value={formData.project_id} onValueChange={(value) => setFormData({...formData, project_id: value})}>
+                      <SelectTrigger className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver">
+                        <SelectValue placeholder="Select project" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
+                        {projects?.map((project) => (
+                          <SelectItem key={project.id} value={project.id} className="text-webdev-silver">
+                            {project.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-
-                  <div>
-                    <Label htmlFor="edit_description">Description</Label>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_amount" className="text-right text-webdev-silver">
+                      Amount
+                    </Label>
+                    <Input
+                      id="edit_amount"
+                      type="number"
+                      step="0.01"
+                      value={formData.amount}
+                      onChange={(e) => setFormData({...formData, amount: e.target.value})}
+                      className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_status" className="text-right text-webdev-silver">
+                      Status
+                    </Label>
+                    <Select value={formData.status} onValueChange={(value) => setFormData({...formData, status: value})}>
+                      <SelectTrigger className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
+                        <SelectItem value="draft" className="text-webdev-silver">Draft</SelectItem>
+                        <SelectItem value="sent" className="text-webdev-silver">Sent</SelectItem>
+                        <SelectItem value="paid" className="text-webdev-silver">Paid</SelectItem>
+                        <SelectItem value="overdue" className="text-webdev-silver">Overdue</SelectItem>
+                        <SelectItem value="cancelled" className="text-webdev-silver">Cancelled</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_issue_date" className="text-right text-webdev-silver">
+                      Issue Date
+                    </Label>
+                    <Input
+                      id="edit_issue_date"
+                      type="date"
+                      value={formData.issue_date}
+                      onChange={(e) => setFormData({...formData, issue_date: e.target.value})}
+                      className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_due_date" className="text-right text-webdev-silver">
+                      Due Date
+                    </Label>
+                    <Input
+                      id="edit_due_date"
+                      type="date"
+                      value={formData.due_date}
+                      onChange={(e) => setFormData({...formData, due_date: e.target.value})}
+                      className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="edit_description" className="text-right text-webdev-silver">
+                      Description
+                    </Label>
                     <Textarea
                       id="edit_description"
                       value={formData.description}
                       onChange={(e) => setFormData({...formData, description: e.target.value})}
-                      className="bg-webdev-darker-gray border-webdev-glass-border"
-                      rows={3}
+                      className="col-span-3 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
                     />
                   </div>
-
-                  <div className="flex gap-2 pt-4">
-                    <Button type="submit" className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple">
-                      Update Invoice
-                    </Button>
-                    <Button type="button" variant="outline" onClick={() => setIsEditModalOpen(false)}>
-                      Cancel
-                    </Button>
-                  </div>
-                </form>
+                </div>
+                <DialogFooter>
+                  <Button 
+                    onClick={handleUpdate}
+                    disabled={updateMutation.isPending}
+                    className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                  >
+                    {updateMutation.isPending ? 'Updating...' : 'Update Invoice'}
+                  </Button>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
           </div>

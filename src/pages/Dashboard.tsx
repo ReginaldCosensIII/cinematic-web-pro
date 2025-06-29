@@ -45,21 +45,21 @@ const Dashboard = () => {
       
       <main className="relative z-10 pt-24 md:pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex gap-8">
-            {/* Mobile Sidebar Toggle */}
-            {isMobile && (
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
-              >
-                {sidebarOpen ? (
-                  <X className="w-5 h-5 text-webdev-silver" />
-                ) : (
-                  <Menu className="w-5 h-5 text-webdev-silver" />
-                )}
-              </button>
-            )}
+          {/* Mobile Sidebar Toggle */}
+          {isMobile && (
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
+            >
+              {sidebarOpen ? (
+                <X className="w-5 h-5 text-webdev-silver" />
+              ) : (
+                <Menu className="w-5 h-5 text-webdev-silver" />
+              )}
+            </button>
+          )}
 
+          <div className="flex gap-6 lg:gap-8">
             {/* Sidebar */}
             <div className={`
               ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
@@ -82,12 +82,20 @@ const Dashboard = () => {
             )}
             
             {/* Main Content */}
-            <div className={`flex-1 space-y-6 md:space-y-8 ${isMobile ? 'ml-0' : ''}`}>
+            <div className={`flex-1 min-w-0 space-y-6 md:space-y-8 ${isMobile ? 'ml-0' : ''}`}>
               <DashboardWelcome user={user} />
-              <ProjectOverview />
-              <MilestonesSection />
-              <InvoicesSection />
-              <ProfileDetails user={user} />
+              <div className="overflow-x-auto">
+                <ProjectOverview />
+              </div>
+              <div className="overflow-x-auto">
+                <MilestonesSection />
+              </div>
+              <div className="overflow-x-auto">
+                <InvoicesSection />
+              </div>
+              <div className="overflow-x-auto">
+                <ProfileDetails user={user} />
+              </div>
             </div>
           </div>
         </div>

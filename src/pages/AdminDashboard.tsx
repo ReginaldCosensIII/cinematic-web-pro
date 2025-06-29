@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
 import { useSecurityLogger } from '@/hooks/useSecurityLogger';
+import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminStats from '@/components/admin/AdminStats';
+import { Menu, X } from 'lucide-react';
 
 const AdminDashboard = () => {
   const { user, loading: authLoading } = useAuth();
   const { isAdmin, loading: adminLoading } = useAdminCheck();
   const { logSecurityEvent } = useSecurityLogger();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Wait until both auth and admin checks are complete
@@ -68,10 +73,42 @@ const AdminDashboard = () => {
         
         <main className="relative z-10 pt-24 md:pt-32 pb-20">
           <div className="max-w-7xl mx-auto px-4 md:px-6">
+            {/* Mobile Sidebar Toggle */}
+            {isMobile && (
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
+              >
+                {sidebarOpen ? (
+                  <X className="w-5 h-5 text-webdev-silver" />
+                ) : (
+                  <Menu className="w-5 h-5 text-webdev-silver" />
+                )}
+              </button>
+            )}
+
             <div className="flex gap-8">
-              <div className="hidden lg:block w-64 flex-shrink-0">
-                <AdminSidebar />
+              {/* Sidebar */}
+              <div className={`
+                ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
+                ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
+              `}>
+                {isMobile && (
+                  <div className="pt-24">
+                    <AdminSidebar />
+                  </div>
+                )}
+                {!isMobile && <AdminSidebar />}
               </div>
+
+              {/* Mobile Sidebar Overlay */}
+              {isMobile && sidebarOpen && (
+                <div 
+                  className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+                  onClick={() => setSidebarOpen(false)}
+                />
+              )}
+
               <div className="flex-1 space-y-6 md:space-y-8">
                 <div className="glass-effect rounded-2xl p-4 md:p-8 border border-webdev-glass-border">
                   <h1 className="text-2xl md:text-4xl font-light text-webdev-silver mb-2">

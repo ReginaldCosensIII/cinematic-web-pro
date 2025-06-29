@@ -1,11 +1,11 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useIsMobile } from '@/hooks/use-mobile';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Search, Receipt, Calendar, DollarSign, FileText, Download } from 'lucide-react';
+import { Search, Receipt, Calendar, DollarSign, FileText, Download, Menu, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -28,7 +28,9 @@ interface Invoice {
 
 const DashboardInvoices = () => {
   const { user } = useAuth();
+  const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const { data: invoices, isLoading } = useQuery({
     queryKey: ['user-invoices', user?.id],
@@ -84,10 +86,42 @@ const DashboardInvoices = () => {
   return (
     <div className="min-h-screen bg-webdev-black">
       <div className="max-w-7xl mx-auto p-6 pt-32">
+        {/* Mobile Sidebar Toggle */}
+        {isMobile && (
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
+          >
+            {sidebarOpen ? (
+              <X className="w-5 h-5 text-webdev-silver" />
+            ) : (
+              <Menu className="w-5 h-5 text-webdev-silver" />
+            )}
+          </button>
+        )}
+
         <div className="grid lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
-            <DashboardSidebar />
+          {/* Sidebar */}
+          <div className={`
+            lg:col-span-1
+            ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : ''}
+            ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
+          `}>
+            {isMobile && (
+              <div className="pt-24">
+                <DashboardSidebar />
+              </div>
+            )}
+            {!isMobile && <DashboardSidebar />}
           </div>
+
+          {/* Mobile Sidebar Overlay */}
+          {isMobile && sidebarOpen && (
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
 
           <div className="lg:col-span-3">
             <div className="mb-8">

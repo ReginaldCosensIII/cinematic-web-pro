@@ -1,36 +1,42 @@
 
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useIsMobile } from '@/hooks/use-mobile';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Search, Mail, User, Building, MessageSquare, Calendar, Trash2, Eye } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Search, Mail, User, Calendar, Eye, Trash2, CheckCircle, Clock, Menu, X } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface ContactSubmission {
   id: string;
   name: string;
   email: string;
+  phone: string | null;
   company: string | null;
-  project_type: string | null;
-  budget: string | null;
   message: string;
+  status: string;
   created_at: string;
-  user_id: string | null;
 }
 
 const AdminSubmissions = () => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedSubmission, setSelectedSubmission] = useState<ContactSubmission | null>(null);
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
-  const { data: submissions, isLoading, refetch } = useQuery({
-    queryKey: ['admin-submissions'],
+  const { data: submissions, isLoading } = useQuery({
+    queryKey: ['contact-submissions'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('contact_submissions')
@@ -42,57 +48,95 @@ const AdminSubmissions = () => {
     }
   });
 
-  const handleDeleteSubmission = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this submission?')) return;
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .update({ status })
+        .eq('id', id);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['contact-submissions'] });
+      toast({
+        title: "Success",
+        description: "Submission status updated successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to update submission status",
+        variant: "destructive",
+      });
+    }
+  });
 
-    try {
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
       const { error } = await supabase
         .from('contact_submissions')
         .delete()
         .eq('id', id);
-
+      
       if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['contact-submissions'] });
+      toast({
+        title: "Success",
+        description: "Submission deleted successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to delete submission",
+        variant: "destructive",
+      });
+    }
+  });
 
-      toast.success('Submission deleted successfully');
-      refetch();
-    } catch (error) {
-      console.error('Error deleting submission:', error);
-      toast.error('Failed to delete submission');
+  const handleView = (submission: ContactSubmission) => {
+    setSelectedSubmission(submission);
+    setViewModalOpen(true);
+    
+    // Mark as read if it's new
+    if (submission.status === 'new') {
+      updateStatusMutation.mutate({ id: submission.id, status: 'read' });
     }
   };
 
-  const openViewModal = (submission: ContactSubmission) => {
-    setSelectedSubmission(submission);
-    setIsViewModalOpen(true);
+  const handleStatusChange = (id: string, status: string) => {
+    updateStatusMutation.mutate({ id, status });
   };
 
-  const getProjectTypeBadge = (projectType: string | null) => {
-    if (!projectType) return <Badge variant="outline">Not Specified</Badge>;
-    
-    const colors = {
-      'website': 'bg-blue-500',
-      'webapp': 'bg-purple-500',
-      'ecommerce': 'bg-green-500',
-      'mobile': 'bg-orange-500',
-      'consulting': 'bg-yellow-500',
-      'other': 'bg-gray-500'
+  const handleDelete = (id: string) => {
+    if (confirm('Are you sure you want to delete this submission?')) {
+      deleteMutation.mutate(id);
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    const statusColors = {
+      new: 'bg-blue-500',
+      read: 'bg-yellow-500',
+      responded: 'bg-green-500',
+      archived: 'bg-gray-500'
     };
     
-    const colorClass = colors[projectType.toLowerCase() as keyof typeof colors] || 'bg-gray-500';
+    const statusIcons = {
+      new: <Mail className="w-3 h-3 mr-1" />,
+      read: <Eye className="w-3 h-3 mr-1" />,
+      responded: <CheckCircle className="w-3 h-3 mr-1" />,
+      archived: <Clock className="w-3 h-3 mr-1" />
+    };
     
     return (
-      <Badge className={`${colorClass} text-white`}>
-        {projectType.charAt(0).toUpperCase() + projectType.slice(1)}
-      </Badge>
-    );
-  };
-
-  const getBudgetBadge = (budget: string | null) => {
-    if (!budget) return <Badge variant="outline">Not Specified</Badge>;
-    
-    return (
-      <Badge variant="outline" className="text-green-400 border-green-400">
-        {budget}
+      <Badge className={`${statusColors[status as keyof typeof statusColors]} text-white flex items-center`}>
+        {statusIcons[status as keyof typeof statusIcons]}
+        {status.charAt(0).toUpperCase() + status.slice(1)}
       </Badge>
     );
   };
@@ -104,41 +148,71 @@ const AdminSubmissions = () => {
     submission.message.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
-  const todaySubmissions = submissions?.filter(s => 
-    new Date(s.created_at).toDateString() === new Date().toDateString()
-  ).length || 0;
+  const totalSubmissions = submissions?.length || 0;
+  const newSubmissions = submissions?.filter(s => s.status === 'new').length || 0;
+  const readSubmissions = submissions?.filter(s => s.status === 'read').length || 0;
+  const respondedSubmissions = submissions?.filter(s => s.status === 'responded').length || 0;
 
-  const thisWeekSubmissions = submissions?.filter(s => {
-    const submissionDate = new Date(s.created_at);
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
-    return submissionDate >= weekAgo;
-  }).length || 0;
+  if (!user) {
+    return <div>Please log in to view form submissions.</div>;
+  }
 
   return (
     <div className="min-h-screen bg-webdev-black">
       <div className="max-w-7xl mx-auto p-6 pt-32">
+        {/* Mobile Sidebar Toggle */}
+        {isMobile && (
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
+          >
+            {sidebarOpen ? (
+              <X className="w-5 h-5 text-webdev-silver" />
+            ) : (
+              <Menu className="w-5 h-5 text-webdev-silver" />
+            )}
+          </button>
+        )}
+
         <div className="grid lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
-            <AdminSidebar />
+          {/* Sidebar */}
+          <div className={`
+            lg:col-span-1
+            ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : ''}
+            ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
+          `}>
+            {isMobile && (
+              <div className="pt-24">
+                <AdminSidebar />
+              </div>
+            )}
+            {!isMobile && <AdminSidebar />}
           </div>
+
+          {/* Mobile Sidebar Overlay */}
+          {isMobile && sidebarOpen && (
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
 
           <div className="lg:col-span-3">
             <div className="mb-8">
               <h1 className="text-3xl font-light text-webdev-silver mb-2">Form Submissions</h1>
-              <p className="text-webdev-soft-gray">Manage contact form submissions from visitors</p>
+              <p className="text-webdev-soft-gray">Manage contact form submissions and inquiries</p>
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
               <Card className="glass-effect border-webdev-glass-border">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-webdev-soft-gray text-sm">Total Submissions</p>
-                      <p className="text-2xl font-bold text-webdev-silver">{submissions?.length || 0}</p>
+                      <p className="text-webdev-soft-gray text-sm">Total</p>
+                      <p className="text-2xl font-bold text-webdev-silver">{totalSubmissions}</p>
                     </div>
-                    <MessageSquare className="w-8 h-8 text-webdev-gradient-blue" />
+                    <Mail className="w-8 h-8 text-webdev-gradient-blue" />
                   </div>
                 </CardContent>
               </Card>
@@ -147,10 +221,10 @@ const AdminSubmissions = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-webdev-soft-gray text-sm">Today</p>
-                      <p className="text-2xl font-bold text-webdev-gradient-purple">{todaySubmissions}</p>
+                      <p className="text-webdev-soft-gray text-sm">New</p>
+                      <p className="text-2xl font-bold text-blue-400">{newSubmissions}</p>
                     </div>
-                    <Calendar className="w-8 h-8 text-webdev-gradient-purple" />
+                    <Mail className="w-8 h-8 text-blue-400" />
                   </div>
                 </CardContent>
               </Card>
@@ -159,10 +233,22 @@ const AdminSubmissions = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-webdev-soft-gray text-sm">This Week</p>
-                      <p className="text-2xl font-bold text-green-400">{thisWeekSubmissions}</p>
+                      <p className="text-webdev-soft-gray text-sm">Read</p>
+                      <p className="text-2xl font-bold text-yellow-400">{readSubmissions}</p>
                     </div>
-                    <Mail className="w-8 h-8 text-green-400" />
+                    <Eye className="w-8 h-8 text-yellow-400" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="glass-effect border-webdev-glass-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-webdev-soft-gray text-sm">Responded</p>
+                      <p className="text-2xl font-bold text-green-400">{respondedSubmissions}</p>
+                    </div>
+                    <CheckCircle className="w-8 h-8 text-green-400" />
                   </div>
                 </CardContent>
               </Card>
@@ -206,57 +292,27 @@ const AdminSubmissions = () => {
                           <TableHead className="text-webdev-soft-gray">Name</TableHead>
                           <TableHead className="text-webdev-soft-gray">Email</TableHead>
                           <TableHead className="text-webdev-soft-gray">Company</TableHead>
-                          <TableHead className="text-webdev-soft-gray">Project Type</TableHead>
-                          <TableHead className="text-webdev-soft-gray">Budget</TableHead>
-                          <TableHead className="text-webdev-soft-gray">Submitted</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Status</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Date</TableHead>
                           <TableHead className="text-webdev-soft-gray">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {filteredSubmissions.map((submission) => (
                           <TableRow key={submission.id} className="border-webdev-glass-border hover:bg-webdev-darker-gray/20">
-                            <TableCell className="text-webdev-silver font-medium">
-                              <div className="flex items-center gap-2">
-                                <User className="w-4 h-4 text-webdev-gradient-blue" />
-                                {submission.name}
-                              </div>
-                            </TableCell>
+                            <TableCell className="text-webdev-silver font-medium">{submission.name}</TableCell>
+                            <TableCell className="text-webdev-silver">{submission.email}</TableCell>
+                            <TableCell className="text-webdev-silver">{submission.company || '-'}</TableCell>
+                            <TableCell>{getStatusBadge(submission.status)}</TableCell>
                             <TableCell className="text-webdev-silver">
-                              <div className="flex items-center gap-2">
-                                <Mail className="w-4 h-4 text-webdev-gradient-purple" />
-                                <a 
-                                  href={`mailto:${submission.email}`}
-                                  className="hover:text-webdev-gradient-blue transition-colors"
-                                >
-                                  {submission.email}
-                                </a>
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-webdev-silver">
-                              {submission.company ? (
-                                <div className="flex items-center gap-2">
-                                  <Building className="w-4 h-4 text-green-400" />
-                                  {submission.company}
-                                </div>
-                              ) : (
-                                <span className="text-webdev-soft-gray">Not provided</span>
-                              )}
-                            </TableCell>
-                            <TableCell>{getProjectTypeBadge(submission.project_type)}</TableCell>
-                            <TableCell>{getBudgetBadge(submission.budget)}</TableCell>
-                            <TableCell className="text-webdev-silver">
-                              {new Date(submission.created_at).toLocaleDateString()} at{' '}
-                              {new Date(submission.created_at).toLocaleTimeString([], { 
-                                hour: '2-digit', 
-                                minute: '2-digit' 
-                              })}
+                              {new Date(submission.created_at).toLocaleDateString()}
                             </TableCell>
                             <TableCell>
                               <div className="flex gap-2">
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => openViewModal(submission)}
+                                  onClick={() => handleView(submission)}
                                   className="border-webdev-glass-border hover:bg-webdev-darker-gray"
                                 >
                                   <Eye className="w-4 h-4" />
@@ -264,7 +320,16 @@ const AdminSubmissions = () => {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => handleDeleteSubmission(submission.id)}
+                                  onClick={() => handleStatusChange(submission.id, 'responded')}
+                                  className="border-green-500 text-green-400 hover:bg-green-500/10"
+                                  disabled={submission.status === 'responded'}
+                                >
+                                  <CheckCircle className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleDelete(submission.id)}
                                   className="border-red-500 text-red-400 hover:bg-red-500/10"
                                 >
                                   <Trash2 className="w-4 h-4" />
@@ -280,86 +345,79 @@ const AdminSubmissions = () => {
 
                 {filteredSubmissions.length === 0 && !isLoading && (
                   <div className="text-center py-8">
-                    <MessageSquare className="w-12 h-12 text-webdev-soft-gray mx-auto mb-4" />
+                    <Mail className="w-12 h-12 text-webdev-soft-gray mx-auto mb-4" />
                     <p className="text-webdev-soft-gray">No submissions found</p>
                   </div>
                 )}
               </CardContent>
             </Card>
 
-            {/* View Submission Modal */}
-            <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
-              <DialogContent className="glass-effect border-webdev-glass-border text-webdev-silver max-w-2xl">
+            {/* View Modal */}
+            <Dialog open={viewModalOpen} onOpenChange={setViewModalOpen}>
+              <DialogContent className="bg-webdev-black border-webdev-glass-border max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>Contact Submission Details</DialogTitle>
+                  <DialogTitle className="text-webdev-silver">Contact Submission Details</DialogTitle>
+                  <DialogDescription className="text-webdev-soft-gray">
+                    Full details of the contact form submission.
+                  </DialogDescription>
                 </DialogHeader>
                 {selectedSubmission && (
-                  <div className="space-y-6">
+                  <div className="space-y-4 py-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <h4 className="font-medium text-webdev-silver mb-1">Name</h4>
+                        <h4 className="text-webdev-silver font-medium mb-2">Name</h4>
                         <p className="text-webdev-soft-gray">{selectedSubmission.name}</p>
                       </div>
                       <div>
-                        <h4 className="font-medium text-webdev-silver mb-1">Email</h4>
-                        <a 
-                          href={`mailto:${selectedSubmission.email}`}
-                          className="text-webdev-gradient-blue hover:underline"
-                        >
-                          {selectedSubmission.email}
-                        </a>
+                        <h4 className="text-webdev-silver font-medium mb-2">Email</h4>
+                        <p className="text-webdev-soft-gray">{selectedSubmission.email}</p>
                       </div>
                     </div>
-
+                    
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <h4 className="font-medium text-webdev-silver mb-1">Company</h4>
-                        <p className="text-webdev-soft-gray">
-                          {selectedSubmission.company || 'Not provided'}
-                        </p>
+                        <h4 className="text-webdev-silver font-medium mb-2">Phone</h4>
+                        <p className="text-webdev-soft-gray">{selectedSubmission.phone || 'Not provided'}</p>
                       </div>
                       <div>
-                        <h4 className="font-medium text-webdev-silver mb-1">Submitted</h4>
-                        <p className="text-webdev-soft-gray">
-                          {new Date(selectedSubmission.created_at).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="font-medium text-webdev-silver mb-1">Project Type</h4>
-                        <div>{getProjectTypeBadge(selectedSubmission.project_type)}</div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-webdev-silver mb-1">Budget Range</h4>
-                        <div>{getBudgetBadge(selectedSubmission.budget)}</div>
+                        <h4 className="text-webdev-silver font-medium mb-2">Company</h4>
+                        <p className="text-webdev-soft-gray">{selectedSubmission.company || 'Not provided'}</p>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="font-medium text-webdev-silver mb-2">Message</h4>
-                      <div className="bg-webdev-darker-gray p-4 rounded-lg border border-webdev-glass-border">
-                        <p className="text-webdev-soft-gray whitespace-pre-wrap">
-                          {selectedSubmission.message}
-                        </p>
+                      <h4 className="text-webdev-silver font-medium mb-2">Status</h4>
+                      {getStatusBadge(selectedSubmission.status)}
+                    </div>
+
+                    <div>
+                      <h4 className="text-webdev-silver font-medium mb-2">Submitted</h4>
+                      <p className="text-webdev-soft-gray">
+                        {new Date(selectedSubmission.created_at).toLocaleString()}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="text-webdev-silver font-medium mb-2">Message</h4>
+                      <div className="bg-webdev-darker-gray/50 rounded-xl p-4 border border-webdev-glass-border">
+                        <p className="text-webdev-silver whitespace-pre-wrap">{selectedSubmission.message}</p>
                       </div>
                     </div>
 
                     <div className="flex gap-2 pt-4">
                       <Button
-                        onClick={() => window.open(`mailto:${selectedSubmission.email}?subject=Re: Contact Form Submission`)}
-                        className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple"
+                        onClick={() => handleStatusChange(selectedSubmission.id, 'responded')}
+                        disabled={selectedSubmission.status === 'responded'}
+                        className="bg-green-500 hover:bg-green-600"
                       >
-                        <Mail className="w-4 h-4 mr-2" />
-                        Reply via Email
+                        Mark as Responded
                       </Button>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => setIsViewModalOpen(false)}
-                        className="border-webdev-glass-border"
+                      <Button
+                        onClick={() => handleStatusChange(selectedSubmission.id, 'archived')}
+                        variant="outline"
+                        className="border-webdev-glass-border hover:bg-webdev-darker-gray"
                       >
-                        Close
+                        Archive
                       </Button>
                     </div>
                   </div>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -5,7 +6,6 @@ import {
   FolderOpen, 
   Target, 
   Receipt, 
-  User, 
   Settings,
   LogOut,
   Clock
@@ -22,7 +22,6 @@ const DashboardSidebar = () => {
     { icon: Target, label: 'Milestones', path: '/dashboard/milestones' },
     { icon: Receipt, label: 'Invoices', path: '/dashboard/invoices' },
     { icon: Clock, label: 'Time Tracking', path: '/dashboard/time-tracking' },
-    { icon: User, label: 'Profile', path: '/dashboard/profile' },
     { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
   ];
 
