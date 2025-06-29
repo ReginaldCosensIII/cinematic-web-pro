@@ -1,13 +1,11 @@
 
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import ProjectsTable from '@/components/admin/projects/ProjectsTable';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Menu, X } from 'lucide-react';
 
@@ -15,15 +13,6 @@ const AdminProjects = () => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const { data: projects, isLoading } = useQuery({
-    queryKey: ['admin-projects'],
-    queryFn: async () => {
-      const { data, error } = await supabase.rpc('get_admin_projects_data');
-      if (error) throw error;
-      return data;
-    }
-  });
 
   if (!user) {
     return <div>Please log in to view projects.</div>;
@@ -79,7 +68,7 @@ const AdminProjects = () => {
               </div>
 
               <div className="overflow-x-auto">
-                <ProjectsTable projects={projects || []} isLoading={isLoading} />
+                <ProjectsTable />
               </div>
             </div>
           </div>

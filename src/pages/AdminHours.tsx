@@ -1,13 +1,11 @@
 
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import HoursTable from '@/components/admin/hours/HoursTable';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Menu, X } from 'lucide-react';
 
@@ -15,50 +13,6 @@ const AdminHours = () => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const { data: timeEntries, isLoading } = useQuery({
-    queryKey: ['admin-hours'],
-    queryFn: async () => {
-      // First get time entries
-      const { data: timeEntriesData, error: timeEntriesError } = await supabase
-        .from('time_entries')
-        .select('*')
-        .order('date', { ascending: false });
-
-      if (timeEntriesError) throw timeEntriesError;
-
-      // Get profiles data
-      const { data: profilesData, error: profilesError } = await supabase
-        .from('profiles')
-        .select('id, full_name, username');
-
-      if (profilesError) throw profilesError;
-
-      // Get projects data
-      const { data: projectsData, error: projectsError } = await supabase
-        .from('projects')
-        .select('id, title');
-
-      if (projectsError) throw projectsError;
-
-      // Get milestones data
-      const { data: milestonesData, error: milestonesError } = await supabase
-        .from('milestones')
-        .select('id, title');
-
-      if (milestonesError) throw milestonesError;
-
-      // Manually join the data
-      const enrichedTimeEntries = timeEntriesData.map(entry => ({
-        ...entry,
-        profiles: profilesData.find(p => p.id === entry.user_id) || null,
-        projects: projectsData.find(p => p.id === entry.project_id) || null,
-        milestones: entry.milestone_id ? milestonesData.find(m => m.id === entry.milestone_id) || null : null
-      }));
-
-      return enrichedTimeEntries;
-    }
-  });
 
   if (!user) {
     return <div>Please log in to view hours.</div>;
@@ -114,7 +68,7 @@ const AdminHours = () => {
               </div>
 
               <div className="overflow-x-auto">
-                <HoursTable timeEntries={timeEntries || []} isLoading={isLoading} />
+                <HoursTable />
               </div>
             </div>
           </div>

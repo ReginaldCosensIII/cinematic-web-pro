@@ -1,13 +1,11 @@
 
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import UsersTable from '@/components/admin/users/UsersTable';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Menu, X } from 'lucide-react';
 
@@ -15,19 +13,6 @@ const AdminUsers = () => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const { data: users, isLoading } = useQuery({
-    queryKey: ['admin-users'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      return data;
-    }
-  });
 
   if (!user) {
     return <div>Please log in to view users.</div>;
@@ -83,7 +68,7 @@ const AdminUsers = () => {
               </div>
 
               <div className="overflow-x-auto">
-                <UsersTable users={users || []} isLoading={isLoading} />
+                <UsersTable />
               </div>
             </div>
           </div>
