@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
 import Dashboard from "./pages/Dashboard";
 import DashboardProjects from "./pages/DashboardProjects";
 import DashboardInvoices from "./pages/DashboardInvoices";
@@ -35,6 +37,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/projects" element={<DashboardProjects />} />
             <Route path="/dashboard/invoices" element={<DashboardInvoices />} />
