@@ -17,14 +17,14 @@ import { Edit, Trash2, Search, User } from 'lucide-react';
 import EditProjectModal from './EditProjectModal';
 import AssignUserModal from './AssignUserModal';
 
-interface Project {
+interface ProjectData {
   id: string;
   title: string;
   description: string;
   status: string;
   created_at: string;
   user_id: string;
-  profiles?: {
+  profiles: {
     full_name: string;
     username: string;
   };
@@ -33,12 +33,21 @@ interface Project {
   assigned_users: number;
 }
 
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  status: string;
+  user_id: string;
+  start_date: string;
+}
+
 const ProjectsTable = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectData[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [assigningProject, setAssigningProject] = useState<Project | null>(null);
+  const [assigningProject, setAssigningProject] = useState<{ id: string; title: string } | null>(null);
   const { toast } = useToast();
 
   const fetchProjects = async () => {
@@ -47,7 +56,7 @@ const ProjectsTable = () => {
         .rpc('get_admin_projects_data');
 
       if (error) throw error;
-      setProjects(data || []);
+      setProjects((data as ProjectData[]) || []);
     } catch (error) {
       console.error('Error fetching projects:', error);
       toast({
@@ -88,6 +97,37 @@ const ProjectsTable = () => {
       toast({
         title: 'Error',
         description: 'Failed to delete project',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleEditProject = async (projectData: ProjectData) => {
+    // Fetch the full project data including start_date
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('id', projectData.id)
+        .single();
+
+      if (error) throw error;
+
+      const project: Project = {
+        id: data.id,
+        title: data.title,
+        description: data.description || '',
+        status: data.status,
+        user_id: data.user_id,
+        start_date: data.start_date || '',
+      };
+
+      setEditingProject(project);
+    } catch (error) {
+      console.error('Error fetching project details:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to fetch project details',
         variant: 'destructive',
       });
     }
@@ -186,7 +226,7 @@ const ProjectsTable = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => setAssigningProject(project)}
+                      onClick={() => setAssigningProject({ id: project.id, title: project.title })}
                       className="text-webdev-soft-gray hover:text-webdev-gradient-blue"
                     >
                       <User className="w-4 h-4" />
@@ -194,7 +234,7 @@ const ProjectsTable = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => setEditingProject(project)}
+                      onClick={() => handleEditProject(project)}
                       className="text-webdev-soft-gray hover:text-webdev-gradient-blue"
                     >
                       <Edit className="w-4 h-4" />

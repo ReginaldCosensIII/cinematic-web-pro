@@ -1,9 +1,7 @@
-
-import React, { useState } from 'react';
-import { Search, RefreshCw, Users, UserPlus, Filter } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { 
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import {
   Table,
   TableBody,
   TableCell,
@@ -11,201 +9,197 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Eye, Search } from 'lucide-react';
+import UserDetailModal from './UserDetailModal';
 
 interface User {
   id: string;
-  email: string;
-  full_name?: string;
-  role: string;
+  full_name: string;
+  username: string;
   created_at: string;
-  assigned_projects: number;
+  role: 'user' | 'admin';
+  last_sign_in: string;
+  total_projects: number;
+  total_hours: number;
+  outstanding_invoices: number;
+  total_outstanding_amount: number;
 }
 
-interface UsersTableProps {
-  users: User[];
-  loading: boolean;
-  onUserSelect: (user: User) => void;
-  onRefresh: () => void;
-}
-
-const UsersTable: React.FC<UsersTableProps> = ({ 
-  users, 
-  loading, 
-  onUserSelect, 
-  onRefresh 
-}) => {
+const UsersTable = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<keyof User>('created_at');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const { toast } = useToast();
 
-  const filteredUsers = users
-    .filter(user => 
-      user.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.role?.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      const aVal = a[sortField];
-      const bVal = b[sortField];
-      
-      if (typeof aVal === 'string' && typeof bVal === 'string') {
-        return sortDirection === 'asc' 
-          ? aVal.localeCompare(bVal)
-          : bVal.localeCompare(aVal);
-      }
-      
-      if (typeof aVal === 'number' && typeof bVal === 'number') {
-        return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
-      }
-      
-      return 0;
-    });
+  const fetchUsers = async () => {
+    try {
+      const { data: usersData, error: usersError } = await supabase
+        .from('profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-  const handleSort = (field: keyof User) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
+      if (usersError) throw usersError;
+
+      const usersWithRoles = await Promise.all(
+        (usersData || []).map(async (user) => {
+          const { data: roleData } = await supabase
+            .from('user_roles')
+            .select('role')
+            .eq('user_id', user.id)
+            .single();
+
+          const { data: statsData } = await supabase
+            .rpc('get_user_stats', { target_user_id: user.id });
+
+          const stats = statsData || {
+            total_projects: 0,
+            total_hours: 0,
+            outstanding_invoices: 0,
+            total_invoice_amount: 0,
+          };
+
+          return {
+            id: user.id,
+            full_name: user.full_name || '',
+            username: user.username || '',
+            created_at: user.created_at,
+            role: (roleData?.role as 'user' | 'admin') || 'user',
+            last_sign_in: user.created_at,
+            total_projects: stats.total_projects,
+            total_hours: stats.total_hours,
+            outstanding_invoices: stats.outstanding_invoices,
+            total_outstanding_amount: stats.total_invoice_amount,
+          };
+        })
+      );
+
+      setUsers(usersWithRoles);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to fetch users',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-  const getRoleBadgeVariant = (role: string) => {
-    switch (role) {
-      case 'admin':
-        return 'destructive';
-      case 'moderator':
-        return 'secondary';
-      default:
-        return 'outline';
-    }
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const getRoleBadge = (role: string) => {
+    return role === 'admin' ? (
+      <Badge className="bg-red-500/20 text-red-400">ADMIN</Badge>
+    ) : (
+      <Badge className="bg-blue-500/20 text-blue-400">USER</Badge>
+    );
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+  const filteredUsers = users.filter(user =>
+    user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.role.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
-      {/* Header with search and actions */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex items-center gap-2 text-webdev-silver">
-          <Users className="w-5 h-5" />
-          <span className="font-medium">
-            {filteredUsers.length} {filteredUsers.length === 1 ? 'User' : 'Users'}
-          </span>
-        </div>
-        
-        <div className="flex gap-2 w-full sm:w-auto">
-          <div className="relative flex-1 sm:w-64">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-webdev-soft-gray w-4 h-4" />
-            <Input
-              placeholder="Search users..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver placeholder:text-webdev-soft-gray"
-            />
-          </div>
-          <Button
-            onClick={onRefresh}
-            disabled={loading}
-            variant="outline"
-            size="icon"
-            className="border-webdev-glass-border hover:bg-webdev-darker-gray"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          </Button>
+      <div className="flex items-center space-x-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-webdev-soft-gray w-4 h-4" />
+          <Input
+            placeholder="Search users..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+          />
         </div>
       </div>
 
-      {/* Users table */}
-      <div className="rounded-lg border border-webdev-glass-border overflow-hidden">
+      <div className="glass-effect rounded-xl border border-webdev-glass-border overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow className="border-webdev-glass-border hover:bg-webdev-darker-gray/50">
-              <TableHead 
-                className="text-webdev-silver cursor-pointer hover:text-white"
-                onClick={() => handleSort('full_name')}
-              >
-                Name {sortField === 'full_name' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </TableHead>
-              <TableHead 
-                className="text-webdev-silver cursor-pointer hover:text-white"
-                onClick={() => handleSort('email')}
-              >
-                Email {sortField === 'email' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </TableHead>
-              <TableHead 
-                className="text-webdev-silver cursor-pointer hover:text-white"
-                onClick={() => handleSort('role')}
-              >
-                Role {sortField === 'role' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </TableHead>
-              <TableHead 
-                className="text-webdev-silver cursor-pointer hover:text-white"
-                onClick={() => handleSort('created_at')}
-              >
-                Created {sortField === 'created_at' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </TableHead>
-              <TableHead 
-                className="text-webdev-silver cursor-pointer hover:text-white"
-                onClick={() => handleSort('assigned_projects')}
-              >
-                Projects {sortField === 'assigned_projects' && (sortDirection === 'asc' ? '↑' : '↓')}
-              </TableHead>
+              <TableHead className="text-webdev-silver font-medium">User</TableHead>
+              <TableHead className="text-webdev-silver font-medium">Role</TableHead>
+              <TableHead className="text-webdev-silver font-medium">Projects</TableHead>
+              <TableHead className="text-webdev-silver font-medium">Hours</TableHead>
+              <TableHead className="text-webdev-silver font-medium">Outstanding</TableHead>
+              <TableHead className="text-webdev-silver font-medium">Joined</TableHead>
+              <TableHead className="text-webdev-silver font-medium">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {loading ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-webdev-soft-gray">
-                  <div className="flex items-center justify-center gap-2">
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                    Loading users...
+            {filteredUsers.map((user) => (
+              <TableRow 
+                key={user.id} 
+                className="border-webdev-glass-border hover:bg-webdev-darker-gray/30"
+              >
+                <TableCell className="text-webdev-silver">
+                  <div>
+                    <div className="font-medium">{user.full_name || 'Unknown'}</div>
+                    <div className="text-sm text-webdev-soft-gray">@{user.username || 'no-username'}</div>
                   </div>
                 </TableCell>
-              </TableRow>
-            ) : filteredUsers.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-8 text-webdev-soft-gray">
-                  {searchTerm ? 'No users found matching your search.' : 'No users found.'}
+                <TableCell>
+                  {getRoleBadge(user.role)}
+                </TableCell>
+                <TableCell className="text-webdev-soft-gray">
+                  {user.total_projects}
+                </TableCell>
+                <TableCell className="text-webdev-soft-gray">
+                  {user.total_hours}h
+                </TableCell>
+                <TableCell className="text-webdev-soft-gray">
+                  ${user.total_outstanding_amount.toLocaleString()}
+                </TableCell>
+                <TableCell className="text-webdev-soft-gray">
+                  {new Date(user.created_at).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedUser(user)}
+                    className="text-webdev-soft-gray hover:text-webdev-gradient-blue"
+                  >
+                    <Eye className="w-4 h-4" />
+                  </Button>
                 </TableCell>
               </TableRow>
-            ) : (
-              filteredUsers.map((user) => (
-                <TableRow
-                  key={user.id}
-                  className="border-webdev-glass-border hover:bg-webdev-darker-gray/50 cursor-pointer"
-                  onClick={() => onUserSelect(user)}
-                >
-                  <TableCell className="text-webdev-silver font-medium">
-                    {user.full_name || 'Unknown User'}
-                  </TableCell>
-                  <TableCell className="text-webdev-soft-gray">
-                    {user.email}
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={getRoleBadgeVariant(user.role)} className="capitalize">
-                      {user.role}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-webdev-soft-gray">
-                    {formatDate(user.created_at)}
-                  </TableCell>
-                  <TableCell className="text-webdev-soft-gray">
-                    {user.assigned_projects}
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
+            ))}
           </TableBody>
         </Table>
+
+        {filteredUsers.length === 0 && (
+          <div className="text-center py-8 text-webdev-soft-gray">
+            {searchTerm ? 'No users match your search.' : 'No users found.'}
+          </div>
+        )}
       </div>
+
+      {selectedUser && (
+        <UserDetailModal
+          user={selectedUser}
+          isOpen={!!selectedUser}
+          onClose={() => setSelectedUser(null)}
+          onSuccess={fetchUsers}
+        />
+      )}
     </div>
   );
 };

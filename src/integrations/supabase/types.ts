@@ -332,6 +332,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_admin_projects_data: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          title: string
+          description: string
+          status: string
+          created_at: string
+          user_id: string
+          profiles: Json
+          total_hours: number
+          invoice_total: number
+          assigned_users: number
+        }[]
+      }
       get_user_stats: {
         Args: { target_user_id: string }
         Returns: Json
