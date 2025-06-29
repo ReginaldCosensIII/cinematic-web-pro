@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -24,27 +23,52 @@ const MilestonesSection = () => {
 
   useEffect(() => {
     if (user) {
-      fetchMilestones();
+      fetchMilestonesAndHours();
     }
   }, [user]);
 
-  const fetchMilestones = async () => {
+  const fetchMilestonesAndHours = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch milestones for user's projects
+      const { data: milestonesData, error: milestonesError } = await supabase
         .from('milestones')
-        .select('*')
+        .select(`
+          *,
+          projects!inner(
+            user_id
+          )
+        `)
+        .eq('projects.user_id', user?.id)
         .order('due_date', { ascending: true });
 
-      if (error) {
-        console.error('Error fetching milestones:', error);
-      } else {
-        const milestoneData = data || [];
-        setMilestones(milestoneData);
-        
-        // Calculate total hours
-        const total = milestoneData.reduce((sum, milestone) => sum + (milestone.hours_logged || 0), 0);
-        setTotalHours(total);
+      if (milestonesError) {
+        console.error('Error fetching milestones:', milestonesError);
       }
+
+      // Fetch total hours from time_entries for user's projects
+      const { data: projects } = await supabase
+        .from('projects')
+        .select('id')
+        .eq('user_id', user?.id);
+
+      let totalHours = 0;
+      if (projects && projects.length > 0) {
+        const projectIds = projects.map(p => p.id);
+        const { data: timeEntries, error: timeError } = await supabase
+          .from('time_entries')
+          .select('hours')
+          .in('project_id', projectIds);
+
+        if (timeError) {
+          console.error('Error fetching time entries:', timeError);
+        } else {
+          totalHours = (timeEntries || []).reduce((sum, entry) => sum + Number(entry.hours), 0);
+        }
+      }
+
+      const milestoneData = milestonesData || [];
+      setMilestones(milestoneData);
+      setTotalHours(totalHours);
     } catch (error) {
       console.error('Error:', error);
     } finally {

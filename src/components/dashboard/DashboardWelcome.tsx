@@ -37,7 +37,21 @@ const DashboardWelcome = ({ user }: DashboardWelcomeProps) => {
 
       if (projectsError) throw projectsError;
 
-      // Fetch milestones with hours
+      // Fetch time entries for user's projects
+      const projectIds = (projects || []).map(p => p.id);
+      let totalHours = 0;
+
+      if (projectIds.length > 0) {
+        const { data: timeEntries, error: timeError } = await supabase
+          .from('time_entries')
+          .select('hours')
+          .in('project_id', projectIds);
+
+        if (timeError) throw timeError;
+        totalHours = (timeEntries || []).reduce((sum, entry) => sum + Number(entry.hours), 0);
+      }
+
+      // Fetch milestones for completion rate
       const { data: milestones, error: milestonesError } = await supabase
         .from('milestones')
         .select(`
@@ -51,7 +65,6 @@ const DashboardWelcome = ({ user }: DashboardWelcomeProps) => {
       if (milestonesError) throw milestonesError;
 
       const totalProjects = projects?.length || 0;
-      const totalHours = milestones?.reduce((sum, milestone) => sum + (milestone.hours_logged || 0), 0) || 0;
       
       // Calculate completion rate
       const completedMilestones = milestones?.filter(m => m.status === 'completed').length || 0;
@@ -103,7 +116,7 @@ const DashboardWelcome = ({ user }: DashboardWelcomeProps) => {
             <div className="min-w-[120px] glass-effect rounded-xl p-4 border border-webdev-glass-border text-center flex-shrink-0">
               <Clock className="w-6 h-6 text-webdev-gradient-purple mx-auto mb-2" />
               <div className="text-sm text-webdev-soft-gray">Hours Logged</div>
-              <div className="text-lg font-semibold text-webdev-silver">{stats.totalHours}h</div>
+              <div className="text-lg font-semibold text-webdev-silver">{stats.totalHours.toFixed(1)}h</div>
             </div>
             
             <div className="min-w-[120px] glass-effect rounded-xl p-4 border border-webdev-glass-border text-center flex-shrink-0">

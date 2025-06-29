@@ -36,10 +36,10 @@ const AdminStats = () => {
         .select('id')
         .in('status', ['planning', 'in_progress']);
 
-      // Get total hours from milestones
-      const { data: milestones } = await supabase
-        .from('milestones')
-        .select('hours_logged');
+      // Get total hours from time_entries table
+      const { data: timeEntries } = await supabase
+        .from('time_entries')
+        .select('hours');
 
       // Get pending invoices
       const { data: invoices } = await supabase
@@ -47,8 +47,8 @@ const AdminStats = () => {
         .select('id')
         .in('status', ['draft', 'sent']);
 
-      const totalHours = milestones?.reduce((sum, milestone) => 
-        sum + (milestone.hours_logged || 0), 0) || 0;
+      const totalHours = (timeEntries || []).reduce((sum, entry) => 
+        sum + Number(entry.hours), 0);
 
       setStats({
         totalUsers: profiles?.length || 0,
@@ -78,7 +78,7 @@ const AdminStats = () => {
     },
     {
       title: 'Total Hours',
-      value: `${stats.totalHours}h`,
+      value: `${stats.totalHours.toFixed(1)}h`,
       icon: Clock,
       color: 'text-green-400'
     },
