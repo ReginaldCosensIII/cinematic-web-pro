@@ -1,13 +1,15 @@
 
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import SmokeBackground from '@/components/SmokeBackground';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Receipt, Calendar, DollarSign } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Search, Receipt, Calendar, DollarSign, FileText, Download } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 
 interface Invoice {
   id: string;
@@ -17,152 +19,222 @@ interface Invoice {
   issue_date: string;
   due_date: string;
   paid_date: string | null;
-  description: string;
+  description: string | null;
+  project_id: string | null;
+  projects: {
+    title: string;
+  } | null;
 }
 
 const DashboardInvoices = () => {
-  const { user, loading } = useAuth();
-  const navigate = useNavigate();
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loadingInvoices, setLoadingInvoices] = useState(true);
+  const { user } = useAuth();
+  const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate('/auth');
-    }
-  }, [user, loading, navigate]);
-
-  useEffect(() => {
-    if (user) {
-      fetchInvoices();
-    }
-  }, [user]);
-
-  const fetchInvoices = async () => {
-    try {
+  const { data: invoices, isLoading } = useQuery({
+    queryKey: ['user-invoices', user?.id],
+    queryFn: async () => {
+      if (!user?.id) throw new Error('User not authenticated');
+      
       const { data, error } = await supabase
         .from('invoices')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('issue_date', { ascending: false });
+        .select(`
+          *,
+          projects(title)
+        `)
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setInvoices(data || []);
-    } catch (error) {
-      console.error('Error fetching invoices:', error);
-    } finally {
-      setLoadingInvoices(false);
-    }
-  };
+      return data as Invoice[];
+    },
+    enabled: !!user?.id
+  });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'paid':
-        return 'text-green-400 bg-green-400/10';
-      case 'sent':
-        return 'text-webdev-gradient-blue bg-blue-400/10';
-      case 'overdue':
-        return 'text-red-400 bg-red-400/10';
-      case 'cancelled':
-        return 'text-webdev-soft-gray bg-gray-400/10';
-      default:
-        return 'text-yellow-400 bg-yellow-400/10';
-    }
-  };
-
-  const formatStatus = (status: string) => {
-    return status.charAt(0).toUpperCase() + status.slice(1);
-  };
-
-  if (loading) {
+  const getStatusBadge = (status: string) => {
+    const statusColors = {
+      draft: 'bg-gray-500',
+      sent: 'bg-blue-500',
+      paid: 'bg-green-500',
+      overdue: 'bg-red-500',
+      cancelled: 'bg-gray-400'
+    };
+    
     return (
-      <div className="min-h-screen bg-webdev-black flex items-center justify-center">
-        <div className="text-webdev-silver">Loading...</div>
-      </div>
+      <Badge className={`${statusColors[status as keyof typeof statusColors]} text-white`}>
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </Badge>
     );
-  }
+  };
+
+  const filteredInvoices = invoices?.filter(invoice =>
+    invoice.invoice_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    invoice.projects?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    invoice.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
+
+  const totalAmount = invoices?.reduce((sum, invoice) => sum + invoice.amount, 0) || 0;
+  const paidAmount = invoices?.filter(i => i.status === 'paid').reduce((sum, invoice) => sum + invoice.amount, 0) || 0;
+  const pendingAmount = totalAmount - paidAmount;
+  const overdueInvoices = invoices?.filter(i => i.status === 'overdue').length || 0;
 
   if (!user) {
-    return null;
+    return <div>Please log in to view your invoices.</div>;
   }
 
   return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-      <SmokeBackground />
-      <Header />
-      
-      <main className="relative z-10 pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-8">
-            {/* Sidebar */}
-            <div className="hidden lg:block w-64 flex-shrink-0">
-              <DashboardSidebar />
-            </div>
-            
-            {/* Main Content */}
-            <div className="flex-1">
-              <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
-                <div className="flex items-center gap-4 mb-8">
-                  <Receipt className="w-8 h-8 text-webdev-gradient-blue" />
-                  <h1 className="text-3xl font-light text-webdev-silver">Invoices</h1>
-                </div>
+    <div className="min-h-screen bg-webdev-black">
+      <div className="max-w-7xl mx-auto p-6 pt-32">
+        <div className="grid lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-1">
+            <DashboardSidebar />
+          </div>
 
-                {loadingInvoices ? (
-                  <div className="text-center py-8">
-                    <div className="text-webdev-soft-gray">Loading invoices...</div>
+          <div className="lg:col-span-3">
+            <div className="mb-8">
+              <h1 className="text-3xl font-light text-webdev-silver mb-2">My Invoices</h1>
+              <p className="text-webdev-soft-gray">Track your project invoices and payment status</p>
+            </div>
+
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <Card className="glass-effect border-webdev-glass-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-webdev-soft-gray text-sm">Total Amount</p>
+                      <p className="text-2xl font-bold text-webdev-silver">${totalAmount.toFixed(2)}</p>
+                    </div>
+                    <DollarSign className="w-8 h-8 text-webdev-gradient-blue" />
                   </div>
-                ) : invoices.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Receipt className="w-16 h-16 text-webdev-soft-gray mx-auto mb-4 opacity-50" />
-                    <h3 className="text-xl font-light text-webdev-silver mb-2">No Invoices Yet</h3>
-                    <p className="text-webdev-soft-gray">Your invoices will appear here when they're created.</p>
+                </CardContent>
+              </Card>
+
+              <Card className="glass-effect border-webdev-glass-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-webdev-soft-gray text-sm">Paid</p>
+                      <p className="text-2xl font-bold text-green-400">${paidAmount.toFixed(2)}</p>
+                    </div>
+                    <Receipt className="w-8 h-8 text-green-400" />
                   </div>
-                ) : (
+                </CardContent>
+              </Card>
+
+              <Card className="glass-effect border-webdev-glass-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-webdev-soft-gray text-sm">Pending</p>
+                      <p className="text-2xl font-bold text-yellow-400">${pendingAmount.toFixed(2)}</p>
+                    </div>
+                    <Calendar className="w-8 h-8 text-yellow-400" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="glass-effect border-webdev-glass-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-webdev-soft-gray text-sm">Overdue</p>
+                      <p className="text-2xl font-bold text-red-400">{overdueInvoices}</p>
+                    </div>
+                    <FileText className="w-8 h-8 text-red-400" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Search */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-webdev-soft-gray w-4 h-4" />
+                <Input
+                  placeholder="Search invoices..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver"
+                />
+              </div>
+            </div>
+
+            {/* Invoices Table */}
+            <Card className="glass-effect border-webdev-glass-border">
+              <CardHeader>
+                <CardTitle className="text-webdev-silver">Your Invoices</CardTitle>
+                <CardDescription className="text-webdev-soft-gray">
+                  {filteredInvoices.length} invoice{filteredInvoices.length !== 1 ? 's' : ''} found
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isLoading ? (
                   <div className="space-y-4">
-                    {invoices.map((invoice) => (
-                      <div key={invoice.id} className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/30 transition-all duration-300">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-4 mb-2">
-                              <h3 className="text-lg font-semibold text-webdev-silver">#{invoice.invoice_number}</h3>
-                              <div className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(invoice.status)}`}>
-                                {formatStatus(invoice.status)}
-                              </div>
-                            </div>
-                            <p className="text-webdev-soft-gray mb-4">{invoice.description || 'No description provided'}</p>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-webdev-silver mb-1">${invoice.amount.toFixed(2)}</div>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center gap-6 text-sm text-webdev-soft-gray">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            <span>Issued: {new Date(invoice.issue_date).toLocaleDateString()}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            <span>Due: {new Date(invoice.due_date).toLocaleDateString()}</span>
-                          </div>
-                          {invoice.paid_date && (
-                            <div className="flex items-center gap-2">
-                              <DollarSign className="w-4 h-4" />
-                              <span>Paid: {new Date(invoice.paid_date).toLocaleDateString()}</span>
-                            </div>
-                          )}
-                        </div>
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="animate-pulse flex space-x-4">
+                        <div className="h-4 bg-webdev-darker-gray rounded flex-1"></div>
                       </div>
                     ))}
                   </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="border-webdev-glass-border">
+                          <TableHead className="text-webdev-soft-gray">Invoice #</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Project</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Amount</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Status</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Issue Date</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Due Date</TableHead>
+                          <TableHead className="text-webdev-soft-gray">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredInvoices.map((invoice) => (
+                          <TableRow key={invoice.id} className="border-webdev-glass-border hover:bg-webdev-darker-gray/20">
+                            <TableCell className="text-webdev-silver font-mono">{invoice.invoice_number}</TableCell>
+                            <TableCell className="text-webdev-silver">
+                              {invoice.projects?.title || 'No Project'}
+                            </TableCell>
+                            <TableCell className="text-webdev-silver font-semibold">
+                              ${invoice.amount.toFixed(2)}
+                            </TableCell>
+                            <TableCell>{getStatusBadge(invoice.status)}</TableCell>
+                            <TableCell className="text-webdev-silver">
+                              {new Date(invoice.issue_date).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell className="text-webdev-silver">
+                              {new Date(invoice.due_date).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="border-webdev-glass-border hover:bg-webdev-darker-gray"
+                              >
+                                <Download className="w-4 h-4 mr-1" />
+                                Download
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
                 )}
-              </div>
-            </div>
+
+                {filteredInvoices.length === 0 && !isLoading && (
+                  <div className="text-center py-8">
+                    <Receipt className="w-12 h-12 text-webdev-soft-gray mx-auto mb-4" />
+                    <p className="text-webdev-soft-gray">No invoices found</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
-      </main>
-      
-      <Footer />
+      </div>
     </div>
   );
 };
