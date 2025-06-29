@@ -63,13 +63,23 @@ const UsersTable = () => {
           const { data: statsData } = await supabase
             .rpc('get_user_stats', { target_user_id: user.id });
 
-          // Type cast the statsData properly
-          const stats = statsData as UserStats || {
+          // Properly handle the statsData with type safety
+          let stats: UserStats = {
             total_projects: 0,
             total_hours: 0,
             outstanding_invoices: 0,
             total_invoice_amount: 0,
           };
+
+          if (statsData && typeof statsData === 'object' && !Array.isArray(statsData)) {
+            const data = statsData as any;
+            stats = {
+              total_projects: Number(data.total_projects || 0),
+              total_hours: Number(data.total_hours || 0),
+              outstanding_invoices: Number(data.outstanding_invoices || 0),
+              total_invoice_amount: Number(data.total_invoice_amount || 0),
+            };
+          }
 
           return {
             id: user.id,
