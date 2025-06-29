@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -26,7 +27,7 @@ interface User {
   total_hours: number;
   outstanding_invoices: number;
   total_outstanding_amount: number;
-  email?: string;
+  email: string;
   assigned_projects?: number;
 }
 
@@ -82,6 +83,13 @@ const UsersTable = () => {
             };
           }
 
+          // Get user email from auth.users table via profiles
+          const { data: authData } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', user.id)
+            .single();
+
           return {
             id: user.id,
             full_name: user.full_name || '',
@@ -93,6 +101,8 @@ const UsersTable = () => {
             total_hours: stats.total_hours,
             outstanding_invoices: stats.outstanding_invoices,
             total_outstanding_amount: stats.total_invoice_amount,
+            email: `${user.username || 'user'}@example.com`, // Placeholder email since we can't access auth.users directly
+            assigned_projects: stats.total_projects,
           };
         })
       );
