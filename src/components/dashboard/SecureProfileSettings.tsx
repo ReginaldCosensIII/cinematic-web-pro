@@ -165,26 +165,26 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
   };
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full max-w-2xl glass-effect border-webdev-glass-border bg-transparent">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-webdev-silver">
           <Shield className="w-5 h-5" />
           Secure Profile Settings
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-webdev-soft-gray">
           Update your profile information and security settings
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleProfileUpdate} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="full_name">Full Name</Label>
+            <Label htmlFor="full_name" className="text-webdev-silver">Full Name</Label>
             <Input
               id="full_name"
               type="text"
               value={formData.full_name}
               onChange={(e) => handleInputChange('full_name', e.target.value)}
-              className={errors.full_name ? 'border-red-500' : ''}
+              className={`bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver ${errors.full_name ? 'border-red-500' : ''}`}
               maxLength={100}
               required
             />
@@ -192,40 +192,40 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-webdev-silver">Email</Label>
             <Input
               id="email"
               type="email"
               value={user.email || ''}
               disabled
-              className="bg-gray-50"
+              className="bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-soft-gray"
             />
-            <p className="text-sm text-gray-500">Email cannot be changed from this interface</p>
+            <p className="text-sm text-webdev-soft-gray">Email cannot be changed from this interface</p>
           </div>
 
-          <Alert>
-            <Shield className="h-4 w-4" />
-            <AlertDescription>
+          <Alert className="glass-effect border-webdev-glass-border bg-webdev-darker-gray/30">
+            <Shield className="h-4 w-4 text-webdev-gradient-blue" />
+            <AlertDescription className="text-webdev-soft-gray">
               Leave password fields empty if you don't want to change your password
             </AlertDescription>
           </Alert>
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="current_password">Current Password</Label>
+              <Label htmlFor="current_password" className="text-webdev-silver">Current Password</Label>
               <div className="relative">
                 <Input
                   id="current_password"
                   type={showPasswords.current ? 'text' : 'password'}
                   value={formData.current_password}
                   onChange={(e) => handleInputChange('current_password', e.target.value)}
-                  className={errors.current_password ? 'border-red-500' : ''}
+                  className={`bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver ${errors.current_password ? 'border-red-500' : ''}`}
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-webdev-soft-gray hover:text-webdev-silver"
                   onClick={() => togglePasswordVisibility('current')}
                 >
                   {showPasswords.current ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -235,20 +235,20 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="new_password">New Password</Label>
+              <Label htmlFor="new_password" className="text-webdev-silver">New Password</Label>
               <div className="relative">
                 <Input
                   id="new_password"
                   type={showPasswords.new ? 'text' : 'password'}
                   value={formData.new_password}
                   onChange={(e) => handleInputChange('new_password', e.target.value)}
-                  className={errors.new_password ? 'border-red-500' : ''}
+                  className={`bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver ${errors.new_password ? 'border-red-500' : ''}`}
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-webdev-soft-gray hover:text-webdev-silver"
                   onClick={() => togglePasswordVisibility('new')}
                 >
                   {showPasswords.new ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -256,22 +256,22 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
               </div>
               {errors.new_password && <p className="text-sm text-red-500">{errors.new_password}</p>}
               {formData.new_password && (
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-webdev-soft-gray">
                   <p>Password requirements:</p>
                   <ul className="list-disc list-inside ml-2 space-y-1">
-                    <li className={formData.new_password.length >= 8 ? 'text-green-600' : 'text-red-500'}>
+                    <li className={formData.new_password.length >= 8 ? 'text-green-400' : 'text-red-400'}>
                       At least 8 characters
                     </li>
-                    <li className={/[A-Z]/.test(formData.new_password) ? 'text-green-600' : 'text-red-500'}>
+                    <li className={/[A-Z]/.test(formData.new_password) ? 'text-green-400' : 'text-red-400'}>
                       One uppercase letter
                     </li>
-                    <li className={/[a-z]/.test(formData.new_password) ? 'text-green-600' : 'text-red-500'}>
+                    <li className={/[a-z]/.test(formData.new_password) ? 'text-green-400' : 'text-red-400'}>
                       One lowercase letter
                     </li>
-                    <li className={/\d/.test(formData.new_password) ? 'text-green-600' : 'text-red-500'}>
+                    <li className={/\d/.test(formData.new_password) ? 'text-green-400' : 'text-red-400'}>
                       One number
                     </li>
-                    <li className={/[!@#$%^&*(),.?":{}|<>]/.test(formData.new_password) ? 'text-green-600' : 'text-red-500'}>
+                    <li className={/[!@#$%^&*(),.?":{}|<>]/.test(formData.new_password) ? 'text-green-400' : 'text-red-400'}>
                       One special character
                     </li>
                   </ul>
@@ -280,20 +280,20 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirm_password">Confirm New Password</Label>
+              <Label htmlFor="confirm_password" className="text-webdev-silver">Confirm New Password</Label>
               <div className="relative">
                 <Input
                   id="confirm_password"
                   type={showPasswords.confirm ? 'text' : 'password'}
                   value={formData.confirm_password}
                   onChange={(e) => handleInputChange('confirm_password', e.target.value)}
-                  className={errors.confirm_password ? 'border-red-500' : ''}
+                  className={`bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver ${errors.confirm_password ? 'border-red-500' : ''}`}
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-webdev-soft-gray hover:text-webdev-silver"
                   onClick={() => togglePasswordVisibility('confirm')}
                 >
                   {showPasswords.confirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -305,7 +305,7 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
 
           <Button 
             type="submit" 
-            className="w-full"
+            className="w-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white"
             disabled={isUpdating}
           >
             {isUpdating ? 'Updating...' : 'Update Profile'}

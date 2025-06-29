@@ -13,6 +13,7 @@ import DashboardProjects from "./pages/DashboardProjects";
 import DashboardInvoices from "./pages/DashboardInvoices";
 import DashboardMilestones from "./pages/DashboardMilestones";
 import DashboardSettings from "./pages/DashboardSettings";
+import DashboardTimeTracking from "./pages/DashboardTimeTracking";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminUsers from "./pages/AdminUsers";
 import AdminProjects from "./pages/AdminProjects";
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/dashboard/invoices" element={<DashboardInvoices />} />
             <Route path="/dashboard/milestones" element={<DashboardMilestones />} />
             <Route path="/dashboard/settings" element={<DashboardSettings />} />
+            <Route path="/dashboard/time-tracking" element={<DashboardTimeTracking />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/projects" element={<AdminProjects />} />
