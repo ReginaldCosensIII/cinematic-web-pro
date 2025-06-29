@@ -38,11 +38,45 @@ const HoursTable = () => {
 
   const fetchTimeEntries = async () => {
     try {
-      const { data, error } = await supabase.rpc('get_admin_time_entries');
+      // Use a direct query instead of RPC since the function may not be recognized by TypeScript yet
+      const { data, error } = await supabase
+        .from('time_entries')
+        .select(`
+          id,
+          date,
+          hours,
+          description,
+          project_id,
+          created_at,
+          projects!inner(
+            id,
+            title,
+            user_id,
+            profiles!inner(
+              id,
+              full_name
+            )
+          )
+        `)
+        .order('date', { ascending: false })
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      setTimeEntries(data || []);
+      // Transform the data to match our interface
+      const transformedData = (data || []).map((entry: any) => ({
+        id: entry.id,
+        date: entry.date,
+        hours: Number(entry.hours),
+        description: entry.description || '',
+        project_id: entry.project_id,
+        project_title: entry.projects?.title || 'Unknown Project',
+        client_name: entry.projects?.profiles?.full_name || 'Unknown Client',
+        client_id: entry.projects?.user_id || '',
+        created_at: entry.created_at,
+      }));
+
+      setTimeEntries(transformedData);
     } catch (error) {
       console.error('Error fetching time entries:', error);
       toast({
