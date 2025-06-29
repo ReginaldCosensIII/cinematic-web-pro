@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -39,8 +40,8 @@ const HoursTable = () => {
     try {
       console.log('Fetching time entries...');
       
-      // Fixed query - properly join through the correct relationships
-      const { data, error } = await supabase
+      // First get all time entries with project information
+      const { data: timeEntriesData, error: timeEntriesError } = await supabase
         .from('time_entries')
         .select(`
           id,
@@ -48,29 +49,56 @@ const HoursTable = () => {
           hours,
           description,
           project_id,
+          user_id,
           created_at,
           projects!inner(
             id,
             title,
-            user_id,
-            profiles!inner(
-              id,
-              full_name
-            )
+            user_id
           )
         `)
         .order('date', { ascending: false })
         .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Supabase error:', error);
-        throw error;
+      if (timeEntriesError) {
+        console.error('Error fetching time entries:', timeEntriesError);
+        throw timeEntriesError;
       }
 
-      console.log('Raw data from Supabase:', data);
+      console.log('Time entries data:', timeEntriesData);
+
+      if (!timeEntriesData || timeEntriesData.length === 0) {
+        console.log('No time entries found');
+        setTimeEntries([]);
+        setLoading(false);
+        return;
+      }
+
+      // Get unique project owner user IDs
+      const projectOwnerIds = [...new Set(timeEntriesData.map(entry => entry.projects.user_id))];
+      console.log('Project owner IDs:', projectOwnerIds);
+
+      // Fetch profiles for project owners
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, full_name')
+        .in('id', projectOwnerIds);
+
+      if (profilesError) {
+        console.error('Error fetching profiles:', profilesError);
+        // Continue without profiles if there's an error
+      }
+
+      console.log('Profiles data:', profilesData);
+
+      // Create a map of user_id to full_name
+      const profilesMap = (profilesData || []).reduce((acc, profile) => {
+        acc[profile.id] = profile.full_name || 'Unknown Client';
+        return acc;
+      }, {} as Record<string, string>);
 
       // Transform the data to match our interface
-      const transformedData = (data || []).map((entry: any) => {
+      const transformedData = timeEntriesData.map((entry: any) => {
         console.log('Transforming entry:', entry);
         return {
           id: entry.id,
@@ -79,7 +107,7 @@ const HoursTable = () => {
           description: entry.description || '',
           project_id: entry.project_id,
           project_title: entry.projects?.title || 'Unknown Project',
-          client_name: entry.projects?.profiles?.full_name || 'Unknown Client',
+          client_name: profilesMap[entry.projects?.user_id] || 'Unknown Client',
           client_id: entry.projects?.user_id || '',
           created_at: entry.created_at,
         };
