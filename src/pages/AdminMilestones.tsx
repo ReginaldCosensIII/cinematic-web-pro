@@ -59,13 +59,14 @@ const AdminMilestones = () => {
 
       if (milestonesError) throw milestonesError;
 
-      // Then get projects data separately
+      // Then get projects data with profiles joined correctly
       const { data: projects, error: projectsError } = await supabase
         .from('projects')
         .select(`
           id,
           title,
-          profiles:user_id (
+          user_id,
+          profiles!projects_user_id_fkey (
             full_name,
             username
           )
