@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -28,6 +29,13 @@ interface User {
   total_outstanding_amount: number;
 }
 
+interface UserStats {
+  total_projects: number;
+  total_hours: number;
+  outstanding_invoices: number;
+  total_invoice_amount: number;
+}
+
 const UsersTable = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +63,8 @@ const UsersTable = () => {
           const { data: statsData } = await supabase
             .rpc('get_user_stats', { target_user_id: user.id });
 
-          const stats = statsData || {
+          // Type cast the statsData properly
+          const stats = statsData as UserStats || {
             total_projects: 0,
             total_hours: 0,
             outstanding_invoices: 0,
