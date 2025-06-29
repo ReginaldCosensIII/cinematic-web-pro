@@ -111,7 +111,7 @@ const ProjectOverview = () => {
 
   if (loading) {
     return (
-      <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
+      <div className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border">
         <div className="animate-pulse">
           <div className="h-6 bg-webdev-darker-gray rounded mb-4 w-48"></div>
           <div className="space-y-4">
@@ -126,10 +126,10 @@ const ProjectOverview = () => {
 
   return (
     <>
-      <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-light text-webdev-silver">Project Overview</h2>
-          <span className="text-webdev-soft-gray">{projects.length} total projects</span>
+      <div className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
+          <h2 className="text-xl sm:text-2xl font-light text-webdev-silver">Project Overview</h2>
+          <span className="text-webdev-soft-gray text-sm sm:text-base">{projects.length} total projects</span>
         </div>
 
         {projects.length === 0 ? (
@@ -143,36 +143,36 @@ const ProjectOverview = () => {
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300 group cursor-pointer"
+                className="glass-effect rounded-xl p-4 sm:p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300 group cursor-pointer"
                 onClick={() => handleProjectClick(project)}
               >
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="flex flex-col gap-4">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-medium text-webdev-silver group-hover:text-white transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                      <h3 className="text-lg sm:text-xl font-medium text-webdev-silver group-hover:text-white transition-colors break-words">
                         {project.title}
                       </h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(project.status)}`}>
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(project.status)} self-start`}>
                         {formatStatus(project.status)}
                       </span>
                     </div>
                     {project.description && (
-                      <p className="text-webdev-soft-gray mb-3">{project.description}</p>
+                      <p className="text-webdev-soft-gray mb-3 text-sm sm:text-base break-words">{project.description}</p>
                     )}
-                    <div className="flex items-center gap-6 text-sm text-webdev-soft-gray">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm text-webdev-soft-gray">
                       {project.start_date && (
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4" />
-                          <span>Started {format(new Date(project.start_date), 'MMM d, yyyy')}</span>
+                          <Calendar className="w-4 h-4 flex-shrink-0" />
+                          <span className="truncate">Started {format(new Date(project.start_date), 'MMM d, yyyy')}</span>
                         </div>
                       )}
                       <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        <span>Updated {format(new Date(project.last_updated), 'MMM d, yyyy')}</span>
+                        <Clock className="w-4 h-4 flex-shrink-0" />
+                        <span className="truncate">Updated {format(new Date(project.last_updated), 'MMM d, yyyy')}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-webdev-gradient-blue" />
-                        <span className="text-webdev-gradient-blue font-medium">
+                        <Clock className="w-4 h-4 text-webdev-gradient-blue flex-shrink-0" />
+                        <span className="text-webdev-gradient-blue font-medium whitespace-nowrap">
                           {project.total_hours.toFixed(1)}h logged
                         </span>
                       </div>

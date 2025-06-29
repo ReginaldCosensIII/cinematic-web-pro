@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -138,7 +139,7 @@ const DashboardProjects = () => {
       
       <main className="relative z-10 pt-24 md:pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex gap-8">
+          <div className="flex gap-4 lg:gap-8">
             {/* Mobile Sidebar Toggle */}
             {isMobile && (
               <button
@@ -175,10 +176,10 @@ const DashboardProjects = () => {
             )}
             
             {/* Main Content */}
-            <div className={`flex-1 ${isMobile ? 'ml-0' : ''}`}>
+            <div className={`flex-1 min-w-0 ${isMobile ? 'ml-0' : ''}`}>
               <div className="glass-effect rounded-2xl p-4 md:p-8 border border-webdev-glass-border">
                 <div className="flex items-center gap-4 mb-6 md:mb-8">
-                  <FolderOpen className="w-6 md:w-8 h-6 md:h-8 text-webdev-gradient-blue" />
+                  <FolderOpen className="w-6 md:w-8 h-6 md:h-8 text-webdev-gradient-blue flex-shrink-0" />
                   <h1 className="text-2xl md:text-3xl font-light text-webdev-silver">Projects</h1>
                 </div>
 
@@ -197,35 +198,39 @@ const DashboardProjects = () => {
                     {projects.map((project) => (
                       <div 
                         key={project.id} 
-                        className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/30 transition-all duration-300 cursor-pointer group"
+                        className="glass-effect rounded-xl p-4 sm:p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/30 transition-all duration-300 cursor-pointer group"
                         onClick={() => handleProjectClick(project)}
                       >
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1">
-                            <h3 className="text-xl font-semibold text-webdev-silver mb-2 group-hover:text-white transition-colors">
-                              {project.title}
-                            </h3>
-                            <p className="text-webdev-soft-gray mb-4">{project.description || 'No description provided'}</p>
+                        <div className="flex flex-col gap-4">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-lg sm:text-xl font-semibold text-webdev-silver mb-2 group-hover:text-white transition-colors break-words">
+                                {project.title}
+                              </h3>
+                              <p className="text-webdev-soft-gray mb-4 text-sm sm:text-base break-words">
+                                {project.description || 'No description provided'}
+                              </p>
+                            </div>
+                            <div className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)} bg-webdev-darker-gray/50 self-start flex-shrink-0`}>
+                              {formatStatus(project.status)}
+                            </div>
                           </div>
-                          <div className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)} bg-webdev-darker-gray/50`}>
-                            {formatStatus(project.status)}
-                          </div>
-                        </div>
                         
-                        <div className="flex items-center gap-6 text-sm text-webdev-soft-gray">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            <span>Started: {project.start_date ? new Date(project.start_date).toLocaleDateString() : 'N/A'}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
-                            <span>Updated: {new Date(project.last_updated).toLocaleDateString()}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Target className="w-4 h-4 text-webdev-gradient-blue" />
-                            <span className="text-webdev-gradient-blue font-medium">
-                              {project.total_hours.toFixed(1)}h logged
-                            </span>
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-xs sm:text-sm text-webdev-soft-gray">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4 flex-shrink-0" />
+                              <span className="truncate">Started: {project.start_date ? new Date(project.start_date).toLocaleDateString() : 'N/A'}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-4 h-4 flex-shrink-0" />
+                              <span className="truncate">Updated: {new Date(project.last_updated).toLocaleDateString()}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Target className="w-4 h-4 text-webdev-gradient-blue flex-shrink-0" />
+                              <span className="text-webdev-gradient-blue font-medium whitespace-nowrap">
+                                {project.total_hours.toFixed(1)}h logged
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
