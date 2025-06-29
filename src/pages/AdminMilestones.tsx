@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -26,13 +27,8 @@ interface Milestone {
   hours_logged: number;
   project_id: string;
   created_at: string;
-  projects?: {
-    title: string;
-    profiles?: {
-      full_name: string | null;
-      username: string | null;
-    } | null;
-  } | null;
+  project_title?: string;
+  project_owner_name?: string;
 }
 
 const AdminMilestones = () => {
@@ -55,19 +51,39 @@ const AdminMilestones = () => {
   const { data: milestonesData, isLoading } = useQuery({
     queryKey: ['admin-milestones'],
     queryFn: async () => {
-      const { data: milestones, error } = await supabase
+      // First get milestones
+      const { data: milestones, error: milestonesError } = await supabase
         .from('milestones')
-        .select(`
-          *,
-          projects(
-            title,
-            profiles(full_name, username)
-          )
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      return milestones as Milestone[];
+      if (milestonesError) throw milestonesError;
+
+      // Then get projects data separately
+      const { data: projects, error: projectsError } = await supabase
+        .from('projects')
+        .select(`
+          id,
+          title,
+          profiles:user_id (
+            full_name,
+            username
+          )
+        `);
+
+      if (projectsError) throw projectsError;
+
+      // Combine the data
+      const milestonesWithProjects = milestones?.map(milestone => {
+        const project = projects?.find(p => p.id === milestone.project_id);
+        return {
+          ...milestone,
+          project_title: project?.title || 'Unknown Project',
+          project_owner_name: project?.profiles?.full_name || project?.profiles?.username || 'Unknown User'
+        };
+      }) || [];
+
+      return milestonesWithProjects as Milestone[];
     }
   });
 
@@ -190,7 +206,7 @@ const AdminMilestones = () => {
 
   const filteredMilestones = milestonesData?.filter((milestone: Milestone) =>
     milestone.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    milestone.projects?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    milestone.project_title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     milestone.description?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
@@ -373,7 +389,7 @@ const AdminMilestones = () => {
                                 {milestone.title}
                               </TableCell>
                               <TableCell className="text-webdev-silver text-xs md:text-sm max-w-[150px] truncate">
-                                {milestone.projects?.title || 'Unknown Project'}
+                                {milestone.project_title || 'Unknown Project'}
                               </TableCell>
                               <TableCell>{getStatusBadge(milestone.status)}</TableCell>
                               <TableCell className="text-webdev-silver text-xs md:text-sm hidden md:table-cell">
