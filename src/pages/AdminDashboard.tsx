@@ -17,43 +17,8 @@ const AdminDashboard = () => {
   const { logSecurityEvent } = useSecurityLogger();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (authLoading || adminLoading) {
-      return;
-    }
-
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
-
-    if (isAdmin === false) { // Check for explicit false
-      logSecurityEvent({
-        event_type: 'admin_access',
-        details: { 
-          access_denied: true,
-          user_id: user.id,
-          attempted_path: '/admin'
-        }
-      });
-      navigate('/dashboard');
-      return;
-    }
-
-    if (isAdmin === true) { // Check for explicit true
-        logSecurityEvent({
-          event_type: 'admin_access',
-          details: { 
-            access_granted: true,
-            user_id: user.id,
-            path: '/admin'
-          }
-        });
-    }
-
-  }, [user, isAdmin, authLoading, adminLoading, navigate, logSecurityEvent]);
-
-  if (authLoading || adminLoading || isAdmin === null) { // Also wait for isAdmin to be resolved
+  // Show a loading screen while we're checking auth and admin status
+  if (authLoading || adminLoading) {
     return (
       <div className="min-h-screen bg-webdev-black flex items-center justify-center">
         <div className="text-webdev-silver">
@@ -64,11 +29,43 @@ const AdminDashboard = () => {
     );
   }
 
-  // This check is an additional safeguard.
-  if (!user || !isAdmin) {
-    return null;
+  // After loading, if there's no user, redirect to auth
+  if (!user) {
+    navigate('/auth');
+    return null; // Return null to prevent rendering anything else
   }
 
+  // If the user is not an admin, redirect to the user dashboard
+  if (isAdmin === false) {
+    logSecurityEvent({
+      event_type: 'admin_access',
+      details: { 
+        access_denied: true,
+        user_id: user.id,
+        attempted_path: '/admin'
+      }
+    });
+    navigate('/dashboard');
+    return null; // Return null to prevent rendering anything else
+  }
+
+  // If we've made it this far, the user is an admin.
+  // We can log the successful access.
+  useEffect(() => {
+    if (isAdmin) {
+        logSecurityEvent({
+          event_type: 'admin_access',
+          details: { 
+            access_granted: true,
+            user_id: user.id,
+            path: '/admin'
+          }
+        });
+    }
+  }, [isAdmin, user, logSecurityEvent]);
+
+
+  // Render the admin dashboard
   return (
     <div className="min-h-screen bg-webdev-black relative overflow-hidden">
       <SmokeBackground />

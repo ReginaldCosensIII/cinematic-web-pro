@@ -6,13 +6,15 @@ import { supabase } from '@/integrations/supabase/client';
 
 export const useAdminCheck = () => {
   const { user } = useAuth();
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // Changed initial state
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // Keep this as null initially
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
+      // Always start with loading true and isAdmin as null when the user changes
       setLoading(true);
-      
+      setIsAdmin(null);
+
       if (!user) {
         setIsAdmin(false);
         setLoading(false);
