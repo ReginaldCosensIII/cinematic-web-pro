@@ -1,29 +1,28 @@
-
 import React, { useState, useEffect } from 'react';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { 
-  User, 
-  Mail, 
-  Calendar, 
-  Clock, 
-  DollarSign, 
+import {
+  User,
+  Mail,
+  Calendar,
+  Clock,
+  DollarSign,
   FolderOpen,
   Save,
   Key,
@@ -32,15 +31,17 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
+// Define the shape of the User object we expect
 interface User {
   id: string;
   email: string;
   full_name?: string;
-  role: string;
+  role: 'admin' | 'user';
   created_at: string;
   assigned_projects: number;
 }
 
+// Define the shape of the UserStats object
 interface UserStats {
   total_projects: number;
   total_hours: number;
@@ -48,6 +49,7 @@ interface UserStats {
   total_invoice_amount: number;
 }
 
+// Define the shape of the Project object
 interface Project {
   id: string;
   title: string;
@@ -62,6 +64,20 @@ interface UserDetailModalProps {
   onRefresh: () => void;
 }
 
+// Type guard to check if the fetched data matches the UserStats interface
+function isUserStats(data: any): data is UserStats {
+    return (
+        typeof data === 'object' &&
+        data !== null &&
+        !Array.isArray(data) &&
+        typeof data.total_projects === 'number' &&
+        typeof data.total_hours === 'number' &&
+        typeof data.outstanding_invoices === 'number' &&
+        typeof data.total_invoice_amount === 'number'
+    );
+}
+
+
 const UserDetailModal: React.FC<UserDetailModalProps> = ({
   user,
   isOpen,
@@ -73,17 +89,17 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
-    full_name: user.full_name || '',
-    role: user.role
+    full_name: '',
+    role: 'user' as 'admin' | 'user',
   });
 
   useEffect(() => {
     if (isOpen && user) {
-      fetchUserDetails();
       setFormData({
         full_name: user.full_name || '',
         role: user.role
       });
+      fetchUserDetails();
     }
   }, [isOpen, user]);
 
@@ -91,17 +107,23 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
     try {
       setLoading(true);
 
-      // Get user stats - properly cast from Json to UserStats
+      // Get user stats
       const { data: statsData, error: statsError } = await supabase
         .rpc('get_user_stats', { target_user_id: user.id });
 
       if (statsError) throw statsError;
 
-      // Cast the Json response to UserStats
-      const stats = statsData as UserStats;
+      // Use the type guard to safely set the stats
+      if (isUserStats(statsData)) {
+          setUserStats(statsData);
+      } else {
+          console.error("Invalid data structure for UserStats received:", statsData);
+          setUserStats(null); // Set to null or a default state if data is invalid
+      }
+
 
       // Get user projects
-      const { data: projects, error: projectsError } = await supabase
+      const { data: projectsData, error: projectsError } = await supabase
         .from('project_assignments')
         .select(`
           assigned_at,
@@ -115,13 +137,20 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
       if (projectsError) throw projectsError;
 
-      setUserStats(stats);
-      setUserProjects(projects?.map(p => ({
-        id: p.projects.id,
-        title: p.projects.title,
-        status: p.projects.status,
-        assigned_at: p.assigned_at
-      })) || []);
+      // The 'projects' property might be an object or null, ensure it's handled
+      const mappedProjects = projectsData?.map(p => {
+        if (p.projects) { // Check if p.projects is not null
+            return {
+                id: p.projects.id,
+                title: p.projects.title,
+                status: p.projects.status,
+                assigned_at: p.assigned_at
+            };
+        }
+        return null; // Handle cases where a project might be null
+      }).filter((p): p is Project => p !== null) || []; // Filter out any nulls and assert the type
+
+      setUserProjects(mappedProjects);
 
     } catch (error) {
       console.error('Error fetching user details:', error);
@@ -150,20 +179,18 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
       if (profileError) throw profileError;
 
-      // Update role if changed - properly type the role
+      // Update role if changed
       if (formData.role !== user.role) {
-        // Delete existing role
         await supabase
           .from('user_roles')
           .delete()
           .eq('user_id', user.id);
 
-        // Insert new role with proper typing
         const { error: roleError } = await supabase
           .from('user_roles')
           .insert({
             user_id: user.id,
-            role: formData.role as 'admin' | 'user'
+            role: formData.role // This is now correctly typed
           });
 
         if (roleError) throw roleError;
@@ -191,23 +218,23 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
   const handleResetPassword = async () => {
     try {
-      // This would typically send a password reset email
-      // For now, we'll just show a toast
+      await supabase.auth.resetPasswordForEmail(user.email);
       toast({
         title: "Password Reset",
-        description: "Password reset email sent to user"
+        description: `Password reset email sent to ${user.email}.`
       });
     } catch (error) {
       console.error('Error resetting password:', error);
       toast({
         title: "Error",
-        description: "Failed to reset password",
+        description: "Failed to send password reset email.",
         variant: "destructive"
       });
     }
   };
 
   const formatDate = (dateString: string) => {
+    if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -215,7 +242,8 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
     });
   };
 
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = (amount: number | null | undefined) => {
+    if (amount === null || amount === undefined) return '$0.00';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
@@ -227,25 +255,25 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-webdev-black border-webdev-glass-border">
         <DialogHeader>
           <DialogTitle className="text-2xl text-webdev-silver flex items-center gap-2">
-            <User className="w-6 h-6" />
+            <User className="w-6 h-6 text-webdev-gradient-blue" />
             {user.full_name || 'Unknown User'}
           </DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-3 bg-webdev-darker-gray">
-            <TabsTrigger value="profile" className="data-[state=active]:bg-webdev-gradient-blue">
+            <TabsTrigger value="profile" className="data-[state=active]:bg-webdev-gradient-blue data-[state=active]:text-white">
               Profile
             </TabsTrigger>
-            <TabsTrigger value="projects" className="data-[state=active]:bg-webdev-gradient-blue">
+            <TabsTrigger value="projects" className="data-[state=active]:bg-webdev-gradient-blue data-[state=active]:text-white">
               Projects
             </TabsTrigger>
-            <TabsTrigger value="stats" className="data-[state=active]:bg-webdev-gradient-blue">
+            <TabsTrigger value="stats" className="data-[state=active]:bg-webdev-gradient-blue data-[state=active]:text-white">
               Statistics
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="profile" className="space-y-6">
+          <TabsContent value="profile" className="space-y-6 pt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
@@ -272,7 +300,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   <Label htmlFor="role" className="text-webdev-silver">Role</Label>
                   <Select
                     value={formData.role}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}
+                    onValueChange={(value: 'admin' | 'user') => setFormData(prev => ({ ...prev, role: value }))}
                   >
                     <SelectTrigger className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver">
                       <SelectValue />
@@ -294,7 +322,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                   <p className="text-webdev-soft-gray text-sm">
                     Created: {formatDate(user.created_at)}
                   </p>
-                  <p className="text-webdev-soft-gray text-sm">
+                  <p className="text-webdev-soft-gray text-sm truncate">
                     User ID: {user.id}
                   </p>
                 </div>
@@ -306,7 +334,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     className="w-full border-webdev-glass-border hover:bg-webdev-darker-gray text-webdev-silver"
                   >
                     <Key className="w-4 h-4 mr-2" />
-                    Reset Password
+                    Send Password Reset Email
                   </Button>
                 </div>
               </div>
@@ -316,7 +344,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
               <Button
                 onClick={handleSaveProfile}
                 disabled={saving}
-                className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80 text-white"
               >
                 <Save className="w-4 h-4 mr-2" />
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -331,7 +359,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
             </div>
           </TabsContent>
 
-          <TabsContent value="projects" className="space-y-4">
+          <TabsContent value="projects" className="space-y-4 pt-4">
             {loading ? (
               <div className="text-center py-8 text-webdev-soft-gray">
                 Loading projects...
@@ -357,8 +385,8 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                           </p>
                         </div>
                       </div>
-                      <Badge variant="outline" className="capitalize">
-                        {project.status}
+                      <Badge variant="outline" className="capitalize border-webdev-glass-border text-webdev-soft-gray">
+                        {project.status.replace('_', ' ')}
                       </Badge>
                     </div>
                   </div>
@@ -367,7 +395,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
             )}
           </TabsContent>
 
-          <TabsContent value="stats" className="space-y-4">
+          <TabsContent value="stats" className="space-y-4 pt-4">
             {loading ? (
               <div className="text-center py-8 text-webdev-soft-gray">
                 Loading statistics...
@@ -379,7 +407,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     <FolderOpen className="w-6 h-6 text-webdev-gradient-blue" />
                     <h3 className="text-webdev-silver font-medium">Total Projects</h3>
                   </div>
-                  <p className="text-3xl font-bold text-webdev-silver">
+                  <p className="text-3xl font-light text-white">
                     {userStats.total_projects}
                   </p>
                 </div>
@@ -389,7 +417,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     <Clock className="w-6 h-6 text-webdev-gradient-purple" />
                     <h3 className="text-webdev-silver font-medium">Hours Logged</h3>
                   </div>
-                  <p className="text-3xl font-bold text-webdev-silver">
+                  <p className="text-3xl font-light text-white">
                     {userStats.total_hours}
                   </p>
                 </div>
@@ -399,7 +427,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     <AlertTriangle className="w-6 h-6 text-yellow-500" />
                     <h3 className="text-webdev-silver font-medium">Outstanding Invoices</h3>
                   </div>
-                  <p className="text-3xl font-bold text-webdev-silver">
+                  <p className="text-3xl font-light text-white">
                     {userStats.outstanding_invoices}
                   </p>
                 </div>
@@ -409,7 +437,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                     <DollarSign className="w-6 h-6 text-green-500" />
                     <h3 className="text-webdev-silver font-medium">Outstanding Amount</h3>
                   </div>
-                  <p className="text-3xl font-bold text-webdev-silver">
+                  <p className="text-3xl font-light text-white">
                     {formatCurrency(userStats.total_invoice_amount)}
                   </p>
                 </div>
