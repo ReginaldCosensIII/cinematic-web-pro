@@ -1,13 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAdminCheck } from '@/hooks/useAdminCheck'; // 1. Import the useAdminCheck hook
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
+  const { isAdmin } = useAdminCheck(); // 2. Get the isAdmin status
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -26,13 +27,16 @@ const Header = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  // 3. Determine the correct dashboard path
+  const dashboardPath = isAdmin ? '/admin' : '/dashboard';
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-effect backdrop-blur-xl border border-webdev-glass-border">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="text-2xl font-bold text-webdev-silver hover:text-white transition-colors duration-300 tracking-wide"
           >
             &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">Pro</span>&gt;
@@ -45,23 +49,23 @@ const Header = () => {
                 key={item.name}
                 to={item.path}
                 className={`text-sm font-medium transition-all duration-300 hover:text-white ${
-                  isActive(item.path) 
-                    ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
+                  isActive(item.path)
+                    ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
                     : 'text-webdev-soft-gray'
                 }`}
               >
                 {item.name}
               </Link>
             ))}
-            
+
             {/* User Menu */}
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link
-                  to="/dashboard"
+                  to={dashboardPath} // 4. Use the dynamic dashboardPath
                   className={`text-sm font-medium transition-all duration-300 hover:text-white ${
-                    isActive('/dashboard') 
-                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
+                    isActive('/dashboard') || isActive('/admin')
+                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
                       : 'text-webdev-soft-gray'
                   }`}
                 >
@@ -104,23 +108,23 @@ const Header = () => {
                   to={item.path}
                   onClick={() => setIsMenuOpen(false)}
                   className={`text-sm font-medium py-2 transition-colors duration-300 ${
-                    isActive(item.path) 
-                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
+                    isActive(item.path)
+                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
                       : 'text-webdev-soft-gray hover:text-webdev-silver'
                   }`}
                 >
                   {item.name}
                 </Link>
               ))}
-              
+
               {user ? (
                 <>
                   <Link
-                    to="/dashboard"
+                    to={dashboardPath} // 5. Use the dynamic dashboardPath here as well
                     onClick={() => setIsMenuOpen(false)}
                     className={`text-sm font-medium py-2 transition-colors duration-300 ${
-                      isActive('/dashboard') 
-                        ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent' 
+                      isActive('/dashboard') || isActive('/admin')
+                        ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent'
                         : 'text-webdev-soft-gray hover:text-webdev-silver'
                     }`}
                   >
