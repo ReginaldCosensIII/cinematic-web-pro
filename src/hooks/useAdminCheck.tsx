@@ -12,6 +12,9 @@ export const useAdminCheck = () => {
     const checkAdminStatus = async () => {
       console.log('useAdminCheck - Starting admin check for user:', user?.id);
       
+      // Always start with loading true
+      setLoading(true);
+      
       if (!user) {
         console.log('useAdminCheck - No user found');
         setIsAdmin(false);
@@ -43,14 +46,11 @@ export const useAdminCheck = () => {
         console.error('Error checking admin status:', error);
         setIsAdmin(false);
       } finally {
+        // CRITICAL: Only set loading to false after the query is completely done
         setLoading(false);
       }
     };
 
-    // Only reset loading when user changes, but don't reset isAdmin until we have new data
-    if (loading === false) {
-      setLoading(true);
-    }
     checkAdminStatus();
   }, [user]);
 
