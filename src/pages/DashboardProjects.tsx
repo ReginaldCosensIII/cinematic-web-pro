@@ -44,14 +44,45 @@ const DashboardProjects = () => {
 
   const fetchProjects = async () => {
     try {
-      const { data, error } = await supabase
+      console.log('Fetching projects with hours for user:', user?.id);
+      
+      // First get projects
+      const { data: projectsData, error: projectsError } = await supabase
         .from('projects')
         .select('*')
         .eq('user_id', user?.id)
         .order('last_updated', { ascending: false });
 
-      if (error) throw error;
-      setProjects(data || []);
+      if (projectsError) {
+        console.error('Error fetching projects:', projectsError);
+        return;
+      }
+
+      // Then get time entries for each project and calculate total hours
+      const projectsWithHours = await Promise.all(
+        (projectsData || []).map(async (project) => {
+          const { data: timeEntries, error: timeError } = await supabase
+            .from('time_entries')
+            .select('hours')
+            .eq('project_id', project.id);
+
+          if (timeError) {
+            console.error('Error fetching time entries for project:', project.id, timeError);
+          }
+
+          const totalHours = (timeEntries || []).reduce((sum, entry) => sum + Number(entry.hours), 0);
+          
+          console.log(`Project ${project.title} has ${totalHours} total hours from ${timeEntries?.length || 0} entries`);
+
+          return {
+            ...project,
+            total_hours: totalHours
+          };
+        })
+      );
+
+      console.log('Projects with hours:', projectsWithHours);
+      setProjects(projectsWithHours);
     } catch (error) {
       console.error('Error fetching projects:', error);
     } finally {
