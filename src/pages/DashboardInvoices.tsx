@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -65,7 +66,7 @@ const DashboardInvoices = () => {
     };
     
     return (
-      <Badge className={`${statusColors[status as keyof typeof statusColors]} text-white`}>
+      <Badge className={`${statusColors[status as keyof typeof statusColors]} text-white text-xs`}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </Badge>
     );
@@ -92,7 +93,7 @@ const DashboardInvoices = () => {
       <Header />
       
       <main className="relative z-10 pt-32 pb-20">
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           {/* Mobile Sidebar Toggle */}
           {isMobile && (
             <button
@@ -107,11 +108,10 @@ const DashboardInvoices = () => {
             </button>
           )}
 
-          <div className="grid lg:grid-cols-4 gap-8">
+          <div className="flex gap-4 md:gap-8">
             {/* Sidebar */}
             <div className={`
-              lg:col-span-1
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : ''}
+              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
               ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
             `}>
               {isMobile && (
@@ -130,66 +130,66 @@ const DashboardInvoices = () => {
               />
             )}
 
-            <div className="lg:col-span-3">
-              <div className="mb-8">
-                <h1 className="text-3xl font-light text-webdev-silver mb-2">My Invoices</h1>
-                <p className="text-webdev-soft-gray">Track your project invoices and payment status</p>
+            <div className="flex-1 min-w-0">
+              <div className="mb-6 md:mb-8">
+                <h1 className="text-2xl md:text-3xl font-light text-webdev-silver mb-2">My Invoices</h1>
+                <p className="text-sm md:text-base text-webdev-soft-gray">Track your project invoices and payment status</p>
               </div>
 
               {/* Stats Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
                 <Card className="glass-effect border-webdev-glass-border">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-webdev-soft-gray text-sm">Total Amount</p>
-                        <p className="text-2xl font-bold text-webdev-silver">${totalAmount.toFixed(2)}</p>
+                        <p className="text-webdev-soft-gray text-xs md:text-sm">Total</p>
+                        <p className="text-lg md:text-2xl font-bold text-webdev-silver">${totalAmount.toFixed(2)}</p>
                       </div>
-                      <DollarSign className="w-8 h-8 text-webdev-gradient-blue" />
+                      <DollarSign className="w-6 h-6 md:w-8 md:h-8 text-webdev-gradient-blue" />
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card className="glass-effect border-webdev-glass-border">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-webdev-soft-gray text-sm">Paid</p>
-                        <p className="text-2xl font-bold text-green-400">${paidAmount.toFixed(2)}</p>
+                        <p className="text-webdev-soft-gray text-xs md:text-sm">Paid</p>
+                        <p className="text-lg md:text-2xl font-bold text-green-400">${paidAmount.toFixed(2)}</p>
                       </div>
-                      <Receipt className="w-8 h-8 text-green-400" />
+                      <Receipt className="w-6 h-6 md:w-8 md:h-8 text-green-400" />
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card className="glass-effect border-webdev-glass-border">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-webdev-soft-gray text-sm">Pending</p>
-                        <p className="text-2xl font-bold text-yellow-400">${pendingAmount.toFixed(2)}</p>
+                        <p className="text-webdev-soft-gray text-xs md:text-sm">Pending</p>
+                        <p className="text-lg md:text-2xl font-bold text-yellow-400">${pendingAmount.toFixed(2)}</p>
                       </div>
-                      <Calendar className="w-8 h-8 text-yellow-400" />
+                      <Calendar className="w-6 h-6 md:w-8 md:h-8 text-yellow-400" />
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card className="glass-effect border-webdev-glass-border">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-webdev-soft-gray text-sm">Overdue</p>
-                        <p className="text-2xl font-bold text-red-400">{overdueInvoices}</p>
+                        <p className="text-webdev-soft-gray text-xs md:text-sm">Overdue</p>
+                        <p className="text-lg md:text-2xl font-bold text-red-400">{overdueInvoices}</p>
                       </div>
-                      <FileText className="w-8 h-8 text-red-400" />
+                      <FileText className="w-6 h-6 md:w-8 md:h-8 text-red-400" />
                     </div>
                   </CardContent>
                 </Card>
               </div>
 
               {/* Search */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <div className="relative flex-1">
+              <div className="mb-6">
+                <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-webdev-soft-gray w-4 h-4" />
                   <Input
                     placeholder="Search invoices..."
@@ -202,15 +202,15 @@ const DashboardInvoices = () => {
 
               {/* Invoices Table */}
               <Card className="glass-effect border-webdev-glass-border">
-                <CardHeader>
-                  <CardTitle className="text-webdev-silver">Your Invoices</CardTitle>
-                  <CardDescription className="text-webdev-soft-gray">
+                <CardHeader className="p-4 md:p-6">
+                  <CardTitle className="text-webdev-silver text-lg md:text-xl">Your Invoices</CardTitle>
+                  <CardDescription className="text-webdev-soft-gray text-sm">
                     {filteredInvoices.length} invoice{filteredInvoices.length !== 1 ? 's' : ''} found
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-0 md:p-6 md:pt-0">
                   {isLoading ? (
-                    <div className="space-y-4">
+                    <div className="space-y-4 p-4 md:p-0">
                       {[1, 2, 3].map((i) => (
                         <div key={i} className="animate-pulse flex space-x-4">
                           <div className="h-4 bg-webdev-darker-gray rounded flex-1"></div>
@@ -222,40 +222,40 @@ const DashboardInvoices = () => {
                       <Table>
                         <TableHeader>
                           <TableRow className="border-webdev-glass-border">
-                            <TableHead className="text-webdev-soft-gray">Invoice #</TableHead>
-                            <TableHead className="text-webdev-soft-gray">Project</TableHead>
-                            <TableHead className="text-webdev-soft-gray">Amount</TableHead>
-                            <TableHead className="text-webdev-soft-gray">Status</TableHead>
-                            <TableHead className="text-webdev-soft-gray">Issue Date</TableHead>
-                            <TableHead className="text-webdev-soft-gray">Due Date</TableHead>
-                            <TableHead className="text-webdev-soft-gray">Actions</TableHead>
+                            <TableHead className="text-webdev-soft-gray text-xs md:text-sm whitespace-nowrap">Invoice #</TableHead>
+                            <TableHead className="text-webdev-soft-gray text-xs md:text-sm whitespace-nowrap">Project</TableHead>
+                            <TableHead className="text-webdev-soft-gray text-xs md:text-sm whitespace-nowrap">Amount</TableHead>
+                            <TableHead className="text-webdev-soft-gray text-xs md:text-sm whitespace-nowrap">Status</TableHead>
+                            <TableHead className="text-webdev-soft-gray text-xs md:text-sm whitespace-nowrap hidden md:table-cell">Issue Date</TableHead>
+                            <TableHead className="text-webdev-soft-gray text-xs md:text-sm whitespace-nowrap hidden md:table-cell">Due Date</TableHead>
+                            <TableHead className="text-webdev-soft-gray text-xs md:text-sm whitespace-nowrap">Actions</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           {filteredInvoices.map((invoice) => (
                             <TableRow key={invoice.id} className="border-webdev-glass-border hover:bg-webdev-darker-gray/20">
-                              <TableCell className="text-webdev-silver font-mono">{invoice.invoice_number}</TableCell>
-                              <TableCell className="text-webdev-silver">
+                              <TableCell className="text-webdev-silver font-mono text-xs md:text-sm">{invoice.invoice_number}</TableCell>
+                              <TableCell className="text-webdev-silver text-xs md:text-sm max-w-[100px] truncate">
                                 {invoice.projects?.title || 'No Project'}
                               </TableCell>
-                              <TableCell className="text-webdev-silver font-semibold">
+                              <TableCell className="text-webdev-silver font-semibold text-xs md:text-sm whitespace-nowrap">
                                 ${invoice.amount.toFixed(2)}
                               </TableCell>
                               <TableCell>{getStatusBadge(invoice.status)}</TableCell>
-                              <TableCell className="text-webdev-silver">
+                              <TableCell className="text-webdev-silver text-xs md:text-sm hidden md:table-cell">
                                 {new Date(invoice.issue_date).toLocaleDateString()}
                               </TableCell>
-                              <TableCell className="text-webdev-silver">
+                              <TableCell className="text-webdev-silver text-xs md:text-sm hidden md:table-cell">
                                 {new Date(invoice.due_date).toLocaleDateString()}
                               </TableCell>
                               <TableCell>
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="border-webdev-glass-border hover:bg-webdev-darker-gray"
+                                  className="border-webdev-glass-border hover:bg-webdev-darker-gray text-xs"
                                 >
-                                  <Download className="w-4 h-4 mr-1" />
-                                  Download
+                                  <Download className="w-3 h-3 md:w-4 md:h-4 md:mr-1" />
+                                  <span className="hidden md:inline">Download</span>
                                 </Button>
                               </TableCell>
                             </TableRow>
@@ -266,7 +266,7 @@ const DashboardInvoices = () => {
                   )}
 
                   {filteredInvoices.length === 0 && !isLoading && (
-                    <div className="text-center py-8">
+                    <div className="text-center py-8 p-4 md:p-0">
                       <Receipt className="w-12 h-12 text-webdev-soft-gray mx-auto mb-4" />
                       <p className="text-webdev-soft-gray">No invoices found</p>
                     </div>

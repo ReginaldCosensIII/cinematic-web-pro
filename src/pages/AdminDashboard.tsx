@@ -71,7 +71,7 @@ const AdminDashboard = () => {
         <SmokeBackground />
         <Header />
         
-        <main className="relative z-10 pt-24 md:pt-32 pb-20">
+        <main className="relative z-10 pt-32 pb-20">
           <div className="max-w-7xl mx-auto px-4 md:px-6">
             {/* Mobile Sidebar Toggle */}
             {isMobile && (
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
               </button>
             )}
 
-            <div className="flex gap-8">
+            <div className="flex gap-4 md:gap-8">
               {/* Sidebar */}
               <div className={`
                 ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
@@ -109,7 +109,7 @@ const AdminDashboard = () => {
                 />
               )}
 
-              <div className="flex-1 space-y-6 md:space-y-8">
+              <div className="flex-1 space-y-6 md:space-y-8 min-w-0">
                 <div className="glass-effect rounded-2xl p-4 md:p-8 border border-webdev-glass-border">
                   <h1 className="text-2xl md:text-4xl font-light text-webdev-silver mb-2">
                     Welcome <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-semibold">Admin</span>
