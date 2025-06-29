@@ -23,6 +23,7 @@ import {
 interface CreateProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
 interface User {
@@ -31,7 +32,7 @@ interface User {
   username: string;
 }
 
-const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
+const CreateProjectModal = ({ isOpen, onClose, onSuccess }: CreateProjectModalProps) => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [formData, setFormData] = useState({
@@ -92,6 +93,10 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
         user_id: '',
         start_date: '',
       });
+      
+      if (onSuccess) {
+        onSuccess();
+      }
       onClose();
     } catch (error) {
       console.error('Error creating project:', error);
@@ -143,14 +148,14 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
 
           <div className="space-y-2">
             <Label htmlFor="user_id" className="text-webdev-silver">
-              Assign to User *
+              Assign to Client *
             </Label>
             <Select
               value={formData.user_id}
               onValueChange={(value) => setFormData({ ...formData, user_id: value })}
             >
               <SelectTrigger className="bg-webdev-black border-webdev-glass-border text-webdev-silver">
-                <SelectValue placeholder="Select a user" />
+                <SelectValue placeholder="Select a client" />
               </SelectTrigger>
               <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
                 {users.map((user) => (

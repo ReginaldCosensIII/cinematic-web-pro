@@ -182,7 +182,7 @@ const ProjectsTable = () => {
           <TableHeader>
             <TableRow className="border-webdev-glass-border hover:bg-webdev-darker-gray/50">
               <TableHead className="text-webdev-silver font-medium">Project Name</TableHead>
-              <TableHead className="text-webdev-silver font-medium">Owner</TableHead>
+              <TableHead className="text-webdev-silver font-medium">Client</TableHead>
               <TableHead className="text-webdev-silver font-medium">Status</TableHead>
               <TableHead className="text-webdev-silver font-medium">Hours Logged</TableHead>
               <TableHead className="text-webdev-silver font-medium">Invoice Total</TableHead>
@@ -256,7 +256,7 @@ const ProjectsTable = () => {
 
         {filteredProjects.length === 0 && (
           <div className="text-center py-8 text-webdev-soft-gray">
-            {searchTerm ? 'No projects match your search.' : 'No projects found.'}
+            {searchTerm ? 'No projects match your search.' : 'No projects found. Create your first project to get started.'}
           </div>
         )}
       </div>

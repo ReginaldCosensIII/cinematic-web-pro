@@ -8,6 +8,7 @@ import {
   Clock, 
   Receipt, 
   FileText,
+  Settings,
   LogOut
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,11 +19,12 @@ const AdminSidebar = () => {
   
   const menuItems = [
     { icon: LayoutDashboard, label: 'Overview', path: '/admin' },
-    { icon: User, label: 'Users', path: '/admin/users' },
     { icon: FolderOpen, label: 'Projects', path: '/admin/projects' },
+    { icon: User, label: 'Clients', path: '/admin/users' },
     { icon: Clock, label: 'Hours Logged', path: '/admin/hours' },
     { icon: Receipt, label: 'Invoices', path: '/admin/invoices' },
     { icon: FileText, label: 'Form Submissions', path: '/admin/submissions' },
+    { icon: Settings, label: 'Settings', path: '/admin/settings' },
   ];
 
   const handleSignOut = async () => {

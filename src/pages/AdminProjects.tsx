@@ -6,13 +6,16 @@ import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import ProjectsTable from '@/components/admin/projects/ProjectsTable';
+import CreateProjectModal from '@/components/admin/projects/CreateProjectModal';
 import { useAuth } from '@/contexts/AuthContext';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const AdminProjects = () => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   if (!user) {
     return <div>Please log in to view projects.</div>;
@@ -62,9 +65,18 @@ const AdminProjects = () => {
             )}
 
             <div className="flex-1 min-w-0 overflow-hidden">
-              <div className="mb-6 md:mb-8">
-                <h1 className="text-2xl md:text-3xl font-light text-webdev-silver mb-2">Projects</h1>
-                <p className="text-sm md:text-base text-webdev-soft-gray">Manage all system projects and assignments</p>
+              <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-light text-webdev-silver mb-2">Projects</h1>
+                  <p className="text-sm md:text-base text-webdev-soft-gray">Manage all system projects and assignments</p>
+                </div>
+                <Button
+                  onClick={() => setShowCreateModal(true)}
+                  className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white shrink-0"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Project
+                </Button>
               </div>
 
               <div className="overflow-x-auto">
@@ -76,6 +88,12 @@ const AdminProjects = () => {
       </main>
       
       <Footer />
+
+      {/* Create Project Modal */}
+      <CreateProjectModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+      />
     </div>
   );
 };
