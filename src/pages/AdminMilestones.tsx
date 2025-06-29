@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -59,28 +58,29 @@ const AdminMilestones = () => {
 
       if (milestonesError) throw milestonesError;
 
-      // Then get projects data with profiles joined correctly
+      // Get projects data
       const { data: projects, error: projectsError } = await supabase
         .from('projects')
-        .select(`
-          id,
-          title,
-          user_id,
-          profiles!projects_user_id_fkey (
-            full_name,
-            username
-          )
-        `);
+        .select('id, title, user_id');
 
       if (projectsError) throw projectsError;
 
-      // Combine the data
+      // Get profiles data
+      const { data: profiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, full_name, username');
+
+      if (profilesError) throw profilesError;
+
+      // Combine the data manually
       const milestonesWithProjects = milestones?.map(milestone => {
         const project = projects?.find(p => p.id === milestone.project_id);
+        const profile = project ? profiles?.find(pr => pr.id === project.user_id) : null;
+        
         return {
           ...milestone,
           project_title: project?.title || 'Unknown Project',
-          project_owner_name: project?.profiles?.full_name || project?.profiles?.username || 'Unknown User'
+          project_owner_name: profile?.full_name || profile?.username || 'Unknown User'
         };
       }) || [];
 
