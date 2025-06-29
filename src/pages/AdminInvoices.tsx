@@ -29,8 +29,8 @@ interface Invoice {
   user_id: string;
   created_at: string;
   profiles: {
-    full_name: string;
-    username: string;
+    full_name: string | null;
+    username: string | null;
   } | null;
   projects: {
     title: string;
@@ -44,8 +44,8 @@ interface Project {
 
 interface User {
   id: string;
-  full_name: string;
-  username: string;
+  full_name: string | null;
+  username: string | null;
 }
 
 const AdminInvoices = () => {
@@ -77,13 +77,24 @@ const AdminInvoices = () => {
         .from('invoices')
         .select(`
           *,
-          profiles!invoices_user_id_fkey(full_name, username),
+          profiles(full_name, username),
           projects(title)
         `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data as Invoice[];
+      
+      // Transform the data to ensure it matches our Invoice interface
+      return (data || []).map(item => ({
+        ...item,
+        profiles: item.profiles ? {
+          full_name: item.profiles.full_name || null,
+          username: item.profiles.username || null,
+        } : null,
+        projects: item.projects ? {
+          title: item.projects.title
+        } : null
+      })) as Invoice[];
     }
   });
 
@@ -413,7 +424,7 @@ const AdminInvoices = () => {
                         <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
                           {users?.map((user) => (
                             <SelectItem key={user.id} value={user.id} className="text-webdev-silver">
-                              {user.full_name}
+                              {user.full_name || user.username || 'Unknown User'}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -552,7 +563,7 @@ const AdminInvoices = () => {
                           <TableRow key={invoice.id} className="border-webdev-glass-border hover:bg-webdev-darker-gray/20">
                             <TableCell className="text-webdev-silver font-mono">{invoice.invoice_number}</TableCell>
                             <TableCell className="text-webdev-silver">
-                              {invoice.profiles?.full_name || 'Unknown'}
+                              {invoice.profiles?.full_name || invoice.profiles?.username || 'Unknown'}
                             </TableCell>
                             <TableCell className="text-webdev-silver">
                               {invoice.projects?.title || 'No Project'}
@@ -636,7 +647,7 @@ const AdminInvoices = () => {
                       <SelectContent className="bg-webdev-darker-gray border-webdev-glass-border">
                         {users?.map((user) => (
                           <SelectItem key={user.id} value={user.id} className="text-webdev-silver">
-                            {user.full_name}
+                            {user.full_name || user.username || 'Unknown User'}
                           </SelectItem>
                         ))}
                       </SelectContent>
