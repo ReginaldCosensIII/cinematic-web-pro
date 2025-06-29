@@ -91,11 +91,14 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
     try {
       setLoading(true);
 
-      // Get user stats
-      const { data: stats, error: statsError } = await supabase
+      // Get user stats - properly cast from Json to UserStats
+      const { data: statsData, error: statsError } = await supabase
         .rpc('get_user_stats', { target_user_id: user.id });
 
       if (statsError) throw statsError;
+
+      // Cast the Json response to UserStats
+      const stats = statsData as UserStats;
 
       // Get user projects
       const { data: projects, error: projectsError } = await supabase
@@ -147,7 +150,7 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
 
       if (profileError) throw profileError;
 
-      // Update role if changed
+      // Update role if changed - properly type the role
       if (formData.role !== user.role) {
         // Delete existing role
         await supabase
@@ -155,12 +158,12 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
           .delete()
           .eq('user_id', user.id);
 
-        // Insert new role
+        // Insert new role with proper typing
         const { error: roleError } = await supabase
           .from('user_roles')
           .insert({
             user_id: user.id,
-            role: formData.role
+            role: formData.role as 'admin' | 'user'
           });
 
         if (roleError) throw roleError;
