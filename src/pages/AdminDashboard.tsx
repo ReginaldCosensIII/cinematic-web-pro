@@ -17,8 +17,27 @@ const AdminDashboard = () => {
   const { logSecurityEvent } = useSecurityLogger();
   const navigate = useNavigate();
 
-  // Show a loading screen while we're checking auth and admin status
-  if (authLoading || adminLoading) {
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/auth');
+    }
+  }, [user, authLoading, navigate]);
+
+  useEffect(() => {
+    if (!adminLoading && isAdmin === false) {
+      logSecurityEvent({
+        event_type: 'admin_access',
+        details: {
+          access_denied: true,
+          user_id: user?.id,
+          attempted_path: '/admin'
+        }
+      });
+      navigate('/dashboard');
+    }
+  }, [isAdmin, adminLoading, user, logSecurityEvent, navigate]);
+
+  if (authLoading || adminLoading || isAdmin === null) {
     return (
       <div className="min-h-screen bg-webdev-black flex items-center justify-center">
         <div className="text-webdev-silver">
@@ -29,108 +48,63 @@ const AdminDashboard = () => {
     );
   }
 
-  // After loading, if there's no user, redirect to auth
-  if (!user) {
-    navigate('/auth');
-    return null; // Return null to prevent rendering anything else
-  }
-
-  // If the user is not an admin, redirect to the user dashboard
-  if (isAdmin === false) {
-    logSecurityEvent({
-      event_type: 'admin_access',
-      details: { 
-        access_denied: true,
-        user_id: user.id,
-        attempted_path: '/admin'
-      }
-    });
-    navigate('/dashboard');
-    return null; // Return null to prevent rendering anything else
-  }
-
-  // If we've made it this far, the user is an admin.
-  // We can log the successful access.
-  useEffect(() => {
-    if (isAdmin) {
-        logSecurityEvent({
-          event_type: 'admin_access',
-          details: { 
-            access_granted: true,
-            user_id: user.id,
-            path: '/admin'
-          }
-        });
-    }
-  }, [isAdmin, user, logSecurityEvent]);
-
-
-  // Render the admin dashboard
-  return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-      <SmokeBackground />
-      <Header />
-      
-      <main className="relative z-10 pt-24 md:pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex gap-8">
-            {/* Sidebar */}
-            <div className="hidden lg:block w-64 flex-shrink-0">
-              <AdminSidebar />
-            </div>
-            
-            {/* Main Content */}
-            <div className="flex-1 space-y-6 md:space-y-8">
-              {/* Welcome Section */}
-              <div className="glass-effect rounded-2xl p-4 md:p-8 border border-webdev-glass-border">
-                <h1 className="text-2xl md:text-4xl font-light text-webdev-silver mb-2">
-                  Welcome <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-semibold">Admin</span>
-                </h1>
-                <p className="text-webdev-soft-gray text-base md:text-lg">
-                  Manage users, projects, and system overview
-                </p>
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+        <SmokeBackground />
+        <Header />
+        <main className="relative z-10 pt-24 md:pt-32 pb-20">
+          <div className="max-w-7xl mx-auto px-4 md:px-6">
+            <div className="flex gap-8">
+              <div className="hidden lg:block w-64 flex-shrink-0">
+                <AdminSidebar />
               </div>
-
-              {/* Stats Cards */}
-              <AdminStats />
-
-              {/* Quick Actions */}
-              <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border">
-                <h2 className="text-xl font-semibold text-webdev-silver mb-4">Quick Actions</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <button 
-                    onClick={() => navigate('/admin/users')}
-                    className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
-                  >
-                    <h3 className="font-medium text-webdev-silver mb-2">Manage Users</h3>
-                    <p className="text-sm text-webdev-soft-gray">View and edit user profiles</p>
-                  </button>
-                  
-                  <button 
-                    onClick={() => navigate('/admin/projects')}
-                    className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
-                  >
-                    <h3 className="font-medium text-webdev-silver mb-2">Create Project</h3>
-                    <p className="text-sm text-webdev-soft-gray">Add new projects and milestones</p>
-                  </button>
-                  
-                  <button 
-                    onClick={() => navigate('/admin/submissions')}
-                    className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
-                  >
-                    <h3 className="font-medium text-webdev-silver mb-2">View Submissions</h3>
-                    <p className="text-sm text-webdev-soft-gray">Check contact form submissions</p>
-                  </button>
+              <div className="flex-1 space-y-6 md:space-y-8">
+                <div className="glass-effect rounded-2xl p-4 md:p-8 border border-webdev-glass-border">
+                  <h1 className="text-2xl md:text-4xl font-light text-webdev-silver mb-2">
+                    Welcome <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-semibold">Admin</span>
+                  </h1>
+                  <p className="text-webdev-soft-gray text-base md:text-lg">
+                    Manage users, projects, and system overview
+                  </p>
+                </div>
+                <AdminStats />
+                <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border">
+                  <h2 className="text-xl font-semibold text-webdev-silver mb-4">Quick Actions</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button 
+                      onClick={() => navigate('/admin/users')}
+                      className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
+                    >
+                      <h3 className="font-medium text-webdev-silver mb-2">Manage Users</h3>
+                      <p className="text-sm text-webdev-soft-gray">View and edit user profiles</p>
+                    </button>
+                    <button 
+                      onClick={() => navigate('/admin/projects')}
+                      className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
+                    >
+                      <h3 className="font-medium text-webdev-silver mb-2">Create Project</h3>
+                      <p className="text-sm text-webdev-soft-gray">Add new projects and milestones</p>
+                    </button>
+                    <button 
+                      onClick={() => navigate('/admin/submissions')}
+                      className="glass-effect rounded-xl p-4 border border-webdev-glass-border hover:bg-webdev-darker-gray/50 transition-all duration-300 text-left"
+                    >
+                      <h3 className="font-medium text-webdev-silver mb-2">View Submissions</h3>
+                      <p className="text-sm text-webdev-soft-gray">Check contact form submissions</p>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
-  );
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+  
+  return null;
 };
 
 export default AdminDashboard;

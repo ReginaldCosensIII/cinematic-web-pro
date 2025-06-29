@@ -6,14 +6,13 @@ import { supabase } from '@/integrations/supabase/client';
 
 export const useAdminCheck = () => {
   const { user } = useAuth();
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // Keep this as null initially
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAdminStatus = async () => {
-      // Always start with loading true and isAdmin as null when the user changes
       setLoading(true);
-      setIsAdmin(null);
+      setIsAdmin(null); // Reset on user change
 
       if (!user) {
         setIsAdmin(false);
@@ -23,27 +22,29 @@ export const useAdminCheck = () => {
 
       try {
         const { data, error } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', user.id)
-          .eq('role', 'admin')
-          .maybeSingle();
+          .rpc('has_role', { _user_id: user.id, _role: 'admin' });
+
 
         if (error) {
           console.error('Error checking admin status:', error);
           setIsAdmin(false);
         } else {
-          setIsAdmin(!!data);
+          setIsAdmin(data);
         }
       } catch (error) {
-        console.error('Error checking admin status:', error);
+        console.error('Exception in admin check:', error);
         setIsAdmin(false);
       } finally {
         setLoading(false);
       }
     };
 
-    checkAdminStatus();
+    if (user) {
+        checkAdminStatus();
+    } else {
+        setIsAdmin(false);
+        setLoading(false);
+    }
   }, [user]);
 
   return { isAdmin, loading };
