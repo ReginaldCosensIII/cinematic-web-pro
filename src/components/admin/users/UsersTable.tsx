@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -27,6 +26,8 @@ interface User {
   total_hours: number;
   outstanding_invoices: number;
   total_outstanding_amount: number;
+  email?: string;
+  assigned_projects?: number;
 }
 
 interface UserStats {
