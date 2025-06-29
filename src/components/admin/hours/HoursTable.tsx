@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -38,7 +37,9 @@ const HoursTable = () => {
 
   const fetchTimeEntries = async () => {
     try {
-      // Use a direct query instead of RPC since the function may not be recognized by TypeScript yet
+      console.log('Fetching time entries...');
+      
+      // Fixed query - properly join through the correct relationships
       const { data, error } = await supabase
         .from('time_entries')
         .select(`
@@ -61,21 +62,30 @@ const HoursTable = () => {
         .order('date', { ascending: false })
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
+
+      console.log('Raw data from Supabase:', data);
 
       // Transform the data to match our interface
-      const transformedData = (data || []).map((entry: any) => ({
-        id: entry.id,
-        date: entry.date,
-        hours: Number(entry.hours),
-        description: entry.description || '',
-        project_id: entry.project_id,
-        project_title: entry.projects?.title || 'Unknown Project',
-        client_name: entry.projects?.profiles?.full_name || 'Unknown Client',
-        client_id: entry.projects?.user_id || '',
-        created_at: entry.created_at,
-      }));
+      const transformedData = (data || []).map((entry: any) => {
+        console.log('Transforming entry:', entry);
+        return {
+          id: entry.id,
+          date: entry.date,
+          hours: Number(entry.hours),
+          description: entry.description || '',
+          project_id: entry.project_id,
+          project_title: entry.projects?.title || 'Unknown Project',
+          client_name: entry.projects?.profiles?.full_name || 'Unknown Client',
+          client_id: entry.projects?.user_id || '',
+          created_at: entry.created_at,
+        };
+      });
 
+      console.log('Transformed data:', transformedData);
       setTimeEntries(transformedData);
     } catch (error) {
       console.error('Error fetching time entries:', error);

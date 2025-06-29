@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -10,21 +11,20 @@ import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { Clock, FolderOpen, Target, Menu, X } from 'lucide-react';
 import { format } from 'date-fns';
 
-interface TimeLog {
+interface TimeEntry {
   id: string;
   project_title: string;
-  milestone_title: string;
-  hours_logged: number;
-  status: string;
-  due_date: string | null;
-  completion_date: string | null;
+  hours: number;
+  description: string;
+  date: string;
+  created_at: string;
 }
 
 const DashboardTimeTracking = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const [timeLogs, setTimeLogs] = useState<TimeLog[]>([]);
+  const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [totalHours, setTotalHours] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -37,21 +37,23 @@ const DashboardTimeTracking = () => {
 
   useEffect(() => {
     if (user) {
-      fetchTimeLogs();
+      fetchTimeEntries();
     }
   }, [user]);
 
-  const fetchTimeLogs = async () => {
+  const fetchTimeEntries = async () => {
     try {
+      console.log('Fetching time entries for user:', user?.id);
+      
+      // Get time entries with project information
       const { data, error } = await supabase
-        .from('milestones')
+        .from('time_entries')
         .select(`
           id,
-          title,
-          hours_logged,
-          status,
-          due_date,
-          completion_date,
+          hours,
+          description,
+          date,
+          created_at,
           projects!inner(
             id,
             title,
@@ -59,49 +61,33 @@ const DashboardTimeTracking = () => {
           )
         `)
         .eq('projects.user_id', user?.id)
-        .order('completion_date', { ascending: false });
+        .order('date', { ascending: false });
 
       if (error) {
-        console.error('Error fetching time logs:', error);
+        console.error('Error fetching time entries:', error);
       } else {
-        const formattedLogs = data?.map(item => ({
-          id: item.id,
-          project_title: item.projects.title,
-          milestone_title: item.title,
-          hours_logged: item.hours_logged || 0,
-          status: item.status,
-          due_date: item.due_date,
-          completion_date: item.completion_date
-        })) || [];
+        const formattedEntries = (data || []).map(entry => ({
+          id: entry.id,
+          project_title: entry.projects.title,
+          hours: Number(entry.hours),
+          description: entry.description || '',
+          date: entry.date,
+          created_at: entry.created_at
+        }));
         
-        setTimeLogs(formattedLogs);
+        console.log('Formatted time entries:', formattedEntries);
+        setTimeEntries(formattedEntries);
         
         // Calculate total hours
-        const total = formattedLogs.reduce((sum, log) => sum + log.hours_logged, 0);
+        const total = formattedEntries.reduce((sum, entry) => sum + entry.hours, 0);
         setTotalHours(total);
+        console.log('Total hours calculated:', total);
       }
     } catch (error) {
       console.error('Error:', error);
     } finally {
       setLoadingData(false);
     }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return 'text-green-400 bg-green-400/20';
-      case 'in_progress':
-        return 'text-webdev-gradient-blue bg-blue-400/20';
-      case 'pending':
-        return 'text-yellow-400 bg-yellow-400/20';
-      default:
-        return 'text-webdev-soft-gray bg-gray-400/20';
-    }
-  };
-
-  const formatStatus = (status: string) => {
-    return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
   if (loading) {
@@ -174,24 +160,28 @@ const DashboardTimeTracking = () => {
                       <Clock className="w-5 md:w-6 h-5 md:h-6 text-webdev-gradient-blue" />
                       <h3 className="text-base md:text-lg font-medium text-webdev-silver">Total Hours</h3>
                     </div>
-                    <p className="text-2xl md:text-3xl font-light text-white">{totalHours}</p>
+                    <p className="text-2xl md:text-3xl font-light text-white">{totalHours.toFixed(1)}</p>
                   </div>
                   
                   <div className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border">
                     <div className="flex items-center gap-3 mb-2">
                       <Target className="w-5 md:w-6 h-5 md:h-6 text-webdev-gradient-purple" />
-                      <h3 className="text-base md:text-lg font-medium text-webdev-silver">Milestones</h3>
+                      <h3 className="text-base md:text-lg font-medium text-webdev-silver">Time Entries</h3>
                     </div>
-                    <p className="text-2xl md:text-3xl font-light text-white">{timeLogs.length}</p>
+                    <p className="text-2xl md:text-3xl font-light text-white">{timeEntries.length}</p>
                   </div>
                   
                   <div className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border sm:col-span-2 lg:col-span-1">
                     <div className="flex items-center gap-3 mb-2">
                       <FolderOpen className="w-5 md:w-6 h-5 md:h-6 text-green-400" />
-                      <h3 className="text-base md:text-lg font-medium text-webdev-silver">Completed</h3>
+                      <h3 className="text-base md:text-lg font-medium text-webdev-silver">This Month</h3>
                     </div>
                     <p className="text-2xl md:text-3xl font-light text-white">
-                      {timeLogs.filter(log => log.status === 'completed').length}
+                      {timeEntries.filter(entry => {
+                        const entryDate = new Date(entry.date);
+                        const now = new Date();
+                        return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
+                      }).reduce((sum, entry) => sum + entry.hours, 0).toFixed(1)}h
                     </p>
                   </div>
                 </div>
@@ -202,20 +192,20 @@ const DashboardTimeTracking = () => {
                       <div key={i} className="h-16 md:h-20 bg-webdev-darker-gray/50 rounded-xl"></div>
                     ))}
                   </div>
-                ) : timeLogs.length === 0 ? (
+                ) : timeEntries.length === 0 ? (
                   <div className="text-center py-8 md:py-12">
                     <Clock className="w-12 md:w-16 h-12 md:h-16 text-webdev-soft-gray mx-auto mb-4 opacity-50" />
                     <h3 className="text-lg md:text-xl font-light text-webdev-silver mb-2">No Time Logged Yet</h3>
                     <p className="text-webdev-soft-gray text-sm md:text-base">
-                      Time will appear here as work is completed on your projects and milestones.
+                      Time entries will appear here as work is logged on your projects.
                     </p>
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    <h2 className="text-lg md:text-xl font-light text-webdev-silver mb-4">Logged Hours by Milestone</h2>
-                    {timeLogs.map((log) => (
+                    <h2 className="text-lg md:text-xl font-light text-webdev-silver mb-4">Recent Time Entries</h2>
+                    {timeEntries.map((entry) => (
                       <div
-                        key={log.id}
+                        key={entry.id}
                         className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300"
                       >
                         <div className="flex flex-col gap-4">
@@ -223,28 +213,20 @@ const DashboardTimeTracking = () => {
                             <div className="flex items-center gap-3 mb-2">
                               <FolderOpen className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
                               <h3 className="text-base md:text-lg font-medium text-webdev-silver">
-                                {log.project_title}
+                                {entry.project_title}
                               </h3>
                             </div>
-                            <div className="flex items-center gap-3 mb-3">
-                              <Target className="w-3 md:w-4 h-3 md:h-4 text-webdev-gradient-purple" />
-                              <span className="text-sm md:text-base text-webdev-soft-gray">{log.milestone_title}</span>
-                              <span className={`px-2 md:px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(log.status)}`}>
-                                {formatStatus(log.status)}
-                              </span>
-                            </div>
+                            {entry.description && (
+                              <p className="text-sm md:text-base text-webdev-soft-gray mb-3">{entry.description}</p>
+                            )}
                             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-xs md:text-sm text-webdev-soft-gray">
-                              {log.due_date && (
-                                <span>Due: {format(new Date(log.due_date), 'MMM d, yyyy')}</span>
-                              )}
-                              {log.completion_date && (
-                                <span>Completed: {format(new Date(log.completion_date), 'MMM d, yyyy')}</span>
-                              )}
+                              <span>Date: {format(new Date(entry.date), 'MMM d, yyyy')}</span>
+                              <span>Logged: {format(new Date(entry.created_at), 'MMM d, yyyy')}</span>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 sm:justify-end">
                             <Clock className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
-                            <span className="text-xl md:text-2xl font-light text-white">{log.hours_logged}</span>
+                            <span className="text-xl md:text-2xl font-light text-white">{entry.hours}</span>
                             <span className="text-webdev-soft-gray text-sm md:text-base">hours</span>
                           </div>
                         </div>

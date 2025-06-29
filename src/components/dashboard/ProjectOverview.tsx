@@ -13,6 +13,7 @@ interface Project {
   start_date: string;
   last_updated: string;
   created_at: string;
+  total_hours: number;
 }
 
 const ProjectOverview = () => {
@@ -28,16 +29,45 @@ const ProjectOverview = () => {
 
   const fetchProjects = async () => {
     try {
-      const { data, error } = await supabase
+      console.log('Fetching projects with hours for user:', user?.id);
+      
+      // First get projects
+      const { data: projectsData, error: projectsError } = await supabase
         .from('projects')
         .select('*')
+        .eq('user_id', user?.id)
         .order('last_updated', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching projects:', error);
-      } else {
-        setProjects(data || []);
+      if (projectsError) {
+        console.error('Error fetching projects:', projectsError);
+        return;
       }
+
+      // Then get time entries for each project
+      const projectsWithHours = await Promise.all(
+        (projectsData || []).map(async (project) => {
+          const { data: timeEntries, error: timeError } = await supabase
+            .from('time_entries')
+            .select('hours')
+            .eq('project_id', project.id);
+
+          if (timeError) {
+            console.error('Error fetching time entries for project:', project.id, timeError);
+          }
+
+          const totalHours = (timeEntries || []).reduce((sum, entry) => sum + Number(entry.hours), 0);
+          
+          console.log(`Project ${project.title} has ${totalHours} total hours from ${timeEntries?.length || 0} entries`);
+
+          return {
+            ...project,
+            total_hours: totalHours
+          };
+        })
+      );
+
+      console.log('Projects with hours:', projectsWithHours);
+      setProjects(projectsWithHours);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -124,6 +154,12 @@ const ProjectOverview = () => {
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4" />
                       <span>Updated {format(new Date(project.last_updated), 'MMM d, yyyy')}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-webdev-gradient-blue" />
+                      <span className="text-webdev-gradient-blue font-medium">
+                        {project.total_hours.toFixed(1)}h logged
+                      </span>
                     </div>
                   </div>
                 </div>
