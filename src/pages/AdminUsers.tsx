@@ -76,13 +76,15 @@ const AdminUsers = () => {
               />
             )}
 
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 overflow-hidden">
               <div className="mb-6 md:mb-8">
                 <h1 className="text-2xl md:text-3xl font-light text-webdev-silver mb-2">Users</h1>
                 <p className="text-sm md:text-base text-webdev-soft-gray">Manage system users and their permissions</p>
               </div>
 
-              <UsersTable users={users || []} isLoading={isLoading} />
+              <div className="overflow-x-auto">
+                <UsersTable users={users || []} isLoading={isLoading} />
+              </div>
             </div>
           </div>
         </div>

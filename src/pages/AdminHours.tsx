@@ -19,18 +19,44 @@ const AdminHours = () => {
   const { data: timeEntries, isLoading } = useQuery({
     queryKey: ['admin-hours'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First get time entries
+      const { data: timeEntriesData, error: timeEntriesError } = await supabase
         .from('time_entries')
-        .select(`
-          *,
-          profiles(full_name, username),
-          projects(title),
-          milestones(title)
-        `)
+        .select('*')
         .order('date', { ascending: false });
 
-      if (error) throw error;
-      return data;
+      if (timeEntriesError) throw timeEntriesError;
+
+      // Get profiles data
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, full_name, username');
+
+      if (profilesError) throw profilesError;
+
+      // Get projects data
+      const { data: projectsData, error: projectsError } = await supabase
+        .from('projects')
+        .select('id, title');
+
+      if (projectsError) throw projectsError;
+
+      // Get milestones data
+      const { data: milestonesData, error: milestonesError } = await supabase
+        .from('milestones')
+        .select('id, title');
+
+      if (milestonesError) throw milestonesError;
+
+      // Manually join the data
+      const enrichedTimeEntries = timeEntriesData.map(entry => ({
+        ...entry,
+        profiles: profilesData.find(p => p.id === entry.user_id) || null,
+        projects: projectsData.find(p => p.id === entry.project_id) || null,
+        milestones: entry.milestone_id ? milestonesData.find(m => m.id === entry.milestone_id) || null : null
+      }));
+
+      return enrichedTimeEntries;
     }
   });
 
@@ -81,13 +107,15 @@ const AdminHours = () => {
               />
             )}
 
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 overflow-hidden">
               <div className="mb-6 md:mb-8">
                 <h1 className="text-2xl md:text-3xl font-light text-webdev-silver mb-2">Hours Logged</h1>
                 <p className="text-sm md:text-base text-webdev-soft-gray">Monitor time tracking across all projects</p>
               </div>
 
-              <HoursTable timeEntries={timeEntries || []} isLoading={isLoading} />
+              <div className="overflow-x-auto">
+                <HoursTable timeEntries={timeEntries || []} isLoading={isLoading} />
+              </div>
             </div>
           </div>
         </div>

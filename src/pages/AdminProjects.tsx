@@ -72,13 +72,15 @@ const AdminProjects = () => {
               />
             )}
 
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 overflow-hidden">
               <div className="mb-6 md:mb-8">
                 <h1 className="text-2xl md:text-3xl font-light text-webdev-silver mb-2">Projects</h1>
                 <p className="text-sm md:text-base text-webdev-soft-gray">Manage all system projects and assignments</p>
               </div>
 
-              <ProjectsTable projects={projects || []} isLoading={isLoading} />
+              <div className="overflow-x-auto">
+                <ProjectsTable projects={projects || []} isLoading={isLoading} />
+              </div>
             </div>
           </div>
         </div>

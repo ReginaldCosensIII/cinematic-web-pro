@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
@@ -9,8 +10,13 @@ import SecureProfileSettings from '@/components/dashboard/SecureProfileSettings'
 import { Menu, X } from 'lucide-react';
 
 const DashboardSettings = () => {
+  const { user } = useAuth();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (!user) {
+    return <div>Please log in to access settings.</div>;
+  }
 
   return (
     <div className="min-h-screen bg-webdev-black relative overflow-hidden">
@@ -57,7 +63,7 @@ const DashboardSettings = () => {
             
             {/* Main Content */}
             <div className="flex-1 min-w-0">
-              <SecureProfileSettings />
+              <SecureProfileSettings user={user} />
             </div>
           </div>
         </div>
