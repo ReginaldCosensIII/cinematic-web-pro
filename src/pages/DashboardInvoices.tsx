@@ -75,19 +75,8 @@ const DashboardInvoices = () => {
   };
 
   const handleInvoiceClick = (invoice: Invoice) => {
-    // Convert to match InvoiceDetailsModal interface
-    const modalInvoice = {
-      id: invoice.id,
-      invoice_number: invoice.invoice_number,
-      amount: invoice.amount,
-      status: invoice.status,
-      issue_date: invoice.issue_date,
-      due_date: invoice.due_date,
-      paid_date: invoice.paid_date,
-      description: invoice.description || '',
-      project_id: invoice.project_id
-    };
-    setSelectedInvoice(modalInvoice);
+    // Pass the complete invoice object with projects data
+    setSelectedInvoice(invoice);
     setModalOpen(true);
   };
 
@@ -155,7 +144,6 @@ const DashboardInvoices = () => {
                 <p className="text-sm md:text-base text-webdev-soft-gray">Track your project invoices and payment status</p>
               </div>
 
-              {/* Stats Cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
                 <Card className="glass-effect border-webdev-glass-border">
                   <CardContent className="p-4 md:p-6">
