@@ -8,6 +8,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import TimeEntryDetailsModal from '@/components/dashboard/TimeEntryDetailsModal';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Clock, FolderOpen, Target, Menu, X } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -28,6 +30,11 @@ const DashboardTimeTracking = () => {
   const [loadingData, setLoadingData] = useState(true);
   const [totalHours, setTotalHours] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedTimeEntry, setSelectedTimeEntry] = useState<TimeEntry | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalEntries, setTotalEntries] = useState(0);
+  const entriesPerPage = 10;
 
   useEffect(() => {
     if (!loading && !user) {
@@ -39,13 +46,21 @@ const DashboardTimeTracking = () => {
     if (user) {
       fetchTimeEntries();
     }
-  }, [user]);
+  }, [user, currentPage]);
 
   const fetchTimeEntries = async () => {
     try {
       console.log('Fetching time entries for user:', user?.id);
       
-      // Get time entries with project information
+      // Get total count first
+      const { count } = await supabase
+        .from('time_entries')
+        .select('*', { count: 'exact', head: true })
+        .eq('projects.user_id', user?.id);
+
+      setTotalEntries(count || 0);
+
+      // Get paginated time entries with project information
       const { data, error } = await supabase
         .from('time_entries')
         .select(`
@@ -61,7 +76,8 @@ const DashboardTimeTracking = () => {
           )
         `)
         .eq('projects.user_id', user?.id)
-        .order('date', { ascending: false });
+        .order('date', { ascending: false })
+        .range((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage - 1);
 
       if (error) {
         console.error('Error fetching time entries:', error);
@@ -78,8 +94,18 @@ const DashboardTimeTracking = () => {
         console.log('Formatted time entries:', formattedEntries);
         setTimeEntries(formattedEntries);
         
-        // Calculate total hours
-        const total = formattedEntries.reduce((sum, entry) => sum + entry.hours, 0);
+        // Calculate total hours (for all entries, not just current page)
+        const { data: allData } = await supabase
+          .from('time_entries')
+          .select(`
+            hours,
+            projects!inner(
+              user_id
+            )
+          `)
+          .eq('projects.user_id', user?.id);
+
+        const total = (allData || []).reduce((sum, entry) => sum + Number(entry.hours), 0);
         setTotalHours(total);
         console.log('Total hours calculated:', total);
       }
@@ -89,6 +115,13 @@ const DashboardTimeTracking = () => {
       setLoadingData(false);
     }
   };
+
+  const handleTimeEntryClick = (timeEntry: TimeEntry) => {
+    setSelectedTimeEntry(timeEntry);
+    setModalOpen(true);
+  };
+
+  const totalPages = Math.ceil(totalEntries / entriesPerPage);
 
   if (loading) {
     return (
@@ -168,7 +201,7 @@ const DashboardTimeTracking = () => {
                       <Target className="w-5 md:w-6 h-5 md:h-6 text-webdev-gradient-purple" />
                       <h3 className="text-base md:text-lg font-medium text-webdev-silver">Time Entries</h3>
                     </div>
-                    <p className="text-2xl md:text-3xl font-light text-white">{timeEntries.length}</p>
+                    <p className="text-2xl md:text-3xl font-light text-white">{totalEntries}</p>
                   </div>
                   
                   <div className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border sm:col-span-2 lg:col-span-1">
@@ -201,37 +234,98 @@ const DashboardTimeTracking = () => {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    <h2 className="text-lg md:text-xl font-light text-webdev-silver mb-4">Recent Time Entries</h2>
-                    {timeEntries.map((entry) => (
-                      <div
-                        key={entry.id}
-                        className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300"
-                      >
-                        <div className="flex flex-col gap-4">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
-                              <FolderOpen className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
-                              <h3 className="text-base md:text-lg font-medium text-webdev-silver">
-                                {entry.project_title}
-                              </h3>
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-lg md:text-xl font-light text-webdev-silver">Time Entries</h2>
+                      <div className="text-sm text-webdev-soft-gray">
+                        Page {currentPage} of {totalPages} ({totalEntries} total entries)
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      {timeEntries.map((entry) => (
+                        <div
+                          key={entry.id}
+                          className="glass-effect rounded-xl p-4 md:p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300 cursor-pointer"
+                          onClick={() => handleTimeEntryClick(entry)}
+                        >
+                          <div className="flex flex-col gap-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-2">
+                                <FolderOpen className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
+                                <h3 className="text-base md:text-lg font-medium text-webdev-silver">
+                                  {entry.project_title}
+                                </h3>
+                              </div>
+                              {entry.description && (
+                                <p className="text-sm md:text-base text-webdev-soft-gray mb-3">{entry.description}</p>
+                              )}
+                              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-xs md:text-sm text-webdev-soft-gray">
+                                <span>Date: {format(new Date(entry.date), 'MMM d, yyyy')}</span>
+                                <span>Logged: {format(new Date(entry.created_at), 'MMM d, yyyy')}</span>
+                              </div>
                             </div>
-                            {entry.description && (
-                              <p className="text-sm md:text-base text-webdev-soft-gray mb-3">{entry.description}</p>
-                            )}
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-xs md:text-sm text-webdev-soft-gray">
-                              <span>Date: {format(new Date(entry.date), 'MMM d, yyyy')}</span>
-                              <span>Logged: {format(new Date(entry.created_at), 'MMM d, yyyy')}</span>
+                            <div className="flex items-center gap-2 sm:justify-end">
+                              <Clock className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
+                              <span className="text-xl md:text-2xl font-light text-white">{entry.hours}</span>
+                              <span className="text-webdev-soft-gray text-sm md:text-base">hours</span>
                             </div>
-                          </div>
-                          <div className="flex items-center gap-2 sm:justify-end">
-                            <Clock className="w-4 md:w-5 h-4 md:h-5 text-webdev-gradient-blue" />
-                            <span className="text-xl md:text-2xl font-light text-white">{entry.hours}</span>
-                            <span className="text-webdev-soft-gray text-sm md:text-base">hours</span>
                           </div>
                         </div>
+                      ))}
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                      <div className="flex justify-center mt-8">
+                        <Pagination>
+                          <PaginationContent className="glass-effect rounded-xl p-2 border border-webdev-glass-border">
+                            <PaginationItem>
+                              <PaginationPrevious 
+                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                className={`text-webdev-silver hover:text-webdev-gradient-blue ${currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                              />
+                            </PaginationItem>
+                            
+                            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                              let pageNumber;
+                              if (totalPages <= 5) {
+                                pageNumber = i + 1;
+                              } else if (currentPage <= 3) {
+                                pageNumber = i + 1;
+                              } else if (currentPage > totalPages - 3) {
+                                pageNumber = totalPages - 4 + i;
+                              } else {
+                                pageNumber = currentPage - 2 + i;
+                              }
+                              
+                              return (
+                                <PaginationItem key={pageNumber}>
+                                  <PaginationLink
+                                    onClick={() => setCurrentPage(pageNumber)}
+                                    isActive={currentPage === pageNumber}
+                                    className={`cursor-pointer ${
+                                      currentPage === pageNumber
+                                        ? 'bg-webdev-gradient-blue text-white'
+                                        : 'text-webdev-silver hover:text-webdev-gradient-blue'
+                                    }`}
+                                  >
+                                    {pageNumber}
+                                  </PaginationLink>
+                                </PaginationItem>
+                              );
+                            })}
+                            
+                            <PaginationItem>
+                              <PaginationNext 
+                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                className={`text-webdev-silver hover:text-webdev-gradient-blue ${currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}
+                              />
+                            </PaginationItem>
+                          </PaginationContent>
+                        </Pagination>
                       </div>
-                    ))}
+                    )}
                   </div>
                 )}
               </div>
@@ -239,6 +333,17 @@ const DashboardTimeTracking = () => {
           </div>
         </div>
       </main>
+      
+      {selectedTimeEntry && (
+        <TimeEntryDetailsModal
+          timeEntry={selectedTimeEntry}
+          isOpen={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setSelectedTimeEntry(null);
+          }}
+        />
+      )}
       
       <Footer />
     </div>

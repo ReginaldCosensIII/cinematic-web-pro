@@ -5,10 +5,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import InvoiceDetailsModal from '@/components/dashboard/InvoiceDetailsModal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Search, Receipt, Calendar, DollarSign, FileText, Download, Menu, X } from 'lucide-react';
+import { Search, Receipt, Calendar, DollarSign, FileText, Download, Menu, X, Eye } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -34,6 +35,8 @@ const DashboardInvoices = () => {
   const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const { data: invoices, isLoading } = useQuery({
     queryKey: ['user-invoices', user?.id],
@@ -69,6 +72,23 @@ const DashboardInvoices = () => {
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </Badge>
     );
+  };
+
+  const handleInvoiceClick = (invoice: Invoice) => {
+    // Convert to match InvoiceDetailsModal interface
+    const modalInvoice = {
+      id: invoice.id,
+      invoice_number: invoice.invoice_number,
+      amount: invoice.amount,
+      status: invoice.status,
+      issue_date: invoice.issue_date,
+      due_date: invoice.due_date,
+      paid_date: invoice.paid_date,
+      description: invoice.description || '',
+      project_id: invoice.project_id
+    };
+    setSelectedInvoice(modalInvoice);
+    setModalOpen(true);
   };
 
   const filteredInvoices = invoices?.filter(invoice =>
@@ -248,13 +268,23 @@ const DashboardInvoices = () => {
                                 {new Date(invoice.due_date).toLocaleDateString()}
                               </TableCell>
                               <TableCell>
-                                <Button
-                                  size="sm"
-                                  className="glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300 text-xs"
-                                >
-                                  <Download className="w-3 h-3 md:w-4 md:h-4 md:mr-1" />
-                                  <span className="hidden md:inline">Download</span>
-                                </Button>
+                                <div className="flex gap-2">
+                                  <Button
+                                    size="sm"
+                                    onClick={() => handleInvoiceClick(invoice)}
+                                    className="glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300 text-xs"
+                                  >
+                                    <Eye className="w-3 h-3 md:w-4 md:h-4 md:mr-1" />
+                                    <span className="hidden md:inline">View</span>
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    className="glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300 text-xs"
+                                  >
+                                    <Download className="w-3 h-3 md:w-4 md:h-4 md:mr-1" />
+                                    <span className="hidden md:inline">Download</span>
+                                  </Button>
+                                </div>
                               </TableCell>
                             </TableRow>
                           ))}
@@ -275,6 +305,17 @@ const DashboardInvoices = () => {
           </div>
         </div>
       </main>
+      
+      {selectedInvoice && (
+        <InvoiceDetailsModal
+          invoice={selectedInvoice}
+          isOpen={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setSelectedInvoice(null);
+          }}
+        />
+      )}
       
       <Footer />
     </div>
