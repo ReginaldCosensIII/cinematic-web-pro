@@ -21,6 +21,7 @@ const MilestonesSection = () => {
   const [milestones, setMilestones] = useState<Milestone[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalHours, setTotalHours] = useState(0);
+  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
 
@@ -109,6 +110,11 @@ const MilestonesSection = () => {
     return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
+  const handleMilestoneClick = (milestone: Milestone) => {
+    setSelectedMilestone(milestone);
+    setModalOpen(true);
+  };
+
   if (loading) {
     return (
       <div className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border">
@@ -129,12 +135,9 @@ const MilestonesSection = () => {
 
   return (
     <>
-      <div 
-        className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300 cursor-pointer group"
-        onClick={() => setModalOpen(true)}
-      >
+      <div className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
-          <h2 className="text-xl sm:text-2xl font-light text-webdev-silver group-hover:text-white transition-colors">Milestones & Time Tracking</h2>
+          <h2 className="text-xl sm:text-2xl font-light text-webdev-silver">Milestones & Time Tracking</h2>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 text-sm">
             <div className="text-center sm:text-left">
               <div className="text-webdev-gradient-blue font-semibold">{totalHours.toFixed(1)}h</div>
@@ -158,7 +161,8 @@ const MilestonesSection = () => {
             {milestones.slice(0, 3).map((milestone) => (
               <div
                 key={milestone.id}
-                className="glass-effect rounded-xl p-4 sm:p-6 border border-webdev-glass-border"
+                className="glass-effect rounded-xl p-4 sm:p-6 border border-webdev-glass-border cursor-pointer hover:border-webdev-gradient-blue/50 transition-all duration-300"
+                onClick={() => handleMilestoneClick(milestone)}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-4 flex-1 min-w-0">
@@ -189,19 +193,24 @@ const MilestonesSection = () => {
             ))}
             {milestones.length > 3 && (
               <div className="text-center text-webdev-soft-gray text-sm">
-                Click to view all {milestones.length} milestones
+                {milestones.length - 3} more milestones available
               </div>
             )}
           </div>
         )}
       </div>
       
-      <MilestoneDetailsModal
-        milestones={milestones}
-        totalHours={totalHours}
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
+      {selectedMilestone && (
+        <MilestoneDetailsModal
+          milestone={selectedMilestone}
+          totalHours={totalHours}
+          isOpen={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setSelectedMilestone(null);
+          }}
+        />
+      )}
     </>
   );
 };

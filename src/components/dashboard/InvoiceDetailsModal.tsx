@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Receipt, DollarSign, AlertTriangle, CheckCircle2, Clock, Calendar } from 'lucide-react';
+import { Receipt, AlertTriangle, CheckCircle2, Clock, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface Invoice {
@@ -17,24 +17,24 @@ interface Invoice {
 }
 
 interface InvoiceDetailsModalProps {
-  invoices: Invoice[];
+  invoice: Invoice;
   isOpen: boolean;
   onClose: () => void;
 }
 
-const InvoiceDetailsModal = ({ invoices, isOpen, onClose }: InvoiceDetailsModalProps) => {
+const InvoiceDetailsModal = ({ invoice, isOpen, onClose }: InvoiceDetailsModalProps) => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'paid':
-        return <CheckCircle2 className="w-4 h-4 text-green-400" />;
+        return <CheckCircle2 className="w-6 h-6 text-green-400" />;
       case 'overdue':
-        return <AlertTriangle className="w-4 h-4 text-red-400" />;
+        return <AlertTriangle className="w-6 h-6 text-red-400" />;
       case 'sent':
-        return <Clock className="w-4 h-4 text-webdev-gradient-blue" />;
+        return <Clock className="w-6 h-6 text-webdev-gradient-blue" />;
       case 'draft':
-        return <Receipt className="w-4 h-4 text-webdev-soft-gray" />;
+        return <Receipt className="w-6 h-6 text-webdev-soft-gray" />;
       default:
-        return <Receipt className="w-4 h-4 text-webdev-soft-gray" />;
+        return <Receipt className="w-6 h-6 text-webdev-soft-gray" />;
     }
   };
 
@@ -64,102 +64,92 @@ const InvoiceDetailsModal = ({ invoices, isOpen, onClose }: InvoiceDetailsModalP
     }).format(amount);
   };
 
-  const totalAmount = invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
-  const paidAmount = invoices
-    .filter(invoice => invoice.status === 'paid')
-    .reduce((sum, invoice) => sum + invoice.amount, 0);
-  const outstandingAmount = totalAmount - paidAmount;
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="glass-effect border-webdev-glass-border bg-webdev-black text-webdev-silver max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="glass-effect border-webdev-glass-border bg-webdev-black text-webdev-silver max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-xl sm:text-2xl font-light text-webdev-silver">
-            <Receipt className="w-6 h-6 text-webdev-gradient-blue" />
-            Invoices & Payments
+            {getStatusIcon(invoice.status)}
+            Invoice #{invoice.invoice_number}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="glass-effect rounded-xl p-4 border border-webdev-glass-border text-center">
-              <div className="text-green-400 font-semibold text-lg">{formatCurrency(paidAmount)}</div>
-              <div className="text-webdev-soft-gray text-sm">Paid</div>
-            </div>
-            <div className="glass-effect rounded-xl p-4 border border-webdev-glass-border text-center">
-              <div className="text-webdev-gradient-blue font-semibold text-lg">{formatCurrency(outstandingAmount)}</div>
-              <div className="text-webdev-soft-gray text-sm">Outstanding</div>
-            </div>
-            <div className="glass-effect rounded-xl p-4 border border-webdev-glass-border text-center">
-              <div className="text-webdev-silver font-semibold text-lg">{formatCurrency(totalAmount)}</div>
-              <div className="text-webdev-soft-gray text-sm">Total</div>
+          {/* Status and Amount */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <span className={`px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(invoice.status)}`}>
+              {formatStatus(invoice.status)}
+            </span>
+            <div className="text-right">
+              <div className="text-2xl sm:text-3xl font-bold text-webdev-silver">
+                {formatCurrency(invoice.amount)}
+              </div>
+              {invoice.status === 'overdue' && (
+                <div className="text-red-400 text-sm font-medium">Overdue</div>
+              )}
             </div>
           </div>
 
-          {/* Invoices List */}
-          <div className="space-y-4">
-            {invoices.length === 0 ? (
-              <div className="text-center py-8">
-                <Receipt className="w-12 h-12 text-webdev-soft-gray mx-auto mb-4 opacity-50" />
-                <p className="text-webdev-soft-gray text-lg">No invoices yet</p>
-                <p className="text-webdev-soft-gray/70">Your invoices will appear here once they're created</p>
+          {/* Description */}
+          {invoice.description && (
+            <div className="glass-effect rounded-xl p-4 border border-webdev-glass-border">
+              <h3 className="text-webdev-silver font-medium mb-2">Description</h3>
+              <p className="text-webdev-soft-gray text-sm sm:text-base break-words">{invoice.description}</p>
+            </div>
+          )}
+
+          {/* Dates Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="glass-effect rounded-xl p-4 border border-webdev-glass-border">
+              <div className="flex items-center gap-2 mb-2">
+                <Calendar className="w-4 h-4 text-webdev-gradient-blue" />
+                <span className="text-webdev-soft-gray text-sm">Issue Date</span>
               </div>
-            ) : (
-              invoices.map((invoice) => (
-                <div
-                  key={invoice.id}
-                  className="glass-effect rounded-xl p-4 sm:p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-start gap-4 flex-1">
-                      <div className="mt-1">
-                        {getStatusIcon(invoice.status)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
-                          <h3 className="text-lg font-medium text-webdev-silver break-words">
-                            Invoice #{invoice.invoice_number}
-                          </h3>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)} self-start`}>
-                            {formatStatus(invoice.status)}
-                          </span>
-                        </div>
-                        {invoice.description && (
-                          <p className="text-webdev-soft-gray mb-3 text-sm sm:text-base break-words">{invoice.description}</p>
-                        )}
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-xs sm:text-sm text-webdev-soft-gray">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 flex-shrink-0" />
-                            <span className="truncate">Issued: {format(new Date(invoice.issue_date), 'MMM d, yyyy')}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 flex-shrink-0" />
-                            <span className="truncate">Due: {format(new Date(invoice.due_date), 'MMM d, yyyy')}</span>
-                          </div>
-                          {invoice.paid_date && (
-                            <div className="flex items-center gap-2">
-                              <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
-                              <span className="text-green-400 truncate">
-                                Paid: {format(new Date(invoice.paid_date), 'MMM d, yyyy')}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right flex-shrink-0">
-                      <div className="text-xl sm:text-2xl font-semibold text-webdev-silver">
-                        {formatCurrency(invoice.amount)}
-                      </div>
-                      {invoice.status === 'overdue' && (
-                        <div className="text-red-400 text-sm font-medium">Overdue</div>
-                      )}
-                    </div>
-                  </div>
+              <div className="text-webdev-silver font-medium">
+                {format(new Date(invoice.issue_date), 'MMM d, yyyy')}
+              </div>
+            </div>
+
+            <div className="glass-effect rounded-xl p-4 border border-webdev-glass-border">
+              <div className="flex items-center gap-2 mb-2">
+                <Calendar className="w-4 h-4 text-webdev-gradient-purple" />
+                <span className="text-webdev-soft-gray text-sm">Due Date</span>
+              </div>
+              <div className="text-webdev-silver font-medium">
+                {format(new Date(invoice.due_date), 'MMM d, yyyy')}
+              </div>
+            </div>
+
+            {invoice.paid_date && (
+              <div className="glass-effect rounded-xl p-4 border border-webdev-glass-border sm:col-span-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  <span className="text-webdev-soft-gray text-sm">Paid On</span>
                 </div>
-              ))
+                <div className="text-green-400 font-medium">
+                  {format(new Date(invoice.paid_date), 'MMM d, yyyy')}
+                </div>
+              </div>
             )}
+          </div>
+
+          {/* Payment Status Summary */}
+          <div className={`glass-effect rounded-xl p-4 border border-webdev-glass-border ${
+            invoice.status === 'paid' ? 'bg-green-400/5' : 'bg-webdev-gradient-blue/5'
+          }`}>
+            <div className="text-center">
+              <div className={`font-semibold text-lg ${
+                invoice.status === 'paid' ? 'text-green-400' : 'text-webdev-gradient-blue'
+              }`}>
+                {invoice.status === 'paid' ? 'Payment Received' : 'Payment Pending'}
+              </div>
+              <div className="text-webdev-soft-gray text-sm">
+                {invoice.status === 'paid' 
+                  ? 'This invoice has been fully paid' 
+                  : 'This invoice is awaiting payment'
+                }
+              </div>
+            </div>
           </div>
         </div>
       </DialogContent>

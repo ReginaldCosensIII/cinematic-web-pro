@@ -21,6 +21,7 @@ interface Invoice {
 const InvoicesSection = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
 
@@ -90,6 +91,11 @@ const InvoicesSection = () => {
     }).format(amount);
   };
 
+  const handleInvoiceClick = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setModalOpen(true);
+  };
+
   if (loading) {
     return (
       <div className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border">
@@ -113,12 +119,9 @@ const InvoicesSection = () => {
 
   return (
     <>
-      <div 
-        className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border hover:border-webdev-gradient-blue/50 transition-all duration-300 cursor-pointer group"
-        onClick={() => setModalOpen(true)}
-      >
+      <div className="glass-effect rounded-2xl p-4 sm:p-8 border border-webdev-glass-border">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
-          <h2 className="text-xl sm:text-2xl font-light text-webdev-silver group-hover:text-white transition-colors">Invoices & Payments</h2>
+          <h2 className="text-xl sm:text-2xl font-light text-webdev-silver">Invoices & Payments</h2>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-sm">
             <div className="text-center sm:text-left">
               <div className="text-green-400 font-semibold">{formatCurrency(paidAmount)}</div>
@@ -146,7 +149,8 @@ const InvoicesSection = () => {
             {invoices.slice(0, 3).map((invoice) => (
               <div
                 key={invoice.id}
-                className="glass-effect rounded-xl p-4 sm:p-6 border border-webdev-glass-border"
+                className="glass-effect rounded-xl p-4 sm:p-6 border border-webdev-glass-border cursor-pointer hover:border-webdev-gradient-blue/50 transition-all duration-300"
+                onClick={() => handleInvoiceClick(invoice)}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -178,18 +182,23 @@ const InvoicesSection = () => {
             ))}
             {invoices.length > 3 && (
               <div className="text-center text-webdev-soft-gray text-sm">
-                Click to view all {invoices.length} invoices
+                {invoices.length - 3} more invoices available
               </div>
             )}
           </div>
         )}
       </div>
       
-      <InvoiceDetailsModal
-        invoices={invoices}
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
+      {selectedInvoice && (
+        <InvoiceDetailsModal
+          invoice={selectedInvoice}
+          isOpen={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setSelectedInvoice(null);
+          }}
+        />
+      )}
     </>
   );
 };

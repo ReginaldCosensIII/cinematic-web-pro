@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,6 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import MilestoneDetailsModal from '@/components/dashboard/MilestoneDetailsModal';
 import { Target, Calendar, Clock, CheckCircle, Menu, X } from 'lucide-react';
 
 interface Milestone {
@@ -33,6 +35,9 @@ const DashboardMilestones = () => {
   const [projects, setProjects] = useState<{ [key: string]: Project }>({});
   const [loadingMilestones, setLoadingMilestones] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [totalHours, setTotalHours] = useState(0);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -74,6 +79,16 @@ const DashboardMilestones = () => {
 
         if (milestonesError) throw milestonesError;
         setMilestones(milestonesData || []);
+
+        // Fetch total hours
+        const { data: timeEntries, error: timeError } = await supabase
+          .from('time_entries')
+          .select('hours')
+          .in('project_id', projectIds);
+
+        if (timeError) throw timeError;
+        const totalHours = (timeEntries || []).reduce((sum, entry) => sum + Number(entry.hours), 0);
+        setTotalHours(totalHours);
       }
     } catch (error) {
       console.error('Error fetching milestones:', error);
@@ -95,6 +110,11 @@ const DashboardMilestones = () => {
 
   const formatStatus = (status: string) => {
     return status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
+  const handleMilestoneClick = (milestone: Milestone) => {
+    setSelectedMilestone(milestone);
+    setModalOpen(true);
   };
 
   if (loading) {
@@ -173,7 +193,11 @@ const DashboardMilestones = () => {
                 ) : (
                   <div className="space-y-4">
                     {milestones.map((milestone) => (
-                      <div key={milestone.id} className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/30 transition-all duration-300">
+                      <div 
+                        key={milestone.id} 
+                        className="glass-effect rounded-xl p-6 border border-webdev-glass-border hover:border-webdev-gradient-blue/30 transition-all duration-300 cursor-pointer"
+                        onClick={() => handleMilestoneClick(milestone)}
+                      >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex-1">
                             <div className="flex items-center gap-4 mb-2">
@@ -219,6 +243,18 @@ const DashboardMilestones = () => {
           </div>
         </div>
       </main>
+      
+      {selectedMilestone && (
+        <MilestoneDetailsModal
+          milestone={selectedMilestone}
+          totalHours={totalHours}
+          isOpen={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setSelectedMilestone(null);
+          }}
+        />
+      )}
       
       <Footer />
     </div>
