@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
@@ -117,14 +118,18 @@ const Contact = () => {
           <div className="mb-8 flex justify-between items-center">
             <div className="text-center animate-fade-in-up">
               <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
-                Let&apos;s Work Together
+                Let&apos;s Work{' '}
+                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                  Together
+                </span>
               </h1>
               <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
                 Ready to bring your vision to life? Get in touch and let&apos;s discuss your next web development project.
               </p>
             </div>
             
-            <div className="flex items-center gap-4">
+            {/* Hide user auth section on mobile */}
+            <div className="hidden md:flex items-center gap-4">
               {user && (
                 <div className="glass-effect rounded-xl p-4 flex items-center gap-3">
                   <User className="w-5 h-5 text-webdev-gradient-blue" />
@@ -342,7 +347,7 @@ const Contact = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full glass-effect hover:glass-border px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-webdev-gradient-blue/20 flex items-center justify-center gap-2 disabled:opacity-50"
+                        className="w-full glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2 disabled:opacity-50"
                       >
                         <Send className="w-4 h-4" />
                         {isSubmitting ? 'Sending...' : 'Send Message'}

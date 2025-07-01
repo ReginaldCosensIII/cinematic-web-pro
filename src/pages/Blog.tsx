@@ -60,7 +60,10 @@ const Blog = () => {
           {/* Page Header */}
           <div className="text-center animate-fade-in-up mb-16">
             <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
-              Development Blog
+              Development{' '}
+              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                Blog
+              </span>
             </h1>
             <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
               Stay updated with the latest trends, techniques, and insights from the world of web development.
