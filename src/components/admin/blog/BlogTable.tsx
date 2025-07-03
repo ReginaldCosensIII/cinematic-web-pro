@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { format } from 'date-fns';
-import { Edit, Trash2, ExternalLink } from 'lucide-react';
+import { Edit, Trash2, ExternalLink, Pin, PinOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -26,6 +26,7 @@ interface BlogArticle {
   created_at: string;
   updated_at: string;
   is_published: boolean;
+  is_pinned: boolean;
 }
 
 interface BlogTableProps {
@@ -33,9 +34,10 @@ interface BlogTableProps {
   isLoading: boolean;
   onEdit: (article: BlogArticle) => void;
   onDelete: (articleId: string) => void;
+  onTogglePin: (articleId: string, currentPinned: boolean) => void;
 }
 
-const BlogTable = ({ articles, isLoading, onEdit, onDelete }: BlogTableProps) => {
+const BlogTable = ({ articles, isLoading, onEdit, onDelete, onTogglePin }: BlogTableProps) => {
   if (isLoading) {
     return (
       <div className="p-8 text-center">
@@ -71,8 +73,13 @@ const BlogTable = ({ articles, isLoading, onEdit, onDelete }: BlogTableProps) =>
           {articles.map((article) => (
             <TableRow key={article.id} className="border-webdev-glass-border hover:bg-webdev-darker-gray/30">
               <TableCell className="text-webdev-silver font-medium max-w-xs">
-                <div className="truncate" title={article.title}>
-                  {article.title}
+                <div className="flex items-center gap-2">
+                  {article.is_pinned && (
+                    <Pin className="w-4 h-4 text-webdev-gradient-blue" />
+                  )}
+                  <div className="truncate" title={article.title}>
+                    {article.title}
+                  </div>
                 </div>
               </TableCell>
               <TableCell className="text-webdev-soft-gray font-mono text-sm max-w-xs">
@@ -116,6 +123,17 @@ const BlogTable = ({ articles, isLoading, onEdit, onDelete }: BlogTableProps) =>
                       <ExternalLink className="w-4 h-4" />
                     </Button>
                   </Link>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onTogglePin(article.id, article.is_pinned)}
+                    className={`text-webdev-soft-gray hover:bg-webdev-darker-gray/50 ${
+                      article.is_pinned ? 'text-webdev-gradient-blue' : 'hover:text-webdev-gradient-blue'
+                    }`}
+                    title={article.is_pinned ? 'Unpin article' : 'Pin article'}
+                  >
+                    {article.is_pinned ? <PinOff className="w-4 h-4" /> : <Pin className="w-4 h-4" />}
+                  </Button>
                   <Button
                     variant="ghost"
                     size="sm"

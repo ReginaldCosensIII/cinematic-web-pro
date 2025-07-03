@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
-import { Calendar, ArrowLeft, ThumbsUp, MessageCircle } from 'lucide-react';
+import { Calendar, ArrowLeft, MessageCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -234,7 +234,7 @@ const BlogArticle = () => {
         <SmokeBackground />
         <Header />
         <main className="relative z-10 pt-32 pb-20">
-          <div className="max-w-4xl mx-auto px-6">
+          <div className="max-w-4xl mx-auto px-4 md:px-6">
             <div className="flex items-center justify-center p-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue"></div>
             </div>
@@ -251,10 +251,14 @@ const BlogArticle = () => {
         <SmokeBackground />
         <Header />
         <main className="relative z-10 pt-32 pb-20">
-          <div className="max-w-4xl mx-auto px-6">
+          <div className="max-w-4xl mx-auto px-4 md:px-6">
             <div className="text-center">
               <h1 className="text-2xl text-webdev-silver mb-4">Article not found</h1>
-              <Button onClick={() => navigate('/blog')} variant="outline">
+              <Button 
+                onClick={() => navigate('/blog')} 
+                variant="ghost"
+                className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50"
+              >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Blog
               </Button>
@@ -272,13 +276,13 @@ const BlogArticle = () => {
       <Header />
       
       <main className="relative z-10 pt-32 pb-20">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
           {/* Back Button */}
           <div className="mb-8 animate-fade-in-up">
             <Button 
               onClick={() => navigate('/blog')} 
               variant="ghost" 
-              className="text-webdev-soft-gray hover:text-webdev-silver"
+              className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blog
@@ -287,10 +291,10 @@ const BlogArticle = () => {
 
           {/* Article Header */}
           <div className="mb-12 animate-fade-in-up">
-            <h1 className="text-3xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6 leading-tight">
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-light text-webdev-silver tracking-wide mb-6 leading-tight">
               {article.title}
             </h1>
-            <div className="flex items-center space-x-6 text-webdev-soft-gray">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-webdev-soft-gray">
               <div className="flex items-center">
                 <Calendar className="w-4 h-4 mr-2" />
                 {new Date(article.published_at).toLocaleDateString('en-US', { 
@@ -300,7 +304,7 @@ const BlogArticle = () => {
                 })}
               </div>
               {article.tags && article.tags.length > 0 && (
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-wrap items-center space-x-2">
                   {article.tags.map(tag => (
                     <span key={tag} className="px-2 py-1 bg-webdev-darker-gray text-webdev-soft-gray text-xs rounded">
                       {tag}
@@ -312,36 +316,40 @@ const BlogArticle = () => {
           </div>
 
           {/* Article Content */}
-          <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border mb-12 animate-fade-in-up">
+          <div className="glass-effect rounded-2xl p-6 md:p-8 border border-webdev-glass-border mb-12 animate-fade-in-up">
             {article.thumbnail_url && (
               <img
                 src={article.thumbnail_url}
                 alt={article.title}
-                className="w-full h-64 object-cover rounded-lg mb-8"
+                className="w-full h-48 md:h-64 object-cover rounded-lg mb-8"
               />
             )}
             <div className="prose prose-invert prose-lg max-w-none">
-              <div className="text-webdev-soft-gray leading-relaxed whitespace-pre-wrap">
+              <div className="text-webdev-soft-gray leading-relaxed whitespace-pre-wrap text-base md:text-lg">
                 {article.content}
               </div>
             </div>
           </div>
 
-          {/* Vote Section */}
-          <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border mb-12 animate-fade-in-up">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold text-webdev-silver">Was this helpful?</h3>
-              <div className="flex items-center space-x-4">
-                <span className="text-webdev-soft-gray text-sm">
+          {/* Vote Section - Mobile Optimized */}
+          <div className="glass-effect rounded-2xl p-4 md:p-6 border border-webdev-glass-border mb-12 animate-fade-in-up">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+              <h3 className="text-lg md:text-xl font-semibold text-webdev-silver">Was this helpful?</h3>
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <span className="text-webdev-soft-gray text-sm text-center sm:text-left">
                   {votes.helpful_count} {votes.helpful_count === 1 ? 'person' : 'people'} found this helpful
                 </span>
                 <Button
                   onClick={handleVote}
                   disabled={voteLoading}
-                  variant={votes.user_voted ? "default" : "outline"}
-                  className={`${votes.user_voted ? 'bg-webdev-gradient-blue' : ''}`}
+                  variant="ghost"
+                  className={`w-full sm:w-auto text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50 border border-webdev-glass-border ${
+                    votes.user_voted ? 'bg-webdev-gradient-blue/20 text-webdev-gradient-blue border-webdev-gradient-blue/30' : ''
+                  }`}
                 >
-                  <ThumbsUp className={`w-4 h-4 mr-2 ${votes.user_voted ? 'fill-current' : ''}`} />
+                  <svg className={`w-4 h-4 mr-2 ${votes.user_voted ? 'fill-current' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                  </svg>
                   {votes.user_voted ? 'Helpful' : 'Mark as Helpful'}
                 </Button>
               </div>
@@ -349,7 +357,7 @@ const BlogArticle = () => {
           </div>
 
           {/* Comments Section */}
-          <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border animate-fade-in-up">
+          <div className="glass-effect rounded-2xl p-6 md:p-8 border border-webdev-glass-border animate-fade-in-up">
             <div className="flex items-center space-x-2 mb-8">
               <MessageCircle className="w-5 h-5 text-webdev-gradient-blue" />
               <h3 className="text-xl font-semibold text-webdev-silver">
@@ -368,7 +376,7 @@ const BlogArticle = () => {
                       value={guestName}
                       onChange={(e) => setGuestName(e.target.value)}
                       required
-                      className="bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver"
+                      className="bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver focus:border-webdev-gradient-blue"
                     />
                   </div>
                   <div>
@@ -379,7 +387,7 @@ const BlogArticle = () => {
                       value={guestEmail}
                       onChange={(e) => setGuestEmail(e.target.value)}
                       required
-                      className="bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver"
+                      className="bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver focus:border-webdev-gradient-blue"
                     />
                   </div>
                 </div>
@@ -396,7 +404,11 @@ const BlogArticle = () => {
                   placeholder="Share your thoughts..."
                 />
               </div>
-              <Button type="submit" disabled={commentLoading} className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple">
+              <Button 
+                type="submit" 
+                disabled={commentLoading} 
+                className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white border-0"
+              >
                 {commentLoading ? 'Posting...' : 'Post Comment'}
               </Button>
             </form>
@@ -410,7 +422,7 @@ const BlogArticle = () => {
               ) : (
                 comments.map((comment) => (
                   <div key={comment.id} className="border-b border-webdev-glass-border pb-6 last:border-b-0">
-                    <div className="flex items-center space-x-2 mb-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mb-2">
                       <span className="font-medium text-webdev-silver">
                         {comment.guest_name || 'Registered User'}
                       </span>

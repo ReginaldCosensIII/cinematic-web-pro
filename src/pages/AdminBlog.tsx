@@ -74,6 +74,35 @@ const AdminBlog = () => {
     }
   });
 
+  const togglePinMutation = useMutation({
+    mutationFn: async ({ articleId, currentPinned }: { articleId: string, currentPinned: boolean }) => {
+      const { error } = await supabase
+        .from('blog_articles')
+        .update({ is_pinned: !currentPinned })
+        .eq('id', articleId);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-blog-articles'] });
+      toast({
+        title: "Success",
+        description: "Article pin status updated successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: `Failed to update pin status: ${error.message}`,
+        variant: "destructive",
+      });
+    }
+  });
+
+  const handleTogglePin = (articleId: string, currentPinned: boolean) => {
+    togglePinMutation.mutate({ articleId, currentPinned });
+  };
+
   if (authLoading || adminLoading) {
     return (
       <div className="min-h-screen bg-webdev-black flex items-center justify-center">
@@ -159,6 +188,7 @@ const AdminBlog = () => {
                   isLoading={isLoading}
                   onEdit={setEditingArticle}
                   onDelete={(articleId) => deleteArticleMutation.mutate(articleId)}
+                  onTogglePin={handleTogglePin}
                 />
               </div>
             </div>

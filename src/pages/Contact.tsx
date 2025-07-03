@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
-import { Mail, MapPin, Phone, Send, CheckCircle, User, LogOut } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, CheckCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
@@ -77,18 +77,6 @@ const Contact = () => {
     }
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      toast({
-        title: "Signed Out",
-        description: "You have been successfully signed out."
-      });
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
-
   const projectTypes = [
     'Website Development',
     'E-commerce Platform',
@@ -114,35 +102,17 @@ const Contact = () => {
       
       <main className="relative z-10 pt-32 pb-20">
         <div className="max-w-6xl mx-auto px-6">
-          {/* User Authentication Status */}
-          <div className="mb-8 flex justify-between items-center">
-            <div className="text-center animate-fade-in-up">
-              <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
-                Let&apos;s Work{' '}
-                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                  Together
-                </span>
-              </h1>
-              <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
-                Ready to bring your vision to life? Get in touch and let&apos;s discuss your next web development project.
-              </p>
-            </div>
-            
-            {/* Hide user auth section on mobile */}
-            <div className="hidden md:flex items-center gap-4">
-              {user && (
-                <div className="glass-effect rounded-xl p-4 flex items-center gap-3">
-                  <User className="w-5 h-5 text-webdev-gradient-blue" />
-                  <span className="text-webdev-silver">{user.email}</span>
-                  <button
-                    onClick={handleSignOut}
-                    className="p-1 hover:text-webdev-gradient-blue transition-colors"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-            </div>
+          {/* Centered Header */}
+          <div className="text-center animate-fade-in-up mb-16">
+            <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
+              Let&apos;s Work{' '}
+              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                Together
+              </span>
+            </h1>
+            <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
+              Ready to bring your vision to life? Get in touch and let&apos;s discuss your next web development project.
+            </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
