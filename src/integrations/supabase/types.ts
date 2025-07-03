@@ -36,6 +36,130 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_articles: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          excerpt: string | null
+          id: string
+          is_published: boolean
+          published_at: string | null
+          slug: string
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          slug: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          slug?: string
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      blog_comments: {
+        Row: {
+          article_id: string
+          content: string
+          created_at: string
+          guest_email: string | null
+          guest_name: string | null
+          id: string
+          is_approved: boolean
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          article_id: string
+          content: string
+          created_at?: string
+          guest_email?: string | null
+          guest_name?: string | null
+          id?: string
+          is_approved?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          article_id?: string
+          content?: string
+          created_at?: string
+          guest_email?: string | null
+          guest_name?: string | null
+          id?: string
+          is_approved?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "blog_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_votes: {
+        Row: {
+          article_id: string
+          created_at: string
+          guest_identifier: string | null
+          id: string
+          user_id: string | null
+          vote_type: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          guest_identifier?: string | null
+          id?: string
+          user_id?: string | null
+          vote_type: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          guest_identifier?: string | null
+          id?: string
+          user_id?: string | null
+          vote_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_votes_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "blog_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_submissions: {
         Row: {
           budget: string | null
@@ -332,6 +456,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_slug: {
+        Args: { title: string }
+        Returns: string
+      }
       get_admin_projects_data: {
         Args: Record<PropertyKey, never>
         Returns: {

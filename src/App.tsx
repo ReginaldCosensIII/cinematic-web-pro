@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
 import Dashboard from "./pages/Dashboard";
 import DashboardProjects from "./pages/DashboardProjects";
 import DashboardInvoices from "./pages/DashboardInvoices";
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogArticle />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/projects" element={<DashboardProjects />} />
             <Route path="/dashboard/invoices" element={<DashboardInvoices />} />
