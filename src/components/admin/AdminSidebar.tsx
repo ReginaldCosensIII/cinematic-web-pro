@@ -10,7 +10,8 @@ import {
   FileText,
   Settings,
   LogOut,
-  Target
+  Target,
+  PenTool
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -25,6 +26,7 @@ const AdminSidebar = () => {
     { icon: Target, label: 'Milestones', path: '/admin/milestones' },
     { icon: Clock, label: 'Hours Logged', path: '/admin/hours' },
     { icon: Receipt, label: 'Invoices', path: '/admin/invoices' },
+    { icon: PenTool, label: 'Blog', path: '/admin/blog' },
     { icon: FileText, label: 'Form Submissions', path: '/admin/submissions' },
     { icon: Settings, label: 'Settings', path: '/admin/settings' },
   ];

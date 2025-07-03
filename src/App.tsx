@@ -24,6 +24,7 @@ import AdminInvoices from "./pages/AdminInvoices";
 import AdminSubmissions from "./pages/AdminSubmissions";
 import AdminSettings from "./pages/AdminSettings";
 import AdminMilestones from "./pages/AdminMilestones";
+import AdminBlog from "./pages/AdminBlog";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/admin/milestones" element={<AdminMilestones />} />
             <Route path="/admin/hours" element={<AdminHours />} />
             <Route path="/admin/invoices" element={<AdminInvoices />} />
+            <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
           </Routes>
