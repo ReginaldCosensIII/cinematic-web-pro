@@ -45,6 +45,7 @@ export type Database = {
           id: string
           is_pinned: boolean
           is_published: boolean
+          main_image_url: string | null
           published_at: string | null
           slug: string
           tags: string[] | null
@@ -60,6 +61,7 @@ export type Database = {
           id?: string
           is_pinned?: boolean
           is_published?: boolean
+          main_image_url?: string | null
           published_at?: string | null
           slug: string
           tags?: string[] | null
@@ -75,6 +77,7 @@ export type Database = {
           id?: string
           is_pinned?: boolean
           is_published?: boolean
+          main_image_url?: string | null
           published_at?: string | null
           slug?: string
           tags?: string[] | null
