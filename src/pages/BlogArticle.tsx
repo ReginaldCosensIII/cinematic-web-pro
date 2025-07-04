@@ -66,7 +66,7 @@ const BlogArticle = () => {
       // Fetch article
       const { data: articleData, error: articleError } = await supabase
         .from('blog_articles')
-        .select('*')
+        .select('*, main_image_url')
         .eq('slug', slug)
         .eq('is_published', true)
         .single();
