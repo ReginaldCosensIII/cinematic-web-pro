@@ -7,6 +7,7 @@ import VideoIntro from '../components/VideoIntro';
 import ScrollIndicator from '../components/ScrollIndicator';
 import HeroSection from '../components/HeroSection';
 import FeaturedWork from '../components/FeaturedWork';
+import TestimonialsSection from '../components/TestimonialsSection';
 import Services from '../components/Services';
 import ProcessSection from '../components/ProcessSection';
 import CallToAction from '../components/CallToAction';
@@ -27,9 +28,10 @@ const Index = () => {
       <ScrollIndicator />
       
       {/* Main content with reduced top margin */}
-      <main className="relative z-10 mt-8">
+      <main className="relative z-10 mt-8 space-y-16">
         <HeroSection />
         <FeaturedWork />
+        <TestimonialsSection />
         <Services />
         <ProcessSection />
         <CallToAction />
