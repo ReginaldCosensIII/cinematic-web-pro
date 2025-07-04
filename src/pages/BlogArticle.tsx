@@ -21,6 +21,7 @@ interface BlogArticle {
   published_at: string;
   tags: string[] | null;
   thumbnail_url: string | null;
+  main_image_url: string | null;
 }
 
 interface Comment {
@@ -317,9 +318,9 @@ const BlogArticle = () => {
 
           {/* Article Content */}
           <div className="glass-effect rounded-2xl p-6 md:p-8 border border-webdev-glass-border mb-12 animate-fade-in-up">
-            {article.thumbnail_url && (
+            {article.main_image_url && (
               <img
-                src={article.thumbnail_url}
+                src={article.main_image_url}
                 alt={article.title}
                 className="w-full h-48 md:h-64 object-cover rounded-lg mb-8"
               />
@@ -343,7 +344,7 @@ const BlogArticle = () => {
                   onClick={handleVote}
                   disabled={voteLoading}
                   variant="ghost"
-                  className={`w-full sm:w-auto text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50 border border-webdev-glass-border ${
+                  className={`w-full sm:w-auto glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] ${
                     votes.user_voted ? 'bg-webdev-gradient-blue/20 text-webdev-gradient-blue border-webdev-gradient-blue/30' : ''
                   }`}
                 >
@@ -407,7 +408,7 @@ const BlogArticle = () => {
               <Button 
                 type="submit" 
                 disabled={commentLoading} 
-                className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white border-0"
+                className="glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
               >
                 {commentLoading ? 'Posting...' : 'Post Comment'}
               </Button>

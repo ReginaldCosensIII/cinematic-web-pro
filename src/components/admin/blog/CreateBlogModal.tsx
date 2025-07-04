@@ -34,6 +34,7 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
     content: '',
     tags: '',
     thumbnail_url: '',
+    main_image_url: '',
     is_published: true,
   });
 
@@ -44,19 +45,20 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
       const slug = data.slug || (await generateSlug(data.title));
       const tagsArray = data.tags ? data.tags.split(',').map(tag => tag.trim()).filter(Boolean) : [];
 
-      const { error } = await supabase
-        .from('blog_articles')
-        .insert([{
-          title: data.title,
-          slug,
-          excerpt: data.excerpt || null,
-          content: data.content,
-          author_id: user.id,
-          tags: tagsArray.length > 0 ? tagsArray : null,
-          thumbnail_url: data.thumbnail_url || null,
-          is_published: data.is_published,
-          published_at: data.is_published ? new Date().toISOString() : null,
-        }]);
+        const { error } = await supabase
+          .from('blog_articles')
+          .insert([{
+            title: data.title,
+            slug,
+            excerpt: data.excerpt || null,
+            content: data.content,
+            author_id: user.id,
+            tags: tagsArray.length > 0 ? tagsArray : null,
+            thumbnail_url: data.thumbnail_url || null,
+            main_image_url: data.main_image_url || null,
+            is_published: data.is_published,
+            published_at: data.is_published ? new Date().toISOString() : null,
+          }]);
 
       if (error) throw error;
     },
@@ -74,6 +76,7 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
         content: '',
         tags: '',
         thumbnail_url: '',
+        main_image_url: '',
         is_published: true,
       });
     },
@@ -162,16 +165,29 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
             />
           </div>
 
-          <div>
-            <Label htmlFor="thumbnail_url" className="text-webdev-silver">Thumbnail URL</Label>
-            <Input
-              id="thumbnail_url"
-              value={formData.thumbnail_url}
-              onChange={(e) => setFormData(prev => ({ ...prev, thumbnail_url: e.target.value }))}
-              className="bg-webdev-black border-webdev-glass-border text-webdev-silver"
-              placeholder="https://example.com/image.jpg"
-              type="url"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="thumbnail_url" className="text-webdev-silver">Thumbnail URL</Label>
+              <Input
+                id="thumbnail_url"
+                value={formData.thumbnail_url}
+                onChange={(e) => setFormData(prev => ({ ...prev, thumbnail_url: e.target.value }))}
+                className="bg-webdev-black border-webdev-glass-border text-webdev-silver"
+                placeholder="https://example.com/thumbnail.jpg"
+                type="url"
+              />
+            </div>
+            <div>
+              <Label htmlFor="main_image_url" className="text-webdev-silver">Main Article Image URL</Label>
+              <Input
+                id="main_image_url"
+                value={formData.main_image_url}
+                onChange={(e) => setFormData(prev => ({ ...prev, main_image_url: e.target.value }))}
+                className="bg-webdev-black border-webdev-glass-border text-webdev-silver"
+                placeholder="https://example.com/main-image.jpg"
+                type="url"
+              />
+            </div>
           </div>
 
           <div>

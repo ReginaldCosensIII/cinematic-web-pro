@@ -1,13 +1,15 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Twitter, Linkedin, Facebook } from 'lucide-react';
 
 const Footer = () => {
   return (
     <footer className="relative z-50 p-6 mt-20">
       <div className="glass-effect rounded-2xl px-8 py-4 mx-auto max-w-7xl">
-        <div className="flex flex-col items-center space-y-4">
-          {/* Social Icons */}
+        {/* Desktop Layout */}
+        <div className="hidden md:flex justify-between items-center">
+          {/* Social Icons - Left */}
           <div className="flex items-center space-x-6">
             <a href="#" className="text-webdev-soft-gray hover:text-webdev-gradient-blue transition-colors duration-300">
               <Twitter className="w-5 h-5" />
@@ -24,7 +26,31 @@ const Footer = () => {
               </svg>
             </a>
           </div>
-          {/* Copyright */}
+          
+          {/* Copyright - Center */}
+          <p className="text-webdev-soft-gray text-sm tracking-wide">
+            © 2025 WebDevPro
+          </p>
+          
+          {/* Legal Links - Right */}
+          <div className="flex items-center space-x-4">
+            <Link 
+              to="/privacy-policy" 
+              className="text-webdev-soft-gray hover:text-webdev-gradient-blue transition-colors duration-300 text-sm"
+            >
+              Privacy Policy
+            </Link>
+            <Link 
+              to="/terms-of-service" 
+              className="text-webdev-soft-gray hover:text-webdev-gradient-blue transition-colors duration-300 text-sm"
+            >
+              Terms of Service
+            </Link>
+          </div>
+        </div>
+        
+        {/* Mobile Layout */}
+        <div className="md:hidden flex justify-center">
           <p className="text-webdev-soft-gray text-sm tracking-wide">
             © 2025 WebDevPro
           </p>

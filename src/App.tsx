@@ -25,6 +25,8 @@ import AdminSubmissions from "./pages/AdminSubmissions";
 import AdminSettings from "./pages/AdminSettings";
 import AdminMilestones from "./pages/AdminMilestones";
 import AdminBlog from "./pages/AdminBlog";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,8 @@ const App = () => (
             <Route path="/admin/blog" element={<AdminBlog />} />
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

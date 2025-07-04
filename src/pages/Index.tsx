@@ -28,13 +28,15 @@ const Index = () => {
       <ScrollIndicator />
       
       {/* Main content with reduced top margin */}
-      <main className="relative z-10 mt-8 space-y-8">
+      <main className="relative z-10 mt-8">
         <HeroSection />
-        <FeaturedWork />
-        <TestimonialsSection />
-        <Services />
-        <ProcessSection />
-        <CallToAction />
+        <div className="space-y-8 -mt-8">
+          <FeaturedWork />
+          <TestimonialsSection />
+          <Services />
+          <ProcessSection />
+          <CallToAction />
+        </div>
       </main>
       
       {/* Glassmorphic footer */}

@@ -26,6 +26,7 @@ const CallToAction = () => {
             </p>
             <Link 
               to="/contact"
+              onClick={() => window.scrollTo(0, 0)}
               className="glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group inline-block border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
             >
               <span className="relative z-10">Contact Me</span>
