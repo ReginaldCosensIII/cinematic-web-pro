@@ -18,19 +18,22 @@ const TestimonialsSection = () => {
       quote: "Working with this developer was an exceptional experience. The attention to detail and quality of work exceeded our expectations. Our project was delivered on time and within budget.",
       author: "Sarah Johnson",
       role: "CEO, TechStart Inc.",
-      company: "TechStart"
+      company: "TechStart",
+      avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=200&h=200&fit=crop&crop=face"
     },
     {
       quote: "The level of professionalism and technical expertise demonstrated throughout our collaboration was outstanding. I highly recommend this developer for any web development project.",
       author: "Michael Chen",
       role: "Product Manager",
-      company: "Digital Solutions"
+      company: "Digital Solutions",
+      avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&h=200&fit=crop&crop=face"
     },
     {
       quote: "From initial consultation to final delivery, the entire process was smooth and transparent. The final product not only met but exceeded our requirements. Truly exceptional work.",
       author: "Emily Rodriguez",
       role: "Marketing Director",
-      company: "Creative Agency"
+      company: "Creative Agency",
+      avatar: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=200&h=200&fit=crop&crop=face"
     }
   ];
 
@@ -100,7 +103,7 @@ const TestimonialsSection = () => {
                   <div className="p-6">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                       {/* Supporting Text - Left Side */}
-                      <div className="space-y-6 order-2 lg:order-1">
+                      <div className="space-y-6 order-2 lg:order-1 hidden lg:block">
                         <div className="space-y-4">
                           <h3 className="text-3xl md:text-4xl font-light text-webdev-silver">
                             Trusted by businesses
@@ -139,23 +142,32 @@ const TestimonialsSection = () => {
                             </div>
                           </div>
 
-                          {/* Quote Text */}
-                          <blockquote className="text-lg md:text-xl text-webdev-silver leading-relaxed mb-6 group-hover:text-white transition-colors duration-300">
-                            "{testimonial.quote}"
-                          </blockquote>
-
-                          {/* Author Info */}
-                          <div className="space-y-1">
-                            <div className="text-webdev-silver font-semibold group-hover:text-white transition-colors duration-300">
-                              {testimonial.author}
+                          {/* Author Avatar */}
+                          <div className="flex items-center mb-6">
+                            <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
+                              <img 
+                                src={testimonial.avatar} 
+                                alt={testimonial.author}
+                                className="w-full h-full object-cover"
+                              />
                             </div>
-                            <div className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">
-                              {testimonial.role}
-                            </div>
-                            <div className="text-webdev-gradient-blue text-sm font-medium">
-                              {testimonial.company}
+                            <div>
+                              <div className="text-webdev-silver font-semibold group-hover:text-white transition-colors duration-300">
+                                {testimonial.author}
+                              </div>
+                              <div className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">
+                                {testimonial.role}
+                              </div>
+                              <div className="text-webdev-gradient-blue text-sm font-medium">
+                                {testimonial.company}
+                              </div>
                             </div>
                           </div>
+
+                          {/* Quote Text */}
+                          <blockquote className="text-lg md:text-xl text-webdev-silver leading-relaxed group-hover:text-white transition-colors duration-300">
+                            "{testimonial.quote}"
+                          </blockquote>
 
                           {/* Gradient Border Effect */}
                           <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"></div>
@@ -174,19 +186,18 @@ const TestimonialsSection = () => {
 
           {/* Mobile Navigation */}
           <div className="flex justify-center mt-8 lg:hidden">
-            <div className="flex space-x-4">
-              <button
-                onClick={() => api?.scrollPrev()}
-                className="glass-effect p-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 hover:scale-[1.02] border border-webdev-glass-border"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => api?.scrollNext()}
-                className="glass-effect p-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 hover:scale-[1.02] border border-webdev-glass-border"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
+            <div className="flex space-x-3">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === current 
+                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple scale-125' 
+                      : 'bg-webdev-soft-gray/30 hover:bg-webdev-soft-gray/50'
+                  }`}
+                />
+              ))}
             </div>
           </div>
         </div>

@@ -246,7 +246,7 @@ const FeaturedWork = () => {
                           <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">{project.technologies}</span>
                         </div>
 
-                        <ul className="space-y-3 max-w-sm mx-auto mb-8">
+                        <ul className="space-y-3 max-w-sm mx-auto mb-8 hidden sm:block">
                           {project.details.map((detail, index) => (
                             <li key={index} className="text-webdev-soft-gray flex items-center justify-center group-hover:text-webdev-silver transition-colors duration-300">
                               <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
