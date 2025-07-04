@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
@@ -325,10 +326,10 @@ const BlogArticle = () => {
                 className="w-full h-48 md:h-64 object-cover rounded-lg mb-8"
               />
             )}
-            <div className="prose prose-invert prose-lg max-w-none">
-              <div className="text-webdev-soft-gray leading-relaxed whitespace-pre-wrap text-base md:text-lg">
+            <div className="prose prose-invert prose-lg max-w-none text-webdev-soft-gray leading-relaxed text-base md:text-lg [&_h1]:text-webdev-silver [&_h2]:text-webdev-silver [&_h3]:text-webdev-silver [&_h4]:text-webdev-silver [&_h5]:text-webdev-silver [&_h6]:text-webdev-silver [&_strong]:text-webdev-silver [&_code]:bg-webdev-darker-gray [&_code]:text-webdev-gradient-blue [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_pre]:bg-webdev-darker-gray [&_pre]:border [&_pre]:border-webdev-glass-border [&_pre]:rounded-lg [&_pre]:p-4 [&_blockquote]:border-l-4 [&_blockquote]:border-webdev-gradient-blue [&_blockquote]:pl-4 [&_blockquote]:italic [&_a]:text-webdev-gradient-blue [&_a]:hover:text-webdev-gradient-purple">
+              <ReactMarkdown>
                 {article.content}
-              </div>
+              </ReactMarkdown>
             </div>
           </div>
 
