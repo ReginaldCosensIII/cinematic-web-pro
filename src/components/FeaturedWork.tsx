@@ -9,12 +9,14 @@ import {
   CarouselPrevious,
   CarouselApi,
 } from "@/components/ui/carousel";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const FeaturedWork = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const [screenshotIndex, setScreenshotIndex] = useState(0);
+  const isMobile = useIsMobile();
 
   // BookNook project screenshots
   const booknookScreenshots = [
@@ -26,21 +28,34 @@ const FeaturedWork = () => {
     '/lovable-uploads/b1e9fdf3-bc1a-4d0b-a843-b5f8463bfa18.png'
   ];
 
+  // Mobile screenshots for BookNook
+  const booknookMobileScreenshots = [
+    '/lovable-uploads/78a24ca5-a1da-48d7-b05d-7334d363b76f.png',
+    '/lovable-uploads/2e128ee3-eec6-4884-b321-3fb3f309b3b5.png',
+    '/lovable-uploads/01872e46-5a40-43ab-92f8-cf745fd8aad5.png',
+    '/lovable-uploads/084ae011-bc0f-42e7-8fef-9791f9207280.png',
+    '/lovable-uploads/fce73457-ff3a-4f3a-8436-577560ef09bc.png',
+    '/lovable-uploads/571f35d4-e1f4-4bd0-882f-a85f25541324.png'
+  ];
+
   // Auto-rotation for BookNook screenshots
   useEffect(() => {
+    const currentScreenshots = isMobile ? booknookMobileScreenshots : booknookScreenshots;
     const interval = setInterval(() => {
-      setScreenshotIndex((prev) => (prev + 1) % booknookScreenshots.length);
+      setScreenshotIndex((prev) => (prev + 1) % currentScreenshots.length);
     }, 4000); // Change image every 4 seconds
 
     return () => clearInterval(interval);
-  }, [booknookScreenshots.length]);
+  }, [isMobile, booknookScreenshots.length, booknookMobileScreenshots.length]);
 
   const nextScreenshot = () => {
-    setScreenshotIndex((prev) => (prev + 1) % booknookScreenshots.length);
+    const currentScreenshots = isMobile ? booknookMobileScreenshots : booknookScreenshots;
+    setScreenshotIndex((prev) => (prev + 1) % currentScreenshots.length);
   };
 
   const prevScreenshot = () => {
-    setScreenshotIndex((prev) => (prev - 1 + booknookScreenshots.length) % booknookScreenshots.length);
+    const currentScreenshots = isMobile ? booknookMobileScreenshots : booknookScreenshots;
+    setScreenshotIndex((prev) => (prev - 1 + currentScreenshots.length) % currentScreenshots.length);
   };
 
   // Custom BookNook SVG Icon Component
@@ -183,7 +198,7 @@ const FeaturedWork = () => {
                         {project.hasCarousel ? (
                           <div className="relative w-full h-96 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
                             <img 
-                              src={booknookScreenshots[screenshotIndex]} 
+                              src={(isMobile ? booknookMobileScreenshots : booknookScreenshots)[screenshotIndex]} 
                               alt={`${project.title} Screenshot ${screenshotIndex + 1}`}
                               className="w-full h-full object-cover"
                             />
@@ -202,7 +217,7 @@ const FeaturedWork = () => {
                             </button>
                             {/* Carousel indicators */}
                             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
-                              {booknookScreenshots.map((_, index) => (
+                              {(isMobile ? booknookMobileScreenshots : booknookScreenshots).map((_, index) => (
                                 <button
                                   key={index}
                                   onClick={() => setScreenshotIndex(index)}
@@ -240,15 +255,40 @@ const FeaturedWork = () => {
                           ))}
                         </ul>
 
-                        <div className="flex gap-3 justify-center">
-                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center gap-2">
-                            <ExternalLink className="w-4 h-4 relative z-10" />
-                            <span className="relative z-10">View Live</span>
-                          </button>
-                          <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center gap-2">
-                            <Github className="w-4 h-4 relative z-10" />
-                            <span className="relative z-10">Source Code</span>
-                          </button>
+                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                          {project.title === "Atomic's BookNook" ? (
+                            <>
+                              <a 
+                                href="https://cs492-bookstore-project.onrender.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2"
+                              >
+                                <ExternalLink className="w-4 h-4 relative z-10" />
+                                <span className="relative z-10">View Live</span>
+                              </a>
+                              <a 
+                                href="https://github.com/ReginaldCosensIII/cs492_bookstore_project"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2"
+                              >
+                                <Github className="w-4 h-4 relative z-10" />
+                                <span className="relative z-10">Source Code</span>
+                              </a>
+                            </>
+                          ) : (
+                            <>
+                              <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2">
+                                <ExternalLink className="w-4 h-4 relative z-10" />
+                                <span className="relative z-10">View Live</span>
+                              </button>
+                              <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2">
+                                <Github className="w-4 h-4 relative z-10" />
+                                <span className="relative z-10">Source Code</span>
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
