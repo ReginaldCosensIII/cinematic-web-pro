@@ -116,18 +116,19 @@ const TestimonialsSection = () => {
                           </p>
                         </div>
                         
-                        {/* Testimonial Navigation Dots */}
-                        <div className="flex space-x-3">
+                        {/* Testimonial Navigation Indicators */}
+                        <div className="flex space-x-2">
                           {testimonials.map((_, index) => (
-                            <button
+                            <div
                               key={index}
-                              onClick={() => goToSlide(index)}
-                              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                                index === current 
-                                  ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple scale-125' 
-                                  : 'bg-webdev-soft-gray/30 hover:bg-webdev-soft-gray/50'
-                              }`}
-                            />
+                              className="relative h-1 w-16 bg-webdev-darker-gray rounded-full overflow-hidden"
+                            >
+                              <div
+                                className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${
+                                  index === current ? 'w-full' : 'w-0'
+                                }`}
+                              />
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -186,17 +187,18 @@ const TestimonialsSection = () => {
 
           {/* Mobile Navigation */}
           <div className="flex justify-center mt-8 lg:hidden">
-            <div className="flex space-x-3">
+            <div className="flex space-x-2">
               {testimonials.map((_, index) => (
-                <button
+                <div
                   key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === current 
-                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple scale-125' 
-                      : 'bg-webdev-soft-gray/30 hover:bg-webdev-soft-gray/50'
-                  }`}
-                />
+                  className="relative h-1 w-16 bg-webdev-darker-gray rounded-full overflow-hidden"
+                >
+                  <div
+                    className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${
+                      index === current ? 'w-full' : 'w-0'
+                    }`}
+                  />
+                </div>
               ))}
             </div>
           </div>

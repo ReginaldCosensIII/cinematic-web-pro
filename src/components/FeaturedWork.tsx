@@ -196,7 +196,7 @@ const FeaturedWork = () => {
 
                         {/* Screenshot carousel for BookNook, placeholder for others */}
                         {project.hasCarousel ? (
-                          <div className="relative w-full h-96 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
+                          <div className="relative w-full h-[450px] bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
                             <img 
                               src={(isMobile ? booknookMobileScreenshots : booknookScreenshots)[screenshotIndex]} 
                               alt={`${project.title} Screenshot ${screenshotIndex + 1}`}
@@ -231,7 +231,7 @@ const FeaturedWork = () => {
                             </div>
                           </div>
                         ) : (
-                          <div className="w-full h-96 bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
+                          <div className="w-full h-[450px] bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
                             <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">Project Screenshot</span>
                           </div>
                         )}
