@@ -11,6 +11,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import Services from '../components/Services';
 import ProcessSection from '../components/ProcessSection';
 import CallToAction from '../components/CallToAction';
+import ChatBot from '../components/ChatBot';
 
 const Index = () => {
   return (
@@ -41,6 +42,9 @@ const Index = () => {
       
       {/* Glassmorphic footer */}
       <Footer />
+      
+      {/* AI Chatbot */}
+      <ChatBot />
     </div>
   );
 };
