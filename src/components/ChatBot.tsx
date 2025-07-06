@@ -84,6 +84,19 @@ const ChatBot = () => {
 
       setMessages(prev => [...prev, assistantMessage]);
 
+      // Check if the response suggests sending an email consultation
+      if (data.message.toLowerCase().includes('send an email') || 
+          data.message.toLowerCase().includes('email your requirements')) {
+        // Show consultation email option
+        const emailPromptMessage: Message = {
+          id: (Date.now() + 2).toString(),
+          role: 'assistant',
+          content: "Would you like me to send an organized email with your requirements to our team? I can help gather all the details we've discussed and send them directly. Just let me know your contact information and I'll prepare everything for you!",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, emailPromptMessage]);
+      }
+
     } catch (error) {
       console.error('Chat error:', error);
       toast({

@@ -51,10 +51,15 @@ const EditBlogModal = ({ article, isOpen, onClose }: EditBlogModalProps) => {
     thumbnail_url: '',
     main_image_url: '',
     is_published: true,
+    published_date: '',
   });
 
   useEffect(() => {
     if (article) {
+      const publishedDate = article.published_at 
+        ? new Date(article.published_at).toISOString().split('T')[0]
+        : new Date().toISOString().split('T')[0];
+
       setFormData({
         title: article.title,
         slug: article.slug,
@@ -64,6 +69,7 @@ const EditBlogModal = ({ article, isOpen, onClose }: EditBlogModalProps) => {
         thumbnail_url: article.thumbnail_url || '',
         main_image_url: article.main_image_url || '',
         is_published: article.is_published,
+        published_date: publishedDate,
       });
     }
   }, [article]);
@@ -83,7 +89,7 @@ const EditBlogModal = ({ article, isOpen, onClose }: EditBlogModalProps) => {
           thumbnail_url: data.thumbnail_url || null,
           main_image_url: data.main_image_url || null,
           is_published: data.is_published,
-          published_at: data.is_published && !article.published_at ? new Date().toISOString() : article.published_at,
+          published_at: data.is_published ? new Date(data.published_date).toISOString() : null,
         })
         .eq('id', article.id);
 
@@ -209,15 +215,27 @@ const EditBlogModal = ({ article, isOpen, onClose }: EditBlogModalProps) => {
             />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="edit-is_published"
-              checked={formData.is_published}
-              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
-            />
-            <Label htmlFor="edit-is_published" className="text-webdev-silver">
-              Published
-            </Label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+            <div>
+              <Label htmlFor="edit-published_date" className="text-webdev-silver">Published Date</Label>
+              <Input
+                id="edit-published_date"
+                type="date"
+                value={formData.published_date}
+                onChange={(e) => setFormData(prev => ({ ...prev, published_date: e.target.value }))}
+                className="bg-webdev-black border-webdev-glass-border text-webdev-silver"
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="edit-is_published"
+                checked={formData.is_published}
+                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
+              />
+              <Label htmlFor="edit-is_published" className="text-webdev-silver">
+                Published
+              </Label>
+            </div>
           </div>
 
           <DialogFooter>

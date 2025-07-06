@@ -10,6 +10,8 @@ import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminStats from '@/components/admin/AdminStats';
+import AdminProjectOverview from '@/components/admin/dashboard/AdminProjectOverview';
+import AdminRecentActivity from '@/components/admin/dashboard/AdminRecentActivity';
 import { Menu, X } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -118,6 +120,12 @@ const AdminDashboard = () => {
                     Manage users, projects, and system overview
                   </p>
                 </div>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                  <AdminProjectOverview />
+                  <AdminRecentActivity />
+                </div>
+                
                 <AdminStats />
               </div>
             </div>

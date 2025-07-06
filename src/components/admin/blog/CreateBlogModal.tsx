@@ -36,6 +36,7 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
     thumbnail_url: '',
     main_image_url: '',
     is_published: true,
+    published_date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
   });
 
   const createArticleMutation = useMutation({
@@ -57,7 +58,7 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
             thumbnail_url: data.thumbnail_url || null,
             main_image_url: data.main_image_url || null,
             is_published: data.is_published,
-            published_at: data.is_published ? new Date().toISOString() : null,
+            published_at: data.is_published ? new Date(data.published_date).toISOString() : null,
           }]);
 
       if (error) throw error;
@@ -78,6 +79,7 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
         thumbnail_url: '',
         main_image_url: '',
         is_published: true,
+        published_date: new Date().toISOString().split('T')[0],
       });
     },
     onError: (error) => {
@@ -209,15 +211,27 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
             />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="is_published"
-              checked={formData.is_published}
-              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
-            />
-            <Label htmlFor="is_published" className="text-webdev-silver">
-              Publish immediately
-            </Label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+            <div>
+              <Label htmlFor="published_date" className="text-webdev-silver">Published Date</Label>
+              <Input
+                id="published_date"
+                type="date"
+                value={formData.published_date}
+                onChange={(e) => setFormData(prev => ({ ...prev, published_date: e.target.value }))}
+                className="bg-webdev-black border-webdev-glass-border text-webdev-silver"
+              />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="is_published"
+                checked={formData.is_published}
+                onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_published: checked }))}
+              />
+              <Label htmlFor="is_published" className="text-webdev-silver">
+                Published
+              </Label>
+            </div>
           </div>
 
           <DialogFooter>
