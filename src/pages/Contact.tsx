@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
-import { Mail, MapPin, Phone, Send, CheckCircle } from 'lucide-react';
+import ChatBot from '../components/ChatBot';
+import { Mail, MapPin, Phone, Send, CheckCircle, Bot } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
@@ -225,11 +226,25 @@ const Contact = () => {
                   </div>
                 ) : (
                   <>
-                    <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
-                      Start Your Project
-                    </h2>
-                    
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                  <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
+                    Start Your Project
+                  </h2>
+
+                  {/* AI Chatbot Helper Message */}
+                  <div className="mb-6 p-4 glass-effect rounded-xl border border-webdev-glass-border/50">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Bot className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-webdev-soft-gray text-sm leading-relaxed">
+                          <span className="text-webdev-silver font-medium">Need help getting started?</span> Use our AI assistant in the bottom right corner to discuss your project requirements, get guidance on project types, and gather all the necessary information before filling out this form.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="name" className="text-webdev-silver">Name *</Label>
@@ -342,6 +357,7 @@ const Contact = () => {
       </main>
       
       <Footer />
+      <ChatBot />
     </div>
   );
 };
