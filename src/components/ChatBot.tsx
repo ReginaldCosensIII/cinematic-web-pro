@@ -134,7 +134,7 @@ const ChatBot = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={toggleChat}
-          className="glass-effect w-14 h-14 rounded-full p-0 border border-webdev-glass-border hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] transition-all duration-300 hover:scale-110"
+          className="glass-effect w-14 h-14 rounded-full p-0 border-2 border-transparent bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 hover:from-webdev-gradient-blue/30 hover:to-webdev-gradient-purple/30 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] transition-all duration-300 hover:scale-110 relative before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:p-[2px] before:-z-10 before:content-[''] before:mask-[linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:mask-composite-subtract"
         >
           <MessageCircle className="w-6 h-6 text-webdev-silver" />
         </Button>

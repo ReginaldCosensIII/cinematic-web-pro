@@ -121,12 +121,12 @@ const AdminDashboard = () => {
                   </p>
                 </div>
                 
+                <AdminStats />
+                
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
                   <AdminProjectOverview />
                   <AdminRecentActivity />
                 </div>
-                
-                <AdminStats />
               </div>
             </div>
           </div>
