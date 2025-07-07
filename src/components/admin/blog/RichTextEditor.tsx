@@ -1,8 +1,9 @@
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
 import { Button } from '@/components/ui/button';
 import { 
   Bold, 
@@ -15,7 +16,8 @@ import {
   Minus,
   Heading1,
   Heading2,
-  Heading3
+  Heading3,
+  Image as ImageIcon
 } from 'lucide-react';
 
 interface RichTextEditorProps {
@@ -30,6 +32,11 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       Link.configure({
         openOnClick: false,
       }),
+      Image.configure({
+        HTMLAttributes: {
+          class: 'max-w-full h-auto rounded-lg my-4',
+        },
+      }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -42,10 +49,24 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
     },
   });
 
+  // Update editor content when content prop changes
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [editor, content]);
+
   const addLink = useCallback(() => {
     const url = window.prompt('Enter URL');
     if (url) {
       editor?.chain().focus().setLink({ href: url }).run();
+    }
+  }, [editor]);
+
+  const addImage = useCallback(() => {
+    const url = window.prompt('Enter image URL');
+    if (url) {
+      editor?.chain().focus().setImage({ src: url }).run();
     }
   }, [editor]);
 
@@ -113,6 +134,12 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       action: addLink,
       isActive: editor.isActive('link'),
       label: 'Link'
+    },
+    { 
+      icon: ImageIcon, 
+      action: addImage,
+      isActive: false,
+      label: 'Insert Image'
     },
     { 
       icon: Minus, 
