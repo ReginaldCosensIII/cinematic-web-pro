@@ -325,9 +325,10 @@ const BlogArticle = () => {
                 className="w-full h-48 md:h-64 object-cover rounded-lg mb-8"
               />
             )}
-            <div className="text-webdev-soft-gray leading-relaxed whitespace-pre-wrap text-base md:text-lg">
-              {article.content}
-            </div>
+            <div 
+              className="text-webdev-soft-gray leading-relaxed text-base md:text-lg prose prose-invert max-w-none [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:text-webdev-silver [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:text-webdev-silver [&_h3]:text-lg [&_h3]:font-medium [&_h3]:mb-2 [&_h3]:text-webdev-silver [&_p]:mb-4 [&_ul]:list-disc [&_ul]:list-inside [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-webdev-gradient-blue [&_blockquote]:pl-4 [&_blockquote]:my-4 [&_blockquote]:text-webdev-soft-gray [&_code]:bg-webdev-darker-gray [&_code]:px-1 [&_code]:rounded [&_code]:text-webdev-gradient-blue [&_a]:text-webdev-gradient-blue [&_a]:underline [&_hr]:border-webdev-glass-border [&_hr]:my-6"
+              dangerouslySetInnerHTML={{ __html: article.content }}
+            />
           </div>
 
           {/* Vote Section - Mobile Optimized */}

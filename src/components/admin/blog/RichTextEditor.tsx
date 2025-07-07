@@ -1,19 +1,21 @@
 
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { 
   Bold, 
   Italic, 
-  Underline, 
   List, 
   ListOrdered, 
-  Link,
-  Image,
+  Link as LinkIcon,
   Quote,
   Code,
-  Eye,
-  Edit
+  Minus,
+  Heading1,
+  Heading2,
+  Heading3
 } from 'lucide-react';
 
 interface RichTextEditorProps {
@@ -22,65 +24,103 @@ interface RichTextEditorProps {
 }
 
 const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
-  const [isPreview, setIsPreview] = useState(false);
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Link.configure({
+        openOnClick: false,
+      }),
+    ],
+    content,
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class: 'prose prose-invert max-w-none focus:outline-none min-h-[300px] p-4 text-webdev-silver',
+      },
+    },
+  });
 
-  const insertMarkdown = (before: string, after: string = '', placeholder: string = '') => {
-    const textarea = document.getElementById('content-editor') as HTMLTextAreaElement;
-    if (!textarea) return;
+  const addLink = useCallback(() => {
+    const url = window.prompt('Enter URL');
+    if (url) {
+      editor?.chain().focus().setLink({ href: url }).run();
+    }
+  }, [editor]);
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = content.substring(start, end);
-    const textToInsert = selectedText || placeholder;
-    
-    const newContent = 
-      content.substring(0, start) + 
-      before + textToInsert + after + 
-      content.substring(end);
-    
-    onChange(newContent);
-    
-    // Reset focus and selection
-    setTimeout(() => {
-      textarea.focus();
-      const newPosition = start + before.length + textToInsert.length;
-      textarea.setSelectionRange(newPosition, newPosition);
-    }, 0);
-  };
+  if (!editor) {
+    return null;
+  }
 
   const formatButtons = [
-    { icon: Bold, action: () => insertMarkdown('**', '**', 'bold text'), label: 'Bold' },
-    { icon: Italic, action: () => insertMarkdown('*', '*', 'italic text'), label: 'Italic' },
-    { icon: Underline, action: () => insertMarkdown('<u>', '</u>', 'underlined text'), label: 'Underline' },
-    { icon: List, action: () => insertMarkdown('- ', '', 'list item'), label: 'Bullet List' },
-    { icon: ListOrdered, action: () => insertMarkdown('1. ', '', 'list item'), label: 'Numbered List' },
-    { icon: Link, action: () => insertMarkdown('[', '](https://)', 'link text'), label: 'Link' },
-    { icon: Image, action: () => insertMarkdown('![', '](https://)', 'alt text'), label: 'Image' },
-    { icon: Quote, action: () => insertMarkdown('> ', '', 'quote'), label: 'Quote' },
-    { icon: Code, action: () => insertMarkdown('`', '`', 'code'), label: 'Inline Code' },
+    { 
+      icon: Heading1, 
+      action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+      isActive: editor.isActive('heading', { level: 1 }),
+      label: 'Heading 1'
+    },
+    { 
+      icon: Heading2, 
+      action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+      isActive: editor.isActive('heading', { level: 2 }),
+      label: 'Heading 2'
+    },
+    { 
+      icon: Heading3, 
+      action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+      isActive: editor.isActive('heading', { level: 3 }),
+      label: 'Heading 3'
+    },
+    { 
+      icon: Bold, 
+      action: () => editor.chain().focus().toggleBold().run(),
+      isActive: editor.isActive('bold'),
+      label: 'Bold'
+    },
+    { 
+      icon: Italic, 
+      action: () => editor.chain().focus().toggleItalic().run(),
+      isActive: editor.isActive('italic'),
+      label: 'Italic'
+    },
+    { 
+      icon: List, 
+      action: () => editor.chain().focus().toggleBulletList().run(),
+      isActive: editor.isActive('bulletList'),
+      label: 'Bullet List'
+    },
+    { 
+      icon: ListOrdered, 
+      action: () => editor.chain().focus().toggleOrderedList().run(),
+      isActive: editor.isActive('orderedList'),
+      label: 'Numbered List'
+    },
+    { 
+      icon: Quote, 
+      action: () => editor.chain().focus().toggleBlockquote().run(),
+      isActive: editor.isActive('blockquote'),
+      label: 'Quote'
+    },
+    { 
+      icon: Code, 
+      action: () => editor.chain().focus().toggleCode().run(),
+      isActive: editor.isActive('code'),
+      label: 'Inline Code'
+    },
+    { 
+      icon: LinkIcon, 
+      action: addLink,
+      isActive: editor.isActive('link'),
+      label: 'Link'
+    },
+    { 
+      icon: Minus, 
+      action: () => editor.chain().focus().setHorizontalRule().run(),
+      isActive: false,
+      label: 'Horizontal Rule'
+    },
   ];
-
-  const renderPreview = (markdown: string) => {
-    // Simple markdown to HTML conversion for preview
-    let html = markdown
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/<u>(.*?)<\/u>/g, '<u>$1</u>')
-      .replace(/`(.*?)`/g, '<code class="bg-webdev-darker-gray px-1 rounded">$1</code>')
-      .replace(/^> (.+)$/gm, '<blockquote class="border-l-4 border-webdev-gradient-blue pl-4 my-2 text-webdev-soft-gray">$1</blockquote>')
-      .replace(/^- (.+)$/gm, '<li>$1</li>')
-      .replace(/^(\d+)\. (.+)$/gm, '<li>$1. $2</li>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-webdev-gradient-blue underline" target="_blank" rel="noopener noreferrer">$1</a>')
-      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full h-auto rounded" />')
-      .replace(/\n\n/g, '</p><p class="mb-4">')
-      .replace(/\n/g, '<br>');
-
-    // Wrap in paragraphs and handle lists
-    html = '<p class="mb-4">' + html + '</p>';
-    html = html.replace(/<li>/g, '<ul class="list-disc list-inside mb-4"><li>').replace(/<\/li>(?![\s\S]*<li>)/g, '</li></ul>');
-    
-    return html;
-  };
 
   return (
     <div className="border border-webdev-glass-border rounded-lg bg-webdev-black">
@@ -93,51 +133,22 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
             variant="ghost"
             size="sm"
             onClick={button.action}
-            className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50"
+            className={`text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50 ${
+              button.isActive ? 'bg-webdev-gradient-blue/20 text-webdev-gradient-blue' : ''
+            }`}
             title={button.label}
           >
             <button.icon className="w-4 h-4" />
           </Button>
         ))}
-        <div className="ml-auto">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsPreview(!isPreview)}
-            className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50"
-          >
-            {isPreview ? <Edit className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            <span className="ml-2 text-sm">{isPreview ? 'Edit' : 'Preview'}</span>
-          </Button>
-        </div>
       </div>
 
-      {/* Content Area */}
-      <div className="min-h-[300px]">
-        {isPreview ? (
-          <div 
-            className="p-4 text-webdev-silver prose prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: renderPreview(content) }}
-          />
-        ) : (
-          <Textarea
-            id="content-editor"
-            value={content}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Write your article content here... 
-
-You can use Markdown formatting:
-**bold**, *italic*, `code`, 
-- bullet lists
-1. numbered lists
-> quotes
-[links](https://example.com)
-![images](https://example.com/image.jpg)"
-            className="min-h-[300px] border-0 bg-transparent text-webdev-silver resize-none focus:ring-0 focus:border-0"
-            style={{ outline: 'none', boxShadow: 'none' }}
-          />
-        )}
+      {/* Editor Content */}
+      <div className="min-h-[300px] bg-webdev-black">
+        <EditorContent 
+          editor={editor} 
+          className="[&_.ProseMirror]:min-h-[300px] [&_.ProseMirror]:p-4 [&_.ProseMirror]:text-webdev-silver [&_.ProseMirror]:leading-relaxed [&_.ProseMirror_h1]:text-2xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:mb-4 [&_.ProseMirror_h1]:text-webdev-silver [&_.ProseMirror_h2]:text-xl [&_.ProseMirror_h2]:font-semibold [&_.ProseMirror_h2]:mb-3 [&_.ProseMirror_h2]:text-webdev-silver [&_.ProseMirror_h3]:text-lg [&_.ProseMirror_h3]:font-medium [&_.ProseMirror_h3]:mb-2 [&_.ProseMirror_h3]:text-webdev-silver [&_.ProseMirror_p]:mb-4 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:list-inside [&_.ProseMirror_ul]:mb-4 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:list-inside [&_.ProseMirror_ol]:mb-4 [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-webdev-gradient-blue [&_.ProseMirror_blockquote]:pl-4 [&_.ProseMirror_blockquote]:my-4 [&_.ProseMirror_blockquote]:text-webdev-soft-gray [&_.ProseMirror_code]:bg-webdev-darker-gray [&_.ProseMirror_code]:px-1 [&_.ProseMirror_code]:rounded [&_.ProseMirror_code]:text-webdev-gradient-blue [&_.ProseMirror_a]:text-webdev-gradient-blue [&_.ProseMirror_a]:underline [&_.ProseMirror_hr]:border-webdev-glass-border [&_.ProseMirror_hr]:my-6"
+        />
       </div>
     </div>
   );
