@@ -27,6 +27,7 @@ import AdminMilestones from "./pages/AdminMilestones";
 import AdminBlog from "./pages/AdminBlog";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import ProjectBriefGenerator from "./pages/ProjectBriefGenerator";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const App = () => (
             <Route path="/admin/settings" element={<AdminSettings />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/project-brief" element={<ProjectBriefGenerator />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
