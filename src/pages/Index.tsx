@@ -10,6 +10,7 @@ import FeaturedWork from '../components/FeaturedWork';
 import TestimonialsSection from '../components/TestimonialsSection';
 import Services from '../components/Services';
 import ProcessSection from '../components/ProcessSection';
+import ProjectBriefHighlight from '../components/ProjectBriefHighlight';
 import CallToAction from '../components/CallToAction';
 import ChatBot from '../components/ChatBot';
 
@@ -36,6 +37,7 @@ const Index = () => {
           <TestimonialsSection />
           <Services />
           <ProcessSection />
+          <ProjectBriefHighlight />
           <CallToAction />
         </div>
       </main>

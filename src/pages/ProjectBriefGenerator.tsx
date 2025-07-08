@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import ProjectBriefChat from '@/components/ProjectBriefChat';
+import heroImage from '@/assets/project-brief-hero.jpg';
 
 const ProjectBriefGenerator = () => {
   const [showChat, setShowChat] = useState(false);
@@ -44,6 +45,16 @@ const ProjectBriefGenerator = () => {
                   the Smart Way
                 </span>
               </h1>
+              
+              {/* Hero Image */}
+              <div className="mb-8 relative rounded-2xl overflow-hidden">
+                <img 
+                  src={heroImage} 
+                  alt="Project planning and brainstorming"
+                  className="w-full h-64 md:h-80 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-webdev-black/60 to-transparent"></div>
+              </div>
               
               <p className="text-xl text-webdev-soft-gray mb-8 leading-relaxed">
                 Use our guided AI tool to generate a professional project brief that you can 

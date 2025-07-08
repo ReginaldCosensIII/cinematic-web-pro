@@ -1,0 +1,80 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Lightbulb, ArrowRight } from 'lucide-react';
+import highlightImage from '@/assets/project-brief-highlight.jpg';
+
+const ProjectBriefHighlight = () => {
+  return (
+    <section className="py-20 relative">
+      <div className="container mx-auto px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            
+            {/* Content */}
+            <div className="animate-fade-in-up">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
+                  <Lightbulb className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-webdev-gradient-blue font-semibold tracking-wide">PLANNING TOOL</span>
+              </div>
+              
+              <h2 className="text-4xl md:text-5xl font-bold text-webdev-silver mb-6">
+                Not Sure Where to{" "}
+                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
+                  Start?
+                </span>
+              </h2>
+              
+              <p className="text-xl text-webdev-soft-gray mb-8 leading-relaxed">
+                Use our AI-powered Project Brief Generator to clarify your vision, 
+                organize your requirements, and create a professional brief that 
+                helps us understand exactly what you need.
+              </p>
+              
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center text-webdev-soft-gray">
+                  <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
+                  Guided questions to clarify your project goals
+                </div>
+                <div className="flex items-center text-webdev-soft-gray">
+                  <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
+                  Professional brief generation in minutes
+                </div>
+                <div className="flex items-center text-webdev-soft-gray">
+                  <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
+                  Download or submit directly to our team
+                </div>
+              </div>
+              
+              <Link
+                to="/project-brief"
+                className="inline-flex items-center glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
+              >
+                <span className="relative z-10 flex items-center">
+                  Start Your Brief
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </span>
+              </Link>
+            </div>
+            
+            {/* Image */}
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="relative">
+                <img 
+                  src={highlightImage} 
+                  alt="Project planning and collaboration"
+                  className="w-full rounded-2xl shadow-2xl"
+                />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-webdev-gradient-blue/20 to-webdev-gradient-purple/20"></div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ProjectBriefHighlight;

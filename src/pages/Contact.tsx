@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
 import ChatBot from '../components/ChatBot';
-import { Mail, MapPin, Phone, Send, CheckCircle, Bot } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, CheckCircle, Bot, Lightbulb } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
@@ -240,6 +240,26 @@ const Contact = () => {
                         <p className="text-webdev-soft-gray text-sm leading-relaxed">
                           <span className="text-webdev-silver font-medium">Need help getting started?</span> Use our AI assistant in the bottom right corner to discuss your project requirements, get guidance on project types, and gather all the necessary information before filling out this form.
                         </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Project Brief Generator Helper */}
+                  <div className="mb-6 p-4 glass-effect rounded-xl border border-webdev-glass-border/50">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Lightbulb className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-webdev-soft-gray text-sm leading-relaxed mb-2">
+                          <span className="text-webdev-silver font-medium">Want to organize your thoughts first?</span> Try our Project Brief Generator to create a detailed project outline before submitting your contact form.
+                        </p>
+                        <Link 
+                          to="/project-brief"
+                          className="text-webdev-gradient-blue hover:text-webdev-gradient-purple text-sm font-medium transition-colors duration-300"
+                        >
+                          Create Project Brief →
+                        </Link>
                       </div>
                     </div>
                   </div>
