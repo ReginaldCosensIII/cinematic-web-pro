@@ -59,8 +59,12 @@ const ProjectBriefGenerator = () => {
             {/* Hero Section */}
             <div className="text-center max-w-5xl mx-auto mb-16">
               <div className="flex justify-center mb-8">
-                <div className="w-28 h-28 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center animate-pulse">
-                  <Rocket className="w-14 h-14 text-white" />
+                <div className="w-28 h-28 rounded-full border-2 border-transparent flex items-center justify-center relative">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                    <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
+                      <Rocket className="w-14 h-14" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                    </div>
+                  </div>
                 </div>
               </div>
               
@@ -90,7 +94,7 @@ const ProjectBriefGenerator = () => {
               
               <Button
                 onClick={handleStartBrief}
-                className="glass-effect border-2 border-transparent bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white font-bold px-10 py-5 text-xl rounded-full hover:scale-105 transition-all duration-300 hover:shadow-[0_0_40px_rgba(66,133,244,0.5),0_0_60px_rgba(138,43,226,0.3)] group"
+                className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white px-10 py-5 text-xl rounded-full"
               >
                 <Rocket className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                 Start My Brief
@@ -102,11 +106,7 @@ const ProjectBriefGenerator = () => {
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
               <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
                 <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                      <Target className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                    </div>
-                  </div>
+                  <Target className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
                 </div>
                 <h3 className="text-xl font-semibold text-webdev-silver mb-3">Define Your Vision</h3>
                 <p className="text-webdev-soft-gray leading-relaxed">
@@ -116,11 +116,7 @@ const ProjectBriefGenerator = () => {
               
               <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
                 <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                      <Code className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                    </div>
-                  </div>
+                  <Code className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
                 </div>
                 <h3 className="text-xl font-semibold text-webdev-silver mb-3">Generate Brief</h3>
                 <p className="text-webdev-soft-gray leading-relaxed">
@@ -130,11 +126,7 @@ const ProjectBriefGenerator = () => {
               
               <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
                 <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                      <CheckCircle className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                    </div>
-                  </div>
+                  <CheckCircle className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
                 </div>
                 <h3 className="text-xl font-semibold text-webdev-silver mb-3">Launch Ready</h3>
                 <p className="text-webdev-soft-gray leading-relaxed">
@@ -148,8 +140,12 @@ const ProjectBriefGenerator = () => {
             {/* Chat Header */}
             <div className="text-center mb-8">
               <div className="flex justify-center items-center mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-xl flex items-center justify-center mr-4">
-                  <Rocket className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4 relative">
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                    <div className="w-full h-full rounded-xl bg-webdev-dark-gray flex items-center justify-center">
+                      <Rocket className="w-6 h-6" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                    </div>
+                  </div>
                 </div>
                 <h1 className="text-4xl font-bold text-webdev-silver">
                   <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
@@ -197,11 +193,7 @@ const ProjectBriefGenerator = () => {
                         <div key={index} className="p-4 rounded-lg bg-webdev-black/30 border border-webdev-glass-border/50">
                            <div className="flex items-start space-x-3">
                             <div className="relative w-8 h-8 rounded-lg flex-shrink-0 mt-1">
-                              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                                <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
-                                  <tip.icon className="w-4 h-4" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                                </div>
-                              </div>
+                              <tip.icon className="w-4 h-4" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
                             </div>
                             <div>
                               <h4 className="font-semibold text-webdev-silver text-sm mb-2">{tip.title}</h4>
@@ -217,8 +209,12 @@ const ProjectBriefGenerator = () => {
                   <Card className="glass-effect border-webdev-glass-border bg-webdev-black/40">
                     <CardContent className="p-4">
                       <div className="text-center">
-                        <div className="w-12 h-12 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full flex items-center justify-center mx-auto mb-3">
-                          <Zap className="w-6 h-6 text-white" />
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 relative">
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                            <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
+                              <Zap className="w-6 h-6" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                            </div>
+                          </div>
                         </div>
                         <h4 className="font-semibold text-webdev-silver mb-2">Ready to Launch?</h4>
                         <p className="text-webdev-soft-gray text-sm">
