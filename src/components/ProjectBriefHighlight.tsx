@@ -13,8 +13,12 @@ const ProjectBriefHighlight = () => {
             {/* Content */}
             <div className="animate-fade-in-up">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
-                  <Lightbulb className="w-6 h-6 text-white" />
+                <div className="relative w-12 h-12 rounded-full mr-4">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                    <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
+                      <Lightbulb className="w-6 h-6" stroke="url(#planning-icon-gradient)" fill="none" strokeWidth={2} />
+                    </div>
+                  </div>
                 </div>
                 <span className="text-webdev-gradient-blue font-semibold tracking-wide">PLANNING TOOL</span>
               </div>
@@ -71,8 +75,18 @@ const ProjectBriefHighlight = () => {
               </div>
             </div>
             
-          </div>
         </div>
+        
+        {/* SVG Gradient Definition */}
+        <svg width="0" height="0" className="absolute">
+          <defs>
+            <linearGradient id="planning-icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#4285f4" />
+              <stop offset="100%" stopColor="#8a2be2" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
       </div>
     </section>
   );
