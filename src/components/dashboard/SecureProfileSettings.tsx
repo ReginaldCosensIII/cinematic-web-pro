@@ -117,18 +117,38 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
       }
 
       if (formData.new_password && formData.current_password) {
+        // First verify current password by attempting to sign in
+        const { error: verifyError } = await supabase.auth.signInWithPassword({
+          email: user.email!,
+          password: formData.current_password
+        });
+
+        if (verifyError) {
+          console.error('Current password verification failed:', verifyError);
+          toast.error('Current password is incorrect');
+          return;
+        }
+
+        // Current password verified, proceed with password update
         const { error: passwordError } = await supabase.auth.updateUser({
           password: formData.new_password
         });
 
         if (passwordError) {
           console.error('Password update error:', passwordError);
-          if (passwordError.message.includes('Invalid login credentials')) {
-            toast.error('Current password is incorrect');
-          } else {
-            toast.error('Failed to update password');
-          }
+          toast.error('Failed to update password');
           return;
+        }
+
+        // Log security event for password change
+        try {
+          await supabase.rpc('log_security_event', {
+            p_event_type: 'password_changed',
+            p_user_id: user.id,
+            p_details: { timestamp: new Date().toISOString() }
+          });
+        } catch (logError) {
+          console.error('Failed to log security event:', logError);
         }
 
         setFormData(prev => ({

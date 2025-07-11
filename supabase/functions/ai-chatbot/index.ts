@@ -6,6 +6,10 @@ const openAIApiKey = Deno.env.get('OpenAI_API_Key');
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'X-XSS-Protection': '1; mode=block',
+  'Referrer-Policy': 'strict-origin-when-cross-origin'
 };
 
 const systemPrompt = `You are an AI assistant for a professional web development agency. Your primary goals are to:
@@ -47,7 +51,34 @@ serve(async (req) => {
   }
 
   try {
-    const { message, conversationHistory = [] } = await req.json();
+    // Check request size limit (1MB)
+    const contentLength = req.headers.get('content-length');
+    if (contentLength && parseInt(contentLength) > 1024 * 1024) {
+      throw new Error('Request too large');
+    }
+
+    const body = await req.json();
+    const { message, conversationHistory = [] } = body;
+
+    // Input validation
+    if (!message || typeof message !== 'string') {
+      throw new Error('Invalid message format');
+    }
+
+    if (message.length > 2000) {
+      throw new Error('Message too long (max 2000 characters)');
+    }
+
+    if (!Array.isArray(conversationHistory) || conversationHistory.length > 50) {
+      throw new Error('Invalid conversation history');
+    }
+
+    // Sanitize message input
+    const sanitizedMessage = message.trim().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    
+    if (!sanitizedMessage) {
+      throw new Error('Empty message after sanitization');
+    }
 
     if (!openAIApiKey) {
       throw new Error('OpenAI API key not configured');
@@ -57,10 +88,10 @@ serve(async (req) => {
     const messages = [
       { role: 'system', content: systemPrompt },
       ...conversationHistory,
-      { role: 'user', content: message }
+      { role: 'user', content: sanitizedMessage }
     ];
 
-    console.log('Sending request to OpenAI with message:', message);
+    console.log('Sending request to OpenAI with message length:', sanitizedMessage.length);
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -90,7 +121,7 @@ serve(async (req) => {
     return new Response(JSON.stringify({ 
       message: assistantMessage,
       conversationHistory: [...conversationHistory, 
-        { role: 'user', content: message },
+        { role: 'user', content: sanitizedMessage },
         { role: 'assistant', content: assistantMessage }
       ]
     }), {

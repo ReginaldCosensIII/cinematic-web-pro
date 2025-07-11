@@ -3,8 +3,9 @@ import { sanitizeHtml, validateEmail, sanitizeUserInput } from './securityHelper
 
 // Enhanced security logging
 export interface SecurityEvent {
-  event_type: 'login' | 'logout' | 'admin_access' | 'role_change' | 'failed_auth' | 'suspicious_activity' | 'data_access';
+  event_type: 'login' | 'logout' | 'admin_access' | 'role_change' | 'failed_auth' | 'suspicious_activity' | 'data_access' | 'password_changed';
   user_id?: string;
+  target_user_id?: string;
   details?: Record<string, any>;
   ip_address?: string;
   user_agent?: string;
@@ -12,23 +13,35 @@ export interface SecurityEvent {
   severity?: 'low' | 'medium' | 'high' | 'critical';
 }
 
-export const logSecurityEvent = async (event: SecurityEvent) => {
-  const enhancedEvent = {
-    ...event,
-    timestamp: event.timestamp || new Date().toISOString(),
-    ip_address: event.ip_address || 'unknown',
-    user_agent: event.user_agent || navigator.userAgent,
-    severity: event.severity || 'medium'
-  };
-
-  // Log to console for development
-  console.log('Enhanced Security Event:', enhancedEvent);
-  
-  // In production, you would send this to your security monitoring service
-  // Example: Send to Supabase Edge Function for processing
+export const logSecurityEvent = async (event: SecurityEvent): Promise<void> => {
   try {
-    // This would be implemented when you have a security logging endpoint
-    // await supabase.functions.invoke('log-security-event', { body: enhancedEvent });
+    const enhancedEvent = {
+      ...event,
+      timestamp: event.timestamp || new Date().toISOString(),
+      ip_address: event.ip_address || 'unknown',
+      user_agent: event.user_agent || navigator.userAgent,
+      severity: event.severity || 'medium'
+    };
+
+    // Log to console for development
+    console.log('Enhanced Security Event:', enhancedEvent);
+
+    // Send to database security audit log
+    const { supabase } = await import('@/integrations/supabase/client');
+    
+    await supabase.rpc('log_security_event', {
+      p_event_type: event.event_type,
+      p_user_id: event.user_id,
+      p_target_user_id: event.target_user_id,
+      p_details: event.details,
+      p_ip_address: enhancedEvent.ip_address,
+      p_user_agent: enhancedEvent.user_agent
+    });
+
+    // High severity events get additional attention
+    if (event.severity === 'high' || event.severity === 'critical') {
+      console.warn(`${event.severity?.toUpperCase()} SEVERITY SECURITY EVENT:`, enhancedEvent);
+    }
   } catch (error) {
     console.error('Failed to log security event:', error);
   }
