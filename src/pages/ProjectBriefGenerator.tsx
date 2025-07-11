@@ -106,7 +106,11 @@ const ProjectBriefGenerator = () => {
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
               <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
                 <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <Target className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
+                      <Target className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                    </div>
+                  </div>
                 </div>
                 <h3 className="text-xl font-semibold text-webdev-silver mb-3">Define Your Vision</h3>
                 <p className="text-webdev-soft-gray leading-relaxed">
@@ -116,7 +120,11 @@ const ProjectBriefGenerator = () => {
               
               <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
                 <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <Code className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
+                      <Code className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                    </div>
+                  </div>
                 </div>
                 <h3 className="text-xl font-semibold text-webdev-silver mb-3">Generate Brief</h3>
                 <p className="text-webdev-soft-gray leading-relaxed">
@@ -126,7 +134,11 @@ const ProjectBriefGenerator = () => {
               
               <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
                 <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <CheckCircle className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
+                      <CheckCircle className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                    </div>
+                  </div>
                 </div>
                 <h3 className="text-xl font-semibold text-webdev-silver mb-3">Launch Ready</h3>
                 <p className="text-webdev-soft-gray leading-relaxed">
@@ -193,7 +205,11 @@ const ProjectBriefGenerator = () => {
                         <div key={index} className="p-4 rounded-lg bg-webdev-black/30 border border-webdev-glass-border/50">
                            <div className="flex items-start space-x-3">
                             <div className="relative w-8 h-8 rounded-lg flex-shrink-0 mt-1">
-                              <tip.icon className="w-4 h-4" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                                <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
+                                  <tip.icon className="w-4 h-4" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                                </div>
+                              </div>
                             </div>
                             <div>
                               <h4 className="font-semibold text-webdev-silver text-sm mb-2">{tip.title}</h4>
