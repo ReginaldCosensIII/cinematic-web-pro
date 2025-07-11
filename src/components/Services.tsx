@@ -121,32 +121,6 @@ const Services = () => {
           })}
         </div>
 
-        {/* Call to Action with responsive image */}
-        <div className="text-center animate-fade-in-up">
-          <div className="glass-effect rounded-xl overflow-hidden max-w-2xl mx-auto">
-            {/* Image at the top spanning full width with shorter aspect ratio */}
-            <div className="w-full aspect-[3/1] sm:aspect-[4/1] md:aspect-[5/1]">
-              <img 
-                src="/lovable-uploads/36f998a7-1959-4ab7-b352-a792d2cb3812.png"
-                alt="Let's Build Together" 
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-            
-            {/* Content below the image */}
-            <div className="p-8">
-              <p className="text-webdev-silver text-lg leading-relaxed mb-6 tracking-wide">
-                Ready to elevate your online presence? Let's build something powerful together.
-              </p>
-              <Link 
-                to="/contact"
-                className="glass-effect px-8 py-3 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group inline-block border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
-              >
-                <span className="relative z-10">Start Your Project</span>
-              </Link>
-            </div>
-          </div>
-        </div>
 
         {/* SVG Gradient Definition */}
         <svg width="0" height="0" className="absolute">
