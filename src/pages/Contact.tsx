@@ -237,11 +237,8 @@ const Contact = () => {
                         <Bot className="w-4 h-4 text-white" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-webdev-soft-gray text-sm leading-relaxed mb-3">
-                          <span className="text-webdev-silver font-medium">Need help getting started?</span> Use our AI assistant in the bottom right corner to discuss your project requirements and get guidance on project types.
-                        </p>
                         <p className="text-webdev-soft-gray text-sm leading-relaxed mb-2">
-                          <span className="text-webdev-silver font-medium">Want to organize your thoughts first?</span> Try our Project Brief Generator to create a detailed project outline before submitting your contact form.
+                          <span className="text-webdev-silver font-medium">Want to organize your thoughts first?</span> Try our LaunchPad AI to create a comprehensive Project Brief, or if you just need to ask a few quick questions, you can use the AI chatbot in the bottom right corner of this page and the homepage.
                         </p>
                         <Link 
                           to="/project-brief"
