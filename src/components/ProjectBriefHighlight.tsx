@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Lightbulb, ArrowRight } from 'lucide-react';
-import highlightImage from '@/assets/project-brief-highlight.jpg';
+const highlightImage = '/lovable-uploads/50a159ac-3cf8-460a-9638-0be1d14908a6.png';
 
 const ProjectBriefHighlight = () => {
   return (
@@ -63,7 +63,7 @@ const ProjectBriefHighlight = () => {
               <div className="relative">
                 <img 
                   src={highlightImage} 
-                  alt="Project planning and collaboration"
+                  alt="AI-powered project planning assistant"
                   className="w-full rounded-2xl shadow-2xl"
                 />
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-webdev-gradient-blue/20 to-webdev-gradient-purple/20"></div>

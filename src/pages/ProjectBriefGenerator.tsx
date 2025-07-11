@@ -92,14 +92,16 @@ const ProjectBriefGenerator = () => {
                 comprehensive project brief. Get clarity on your vision, requirements, and goals in minutes.
               </p>
               
-              <Button
+              <button
                 onClick={handleStartBrief}
-                className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white px-10 py-5 text-xl rounded-full"
+                className="glass-effect px-10 py-5 rounded-full text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] text-xl flex items-center"
               >
-                <Rocket className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
-                Start My Brief
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
-              </Button>
+                <span className="relative z-10 flex items-center">
+                  <Rocket className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                  Start My Brief
+                  <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+                </span>
+              </button>
             </div>
 
             {/* Launch Process Steps */}
