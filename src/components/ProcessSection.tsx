@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, Palette, Code, TestTube, Rocket } from 'lucide-react';
+import { Search, Palette, Code, ShieldCheck, Rocket } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -45,7 +45,7 @@ const ProcessSection = () => {
       title: "Test",
       description: "Ensuring everything works perfectly across all devices.",
       details: ["Cross-browser testing", "Mobile optimization", "Performance testing"],
-      icon: TestTube,
+      icon: ShieldCheck,
       image: "/lovable-uploads/ab14eb1e-52ba-449c-88ca-fdc83ffd9fb6.png"
     },
     {
