@@ -322,7 +322,7 @@ const BlogArticle = () => {
               <img
                 src={article.main_image_url}
                 alt={article.title}
-                className="w-full h-64 md:h-80 lg:h-96 object-cover object-center rounded-lg mb-8"
+                className="w-full h-56 md:h-72 lg:h-80 object-cover object-center rounded-lg mb-8"
               />
             )}
             <div 
