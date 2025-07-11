@@ -20,16 +20,16 @@ const ProjectBriefHighlight = () => {
               </div>
               
               <h2 className="text-4xl md:text-5xl font-bold text-webdev-silver mb-6">
-                Not Sure Where to{" "}
+                Ready to{" "}
                 <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                  Start?
+                  Launch?
                 </span>
               </h2>
               
               <p className="text-xl text-webdev-soft-gray mb-8 leading-relaxed">
-                Use our AI-powered Project Brief Generator to clarify your vision, 
-                organize your requirements, and create a professional brief that 
-                helps us understand exactly what you need.
+                Use our AI-powered LaunchPad to transform your ideas into action. 
+                Get a comprehensive project brief that clarifies your vision and 
+                helps us understand exactly what you need to succeed.
               </p>
               
               <div className="space-y-4 mb-8">
