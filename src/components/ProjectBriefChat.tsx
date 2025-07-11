@@ -132,6 +132,27 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
         onBriefGenerated(data.message);
       }
 
+      // Send email notification in the background
+      try {
+        await supabase.functions.invoke('notify-project-brief', {
+          body: {
+            briefContent: data.message,
+            conversationHistory: [...conversationHistory, {
+              role: 'user',
+              content: "Based on our conversation, please generate a comprehensive, well-formatted project brief that summarizes all the requirements, features, timeline, and other details we've discussed. Format it professionally as if it's a document that could be submitted to a development team."
+            }, {
+              role: 'assistant',
+              content: data.message
+            }],
+            timestamp: new Date().toISOString()
+          }
+        });
+        console.log('Project brief notification sent successfully');
+      } catch (notificationError) {
+        console.error('Failed to send project brief notification:', notificationError);
+        // Don't throw here - we don't want to break the user experience if notification fails
+      }
+
       toast({
         title: "Brief Generated!",
         description: "Your project brief has been generated successfully.",
