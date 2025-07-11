@@ -200,7 +200,7 @@ const FeaturedWork = () => {
                             <img 
                               src={(isMobile ? booknookMobileScreenshots : booknookScreenshots)[screenshotIndex]} 
                               alt={`${project.title} Screenshot ${screenshotIndex + 1}`}
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-cover"
                             />
                             {/* Carousel navigation */}
                             <button 
