@@ -10,8 +10,19 @@ const ProjectBriefHighlight = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
-            {/* Content */}
-            <div className="animate-fade-in-up">
+            {/* Image - shown first on mobile, second on desktop */}
+            <div className="animate-fade-in-up lg:order-2" style={{ animationDelay: '0.2s' }}>
+              <div className="relative">
+                <img 
+                  src={highlightImage} 
+                  alt="AI-powered project planning assistant"
+                  className="w-full rounded-2xl shadow-2xl"
+                />
+              </div>
+            </div>
+            
+            {/* Content - shown second on mobile, first on desktop */}
+            <div className="animate-fade-in-up lg:order-1">
               <div className="flex items-center mb-6">
                 <div className="relative w-12 h-12 rounded-full mr-4">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
@@ -51,7 +62,7 @@ const ProjectBriefHighlight = () => {
                 </div>
               </div>
               
-              <div className="flex justify-center">
+              <div className="flex justify-center lg:justify-start">
                 <Link
                   to="/project-brief"
                   className="inline-flex items-center glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
@@ -61,17 +72,6 @@ const ProjectBriefHighlight = () => {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </span>
                 </Link>
-              </div>
-            </div>
-            
-            {/* Image */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="relative">
-                <img 
-                  src={highlightImage} 
-                  alt="AI-powered project planning assistant"
-                  className="w-full rounded-2xl shadow-2xl"
-                />
               </div>
             </div>
             
