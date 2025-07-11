@@ -71,6 +71,19 @@ const ProcessSection = () => {
     });
   }, [api]);
 
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [api]);
+
   return (
     <section className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
