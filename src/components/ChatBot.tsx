@@ -140,7 +140,12 @@ const ChatBot = () => {
             borderImageSlice: 1,
           }}
         >
-          <MessageCircle className="w-6 h-6" stroke="url(#chat-icon-gradient)" fill="none" strokeWidth={2} />
+          <MessageCircle className="w-6 h-6" style={{
+            background: 'linear-gradient(45deg, hsl(var(--webdev-gradient-blue)), hsl(var(--webdev-gradient-purple)))',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }} />
         </Button>
       </div>
     );
@@ -154,12 +159,8 @@ const ChatBot = () => {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-webdev-glass-border">
           <div className="flex items-center space-x-2">
-            <div className="relative w-8 h-8 rounded-full">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                  <Bot className="w-4 h-4" stroke="url(#chat-icon-gradient)" fill="none" strokeWidth={2} />
-                </div>
-              </div>
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
+              <Bot className="w-4 h-4 text-white" />
             </div>
             <div>
               <h3 className="text-webdev-silver font-medium text-sm">Web Dev Assistant</h3>
@@ -211,14 +212,12 @@ const ChatBot = () => {
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                       message.role === 'user' 
                         ? 'bg-webdev-darker-gray' 
-                         : 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5'
-                     }`}>
+                        : 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple'
+                    }`}>
                       {message.role === 'user' ? (
                         <User className="w-3 h-3 text-webdev-silver" />
                       ) : (
-                        <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                          <Bot className="w-3 h-3" stroke="url(#chat-icon-gradient)" fill="none" strokeWidth={2} />
-                        </div>
+                        <Bot className="w-3 h-3 text-white" />
                       )}
                     </div>
                     <div className={`rounded-lg p-3 ${
@@ -234,10 +233,8 @@ const ChatBot = () => {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5 flex items-center justify-center">
-                      <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                        <Bot className="w-3 h-3" stroke="url(#chat-icon-gradient)" fill="none" strokeWidth={2} />
-                      </div>
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
+                      <Bot className="w-3 h-3 text-white" />
                     </div>
                     <div className="bg-webdev-darker-gray/50 rounded-lg p-3">
                       <div className="flex space-x-1">
@@ -275,16 +272,6 @@ const ChatBot = () => {
           </>
         )}
       </div>
-      
-      {/* SVG Gradient Definition */}
-      <svg width="0" height="0" className="absolute">
-        <defs>
-          <linearGradient id="chat-icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4285f4" />
-            <stop offset="100%" stopColor="#8a2be2" />
-          </linearGradient>
-        </defs>
-      </svg>
     </div>
   );
 };
