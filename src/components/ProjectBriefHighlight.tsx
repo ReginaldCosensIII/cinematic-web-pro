@@ -66,7 +66,6 @@ const ProjectBriefHighlight = () => {
                   alt="AI-powered project planning assistant"
                   className="w-full rounded-2xl shadow-2xl"
                 />
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-webdev-gradient-blue/20 to-webdev-gradient-purple/20"></div>
               </div>
             </div>
             
