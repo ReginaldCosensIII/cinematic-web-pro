@@ -22,8 +22,8 @@ const Header = () => {
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Blog', path: '/blog' },
-    { name: 'LaunchPad', path: '/project-brief' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Contact', path: '/contact' },
+    { name: 'LaunchPad', path: '/project-brief' }
   ];
 
   const isActive = (path: string) => location.pathname === path;
