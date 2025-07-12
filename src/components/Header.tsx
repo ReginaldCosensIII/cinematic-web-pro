@@ -15,8 +15,12 @@ const Header = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut();
-    setIsMenuOpen(false);
+    try {
+      setIsMenuOpen(false);
+      await signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
   };
 
   const navItems = [
