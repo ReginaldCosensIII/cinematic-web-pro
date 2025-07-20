@@ -24,6 +24,10 @@ const ProjectBriefHighlight = () => {
                   Launch?
                 </span>
               </h2>
+              
+              <p className="text-xl text-webdev-soft-gray leading-relaxed max-w-3xl mx-auto">
+                Save time, stay focused, and set your project up for success. The LaunchPad takes the guesswork out of getting started by helping you define exactly what you need.
+              </p>
             </div>
           </div>
           
