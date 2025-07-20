@@ -15,6 +15,8 @@ const TestimonialsSection = () => {
 
   const testimonials = [
     {
+      subheading: "More Than a Developer",
+      supportingText: "Reggie helped us launch a polished, high-performing site that elevated our brand. He treated our project like his own, and it shows in every detail.",
       quote: "Working with this developer was an exceptional experience. The attention to detail and quality of work exceeded our expectations. Our project was delivered on time and within budget.",
       author: "Sarah Johnson",
       role: "CEO, TechStart Inc.",
@@ -22,6 +24,8 @@ const TestimonialsSection = () => {
       avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=200&h=200&fit=crop&crop=face"
     },
     {
+      subheading: "A Trusted Partner for Our Clients",
+      supportingText: "From rebuilding our entire CES website to managing SEO and development for our clients, Reggie has become an essential part of our digital strategy.",
       quote: "The level of professionalism and technical expertise demonstrated throughout our collaboration was outstanding. I highly recommend this developer for any web development project.",
       author: "Michael Chen",
       role: "Product Manager",
@@ -29,6 +33,8 @@ const TestimonialsSection = () => {
       avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&h=200&fit=crop&crop=face"
     },
     {
+      subheading: "A Seamless Experience",
+      supportingText: "Working with Reggie felt effortless. He communicated clearly, delivered on time, and made the entire process feel smooth and stress-free.",
       quote: "From initial consultation to final delivery, the entire process was smooth and transparent. The final product not only met but exceeded our requirements. Truly exceptional work.",
       author: "Emily Rodriguez",
       role: "Marketing Director",
@@ -75,14 +81,15 @@ const TestimonialsSection = () => {
             </div>
             
             <h2 className="text-5xl md:text-7xl font-light tracking-tight">
-              <span className="text-webdev-silver">What Clients </span>
+              <span className="text-webdev-silver">Why Clients </span>
               <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                Say
+                Trust
               </span>
+              <span className="text-webdev-silver"> Us</span>
             </h2>
             
-            <p className="text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed">
-              Discover how our collaborative approach and technical expertise have helped businesses achieve their digital goals.
+            <p className="text-xl text-webdev-soft-gray max-w-3xl mx-auto leading-relaxed">
+              We build more than websites — we build trust. Through transparent communication, dependable delivery, and top-tier solutions, we've earned the confidence of businesses and professionals across industries.
             </p>
           </div>
         </div>
@@ -106,13 +113,10 @@ const TestimonialsSection = () => {
                       <div className="space-y-6 order-2 lg:order-1 hidden lg:block">
                         <div className="space-y-4">
                           <h3 className="text-3xl md:text-4xl font-light text-webdev-silver">
-                            Trusted by businesses
-                            <span className="block bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                              worldwide
-                            </span>
+                            {testimonial.subheading}
                           </h3>
                           <p className="text-lg text-webdev-soft-gray leading-relaxed">
-                            Our commitment to excellence and client satisfaction has built lasting partnerships with innovative companies across various industries.
+                            {testimonial.supportingText}
                           </p>
                         </div>
                         
