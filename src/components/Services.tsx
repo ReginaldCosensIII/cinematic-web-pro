@@ -201,13 +201,14 @@ const Services = () => {
                   ))}
                 </ul>
 
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <button className="inline-flex items-center text-sm text-webdev-gradient-blue hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link">
-                      <ArrowRight className="w-4 h-4 mr-1 group-hover/link:translate-x-1 transition-transform duration-300" />
-                      More Details
-                    </button>
-                  </DialogTrigger>
+                <div className="flex justify-end">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="inline-flex items-center text-base text-webdev-gradient-blue hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link">
+                        <ArrowRight className="w-5 h-5 mr-2 group-hover/link:translate-x-1 transition-transform duration-300" />
+                        More Details
+                      </button>
+                    </DialogTrigger>
                   <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-webdev-glass-border">
                     <DialogHeader>
                       <DialogTitle className="text-2xl text-webdev-silver flex items-center gap-3">
@@ -280,6 +281,7 @@ const Services = () => {
                     </div>
                   </DialogContent>
                 </Dialog>
+              </div>
 
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               </div>
