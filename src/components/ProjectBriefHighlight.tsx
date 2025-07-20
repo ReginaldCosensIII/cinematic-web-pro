@@ -10,14 +10,21 @@ const ProjectBriefHighlight = () => {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           
-          {/* Centered Section Heading */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-webdev-silver mb-6">
-              Ready to{" "}
-              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                Launch?
-              </span>
-            </h2>
+          {/* Header Section - matching other sections style */}
+          <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
+            <div className="space-y-6">
+              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
+                <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
+                <span className="text-webdev-silver text-sm">AI Integrated</span>
+              </div>
+              
+              <h2 className="text-5xl md:text-7xl font-light tracking-tight">
+                <span className="text-webdev-silver">Ready to </span>
+                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                  Launch?
+                </span>
+              </h2>
+            </div>
           </div>
           
           <div className="grid lg:grid-cols-2 gap-12 items-center">
