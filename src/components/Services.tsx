@@ -163,7 +163,7 @@ const Services = () => {
             return (
               <div
                 key={service.title}
-                className="group relative glass-effect hover:glass-border rounded-xl p-8 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10"
+                className="group relative glass-effect hover:glass-border rounded-xl p-8 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 h-full flex flex-col"
                 style={{
                   animationDelay: `${index * 150}ms`
                 }}
@@ -192,7 +192,7 @@ const Services = () => {
                   {service.description}
                 </p>
 
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-3 mb-6 flex-grow">
                   {service.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300">
                       <div className="w-2 h-2 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple mr-3 flex-shrink-0" />
@@ -201,7 +201,7 @@ const Services = () => {
                   ))}
                 </ul>
 
-                <div className="flex justify-end">
+                <div className="flex justify-end mt-auto">
                   <Dialog>
                     <DialogTrigger asChild>
                       <button className="inline-flex items-center text-base text-webdev-gradient-blue hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link">
