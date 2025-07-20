@@ -203,13 +203,10 @@ const Services = () => {
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      className="w-full glass-effect border-webdev-glass-border hover:glass-border text-webdev-silver hover:text-white transition-all duration-300 group/btn"
-                    >
-                      <span>More Details</span>
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                    </Button>
+                    <button className="inline-flex items-center text-sm text-webdev-gradient-blue hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link">
+                      <ArrowRight className="w-4 h-4 mr-1 group-hover/link:translate-x-1 transition-transform duration-300" />
+                      More Details
+                    </button>
                   </DialogTrigger>
                   <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto glass-effect border-webdev-glass-border">
                     <DialogHeader>
