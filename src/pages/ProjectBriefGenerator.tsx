@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Rocket, ArrowRight, Target, Users, Zap, CheckCircle, Lightbulb, Code, Palette, BarChart3 } from 'lucide-react';
+import SEOHead from '@/components/SEOHead';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
@@ -45,9 +46,16 @@ const ProjectBriefGenerator = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-      {/* Animated smoke background */}
-      <SmokeBackground />
+    <>
+      <SEOHead 
+        title="AI LaunchPad | Project Brief Generator - Transform Ideas into Action"
+        description="Create a professional project brief in minutes with our AI-powered LaunchPad. Get clarity on your vision, requirements, and goals for your next web development project."
+        keywords="project brief generator, AI project planning, web development planning, project requirements, technical specifications, project scope"
+        canonicalUrl="https://your-domain.com/project-brief"
+      />
+      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+        {/* Animated smoke background */}
+        <SmokeBackground />
       
       {/* Glassmorphic header */}
       <Header />
@@ -262,7 +270,8 @@ const ProjectBriefGenerator = () => {
           </linearGradient>
         </defs>
       </svg>
-    </div>
+      </div>
+    </>
   );
 };
 

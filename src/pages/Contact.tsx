@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SEOHead from '../components/SEOHead';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
@@ -97,9 +98,16 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-      <SmokeBackground />
-      <Header />
+    <>
+      <SEOHead 
+        title="Contact Us | Professional Web Development Services"
+        description="Get in touch for custom web development, e-commerce solutions, and technical consulting. Professional web developer available worldwide for your next project."
+        keywords="contact web developer, hire web developer, custom web development services, web development consultation, freelance web developer"
+        canonicalUrl="https://your-domain.com/contact"
+      />
+      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+        <SmokeBackground />
+        <Header />
       
       <main className="relative z-10 pt-32 pb-20">
         <div className="max-w-6xl mx-auto px-6">
@@ -362,9 +370,10 @@ const Contact = () => {
         </svg>
       </main>
       
-      <Footer />
-      <ChatBot />
-    </div>
+        <Footer />
+        <ChatBot />
+      </div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import SEOHead from '../components/SEOHead';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
@@ -16,7 +17,14 @@ import ChatBot from '../components/ChatBot';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+    <>
+      <SEOHead 
+        title="Professional Web Developer | Custom Website Design & Full-Stack Development"
+        description="Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions. Transform your business with responsive, high-performance websites that drive results."
+        keywords="web developer, custom website design, full-stack development, responsive web design, SEO optimization, website redesign, web applications, AI integration"
+        canonicalUrl="https://your-domain.com/"
+      />
+      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
       {/* Animated smoke background */}
       <SmokeBackground />
       
@@ -47,7 +55,8 @@ const Index = () => {
       
       {/* AI Chatbot */}
       <ChatBot />
-    </div>
+      </div>
+    </>
   );
 };
 
