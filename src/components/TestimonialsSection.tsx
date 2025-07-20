@@ -113,7 +113,32 @@ const TestimonialsSection = () => {
                       <div className="space-y-6 order-2 lg:order-1 hidden lg:block">
                         <div className="space-y-4">
                           <h3 className="text-3xl md:text-4xl font-light text-webdev-silver">
-                            {testimonial.subheading}
+                            {index === 0 && (
+                              <>
+                                More Than a{" "}
+                                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                                  Developer
+                                </span>
+                              </>
+                            )}
+                            {index === 1 && (
+                              <>
+                                A{" "}
+                                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                                  Trusted Partner
+                                </span>
+                                {" "}for Our Clients
+                              </>
+                            )}
+                            {index === 2 && (
+                              <>
+                                A{" "}
+                                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                                  Seamless
+                                </span>
+                                {" "}Experience
+                              </>
+                            )}
                           </h3>
                           <p className="text-lg text-webdev-soft-gray leading-relaxed">
                             {testimonial.supportingText}
