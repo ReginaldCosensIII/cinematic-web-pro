@@ -42,10 +42,10 @@ const Index = () => {
         <HeroSection />
         <div className="space-y-8 -mt-8">
           <FeaturedWork />
-          <TestimonialsSection />
           <Services />
           <ProcessSection />
           <ProjectBriefHighlight />
+          <TestimonialsSection />
           <CallToAction />
         </div>
       </main>
