@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Lightbulb, ArrowRight } from 'lucide-react';
@@ -8,6 +9,17 @@ const ProjectBriefHighlight = () => {
     <section className="py-20 relative">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
+          
+          {/* Centered Section Heading */}
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-bold text-webdev-silver mb-6">
+              Ready to{" "}
+              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
+                Launch?
+              </span>
+            </h2>
+          </div>
+          
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             {/* Content */}
@@ -19,12 +31,12 @@ const ProjectBriefHighlight = () => {
                 <span className="text-webdev-gradient-blue font-semibold tracking-wide">PLANNING TOOL</span>
               </div>
               
-              <h2 className="text-4xl md:text-5xl font-bold text-webdev-silver mb-6">
-                Ready to{" "}
+              <h3 className="text-3xl md:text-4xl font-bold text-webdev-silver mb-6">
+                The AI{" "}
                 <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                  Launch?
+                  LaunchPad
                 </span>
-              </h2>
+              </h3>
               
               <p className="text-xl text-webdev-soft-gray mb-8 leading-relaxed">
                 Use our AI-powered LaunchPad to transform your ideas into action. 
