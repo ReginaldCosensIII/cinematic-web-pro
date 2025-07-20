@@ -79,8 +79,8 @@ const ProjectBriefHighlight = () => {
               </div>
             </div>
             
-            {/* Image */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            {/* Image - Hidden on mobile */}
+            <div className="animate-fade-in-up hidden md:block" style={{ animationDelay: '0.2s' }}>
               <div className="relative">
                 <img 
                   src={highlightImage} 
