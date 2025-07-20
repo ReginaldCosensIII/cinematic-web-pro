@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from "@/contexts/AuthContext";
+import { useEnhancedSecurity } from "@/hooks/useEnhancedSecurity";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Contact from "./pages/Contact";
@@ -33,6 +34,40 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function AppContent() {
+  // Initialize enhanced security monitoring
+  useEnhancedSecurity();
+
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogArticle />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard/projects" element={<DashboardProjects />} />
+      <Route path="/dashboard/invoices" element={<DashboardInvoices />} />
+      <Route path="/dashboard/milestones" element={<DashboardMilestones />} />
+      <Route path="/dashboard/settings" element={<DashboardSettings />} />
+      <Route path="/dashboard/time-tracking" element={<DashboardTimeTracking />} />
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin/users" element={<AdminUsers />} />
+      <Route path="/admin/projects" element={<AdminProjects />} />
+      <Route path="/admin/milestones" element={<AdminMilestones />} />
+      <Route path="/admin/hours" element={<AdminHours />} />
+      <Route path="/admin/invoices" element={<AdminInvoices />} />
+      <Route path="/admin/blog" element={<AdminBlog />} />
+      <Route path="/admin/submissions" element={<AdminSubmissions />} />
+      <Route path="/admin/settings" element={<AdminSettings />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-of-service" element={<TermsOfService />} />
+      <Route path="/project-brief" element={<ProjectBriefGenerator />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
@@ -41,36 +76,11 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogArticle />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/projects" element={<DashboardProjects />} />
-            <Route path="/dashboard/invoices" element={<DashboardInvoices />} />
-            <Route path="/dashboard/milestones" element={<DashboardMilestones />} />
-            <Route path="/dashboard/settings" element={<DashboardSettings />} />
-            <Route path="/dashboard/time-tracking" element={<DashboardTimeTracking />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/users" element={<AdminUsers />} />
-            <Route path="/admin/projects" element={<AdminProjects />} />
-            <Route path="/admin/milestones" element={<AdminMilestones />} />
-            <Route path="/admin/hours" element={<AdminHours />} />
-            <Route path="/admin/invoices" element={<AdminInvoices />} />
-            <Route path="/admin/blog" element={<AdminBlog />} />
-            <Route path="/admin/submissions" element={<AdminSubmissions />} />
-            <Route path="/admin/settings" element={<AdminSettings />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/project-brief" element={<ProjectBriefGenerator />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </HelmetProvider>
+            <AppContent />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 
