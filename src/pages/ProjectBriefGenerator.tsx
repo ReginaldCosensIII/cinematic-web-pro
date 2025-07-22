@@ -91,8 +91,8 @@ const ProjectBriefGenerator = () => {
               {/* Hero Image */}
               <div className="mb-10 relative rounded-3xl overflow-hidden shadow-2xl">
                 <img 
-                  src={isMobile ? "/lovable-uploads/36f998a7-1959-4ab7-b352-a792d2cb3812.png" : "/lovable-uploads/d8463260-7630-4879-8871-71075ff0c11d.png"}
-                  alt={isMobile ? "Let's Build Together" : "LaunchPad AI project brief generator with checklist and flowchart visualization"}
+                  src={isMobile ? "/lovable-uploads/50a159ac-3cf8-460a-9638-0be1d14908a6.png" : "/lovable-uploads/d8463260-7630-4879-8871-71075ff0c11d.png"}
+                  alt={isMobile ? "AI-powered project planning assistant" : "LaunchPad AI project brief generator with checklist and flowchart visualization"}
                   className="w-full h-64 md:h-80 object-cover"
                 />
               </div>
