@@ -7,12 +7,14 @@ import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import ProjectBriefChat from '@/components/ProjectBriefChat';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useIsMobile } from '@/hooks/use-mobile';
 import heroImage from '@/assets/project-brief-hero.jpg';
 
 const ProjectBriefGenerator = () => {
   const [showChat, setShowChat] = useState(false);
   const [generatedBrief, setGeneratedBrief] = useState<string>('');
   const [showTips, setShowTips] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleStartBrief = () => {
     setShowChat(true);
@@ -89,8 +91,8 @@ const ProjectBriefGenerator = () => {
               {/* Hero Image */}
               <div className="mb-10 relative rounded-3xl overflow-hidden shadow-2xl">
                 <img 
-                  src="/lovable-uploads/d8463260-7630-4879-8871-71075ff0c11d.png" 
-                  alt="LaunchPad AI project brief generator with checklist and flowchart visualization"
+                  src={isMobile ? "/lovable-uploads/36f998a7-1959-4ab7-b352-a792d2cb3812.png" : "/lovable-uploads/d8463260-7630-4879-8871-71075ff0c11d.png"}
+                  alt={isMobile ? "Let's Build Together" : "LaunchPad AI project brief generator with checklist and flowchart visualization"}
                   className="w-full h-64 md:h-80 object-cover"
                 />
               </div>
