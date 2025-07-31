@@ -8,6 +8,10 @@ import { Calendar, Clock, ArrowRight, Search, ChevronLeft, ChevronRight } from '
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import StructuredData from '../components/StructuredData';
+import GoogleAnalytics from '../components/GoogleAnalytics';
 
 interface BlogArticle {
   id: string;
@@ -122,25 +126,50 @@ const Blog = () => {
     );
   }
 
+  // Blog page structured data
+  const blogData = {
+    name: "Web Development Blog",
+    description: "Latest insights, tutorials, and trends in web development, design, and technology.",
+    provider: {
+      name: "Professional Web Developer",
+      url: "https://your-domain.com"
+    },
+    areaServed: "Worldwide",
+    serviceType: "Educational Content"
+  };
+
   return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-      <SmokeBackground />
-      <Header />
+    <>
+      <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+      <SEOHead 
+        title="Web Development Blog | Latest Insights & Tutorials"
+        description="Stay updated with the latest web development trends, tutorials, and insights. Expert advice on React, TypeScript, SEO, and modern web technologies."
+        keywords="web development blog, React tutorials, TypeScript guides, SEO tips, web design trends, JavaScript tutorials, frontend development, backend development"
+        canonicalUrl="https://your-domain.com/blog"
+        ogImage="https://your-domain.com/og-blog.jpg"
+        twitterImage="https://your-domain.com/twitter-blog.jpg"
+      />
+      <StructuredData type="service" data={blogData} />
       
-      <main className="relative z-10 pt-32 pb-20">
-        <div className="max-w-6xl mx-auto px-4 md:px-6">
-          {/* Page Header */}
-          <div className="text-center animate-fade-in-up mb-16">
-            <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
-              Development{' '}
-              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                Blog
-              </span>
-            </h1>
-            <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
-              Stay updated with the latest trends, techniques, and insights from the world of web development.
-            </p>
-          </div>
+      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+        <SmokeBackground />
+        <Header />
+      
+        <main className="relative z-10 pt-32 pb-20">
+          <div className="max-w-6xl mx-auto px-4 md:px-6">
+            <Breadcrumbs />
+            {/* Page Header */}
+            <div className="text-center animate-fade-in-up mb-16">
+              <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
+                Web Development{' '}
+                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                  Blog
+                </span>
+              </h1>
+              <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
+                Expert insights, tutorials, and the latest trends in web development, React, TypeScript, and modern web technologies.
+              </p>
+            </div>
 
           {/* Search Bar */}
           <div className="mb-12 animate-fade-in-up">
@@ -162,15 +191,15 @@ const Blog = () => {
               <div className="glass-effect rounded-2xl p-6 md:p-8 border border-webdev-glass-border hover:border-webdev-glass-border/50 transition-all duration-300 cursor-pointer"
                    onClick={() => handleArticleClick(featuredArticle.slug)}>
                 <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
-                  {featuredArticle.thumbnail_url && (
-                    <div className="lg:w-1/2">
-                      <img
-                        src={featuredArticle.thumbnail_url}
-                        alt={featuredArticle.title}
-                        className="w-full h-64 md:h-80 object-cover rounded-lg"
-                      />
-                    </div>
-                  )}
+                     {featuredArticle.thumbnail_url && (
+                       <div className="lg:w-1/2">
+                         <img
+                           src={featuredArticle.thumbnail_url}
+                           alt={`${featuredArticle.title} - Featured web development article thumbnail`}
+                           className="w-full h-64 md:h-80 object-cover rounded-lg"
+                         />
+                       </div>
+                     )}
                   <div className={`${featuredArticle.thumbnail_url ? 'lg:w-1/2' : 'w-full'} flex flex-col justify-between`}>
                     <div>
                       {featuredArticle.is_pinned && (
@@ -229,15 +258,15 @@ const Blog = () => {
                   <div key={article.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border hover:border-webdev-glass-border/50 transition-all duration-300 cursor-pointer h-full flex flex-col"
                          onClick={() => handleArticleClick(article.slug)}>
-                      {article.thumbnail_url && (
-                        <div className="mb-4">
-                          <img
-                            src={article.thumbnail_url}
-                            alt={article.title}
-                            className="w-full h-48 object-cover rounded-lg"
-                          />
-                        </div>
-                      )}
+                       {article.thumbnail_url && (
+                         <div className="mb-4">
+                           <img
+                             src={article.thumbnail_url}
+                             alt={`${article.title} - Web development article thumbnail`}
+                             className="w-full h-48 object-cover rounded-lg"
+                           />
+                         </div>
+                       )}
                       <div className="flex flex-col flex-grow">
                         <div className="flex-grow">
                           <h3 className="text-lg md:text-xl font-semibold text-webdev-silver mb-3 leading-tight hover:text-webdev-gradient-blue transition-colors">
@@ -348,11 +377,12 @@ const Blog = () => {
               </div>
             </>
           )}
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
+    </>
   );
 };
 

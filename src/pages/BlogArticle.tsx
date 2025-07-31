@@ -11,6 +11,10 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import SEOHead from '../components/SEOHead';
+import Breadcrumbs from '../components/Breadcrumbs';
+import StructuredData from '../components/StructuredData';
+import GoogleAnalytics from '../components/GoogleAnalytics';
 
 interface BlogArticle {
   id: string;
@@ -271,30 +275,81 @@ const BlogArticle = () => {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-      <SmokeBackground />
-      <Header />
-      
-      <main className="relative z-10 pt-32 pb-20">
-        <div className="max-w-4xl mx-auto px-4 md:px-6">
-          {/* Back Button */}
-          <div className="mb-8 animate-fade-in-up">
-            <Button 
-              onClick={() => navigate('/blog')} 
-              variant="ghost" 
-              className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Blog
-            </Button>
-          </div>
+  // Generate article structured data
+  const articleStructuredData = article ? {
+    headline: article.title,
+    datePublished: article.published_at,
+    dateModified: article.published_at,
+    author: "Professional Web Developer",
+    description: article.excerpt || "",
+    image: article.main_image_url || article.thumbnail_url || "https://your-domain.com/og-blog.jpg",
+    url: `https://your-domain.com/blog/${article.slug}`,
+    wordCount: article.content ? article.content.split(' ').length : 0,
+    tags: article.tags || []
+  } : null;
 
-          {/* Article Header */}
-          <div className="mb-12 animate-fade-in-up">
-            <h1 className="text-2xl md:text-3xl lg:text-5xl font-light text-webdev-silver tracking-wide mb-6 leading-tight">
-              {article.title}
-            </h1>
+  // Generate breadcrumb data
+  const breadcrumbData = article ? {
+    items: [
+      { name: "Home", url: "https://your-domain.com/" },
+      { name: "Blog", url: "https://your-domain.com/blog" },
+      { name: article.title, url: `https://your-domain.com/blog/${article.slug}` }
+    ]
+  } : null;
+
+  return (
+    <>
+      {article && (
+        <>
+          <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+          <SEOHead 
+            title={`${article.title} | Web Development Blog`}
+            description={article.excerpt || `Read ${article.title} - Expert insights on web development, React, TypeScript, and modern web technologies.`}
+            keywords={`${article.tags?.join(', ')}, web development, React, TypeScript, JavaScript, frontend development, backend development, tutorial`}
+            canonicalUrl={`https://your-domain.com/blog/${article.slug}`}
+            ogImage={article.main_image_url || article.thumbnail_url || "https://your-domain.com/og-blog.jpg"}
+            twitterImage={article.main_image_url || article.thumbnail_url || "https://your-domain.com/twitter-blog.jpg"}
+            articleData={{
+              publishedTime: article.published_at,
+              modifiedTime: article.published_at,
+              author: "Professional Web Developer",
+              section: "Web Development",
+              tags: article.tags || []
+            }}
+          />
+          {articleStructuredData && <StructuredData type="article" data={articleStructuredData} />}
+          {breadcrumbData && <StructuredData type="breadcrumb" data={breadcrumbData} />}
+        </>
+      )}
+      
+      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+        <SmokeBackground />
+        <Header />
+      
+        <main className="relative z-10 pt-32 pb-20">
+          <div className="max-w-4xl mx-auto px-4 md:px-6">
+            <Breadcrumbs items={[
+              { label: 'Home', href: '/' },
+              { label: 'Blog', href: '/blog' },
+              { label: article?.title || 'Article' }
+            ]} />
+            {/* Back Button */}
+            <div className="mb-8 animate-fade-in-up">
+              <Button 
+                onClick={() => navigate('/blog')} 
+                variant="ghost" 
+                className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Blog
+              </Button>
+            </div>
+
+            {/* Article Header */}
+            <div className="mb-12 animate-fade-in-up">
+              <h1 className="text-2xl md:text-3xl lg:text-5xl font-light text-webdev-silver tracking-wide mb-6 leading-tight">
+                {article.title}
+              </h1>
             <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-webdev-soft-gray">
               <div className="flex items-center">
                 <Calendar className="w-4 h-4 mr-2" />
@@ -318,13 +373,13 @@ const BlogArticle = () => {
 
           {/* Article Content */}
           <div className="glass-effect rounded-2xl p-6 md:p-8 border border-webdev-glass-border mb-12 animate-fade-in-up">
-            {article.main_image_url && (
-              <img
-                src={article.main_image_url}
-                alt={article.title}
-                className="w-full h-56 md:h-72 lg:h-80 object-cover object-center rounded-lg mb-8"
-              />
-            )}
+              {article.main_image_url && (
+                <img
+                  src={article.main_image_url}
+                  alt={`${article.title} - Web development article cover image`}
+                  className="w-full h-56 md:h-72 lg:h-80 object-cover object-center rounded-lg mb-8"
+                />
+              )}
             <div 
               className="text-webdev-soft-gray leading-relaxed text-base md:text-lg prose prose-invert max-w-none [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:text-webdev-silver [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:text-webdev-silver [&_h3]:text-lg [&_h3]:font-medium [&_h3]:mb-2 [&_h3]:text-webdev-silver [&_p]:mb-4 [&_ul]:list-disc [&_ul]:list-inside [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-webdev-gradient-blue [&_blockquote]:pl-4 [&_blockquote]:my-4 [&_blockquote]:text-webdev-soft-gray [&_code]:bg-webdev-darker-gray [&_code]:px-1 [&_code]:rounded [&_code]:text-webdev-gradient-blue [&_a]:text-webdev-gradient-blue [&_a]:underline [&_a]:hover:text-webdev-gradient-purple [&_a]:transition-colors [&_hr]:border-webdev-glass-border [&_hr]:my-6 [&_u]:underline [&_strong]:font-bold [&_em]:italic [&_img]:rounded-lg [&_img]:my-6 [&_img]:max-w-full [&_img]:h-auto"
               dangerouslySetInnerHTML={{ __html: article.content }}
@@ -461,11 +516,12 @@ const BlogArticle = () => {
               </form>
             </div>
           </div>
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
+    </>
   );
 };
 
