@@ -117,9 +117,7 @@ const Index = () => {
       {/* AI Chatbot */}
       <ChatBot />
       
-      {/* Lead Capture Popups */}
-      <LeadCapture type="scroll" scrollPercentage={60} />
-      <LeadCapture type="time-based" triggerDelay={45000} />
+      {/* Lead Capture - only bottom of page trigger on homepage */}
       </div>
     </>
   );

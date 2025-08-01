@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { useLocation } from 'react-router-dom';
 
 interface LeadCaptureProps {
-  type: 'exit-intent' | 'scroll' | 'time-based';
+  type: 'exit-intent' | 'scroll' | 'time-based' | 'bottom-of-page';
   triggerDelay?: number; // milliseconds for time-based
   scrollPercentage?: number; // percentage for scroll trigger
 }
@@ -22,8 +24,26 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasShown, setHasShown] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
+    // Don't show if user is signed in
+    if (user) return;
+    
+    // Check if already shown in this session
+    const sessionKey = `leadCapture_${type}_shown`;
+    if (sessionStorage.getItem(sessionKey)) {
+      setHasShown(true);
+      return;
+    }
+
+    // Only show on blog pages for bottom-of-page type
+    if (type === 'bottom-of-page') {
+      const isBlogPage = location.pathname === '/blog' || location.pathname.startsWith('/blog/');
+      if (!isBlogPage) return;
+    }
+
     if (hasShown) return;
 
     let timeoutId: NodeJS.Timeout;
@@ -36,6 +56,7 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
           if (e.clientY <= 0) {
             setIsVisible(true);
             setHasShown(true);
+            sessionStorage.setItem(sessionKey, 'true');
           }
         };
         document.addEventListener('mouseleave', mouseMoveHandler);
@@ -47,6 +68,19 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
           if (scrolled >= scrollPercentage) {
             setIsVisible(true);
             setHasShown(true);
+            sessionStorage.setItem(sessionKey, 'true');
+          }
+        };
+        window.addEventListener('scroll', scrollHandler);
+        break;
+
+      case 'bottom-of-page':
+        scrollHandler = () => {
+          const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+          if (scrolled >= 90) { // Near bottom of page
+            setIsVisible(true);
+            setHasShown(true);
+            sessionStorage.setItem(sessionKey, 'true');
           }
         };
         window.addEventListener('scroll', scrollHandler);
@@ -56,6 +90,7 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
         timeoutId = setTimeout(() => {
           setIsVisible(true);
           setHasShown(true);
+          sessionStorage.setItem(sessionKey, 'true');
         }, triggerDelay);
         break;
     }
@@ -65,7 +100,7 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
       if (mouseMoveHandler) document.removeEventListener('mouseleave', mouseMoveHandler);
       if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
     };
-  }, [type, triggerDelay, scrollPercentage, hasShown]);
+  }, [type, triggerDelay, scrollPercentage, hasShown, user, location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

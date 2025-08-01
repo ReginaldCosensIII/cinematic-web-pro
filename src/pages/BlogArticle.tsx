@@ -15,6 +15,7 @@ import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import StructuredData from '../components/StructuredData';
 import GoogleAnalytics from '../components/GoogleAnalytics';
+import LeadCapture from '../components/LeadCapture';
 
 interface BlogArticle {
   id: string;
@@ -328,11 +329,6 @@ const BlogArticle = () => {
       
         <main className="relative z-10 pt-32 pb-20">
           <div className="max-w-4xl mx-auto px-4 md:px-6">
-            <Breadcrumbs items={[
-              { label: 'Home', href: '/' },
-              { label: 'Blog', href: '/blog' },
-              { label: article?.title || 'Article' }
-            ]} />
             {/* Back Button */}
             <div className="mb-8 animate-fade-in-up">
               <Button 
@@ -520,6 +516,9 @@ const BlogArticle = () => {
         </main>
         
         <Footer />
+        
+        {/* Lead Capture for blog article pages */}
+        <LeadCapture type="bottom-of-page" />
       </div>
     </>
   );
