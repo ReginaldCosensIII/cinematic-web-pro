@@ -118,6 +118,7 @@ const Index = () => {
       <ChatBot />
       
       {/* Lead Capture - only bottom of page trigger on homepage */}
+      <LeadCapture type="bottom-of-page" />
       </div>
     </>
   );
