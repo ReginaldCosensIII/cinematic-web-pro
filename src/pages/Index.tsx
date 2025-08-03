@@ -101,7 +101,7 @@ const Index = () => {
       {/* Main content with reduced top margin */}
       <main className="relative z-10 mt-8">
         <HeroSection />
-        <div className="space-y-8 -mt-8">
+        <div className="space-y-12">
           <FeaturedWork />
           <Services />
           <ProcessSection />
