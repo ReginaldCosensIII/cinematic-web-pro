@@ -17,6 +17,7 @@ import ChatBot from '../components/ChatBot';
 import StructuredData from '../components/StructuredData';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import LeadCapture from '../components/LeadCapture';
+import PerformanceOptimizer from '../components/PerformanceOptimizer';
 
 const Index = () => {
   // Organization structured data
@@ -72,7 +73,7 @@ const Index = () => {
   };
 
   return (
-    <>
+    <PerformanceOptimizer>
       <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
       <SEOHead 
         title="Professional Web Developer | Custom Website Design & Full-Stack Development"
@@ -85,42 +86,64 @@ const Index = () => {
       <StructuredData type="organization" data={organizationData} />
       <StructuredData type="service" data={serviceData} />
       <StructuredData type="faq" data={faqData} />
+      
       <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-      {/* Animated smoke background */}
-      <SmokeBackground />
-      
-      {/* Glassmorphic header */}
-      <Header />
-      
-      {/* Video Intro Section */}
-      <VideoIntro />
-      
-      {/* Scroll Indicator */}
-      <ScrollIndicator />
-      
-      {/* Main content with reduced top margin */}
-      <main className="relative z-10 mt-8">
-        <HeroSection />
-        <div className="space-y-12">
-          <FeaturedWork />
-          <Services />
-          <ProcessSection />
-          <TestimonialsSection />
-          <ProjectBriefHighlight />
-          <CallToAction />
-        </div>
-      </main>
-      
-      {/* Glassmorphic footer */}
-      <Footer />
-      
-      {/* AI Chatbot */}
-      <ChatBot />
-      
-      {/* Lead Capture - only bottom of page trigger on homepage */}
-      <LeadCapture type="bottom-of-page" />
+        {/* Skip to content link for accessibility */}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-webdev-gradient-blue text-white px-4 py-2 rounded-md z-50">
+          Skip to main content
+        </a>
+        
+        {/* Animated smoke background */}
+        <SmokeBackground />
+        
+        {/* Glassmorphic header with semantic nav */}
+        <Header />
+        
+        {/* Video Intro Section */}
+        <section id="video-intro" role="banner" aria-label="Introduction video">
+          <VideoIntro />
+        </section>
+        
+        {/* Scroll Indicator */}
+        <ScrollIndicator />
+        
+        {/* Main content with semantic structure */}
+        <main id="main-content" className="relative z-10 mt-8" role="main">
+          <HeroSection />
+          <div className="space-y-12">
+            <section id="featured-work" aria-labelledby="featured-work-heading">
+              <FeaturedWork />
+            </section>
+            <section id="services" aria-labelledby="services-heading">
+              <Services />
+            </section>
+            <section id="process" aria-labelledby="process-heading">
+              <ProcessSection />
+            </section>
+            <section id="testimonials" aria-labelledby="testimonials-heading">
+              <TestimonialsSection />
+            </section>
+            <section id="project-brief" aria-labelledby="project-brief-heading">
+              <ProjectBriefHighlight />
+            </section>
+            <section id="cta" aria-labelledby="cta-heading">
+              <CallToAction />
+            </section>
+          </div>
+        </main>
+        
+        {/* Glassmorphic footer with semantic footer */}
+        <Footer />
+        
+        {/* AI Chatbot with proper accessibility */}
+        <aside role="complementary" aria-label="AI Assistant">
+          <ChatBot />
+        </aside>
+        
+        {/* Lead Capture - only bottom of page trigger on homepage */}
+        <LeadCapture type="bottom-of-page" />
       </div>
-    </>
+    </PerformanceOptimizer>
   );
 };
 

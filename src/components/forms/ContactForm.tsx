@@ -132,13 +132,18 @@ const ContactForm = ({ onSuccess }: ContactFormProps) => {
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>Get In Touch</CardTitle>
+        <CardTitle id="contact-form-title">Get In Touch</CardTitle>
         <CardDescription>
           Let's discuss your project and how we can help bring your vision to life.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form 
+          onSubmit={handleSubmit} 
+          className="space-y-6"
+          aria-labelledby="contact-form-title"
+          noValidate
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="name">Name *</Label>
@@ -150,8 +155,15 @@ const ContactForm = ({ onSuccess }: ContactFormProps) => {
                 className={errors.name ? 'border-red-500' : ''}
                 maxLength={100}
                 required
+                aria-describedby={errors.name ? 'name-error' : undefined}
+                aria-invalid={!!errors.name}
+                autoComplete="name"
               />
-              {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+              {errors.name && (
+                <p id="name-error" className="text-sm text-red-500" role="alert">
+                  {errors.name}
+                </p>
+              )}
             </div>
             
             <div className="space-y-2">
@@ -164,8 +176,15 @@ const ContactForm = ({ onSuccess }: ContactFormProps) => {
                 className={errors.email ? 'border-red-500' : ''}
                 maxLength={100}
                 required
+                aria-describedby={errors.email ? 'email-error' : undefined}
+                aria-invalid={!!errors.email}
+                autoComplete="email"
               />
-              {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+              {errors.email && (
+                <p id="email-error" className="text-sm text-red-500" role="alert">
+                  {errors.email}
+                </p>
+              )}
             </div>
           </div>
 
@@ -177,6 +196,7 @@ const ContactForm = ({ onSuccess }: ContactFormProps) => {
               value={formData.company}
               onChange={(e) => handleInputChange('company', e.target.value)}
               maxLength={100}
+              autoComplete="organization"
             />
           </div>
 
@@ -225,17 +245,33 @@ const ContactForm = ({ onSuccess }: ContactFormProps) => {
               rows={5}
               maxLength={1000}
               required
+              aria-describedby={errors.message ? 'message-error message-counter' : 'message-counter'}
+              aria-invalid={!!errors.message}
+              placeholder="Tell us about your project, goals, and any specific requirements..."
             />
-            {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
-            <p className="text-sm text-gray-500">{formData.message.length}/1000 characters</p>
+            {errors.message && (
+              <p id="message-error" className="text-sm text-red-500" role="alert">
+                {errors.message}
+              </p>
+            )}
+            <p id="message-counter" className="text-sm text-gray-500" aria-live="polite">
+              {formData.message.length}/1000 characters
+            </p>
           </div>
 
           <Button 
             type="submit" 
-            className="w-full"
+            className="w-full focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2"
             disabled={isSubmitting}
+            aria-describedby={isSubmitting ? 'submit-status' : undefined}
           >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+            {isSubmitting ? (
+              <>
+                <span aria-live="polite" id="submit-status">Sending...</span>
+              </>
+            ) : (
+              'Send Message'
+            )}
           </Button>
         </form>
       </CardContent>

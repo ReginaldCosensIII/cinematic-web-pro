@@ -91,6 +91,23 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       {/* Additional SEO meta tags */}
       <meta name="theme-color" content="#1a1a1a" />
       <meta name="msapplication-TileColor" content="#1a1a1a" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      
+      {/* Performance and Security Headers */}
+      <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+      <meta httpEquiv="X-Frame-Options" content="DENY" />
+      <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
+      
+      {/* Preconnect to external domains for performance */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="preconnect" href="https://www.youtube.com" />
+      <link rel="preconnect" href="https://i.ytimg.com" />
+      
+      {/* DNS Prefetch */}
+      <link rel="dns-prefetch" href="https://www.google-analytics.com" />
       
       {/* JSON-LD Structured Data */}
       {jsonLd && (
