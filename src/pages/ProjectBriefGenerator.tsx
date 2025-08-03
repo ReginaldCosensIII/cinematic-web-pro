@@ -118,46 +118,55 @@ const ProjectBriefGenerator = () => {
 
             {/* Launch Process Steps */}
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
-                <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                      <Target className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+                <div className="relative z-10">
+                  <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                      <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
+                        <Target className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                      </div>
                     </div>
                   </div>
+                  <h3 className="text-xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300 mb-3">Define Your Vision</h3>
+                  <p className="text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300 leading-relaxed">
+                    Share your ideas, goals, and requirements through our guided conversation with AI.
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold text-webdev-silver mb-3">Define Your Vision</h3>
-                <p className="text-webdev-soft-gray leading-relaxed">
-                  Share your ideas, goals, and requirements through our guided conversation with AI.
-                </p>
               </div>
               
-              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
-                <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                      <Code className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+                <div className="relative z-10">
+                  <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                      <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
+                        <Code className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                      </div>
                     </div>
                   </div>
+                  <h3 className="text-xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300 mb-3">Generate Brief</h3>
+                  <p className="text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300 leading-relaxed">
+                    AI creates a comprehensive, professional project brief based on your conversation.
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold text-webdev-silver mb-3">Generate Brief</h3>
-                <p className="text-webdev-soft-gray leading-relaxed">
-                  AI creates a comprehensive, professional project brief based on your conversation.
-                </p>
               </div>
               
-              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300">
-                <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                      <CheckCircle className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+                <div className="relative z-10">
+                  <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                      <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
+                        <CheckCircle className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+                      </div>
                     </div>
                   </div>
+                  <h3 className="text-xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300 mb-3">Launch Ready</h3>
+                  <p className="text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300 leading-relaxed">
+                    Download your brief or submit it directly to our team to get started immediately.
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold text-webdev-silver mb-3">Launch Ready</h3>
-                <p className="text-webdev-soft-gray leading-relaxed">
-                  Download your brief or submit it directly to our team to get started immediately.
-                </p>
               </div>
             </div>
           </div>
