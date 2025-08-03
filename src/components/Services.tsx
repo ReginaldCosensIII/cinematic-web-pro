@@ -176,7 +176,7 @@ const Services = () => {
                     <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                       <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
                         <IconComponent 
-                          className="w-6 h-6" 
+                          className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" 
                           stroke="url(#icon-gradient)" 
                           fill="none"
                           strokeWidth={2}
