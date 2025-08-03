@@ -172,11 +172,11 @@ const Services = () => {
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                 
                 <header className="flex items-center mb-6">
-                  <div className="relative w-12 h-12 rounded-lg mr-4" aria-hidden="true">
+                  <div className="relative w-12 h-12 rounded-lg mr-4 transition-transform duration-300 group-hover:rotate-12" aria-hidden="true">
                     <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                       <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
                         <IconComponent 
-                          className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" 
+                          className="w-6 h-6" 
                           stroke="url(#icon-gradient)" 
                           fill="none"
                           strokeWidth={2}
