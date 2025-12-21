@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -500,44 +500,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      generate_slug: {
-        Args: { title: string }
-        Returns: string
-      }
+      generate_slug: { Args: { title: string }; Returns: string }
       get_admin_projects_data: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
-          id: string
-          title: string
-          description: string
-          status: string
-          created_at: string
-          user_id: string
-          profiles: Json
-          total_hours: number
-          invoice_total: number
           assigned_users: number
+          created_at: string
+          description: string
+          id: string
+          invoice_total: number
+          profiles: Json
+          status: string
+          title: string
+          total_hours: number
+          user_id: string
         }[]
       }
-      get_user_stats: {
-        Args: { target_user_id: string }
-        Returns: Json
-      }
+      get_user_stats: { Args: { target_user_id: string }; Returns: Json }
       has_role: {
         Args: {
-          _user_id: string
           _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
         }
         Returns: boolean
       }
       log_security_event: {
         Args: {
-          p_event_type: string
-          p_user_id?: string
-          p_target_user_id?: string
           p_details?: Json
+          p_event_type: string
           p_ip_address?: string
+          p_target_user_id?: string
           p_user_agent?: string
+          p_user_id?: string
         }
         Returns: undefined
       }
