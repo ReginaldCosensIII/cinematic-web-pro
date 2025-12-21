@@ -210,7 +210,7 @@ const Services = () => {
                     {/* Content Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                       {/* Key Benefits */}
-                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20">
+                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20 hover:scale-[1.02]">
                         <h3 className="text-lg font-semibold text-webdev-silver mb-4 flex items-center gap-2">
                           <Check className="w-5 h-5 text-webdev-gradient-blue" />
                           Key Benefits
@@ -226,7 +226,7 @@ const Services = () => {
                       </div>
 
                       {/* Technologies */}
-                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20">
+                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20 hover:scale-[1.02]">
                         <h3 className="text-lg font-semibold text-webdev-silver mb-4 flex items-center gap-2">
                           <Zap className="w-5 h-5 text-webdev-gradient-purple" />
                           Technologies & Tools
@@ -241,7 +241,7 @@ const Services = () => {
                       </div>
 
                       {/* Deliverables */}
-                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20">
+                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20 hover:scale-[1.02]">
                         <h3 className="text-lg font-semibold text-webdev-silver mb-4 flex items-center gap-2">
                           <TrendingUp className="w-5 h-5 text-webdev-gradient-blue" />
                           What You'll Receive
