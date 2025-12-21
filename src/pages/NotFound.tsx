@@ -19,7 +19,7 @@ const NotFound = () => {
   return (
     <>
       <SEOHead 
-        title="404 - Page Not Found | Cinematic Web Pro"
+        title="404 - Page Not Found | WebDevPro.io"
         description="The page you're looking for doesn't exist. Return to our homepage or contact us for assistance with your web development needs."
         noIndex={true}
       />

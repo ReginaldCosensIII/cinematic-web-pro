@@ -1,39 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
+  <!-- Homepage - Highest Priority -->
   <url>
-    <loc>https://your-domain.com/</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://webdevpro.io/</loc>
+    <lastmod>2024-12-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  
+  <!-- Services Page - High Priority -->
   <url>
-    <loc>https://your-domain.com/contact</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://webdevpro.io/services</loc>
+    <lastmod>2024-12-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Contact Page - High Priority -->
+  <url>
+    <loc>https://webdevpro.io/contact</loc>
+    <lastmod>2024-12-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Project Brief Generator - High Priority -->
+  <url>
+    <loc>https://webdevpro.io/project-brief</loc>
+    <lastmod>2024-12-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- Blog Index - High Priority -->
   <url>
-    <loc>https://your-domain.com/project-brief</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://webdevpro.io/blog</loc>
+    <lastmod>2024-12-21</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- Legal Pages - Low Priority -->
   <url>
-    <loc>https://your-domain.com/blog</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://your-domain.com/privacy-policy</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://webdevpro.io/privacy-policy</loc>
+    <lastmod>2024-12-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  
   <url>
-    <loc>https://your-domain.com/terms-of-service</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://webdevpro.io/terms-of-service</loc>
+    <lastmod>2024-12-21</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  
+  <!-- Note: Blog article URLs should be dynamically generated -->
+  <!-- Consider implementing a dynamic sitemap generator for blog posts -->
+  
 </urlset>

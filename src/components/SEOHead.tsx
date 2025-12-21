@@ -23,9 +23,9 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   title = "Professional Web Developer | Custom Website Design & Full-Stack Development",
   description = "Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions. Transform your business with responsive, high-performance websites that drive results.",
   keywords = "web developer, custom website design, full-stack development, responsive web design, SEO optimization, website redesign, web applications, AI integration",
-  canonicalUrl = "https://your-domain.com/",
-  ogImage = "https://your-domain.com/og-image.jpg",
-  twitterImage = "https://your-domain.com/twitter-image.jpg",
+  canonicalUrl = "https://webdevpro.io/",
+  ogImage = "https://webdevpro.io/og-image.jpg",
+  twitterImage = "https://webdevpro.io/twitter-image.jpg",
   noIndex = false,
   articleData,
   jsonLd
@@ -35,7 +35,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta name="author" content="Professional Web Developer" />
+      <meta name="author" content="Reggie Cosens - WebDevPro.io" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
       
@@ -55,7 +55,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:site_name" content="Professional Web Developer" />
+      <meta property="og:site_name" content="WebDevPro.io" />
       <meta property="og:locale" content="en_US" />
       
       {/* Article specific Open Graph tags */}
@@ -81,8 +81,8 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       
       {/* Twitter Cards */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@YourTwitterHandle" />
-      <meta name="twitter:creator" content="@YourTwitterHandle" />
+      <meta name="twitter:site" content="@WebDevProIO" />
+      <meta name="twitter:creator" content="@ReggieCosens" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={twitterImage} />

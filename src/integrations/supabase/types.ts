@@ -180,6 +180,7 @@ export type Database = {
           id: string
           message: string
           name: string
+          phone: string | null
           project_type: string | null
           user_id: string | null
         }
@@ -191,6 +192,7 @@ export type Database = {
           id?: string
           message: string
           name: string
+          phone?: string | null
           project_type?: string | null
           user_id?: string | null
         }
@@ -202,6 +204,7 @@ export type Database = {
           id?: string
           message?: string
           name?: string
+          phone?: string | null
           project_type?: string | null
           user_id?: string | null
         }

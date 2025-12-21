@@ -22,19 +22,19 @@ import PerformanceOptimizer from '../components/PerformanceOptimizer';
 const Index = () => {
   // Organization structured data
   const organizationData = {
-    name: "Professional Web Developer",
+    name: "WebDevPro.io - Reggie Cosens",
     description: "Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions.",
-    url: "https://your-domain.com",
-    logo: "https://your-domain.com/logo.png",
+    url: "https://webdevpro.io",
+    logo: "https://webdevpro.io/logo.png",
     contactPoint: {
       telephone: "+1-555-0123",
-      email: "hello@your-domain.com",
+      email: "hello@webdevpro.io",
       contactType: "customer service"
     },
     sameAs: [
-      "https://www.linkedin.com/in/yourprofile",
-      "https://github.com/yourprofile",
-      "https://twitter.com/yourhandle"
+      "https://www.linkedin.com/in/reggiecosens",
+      "https://github.com/reggiecosens",
+      "https://twitter.com/WebDevProIO"
     ]
   };
 
@@ -43,8 +43,8 @@ const Index = () => {
     name: "Custom Web Development Services",
     description: "Professional web development services including custom website design, full-stack development, and AI integration.",
     provider: {
-      name: "Professional Web Developer",
-      url: "https://your-domain.com"
+      name: "WebDevPro.io - Reggie Cosens",
+      url: "https://webdevpro.io"
     },
     areaServed: "Worldwide",
     serviceType: "Web Development"
@@ -76,12 +76,12 @@ const Index = () => {
     <PerformanceOptimizer>
       <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
       <SEOHead 
-        title="Professional Web Developer | Custom Website Design & Full-Stack Development"
-        description="Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions. Transform your business with responsive, high-performance websites that drive results."
-        keywords="web developer, custom website design, full-stack development, responsive web design, SEO optimization, website redesign, web applications, AI integration, React developer, TypeScript developer"
-        canonicalUrl="https://your-domain.com/"
-        ogImage="https://your-domain.com/og-home.jpg"
-        twitterImage="https://your-domain.com/twitter-home.jpg"
+        title="WebDevPro.io | Professional Web Developer - Custom Websites & Full-Stack Development"
+        description="Expert freelance web developer specializing in custom website design, full-stack development, and AI-powered solutions. Transform your business with responsive, high-performance websites that drive results."
+        keywords="web developer, freelance web developer, custom website design, full-stack development, responsive web design, SEO optimization, website redesign, web applications, AI integration, React developer, small business websites, modern website design"
+        canonicalUrl="https://webdevpro.io/"
+        ogImage="https://webdevpro.io/og-home.jpg"
+        twitterImage="https://webdevpro.io/twitter-home.jpg"
       />
       <StructuredData type="organization" data={organizationData} />
       <StructuredData type="service" data={serviceData} />
@@ -140,8 +140,8 @@ const Index = () => {
           <ChatBot />
         </aside>
         
-        {/* Lead Capture - only bottom of page trigger on homepage */}
-        <LeadCapture type="bottom-of-page" />
+        {/* Lead Capture - multiple triggers on homepage */}
+        <LeadCapture type="multiple" />
       </div>
     </PerformanceOptimizer>
   );

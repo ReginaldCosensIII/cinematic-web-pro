@@ -281,10 +281,10 @@ const BlogArticle = () => {
     headline: article.title,
     datePublished: article.published_at,
     dateModified: article.published_at,
-    author: "Professional Web Developer",
+    author: "Reggie Cosens",
     description: article.excerpt || "",
-    image: article.main_image_url || article.thumbnail_url || "https://your-domain.com/og-blog.jpg",
-    url: `https://your-domain.com/blog/${article.slug}`,
+    image: article.main_image_url || article.thumbnail_url || "https://webdevpro.io/og-blog.jpg",
+    url: `https://webdevpro.io/blog/${article.slug}`,
     wordCount: article.content ? article.content.split(' ').length : 0,
     tags: article.tags || []
   } : null;
@@ -292,9 +292,9 @@ const BlogArticle = () => {
   // Generate breadcrumb data
   const breadcrumbData = article ? {
     items: [
-      { name: "Home", url: "https://your-domain.com/" },
-      { name: "Blog", url: "https://your-domain.com/blog" },
-      { name: article.title, url: `https://your-domain.com/blog/${article.slug}` }
+      { name: "Home", url: "https://webdevpro.io/" },
+      { name: "Blog", url: "https://webdevpro.io/blog" },
+      { name: article.title, url: `https://webdevpro.io/blog/${article.slug}` }
     ]
   } : null;
 
@@ -304,16 +304,16 @@ const BlogArticle = () => {
         <>
           <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
           <SEOHead 
-            title={`${article.title} | Web Development Blog`}
+            title={`${article.title} | Web Development Blog - WebDevPro.io`}
             description={article.excerpt || `Read ${article.title} - Expert insights on web development, React, TypeScript, and modern web technologies.`}
             keywords={`${article.tags?.join(', ')}, web development, React, TypeScript, JavaScript, frontend development, backend development, tutorial`}
-            canonicalUrl={`https://your-domain.com/blog/${article.slug}`}
-            ogImage={article.main_image_url || article.thumbnail_url || "https://your-domain.com/og-blog.jpg"}
-            twitterImage={article.main_image_url || article.thumbnail_url || "https://your-domain.com/twitter-blog.jpg"}
+            canonicalUrl={`https://webdevpro.io/blog/${article.slug}`}
+            ogImage={article.main_image_url || article.thumbnail_url || "https://webdevpro.io/og-blog.jpg"}
+            twitterImage={article.main_image_url || article.thumbnail_url || "https://webdevpro.io/twitter-blog.jpg"}
             articleData={{
               publishedTime: article.published_at,
               modifiedTime: article.published_at,
-              author: "Professional Web Developer",
+              author: "Reggie Cosens",
               section: "Web Development",
               tags: article.tags || []
             }}
@@ -518,7 +518,7 @@ const BlogArticle = () => {
         <Footer />
         
         {/* Lead Capture for blog article pages */}
-        <LeadCapture type="bottom-of-page" />
+        <LeadCapture type="multiple" />
       </div>
     </>
   );
