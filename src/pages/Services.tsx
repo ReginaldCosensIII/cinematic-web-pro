@@ -175,7 +175,7 @@ const Services = () => {
                   <article
                     key={service.title}
                     id={service.title.toLowerCase().replace(/\s+/g, '-')}
-                    className="group glass-effect hover:glass-border rounded-xl p-8 md:p-12 border border-webdev-glass-border transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10"
+                    className="group glass-effect hover:glass-border rounded-xl p-8 md:p-12 border border-webdev-glass-border transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10"
                   >
                     
                     {/* Service Header */}
