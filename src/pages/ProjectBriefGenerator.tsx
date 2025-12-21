@@ -50,10 +50,10 @@ const ProjectBriefGenerator = () => {
   return (
     <>
       <SEOHead 
-        title="AI LaunchPad | Project Brief Generator - Transform Ideas into Action"
+        title="AI LaunchPad | Project Brief Generator - WebDevPro.io"
         description="Create a professional project brief in minutes with our AI-powered LaunchPad. Get clarity on your vision, requirements, and goals for your next web development project."
-        keywords="project brief generator, AI project planning, web development planning, project requirements, technical specifications, project scope"
-        canonicalUrl="https://your-domain.com/project-brief"
+        keywords="project brief generator, AI project planning, web development planning, project requirements, technical specifications, project scope, free project brief"
+        canonicalUrl="https://webdevpro.io/project-brief"
       />
       <div className="min-h-screen bg-webdev-black relative overflow-hidden">
         {/* Animated smoke background */}

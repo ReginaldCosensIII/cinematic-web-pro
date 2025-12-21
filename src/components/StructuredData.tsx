@@ -126,8 +126,8 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
           keywords: articleData.tags?.join(', '),
           publisher: {
             '@type': 'Organization',
-            name: 'Professional Web Developer',
-            logo: 'https://your-domain.com/logo.png'
+            name: 'WebDevPro.io',
+            logo: 'https://webdevpro.io/logo.png'
           }
         };
         

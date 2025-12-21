@@ -1,16 +1,57 @@
+# WebDevPro.io Robots.txt
+# https://webdevpro.io
+
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://your-domain.com/sitemap.xml
+# Sitemap location
+Sitemap: https://webdevpro.io/sitemap.xml
 
-# Block access to admin areas
+# Block access to admin and authenticated areas
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /auth/
+Disallow: /dashboard-*
 
-# Allow important pages
+# Allow important public pages
 Allow: /
 Allow: /blog/
+Allow: /blog/*
 Allow: /contact/
 Allow: /project-brief/
+Allow: /services/
+Allow: /privacy-policy/
+Allow: /terms-of-service/
+
+# Allow search engine crawlers to access assets
+Allow: /assets/
+Allow: /downloads/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Specific bot rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Block AI training bots (optional - adjust as needed)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /

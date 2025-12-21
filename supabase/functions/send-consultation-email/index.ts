@@ -42,8 +42,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Email to the agency
     const agencyEmailResponse = await resend.emails.send({
-      from: "AI Assistant <onboarding@resend.dev>",
-      to: ["your-email@domain.com"], // Replace with your actual email
+      from: "WebDevPro AI Assistant <onboarding@resend.dev>",
+      to: ["hello@webdevpro.io"],
       subject: `New Consultation Request from ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

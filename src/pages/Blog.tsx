@@ -129,11 +129,11 @@ const Blog = () => {
 
   // Blog page structured data
   const blogData = {
-    name: "Web Development Blog",
+    name: "Web Development Blog - WebDevPro.io",
     description: "Latest insights, tutorials, and trends in web development, design, and technology.",
     provider: {
-      name: "Professional Web Developer",
-      url: "https://your-domain.com"
+      name: "WebDevPro.io - Reggie Cosens",
+      url: "https://webdevpro.io"
     },
     areaServed: "Worldwide",
     serviceType: "Educational Content"
@@ -143,12 +143,12 @@ const Blog = () => {
     <>
       <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
       <SEOHead 
-        title="Web Development Blog | Latest Insights & Tutorials"
-        description="Stay updated with the latest web development trends, tutorials, and insights. Expert advice on React, TypeScript, SEO, and modern web technologies."
-        keywords="web development blog, React tutorials, TypeScript guides, SEO tips, web design trends, JavaScript tutorials, frontend development, backend development"
-        canonicalUrl="https://your-domain.com/blog"
-        ogImage="https://your-domain.com/og-blog.jpg"
-        twitterImage="https://your-domain.com/twitter-blog.jpg"
+        title="Web Development Blog | Latest Insights & Tutorials - WebDevPro.io"
+        description="Stay updated with the latest web development trends, tutorials, and insights. Expert advice on React, TypeScript, SEO, and modern web technologies from Reggie Cosens."
+        keywords="web development blog, React tutorials, TypeScript guides, SEO tips, web design trends, JavaScript tutorials, frontend development, backend development, freelance web developer"
+        canonicalUrl="https://webdevpro.io/blog"
+        ogImage="https://webdevpro.io/og-blog.jpg"
+        twitterImage="https://webdevpro.io/twitter-blog.jpg"
       />
       <StructuredData type="service" data={blogData} />
       
@@ -383,7 +383,7 @@ const Blog = () => {
         <Footer />
         
         {/* Lead Capture for blog pages */}
-        <LeadCapture type="bottom-of-page" />
+        <LeadCapture type="multiple" />
       </div>
     </>
   );

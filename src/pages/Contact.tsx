@@ -100,10 +100,10 @@ const Contact = () => {
   return (
     <>
       <SEOHead 
-        title="Contact Us | Professional Web Development Services"
-        description="Get in touch for custom web development, e-commerce solutions, and technical consulting. Professional web developer available worldwide for your next project."
-        keywords="contact web developer, hire web developer, custom web development services, web development consultation, freelance web developer"
-        canonicalUrl="https://your-domain.com/contact"
+        title="Contact Reggie Cosens | Professional Web Development Services - WebDevPro.io"
+        description="Get in touch for custom web development, e-commerce solutions, and technical consulting. Professional freelance web developer available worldwide for your next project."
+        keywords="contact web developer, hire web developer, custom web development services, web development consultation, freelance web developer, hire freelancer"
+        canonicalUrl="https://webdevpro.io/contact"
       />
       <div className="min-h-screen bg-webdev-black relative overflow-hidden">
         <SmokeBackground />

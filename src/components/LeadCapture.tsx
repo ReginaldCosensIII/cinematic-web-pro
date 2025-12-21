@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Download, BookOpen, Lightbulb } from 'lucide-react';
+import { X, Download, BookOpen, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
@@ -8,9 +8,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
 
 interface LeadCaptureProps {
-  type: 'exit-intent' | 'scroll' | 'time-based' | 'bottom-of-page';
-  triggerDelay?: number; // milliseconds for time-based
-  scrollPercentage?: number; // percentage for scroll trigger
+  type: 'exit-intent' | 'scroll' | 'time-based' | 'bottom-of-page' | 'multiple';
+  triggerDelay?: number;
+  scrollPercentage?: number;
 }
 
 const LeadCapture: React.FC<LeadCaptureProps> = ({ 
@@ -21,6 +21,7 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasShown, setHasShown] = useState(false);
   const { toast } = useToast();
@@ -32,17 +33,17 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
     if (user) return;
     
     // Check if already shown in this session
-    const sessionKey = `leadCapture_${type}_shown`;
+    const sessionKey = `leadCapture_shown`;
     if (sessionStorage.getItem(sessionKey)) {
       setHasShown(true);
       return;
     }
 
-    // Only show on blog pages for bottom-of-page type
-    if (type === 'bottom-of-page') {
-      const isBlogPage = location.pathname === '/blog' || location.pathname.startsWith('/blog/');
-      if (!isBlogPage) return;
-    }
+    // Only show on home and blog pages
+    const allowedPaths = ['/', '/blog'];
+    const isAllowedPage = allowedPaths.includes(location.pathname) || 
+                          location.pathname.startsWith('/blog/');
+    if (!isAllowedPage) return;
 
     if (hasShown) return;
 
@@ -50,49 +51,69 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
     let mouseMoveHandler: (e: MouseEvent) => void;
     let scrollHandler: () => void;
 
-    switch (type) {
-      case 'exit-intent':
-        mouseMoveHandler = (e: MouseEvent) => {
-          if (e.clientY <= 0) {
-            setIsVisible(true);
-            setHasShown(true);
-            sessionStorage.setItem(sessionKey, 'true');
-          }
-        };
-        document.addEventListener('mouseleave', mouseMoveHandler);
-        break;
+    const showPopup = () => {
+      if (!hasShown && !sessionStorage.getItem(sessionKey)) {
+        setIsVisible(true);
+        setHasShown(true);
+        sessionStorage.setItem(sessionKey, 'true');
+      }
+    };
 
-      case 'scroll':
-        scrollHandler = () => {
-          const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-          if (scrolled >= scrollPercentage) {
-            setIsVisible(true);
-            setHasShown(true);
-            sessionStorage.setItem(sessionKey, 'true');
-          }
-        };
-        window.addEventListener('scroll', scrollHandler);
-        break;
+    // For 'multiple' type, set up both scroll and exit intent
+    if (type === 'multiple') {
+      // Exit intent
+      mouseMoveHandler = (e: MouseEvent) => {
+        if (e.clientY <= 5) {
+          showPopup();
+        }
+      };
+      document.addEventListener('mouseleave', mouseMoveHandler);
 
-      case 'bottom-of-page':
-        scrollHandler = () => {
-          const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-          if (scrolled >= 90) { // Near bottom of page
-            setIsVisible(true);
-            setHasShown(true);
-            sessionStorage.setItem(sessionKey, 'true');
-          }
-        };
-        window.addEventListener('scroll', scrollHandler);
-        break;
+      // Scroll trigger
+      scrollHandler = () => {
+        const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        if (scrolled >= 85) {
+          showPopup();
+        }
+      };
+      window.addEventListener('scroll', scrollHandler);
+    } else {
+      switch (type) {
+        case 'exit-intent':
+          mouseMoveHandler = (e: MouseEvent) => {
+            if (e.clientY <= 0) {
+              showPopup();
+            }
+          };
+          document.addEventListener('mouseleave', mouseMoveHandler);
+          break;
 
-      case 'time-based':
-        timeoutId = setTimeout(() => {
-          setIsVisible(true);
-          setHasShown(true);
-          sessionStorage.setItem(sessionKey, 'true');
-        }, triggerDelay);
-        break;
+        case 'scroll':
+          scrollHandler = () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrolled >= scrollPercentage) {
+              showPopup();
+            }
+          };
+          window.addEventListener('scroll', scrollHandler);
+          break;
+
+        case 'bottom-of-page':
+          scrollHandler = () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrolled >= 90) {
+              showPopup();
+            }
+          };
+          window.addEventListener('scroll', scrollHandler);
+          break;
+
+        case 'time-based':
+          timeoutId = setTimeout(() => {
+            showPopup();
+          }, triggerDelay);
+          break;
+      }
     }
 
     return () => {
@@ -101,6 +122,16 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
       if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
     };
   }, [type, triggerDelay, scrollPercentage, hasShown, user, location]);
+
+  const triggerDownload = () => {
+    // Create download link for the guide
+    const link = document.createElement('a');
+    link.href = '/downloads/web-development-guide.txt';
+    link.download = '10-Essential-Steps-Website-Guide.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,19 +144,25 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
         .insert({
           name,
           email,
-          project_type: 'Lead Magnet Signup',
-          message: `Signed up for lead magnet via ${type} popup`
+          phone: phone || null,
+          project_type: 'Lead Magnet Download',
+          message: `Downloaded "10 Essential Steps to Launch Your Perfect Website" guide via ${type} popup on ${location.pathname}`
         });
 
       if (error) throw error;
 
+      // Trigger the download
+      triggerDownload();
+
       toast({
-        title: "Success!",
-        description: "You'll receive your free resource shortly!",
+        title: "Download Started!",
+        description: "Your free guide is downloading. Check your downloads folder.",
       });
 
       setIsVisible(false);
-      // You could trigger download or redirect here
+      setEmail('');
+      setName('');
+      setPhone('');
       
     } catch (error) {
       console.error('Error submitting lead capture:', error);
@@ -147,6 +184,7 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
         <button
           onClick={() => setIsVisible(false)}
           className="absolute top-4 right-4 text-webdev-soft-gray hover:text-webdev-silver transition-colors"
+          aria-label="Close popup"
         >
           <X className="w-5 h-5" />
         </button>
@@ -158,17 +196,17 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
           <h3 className="text-2xl font-bold text-webdev-silver mb-2">
             Free Web Development Guide
           </h3>
-          <p className="text-webdev-soft-gray">
-            Get our comprehensive guide "10 Essential Steps to Launch Your Perfect Website" 
+          <p className="text-webdev-soft-gray text-sm">
+            Get our comprehensive guide <strong>"10 Essential Steps to Launch Your Perfect Website"</strong> 
             and join 500+ entrepreneurs who've transformed their online presence.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <Input
               type="text"
-              placeholder="Your name"
+              placeholder="Your name *"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -178,11 +216,21 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
           <div>
             <Input
               type="email"
-              placeholder="Your email address"
+              placeholder="Your email address *"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               className="bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver focus:border-webdev-gradient-blue"
+            />
+          </div>
+          <div className="relative">
+            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-webdev-soft-gray" />
+            <Input
+              type="tel"
+              placeholder="Phone number (optional)"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver focus:border-webdev-gradient-blue pl-10"
             />
           </div>
           <Button
@@ -191,7 +239,7 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
             className="w-full glass-effect bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white border-0 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] transition-all duration-300"
           >
             <Download className="w-4 h-4 mr-2" />
-            {isSubmitting ? 'Sending...' : 'Get Free Guide'}
+            {isSubmitting ? 'Processing...' : 'Download Free Guide'}
           </Button>
         </form>
 
