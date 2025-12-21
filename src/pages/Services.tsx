@@ -177,8 +177,6 @@ const Services = () => {
                     id={service.title.toLowerCase().replace(/\s+/g, '-')}
                     className="group glass-effect hover:glass-border rounded-xl p-8 md:p-12 border border-webdev-glass-border transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10"
                   >
-                    {/* Hover gradient background */}
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                     
                     {/* Service Header */}
                     <header className="flex flex-col md:flex-row md:items-center gap-6 mb-8">
@@ -212,7 +210,7 @@ const Services = () => {
                     {/* Content Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                       {/* Key Benefits */}
-                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50">
+                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20">
                         <h3 className="text-lg font-semibold text-webdev-silver mb-4 flex items-center gap-2">
                           <Check className="w-5 h-5 text-webdev-gradient-blue" />
                           Key Benefits
@@ -228,7 +226,7 @@ const Services = () => {
                       </div>
 
                       {/* Technologies */}
-                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50">
+                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20">
                         <h3 className="text-lg font-semibold text-webdev-silver mb-4 flex items-center gap-2">
                           <Zap className="w-5 h-5 text-webdev-gradient-purple" />
                           Technologies & Tools
@@ -243,7 +241,7 @@ const Services = () => {
                       </div>
 
                       {/* Deliverables */}
-                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50">
+                      <div className="glass-effect rounded-lg p-6 border border-webdev-glass-border/50 transition-all duration-500 hover:bg-gradient-to-r hover:from-webdev-gradient-blue/20 hover:to-webdev-gradient-purple/20">
                         <h3 className="text-lg font-semibold text-webdev-silver mb-4 flex items-center gap-2">
                           <TrendingUp className="w-5 h-5 text-webdev-gradient-blue" />
                           What You'll Receive
@@ -259,8 +257,6 @@ const Services = () => {
                       </div>
                     </div>
                     
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   </article>
                 );
               })}
