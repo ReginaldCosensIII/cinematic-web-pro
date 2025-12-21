@@ -175,11 +175,14 @@ const Services = () => {
                   <article
                     key={service.title}
                     id={service.title.toLowerCase().replace(/\s+/g, '-')}
-                    className="glass-effect rounded-xl p-8 md:p-12 border border-webdev-glass-border"
+                    className="group glass-effect hover:glass-border rounded-xl p-8 md:p-12 border border-webdev-glass-border transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10"
                   >
+                    {/* Hover gradient background */}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
+                    
                     {/* Service Header */}
                     <header className="flex flex-col md:flex-row md:items-center gap-6 mb-8">
-                      <div className="relative w-16 h-16 rounded-xl flex-shrink-0">
+                      <div className="relative w-16 h-16 rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:rotate-12">
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                           <div className="w-full h-full rounded-xl bg-webdev-dark-gray flex items-center justify-center">
                             <IconComponent 
@@ -192,17 +195,17 @@ const Services = () => {
                         </div>
                       </div>
                       <div>
-                        <h2 className="text-3xl font-semibold text-webdev-silver mb-2">
+                        <h2 className="text-3xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300 mb-2">
                           {service.title}
                         </h2>
-                        <p className="text-lg text-webdev-soft-gray">
+                        <p className="text-lg text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300">
                           {service.description}
                         </p>
                       </div>
                     </header>
 
                     {/* Detailed Description */}
-                    <p className="text-webdev-soft-gray text-lg leading-relaxed mb-10">
+                    <p className="text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300 text-lg leading-relaxed mb-10">
                       {service.detailedDescription}
                     </p>
 
@@ -216,7 +219,7 @@ const Services = () => {
                         </h3>
                         <ul className="space-y-3">
                           {service.keyBenefits.map((benefit, idx) => (
-                            <li key={idx} className="flex items-start gap-3 text-webdev-soft-gray">
+                            <li key={idx} className="flex items-start gap-3 text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300">
                               <div className="w-2 h-2 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple mt-2 flex-shrink-0" />
                               <span className="text-sm">{benefit}</span>
                             </li>
@@ -247,7 +250,7 @@ const Services = () => {
                         </h3>
                         <ul className="space-y-3">
                           {service.deliverables.map((deliverable, idx) => (
-                            <li key={idx} className="flex items-start gap-3 text-webdev-soft-gray">
+                            <li key={idx} className="flex items-start gap-3 text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300">
                               <Check className="w-4 h-4 text-webdev-gradient-blue mt-0.5 flex-shrink-0" />
                               <span className="text-sm">{deliverable}</span>
                             </li>
@@ -255,6 +258,9 @@ const Services = () => {
                         </ul>
                       </div>
                     </div>
+                    
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   </article>
                 );
               })}
@@ -272,15 +278,15 @@ const Services = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white rounded-xl font-medium hover:opacity-90 transition-opacity duration-300"
+                    className="glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] inline-flex items-center justify-center"
                   >
-                    Get in Touch
+                    <span className="relative z-10">Get in Touch</span>
                   </Link>
                   <Link
                     to="/project-brief"
-                    className="inline-flex items-center justify-center px-8 py-4 glass-effect border border-webdev-glass-border text-webdev-silver rounded-xl font-medium hover:text-white hover:border-webdev-silver transition-all duration-300"
+                    className="glass-effect px-8 py-4 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] inline-flex items-center justify-center"
                   >
-                    Start a Project Brief
+                    <span className="relative z-10">Start a Project Brief</span>
                   </Link>
                 </div>
               </div>
