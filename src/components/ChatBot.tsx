@@ -257,13 +257,14 @@ const ChatBot = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about web development..."
-                  className="flex-1 bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver placeholder-webdev-soft-gray focus:border-webdev-gradient-blue"
+                  className="flex-1 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver placeholder-webdev-soft-gray focus:border-webdev-gradient-blue"
                   disabled={isLoading}
                 />
                 <Button
                   onClick={sendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="glass-effect px-3 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 border border-transparent hover:shadow-[0_0_15px_rgba(66,133,244,0.3)]"
+                  variant="glass"
+                  className="px-3 py-2"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
