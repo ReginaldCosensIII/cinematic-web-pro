@@ -133,7 +133,8 @@ const Auth = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full glass-effect hover:glass-border bg-transparent text-webdev-silver hover:text-white transition-all duration-300"
+                variant="glass"
+                className="w-full"
               >
                 {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Sign Up')}
               </Button>
