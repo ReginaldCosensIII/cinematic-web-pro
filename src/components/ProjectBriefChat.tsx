@@ -305,7 +305,7 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
             <Button
               onClick={sendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className="glass-effect px-4 py-2 rounded-lg text-webdev-silver hover:text-white transition-all duration-300 border border-transparent hover:shadow-[0_0_15px_rgba(66,133,244,0.3)]"
+              variant="glass"
             >
               <Send className="w-4 h-4" />
             </Button>
