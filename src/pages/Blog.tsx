@@ -369,7 +369,7 @@ const Blog = () => {
                       className="flex-1 px-4 py-3 bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-xl text-webdev-silver placeholder-webdev-soft-gray focus:outline-none focus:border-webdev-gradient-blue focus:ring-1 focus:ring-webdev-gradient-blue transition-all"
                       required
                     />
-                    <Button className="glass-effect px-6 py-3 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white border-0 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] transition-all duration-300">
+                    <Button variant="glass" className="px-6 py-3">
                       Subscribe
                     </Button>
                   </form>
