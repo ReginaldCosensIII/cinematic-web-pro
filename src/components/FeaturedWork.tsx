@@ -9,6 +9,7 @@ import {
   CarouselPrevious,
   CarouselApi,
 } from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const FeaturedWork = () => {
@@ -258,35 +259,43 @@ const FeaturedWork = () => {
                         <div className="flex flex-col sm:flex-row gap-3 justify-center">
                           {project.title === "Atomic's BookNook" ? (
                             <>
-                              <a 
-                                href="https://cs492-bookstore-project.onrender.com/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2"
+                              <Button
+                                variant="glass"
+                                asChild
                               >
-                                <ExternalLink className="w-4 h-4 relative z-10" />
-                                <span className="relative z-10">View Live</span>
-                              </a>
-                              <a 
-                                href="https://github.com/ReginaldCosensIII/cs492_bookstore_project"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2"
+                                <a 
+                                  href="https://cs492-bookstore-project.onrender.com/"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <ExternalLink className="w-4 h-4" />
+                                  View Live
+                                </a>
+                              </Button>
+                              <Button
+                                variant="glass"
+                                asChild
                               >
-                                <Github className="w-4 h-4 relative z-10" />
-                                <span className="relative z-10">Source Code</span>
-                              </a>
+                                <a 
+                                  href="https://github.com/ReginaldCosensIII/cs492_bookstore_project"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Github className="w-4 h-4" />
+                                  Source Code
+                                </a>
+                              </Button>
                             </>
                           ) : (
                             <>
-                              <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2">
-                                <ExternalLink className="w-4 h-4 relative z-10" />
-                                <span className="relative z-10">View Live</span>
-                              </button>
-                              <button className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2">
-                                <Github className="w-4 h-4 relative z-10" />
-                                <span className="relative z-10">Source Code</span>
-                              </button>
+                              <Button variant="glass">
+                                <ExternalLink className="w-4 h-4" />
+                                View Live
+                              </Button>
+                              <Button variant="glass">
+                                <Github className="w-4 h-4" />
+                                Source Code
+                              </Button>
                             </>
                           )}
                         </div>

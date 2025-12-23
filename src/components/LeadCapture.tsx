@@ -135,10 +135,12 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     if (!email || !name) return;
 
     setIsSubmitting(true);
     try {
+      // Insert without requiring auth - this table has public insert policy
       const { error } = await supabase
         .from('contact_submissions')
         .insert({
@@ -146,7 +148,8 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
           email,
           phone: phone || null,
           project_type: 'Lead Magnet Download',
-          message: `Downloaded "10 Essential Steps to Launch Your Perfect Website" guide via ${type} popup on ${location.pathname}`
+          message: `Downloaded "10 Essential Steps to Launch Your Perfect Website" guide via ${type} popup on ${location.pathname}`,
+          user_id: null // Explicitly set to null for anonymous submissions
         });
 
       if (error) throw error;
@@ -236,7 +239,8 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full glass-effect bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white border-0 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] transition-all duration-300"
+            variant="glass"
+            className="w-full"
           >
             <Download className="w-4 h-4 mr-2" />
             {isSubmitting ? 'Processing...' : 'Download Free Guide'}
