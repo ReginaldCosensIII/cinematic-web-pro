@@ -12,6 +12,28 @@ const corsHeaders = {
   'Referrer-Policy': 'strict-origin-when-cross-origin'
 };
 
+// Simple in-memory rate limiting (per IP, resets on function cold start)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_MAX = 30; // Max requests per window
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+  
+  if (record.count >= RATE_LIMIT_MAX) {
+    return false;
+  }
+  
+  record.count++;
+  return true;
+}
+
 const systemPrompt = `You are a helpful, friendly assistant for WebDevPro.io that helps users brainstorm and compile professional project briefs for custom website builds. Your job is to guide the user through a conversation that results in a clean, well-structured project brief.
 
 Please ask questions one at a time, and guide the user through these key areas:
@@ -57,10 +79,30 @@ serve(async (req) => {
   }
 
   try {
+    // Rate limiting check
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('cf-connecting-ip') || 
+                     'unknown';
+    
+    if (!checkRateLimit(clientIP)) {
+      console.log('Rate limit exceeded for IP:', clientIP);
+      return new Response(JSON.stringify({ 
+        error: 'Too many requests. Please try again later.' 
+      }), {
+        status: 429,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     // Check request size limit (1MB)
     const contentLength = req.headers.get('content-length');
     if (contentLength && parseInt(contentLength) > 1024 * 1024) {
-      throw new Error('Request too large');
+      return new Response(JSON.stringify({ 
+        error: 'Request too large.' 
+      }), {
+        status: 413,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const body = await req.json();
@@ -68,26 +110,52 @@ serve(async (req) => {
 
     // Input validation
     if (!message || typeof message !== 'string') {
-      throw new Error('Invalid message format');
+      return new Response(JSON.stringify({ 
+        error: 'Invalid request format.' 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     if (message.length > 3000) {
-      throw new Error('Message too long (max 3000 characters)');
+      return new Response(JSON.stringify({ 
+        error: 'Message too long.' 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     if (!Array.isArray(conversationHistory) || conversationHistory.length > 100) {
-      throw new Error('Invalid conversation history');
+      return new Response(JSON.stringify({ 
+        error: 'Invalid request format.' 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     // Sanitize message input
     const sanitizedMessage = message.trim().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
     
     if (!sanitizedMessage) {
-      throw new Error('Empty message after sanitization');
+      return new Response(JSON.stringify({ 
+        error: 'Invalid message content.' 
+      }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     if (!openAIApiKey) {
-      throw new Error('OpenAI API key not configured');
+      console.error('OpenAI API key not configured');
+      return new Response(JSON.stringify({ 
+        error: 'Service temporarily unavailable.' 
+      }), {
+        status: 503,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     // Build conversation messages
@@ -97,7 +165,7 @@ serve(async (req) => {
       { role: 'user', content: sanitizedMessage }
     ];
 
-    console.log('Sending request to OpenAI for project brief, message length:', sanitizedMessage.length);
+    console.log('Processing project brief request, message length:', sanitizedMessage.length);
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -114,15 +182,19 @@ serve(async (req) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.text();
-      console.error('OpenAI API error:', errorData);
-      throw new Error(`OpenAI API error: ${response.status}`);
+      console.error('OpenAI API error status:', response.status);
+      return new Response(JSON.stringify({ 
+        error: 'Failed to generate response. Please try again.' 
+      }), {
+        status: 502,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
     }
 
     const data = await response.json();
     const assistantMessage = data.choices[0].message.content;
 
-    console.log('Project brief AI response received successfully');
+    console.log('Project brief response generated successfully');
 
     return new Response(JSON.stringify({ 
       message: assistantMessage,
@@ -137,8 +209,7 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in project-brief-ai function:', error);
     return new Response(JSON.stringify({ 
-      error: 'Failed to process chat message',
-      details: error.message 
+      error: 'An unexpected error occurred. Please try again.' 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
