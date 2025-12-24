@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
@@ -10,12 +11,19 @@ import SecureProfileSettings from '@/components/dashboard/SecureProfileSettings'
 import { Menu, X } from 'lucide-react';
 
 const DashboardSettings = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (!user) {
-    return <div>Please log in to access settings.</div>;
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading || !user) {
+    return null;
   }
 
   return (

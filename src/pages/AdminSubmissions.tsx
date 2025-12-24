@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
@@ -29,7 +30,8 @@ interface ContactSubmission {
 }
 
 const AdminSubmissions = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
@@ -87,8 +89,14 @@ const AdminSubmissions = () => {
     submission.message.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
-  if (!user) {
-    return <div>Please log in to view submissions.</div>;
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading || !user) {
+    return null;
   }
 
   return (

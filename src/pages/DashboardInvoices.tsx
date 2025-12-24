@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
@@ -31,7 +32,8 @@ interface Invoice {
 }
 
 const DashboardInvoices = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -91,8 +93,14 @@ const DashboardInvoices = () => {
   const pendingAmount = totalAmount - paidAmount;
   const overdueInvoices = invoices?.filter(i => i.status === 'overdue').length || 0;
 
-  if (!user) {
-    return <div>Please log in to view your invoices.</div>;
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading || !user) {
+    return null;
   }
 
   return (
