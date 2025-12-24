@@ -330,8 +330,8 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
                 <div className="space-y-2">
                   <Button
                     onClick={handleResetPassword}
-                    variant="outline"
-                    className="w-full border-webdev-glass-border hover:bg-webdev-darker-gray text-webdev-silver"
+                    variant="glass"
+                    className="w-full"
                   >
                     <Key className="w-4 h-4 mr-2" />
                     Send Password Reset Email
@@ -344,15 +344,14 @@ const UserDetailModal: React.FC<UserDetailModalProps> = ({
               <Button
                 onClick={handleSaveProfile}
                 disabled={saving}
-                className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80 text-white"
+                variant="glass"
               >
                 <Save className="w-4 h-4 mr-2" />
                 {saving ? 'Saving...' : 'Save Changes'}
               </Button>
               <Button
                 onClick={onClose}
-                variant="outline"
-                className="border-webdev-glass-border hover:bg-webdev-darker-gray text-webdev-silver"
+                variant="glass"
               >
                 Cancel
               </Button>

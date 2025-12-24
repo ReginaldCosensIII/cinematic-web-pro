@@ -136,7 +136,7 @@ const AdminSettings = () => {
                     </div>
                     <Button 
                       onClick={handleSaveProfile}
-                      className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90"
+                      variant="glass"
                     >
                       <Save className="w-4 h-4 mr-2" />
                       Save Profile
@@ -188,7 +188,7 @@ const AdminSettings = () => {
                     </div>
                     <Button 
                       onClick={handlePasswordChange}
-                      className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90"
+                      variant="glass"
                     >
                       <Save className="w-4 h-4 mr-2" />
                       Change Password
