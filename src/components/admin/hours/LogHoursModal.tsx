@@ -287,16 +287,15 @@ const LogHoursModal = ({ isOpen, onClose, onSuccess, editingEntry }: LogHoursMod
           <div className="flex justify-end space-x-3 pt-4">
             <Button
               type="button"
-              variant="outline"
+              variant="glass"
               onClick={onClose}
-              className="border-webdev-glass-border text-webdev-soft-gray hover:text-webdev-silver"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={loading}
-              className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 transition-opacity"
+              variant="glass"
             >
               {loading ? 'Saving...' : editingEntry ? 'Update Entry' : 'Log Hours'}
             </Button>

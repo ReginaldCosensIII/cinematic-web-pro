@@ -72,7 +72,8 @@ const AdminProjects = () => {
                 </div>
                 <Button
                   onClick={() => setShowCreateModal(true)}
-                  className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white shrink-0"
+                  variant="glass"
+                  className="shrink-0"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Project

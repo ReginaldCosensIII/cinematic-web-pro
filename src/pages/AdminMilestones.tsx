@@ -277,7 +277,7 @@ const AdminMilestones = () => {
                 </div>
                 <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
                   <DialogTrigger asChild>
-                    <Button className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80 text-white shrink-0">
+                    <Button variant="glass" className="shrink-0">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Milestone
                     </Button>
@@ -336,14 +336,14 @@ const AdminMilestones = () => {
                         <Button
                           onClick={() => createMutation.mutate(newMilestone)}
                           disabled={!newMilestone.title || !newMilestone.project_id}
-                          className="flex-1 bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                          variant="glass"
+                          className="flex-1"
                         >
                           Create Milestone
                         </Button>
                         <Button
-                          variant="outline"
+                          variant="glass"
                           onClick={() => setShowCreateModal(false)}
-                          className="border-webdev-glass-border hover:bg-webdev-darker-gray"
                         >
                           Cancel
                         </Button>
@@ -494,14 +494,14 @@ const AdminMilestones = () => {
               <div className="flex gap-3 pt-4">
                 <Button
                   onClick={() => updateMutation.mutate(editingMilestone)}
-                  className="flex-1 bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                  variant="glass"
+                  className="flex-1"
                 >
                   Update Milestone
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="glass"
                   onClick={() => setEditingMilestone(null)}
-                  className="border-webdev-glass-border hover:bg-webdev-darker-gray"
                 >
                   Cancel
                 </Button>

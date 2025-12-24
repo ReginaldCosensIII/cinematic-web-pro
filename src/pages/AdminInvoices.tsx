@@ -311,7 +311,7 @@ const AdminInvoices = () => {
                 </div>
                 <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
                   <DialogTrigger asChild>
-                    <Button className="bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80 text-white shrink-0">
+                    <Button variant="glass" className="shrink-0">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Invoice
                     </Button>
@@ -407,14 +407,14 @@ const AdminInvoices = () => {
                         <Button
                           onClick={() => createMutation.mutate(newInvoice)}
                           disabled={!newInvoice.invoice_number || !newInvoice.user_id || !newInvoice.amount}
-                          className="flex-1 bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                          variant="glass"
+                          className="flex-1"
                         >
                           Create Invoice
                         </Button>
                         <Button
-                          variant="outline"
+                          variant="glass"
                           onClick={() => setShowCreateModal(false)}
-                          className="border-webdev-glass-border hover:bg-webdev-darker-gray"
                         >
                           Cancel
                         </Button>
@@ -601,14 +601,14 @@ const AdminInvoices = () => {
               <div className="flex gap-3 pt-4">
                 <Button
                   onClick={() => updateMutation.mutate(editingInvoice)}
-                  className="flex-1 bg-webdev-gradient-blue hover:bg-webdev-gradient-blue/80"
+                  variant="glass"
+                  className="flex-1"
                 >
                   Update Invoice
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="glass"
                   onClick={() => setEditingInvoice(null)}
-                  className="border-webdev-glass-border hover:bg-webdev-darker-gray"
                 >
                   Cancel
                 </Button>

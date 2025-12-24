@@ -319,7 +319,8 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
 
           <Button 
             type="submit" 
-            className="w-full glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300"
+            variant="glass"
+            className="w-full"
             disabled={isUpdating}
           >
             {isUpdating ? 'Updating...' : 'Update Profile'}

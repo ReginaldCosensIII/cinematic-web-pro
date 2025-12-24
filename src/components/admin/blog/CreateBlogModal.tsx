@@ -237,16 +237,15 @@ const CreateBlogModal = ({ isOpen, onClose }: CreateBlogModalProps) => {
           <DialogFooter>
             <Button
               type="button"
-              variant="outline"
+              variant="glass"
               onClick={onClose}
-              className="border-webdev-glass-border text-webdev-silver hover:bg-webdev-darker-gray"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={createArticleMutation.isPending}
-              className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white border-0"
+              variant="glass"
             >
               {createArticleMutation.isPending ? 'Creating...' : 'Create Article'}
             </Button>

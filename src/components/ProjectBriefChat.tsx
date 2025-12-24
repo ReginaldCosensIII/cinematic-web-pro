@@ -299,7 +299,7 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your response..."
-              className="flex-1 bg-webdev-darker-gray/50 border-webdev-glass-border text-webdev-silver placeholder-webdev-soft-gray focus:border-webdev-gradient-blue"
+              className="flex-1 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver placeholder-webdev-soft-gray focus:border-webdev-gradient-blue"
               disabled={isLoading}
             />
             <Button

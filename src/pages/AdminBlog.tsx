@@ -173,7 +173,7 @@ const AdminBlog = () => {
                   </div>
                   <Button 
                     onClick={() => setIsCreateModalOpen(true)}
-                    className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white border-0"
+                    variant="glass"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     New Article

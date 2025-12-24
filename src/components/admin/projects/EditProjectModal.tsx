@@ -227,16 +227,15 @@ const EditProjectModal = ({ project, isOpen, onClose, onSuccess }: EditProjectMo
           <div className="flex justify-end space-x-2 pt-4">
             <Button
               type="button"
-              variant="outline"
+              variant="glass"
               onClick={onClose}
-              className="border-webdev-glass-border text-webdev-silver hover:bg-webdev-black"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={loading || !formData.title || !formData.user_id}
-              className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white"
+              variant="glass"
             >
               {loading ? 'Updating...' : 'Update Project'}
             </Button>
