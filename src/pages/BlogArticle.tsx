@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -378,7 +378,11 @@ const BlogArticle = () => {
               )}
             <div 
               className="text-webdev-soft-gray leading-relaxed text-base md:text-lg prose prose-invert max-w-none [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:text-webdev-silver [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mb-3 [&_h2]:text-webdev-silver [&_h3]:text-lg [&_h3]:font-medium [&_h3]:mb-2 [&_h3]:text-webdev-silver [&_p]:mb-4 [&_ul]:list-disc [&_ul]:list-inside [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:mb-4 [&_blockquote]:border-l-4 [&_blockquote]:border-webdev-gradient-blue [&_blockquote]:pl-4 [&_blockquote]:my-4 [&_blockquote]:text-webdev-soft-gray [&_code]:bg-webdev-darker-gray [&_code]:px-1 [&_code]:rounded [&_code]:text-webdev-gradient-blue [&_a]:text-webdev-gradient-blue [&_a]:underline [&_a]:hover:text-webdev-gradient-purple [&_a]:transition-colors [&_hr]:border-webdev-glass-border [&_hr]:my-6 [&_u]:underline [&_strong]:font-bold [&_em]:italic [&_img]:rounded-lg [&_img]:my-6 [&_img]:max-w-full [&_img]:h-auto"
-              dangerouslySetInnerHTML={{ __html: article.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content, {
+                ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'hr', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'a', 'strong', 'em', 'u', 's', 'img', 'span', 'div'],
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'style', 'target', 'rel'],
+                ALLOW_DATA_ATTR: false
+              }) }}
             />
           </div>
 
