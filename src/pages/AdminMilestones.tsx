@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
@@ -31,7 +32,8 @@ interface Milestone {
 }
 
 const AdminMilestones = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
@@ -46,6 +48,12 @@ const AdminMilestones = () => {
     due_date: '',
     status: 'pending'
   });
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/');
+    }
+  }, [user, loading, navigate]);
 
   const { data: milestonesData, isLoading } = useQuery({
     queryKey: ['admin-milestones'],
@@ -85,7 +93,8 @@ const AdminMilestones = () => {
       }) || [];
 
       return milestonesWithProjects as Milestone[];
-    }
+    },
+    enabled: !!user
   });
 
   const { data: projects } = useQuery({
@@ -96,7 +105,8 @@ const AdminMilestones = () => {
         .select('id, title');
       if (error) throw error;
       return data;
-    }
+    },
+    enabled: !!user
   });
 
   const createMutation = useMutation({
@@ -211,8 +221,8 @@ const AdminMilestones = () => {
     milestone.description?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
-  if (!user) {
-    return <div>Please log in to view milestones.</div>;
+  if (loading || !user) {
+    return null;
   }
 
   return (

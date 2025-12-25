@@ -31,7 +31,7 @@ const AdminBlog = () => {
   useEffect(() => {
     if (authLoading || adminLoading) return;
     if (!user || !isAdmin) {
-      navigate(user ? '/dashboard' : '/auth');
+      navigate(user ? '/dashboard' : '/');
     }
   }, [user, isAdmin, authLoading, adminLoading, navigate]);
 

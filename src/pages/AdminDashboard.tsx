@@ -40,7 +40,7 @@ const AdminDashboard = () => {
             }
           });
       }
-      navigate(user ? '/dashboard' : '/auth');
+      navigate(user ? '/dashboard' : '/');
     } else {
         // Log successful admin access
         logSecurityEvent({

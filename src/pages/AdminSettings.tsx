@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/AuthContext';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
@@ -15,10 +15,10 @@ import { Menu, X, Save, User, Shield, Palette } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const AdminSettings = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [formData, setFormData] = useState({
@@ -58,8 +58,8 @@ const AdminSettings = () => {
     });
   };
 
-  if (!user) {
-    return <div>Please log in to access settings.</div>;
+  if (loading || !user) {
+    return null;
   }
 
   return (

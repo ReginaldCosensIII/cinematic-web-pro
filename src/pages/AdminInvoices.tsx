@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
@@ -37,7 +38,8 @@ interface Invoice {
 }
 
 const AdminInvoices = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
@@ -54,6 +56,12 @@ const AdminInvoices = () => {
     issue_date: new Date().toISOString().split('T')[0],
     due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
   });
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/');
+    }
+  }, [user, loading, navigate]);
 
   const { data: invoicesData, isLoading } = useQuery({
     queryKey: ['admin-invoices'],
@@ -100,7 +108,8 @@ const AdminInvoices = () => {
         profiles: profilesMap[invoice.user_id] || { full_name: 'Unknown', username: 'unknown' },
         projects: invoice.project_id ? projectsMap[invoice.project_id] || { title: 'Unknown Project' } : null
       }));
-    }
+    },
+    enabled: !!user
   });
 
   const { data: users } = useQuery({
@@ -111,7 +120,8 @@ const AdminInvoices = () => {
         .select('id, full_name, username');
       if (error) throw error;
       return data;
-    }
+    },
+    enabled: !!user
   });
 
   const { data: projects } = useQuery({
@@ -122,7 +132,8 @@ const AdminInvoices = () => {
         .select('id, title');
       if (error) throw error;
       return data;
-    }
+    },
+    enabled: !!user
   });
 
   const createMutation = useMutation({
@@ -245,8 +256,8 @@ const AdminInvoices = () => {
     invoice.profiles?.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
-  if (!user) {
-    return <div>Please log in to view invoices.</div>;
+  if (loading || !user) {
+    return null;
   }
 
   return (
