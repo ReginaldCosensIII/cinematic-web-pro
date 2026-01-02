@@ -267,17 +267,17 @@ const DashboardInvoices = () => {
                                 <div className="flex gap-2">
                                   <Button
                                     size="sm"
+                                    variant="glass"
                                     onClick={() => handleInvoiceClick(invoice)}
-                                    className="glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300 text-xs"
                                   >
-                                    <Eye className="w-3 h-3 md:w-4 md:h-4 md:mr-1" />
+                                    <Eye className="w-3 h-3 md:w-4 md:h-4" />
                                     <span className="hidden md:inline">View</span>
                                   </Button>
                                   <Button
                                     size="sm"
-                                    className="glass-effect border border-webdev-glass-border bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple hover:opacity-90 text-white transition-all duration-300 text-xs"
+                                    variant="glass"
                                   >
-                                    <Download className="w-3 h-3 md:w-4 md:h-4 md:mr-1" />
+                                    <Download className="w-3 h-3 md:w-4 md:h-4" />
                                     <span className="hidden md:inline">Download</span>
                                   </Button>
                                 </div>

@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
 import { User } from '@supabase/supabase-js';
-import { Edit3, Save, X, Calendar } from 'lucide-react';
+import { Edit3, Save, X } from 'lucide-react';
 import { format } from 'date-fns';
+import { Button } from '@/components/ui/button';
 
 interface ProfileDetailsProps {
   user: User;
@@ -39,29 +40,32 @@ const ProfileDetails = ({ user }: ProfileDetailsProps) => {
         <h2 className="text-2xl font-light text-webdev-silver">Profile Details</h2>
         {isEditing ? (
           <div className="flex gap-2">
-            <button 
+            <Button 
               onClick={handleSaveClick} 
-              className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] text-sm flex items-center gap-2"
+              variant="glass"
+              size="sm"
             >
               <Save className="w-4 h-4" />
-              <span className="relative z-10">Save</span>
-            </button>
-            <button 
+              Save
+            </Button>
+            <Button 
               onClick={handleCancelClick} 
-              className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] text-sm flex items-center gap-2"
+              variant="glass"
+              size="sm"
             >
               <X className="w-4 h-4" />
-              <span className="relative z-10">Cancel</span>
-            </button>
+              Cancel
+            </Button>
           </div>
         ) : (
-          <button 
+          <Button 
             onClick={handleEditClick} 
-            className="glass-effect px-4 py-2 rounded-xl text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border border-transparent hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] text-sm flex items-center gap-2"
+            variant="glass"
+            size="sm"
           >
             <Edit3 className="w-4 h-4" />
-            <span className="relative z-10">Edit Profile</span>
-          </button>
+            Edit Profile
+          </Button>
         )}
       </div>
 
