@@ -183,7 +183,7 @@ const ProjectBriefGenerator = () => {
                     </div>
                   </div>
                 </div>
-                <h1 className="text-4xl font-bold text-webdev-silver">
+                <h1 className="text-5xl md:text-6xl font-bold text-webdev-silver">
                   <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
                     LaunchPad
                   </span>
@@ -192,11 +192,6 @@ const ProjectBriefGenerator = () => {
               <p className="text-webdev-soft-gray text-lg">
                 Let's create your professional project brief together
               </p>
-            </div>
-
-            {/* Desktop Pro Tips Carousel - Hidden on mobile/tablet */}
-            <div className="hidden lg:block mb-8">
-              <ProTipsCarousel />
             </div>
 
             {/* Mobile/Tablet Pro Tips Toggle */}
@@ -247,6 +242,11 @@ const ProjectBriefGenerator = () => {
             {/* Chat Area - Full width now */}
             <div className="max-w-4xl mx-auto">
               <ProjectBriefChat onBriefGenerated={handleBriefGenerated} />
+            </div>
+
+            {/* Desktop Pro Tips Carousel - Below chat on desktop */}
+            <div className="hidden lg:block mt-8">
+              <ProTipsCarousel />
             </div>
           </div>
         )}

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Target, Users, Zap, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselContent,
@@ -91,14 +90,12 @@ const ProTipsCarousel = () => {
       
       {/* Navigation Controls */}
       <div className="flex items-center justify-center gap-4 mt-4">
-        <Button
-          variant="glass"
-          size="icon"
+        <button
           onClick={scrollPrev}
-          className="h-8 w-8 rounded-full"
+          className="h-8 w-8 rounded-full bg-webdev-darker-gray border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors"
         >
           <ChevronLeft className="h-4 w-4" />
-        </Button>
+        </button>
         
         {/* Dots Indicator */}
         <div className="flex gap-2">
@@ -115,14 +112,12 @@ const ProTipsCarousel = () => {
           ))}
         </div>
         
-        <Button
-          variant="glass"
-          size="icon"
+        <button
           onClick={scrollNext}
-          className="h-8 w-8 rounded-full"
+          className="h-8 w-8 rounded-full bg-webdev-darker-gray border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors"
         >
           <ChevronRight className="h-4 w-4" />
-        </Button>
+        </button>
       </div>
     </div>
   );
