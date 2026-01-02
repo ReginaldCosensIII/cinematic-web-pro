@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import ProjectBriefChat from '@/components/ProjectBriefChat';
+import ProTipsCarousel from '@/components/ProTipsCarousel';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
 import heroImage from '@/assets/project-brief-hero.jpg';
@@ -192,30 +193,26 @@ const ProjectBriefGenerator = () => {
                 Let's create your professional project brief together
               </p>
             </div>
-            
-            {/* 2-Column Layout for Desktop */}
-            <div className="grid lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-              {/* Main Chat Area */}
-              <div className="lg:col-span-3">
-                <ProjectBriefChat onBriefGenerated={handleBriefGenerated} />
-              </div>
-              
-              {/* Pro Tips Sidebar */}
-              <div className="lg:col-span-1">
-                {/* Mobile Toggle Button */}
-                <div className="lg:hidden mb-6">
-                  <Button
-                    onClick={() => setShowTips(!showTips)}
-                    variant="outline"
-                    className="w-full glass-effect border-webdev-glass-border text-webdev-silver"
-                  >
-                    <Lightbulb className="w-4 h-4 mr-2" />
-                    {showTips ? 'Hide Tips' : 'Show Pro Tips'}
-                  </Button>
-                </div>
 
-                {/* Tips Content */}
-                <div className={`space-y-4 ${showTips ? 'block' : 'hidden lg:block'}`}>
+            {/* Desktop Pro Tips Carousel - Hidden on mobile/tablet */}
+            <div className="hidden lg:block mb-8">
+              <ProTipsCarousel />
+            </div>
+
+            {/* Mobile/Tablet Pro Tips Toggle */}
+            <div className="lg:hidden mb-6 max-w-4xl mx-auto">
+              <Button
+                onClick={() => setShowTips(!showTips)}
+                variant="glass"
+                className="w-full"
+              >
+                <Lightbulb className="w-4 h-4 mr-2" />
+                {showTips ? 'Hide Pro Tips' : 'Show Pro Tips'}
+              </Button>
+              
+              {/* Mobile/Tablet Tips Content */}
+              {showTips && (
+                <div className="mt-4 space-y-4">
                   <Card className="glass-effect border-webdev-glass-border bg-webdev-black/40">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-lg text-webdev-silver flex items-center">
@@ -226,7 +223,7 @@ const ProjectBriefGenerator = () => {
                     <CardContent className="space-y-4">
                       {proTips.map((tip, index) => (
                         <div key={index} className="p-4 rounded-lg bg-webdev-black/30 border border-webdev-glass-border/50">
-                           <div className="flex items-start space-x-3">
+                          <div className="flex items-start space-x-3">
                             <div className="relative w-8 h-8 rounded-lg flex-shrink-0 mt-1">
                               <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
                                 <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
@@ -243,27 +240,13 @@ const ProjectBriefGenerator = () => {
                       ))}
                     </CardContent>
                   </Card>
-
-                  {/* Progress Inspiration */}
-                  <Card className="glass-effect border-webdev-glass-border bg-webdev-black/40">
-                    <CardContent className="p-4">
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 relative">
-                          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                            <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                              <Zap className="w-6 h-6" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                            </div>
-                          </div>
-                        </div>
-                        <h4 className="font-semibold text-webdev-silver mb-2">Ready to Launch?</h4>
-                        <p className="text-webdev-soft-gray text-sm">
-                          Take your time to think through each question. The more details you provide, the better your project brief will be.
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
                 </div>
-              </div>
+              )}
+            </div>
+            
+            {/* Chat Area - Full width now */}
+            <div className="max-w-4xl mx-auto">
+              <ProjectBriefChat onBriefGenerated={handleBriefGenerated} />
             </div>
           </div>
         )}
