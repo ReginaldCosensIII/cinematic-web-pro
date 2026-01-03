@@ -35,6 +35,7 @@ const ProTipsCarousel = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (!api) return;
@@ -47,6 +48,17 @@ const ProTipsCarousel = () => {
     });
   }, [api]);
 
+  // Auto-play functionality
+  useEffect(() => {
+    if (!api || isHovered) return;
+
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [api, isHovered]);
+
   const scrollPrev = useCallback(() => {
     api?.scrollPrev();
   }, [api]);
@@ -56,7 +68,18 @@ const ProTipsCarousel = () => {
   }, [api]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div 
+      className="w-full max-w-4xl mx-auto"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Pro Tips Header */}
+      <h3 className="text-center text-xl font-semibold text-webdev-silver mb-6">
+        <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
+          Pro Tips
+        </span>
+      </h3>
+      
       <Carousel
         setApi={setApi}
         opts={{
