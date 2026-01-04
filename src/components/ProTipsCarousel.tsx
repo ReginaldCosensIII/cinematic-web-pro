@@ -91,7 +91,13 @@ const ProTipsCarousel = () => {
         <CarouselContent className="-ml-4">
           {proTips.map((tip, index) => (
             <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <Card className="glass-effect border-webdev-glass-border bg-webdev-black/40 h-full">
+              <Card 
+                className={`glass-effect border-webdev-glass-border bg-webdev-black/40 h-full transition-all duration-500 ease-out ${
+                  index === current 
+                    ? 'opacity-100 scale-100' 
+                    : 'opacity-60 scale-95'
+                }`}
+              >
                 <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center">
                     <div className="relative w-12 h-12 rounded-xl mb-4">
