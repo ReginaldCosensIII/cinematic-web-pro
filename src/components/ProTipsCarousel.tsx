@@ -85,7 +85,7 @@ const ProTipsCarousel = () => {
         opts={{
           align: "center",
           loop: true,
-          duration: 35,
+          duration: 20,
         }}
         className="w-full"
       >
