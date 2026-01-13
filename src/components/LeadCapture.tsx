@@ -140,19 +140,19 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
 
     setIsSubmitting(true);
     try {
-      // Insert without requiring auth - this table has public insert policy
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert({
+      // Use Edge Function for rate-limited, secure submission
+      const { data, error } = await supabase.functions.invoke('submit-lead-capture', {
+        body: {
           name,
           email,
           phone: phone || null,
-          project_type: 'Lead Magnet Download',
+          projectType: 'Lead Magnet Download',
           message: `Downloaded "10 Essential Steps to Launch Your Perfect Website" guide via ${type} popup on ${location.pathname}`,
-          user_id: null // Explicitly set to null for anonymous submissions
-        });
+        }
+      });
 
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
 
       // Trigger the download
       triggerDownload();
@@ -167,11 +167,12 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({
       setName('');
       setPhone('');
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting lead capture:', error);
+      const errorMessage = error?.message || "Something went wrong. Please try again.";
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
