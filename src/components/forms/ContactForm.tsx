@@ -91,20 +91,27 @@ const ContactForm = ({ onSuccess }: ContactFormProps) => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert([{
+      // Use Edge Function for rate-limited, secure submission
+      const { data, error } = await supabase.functions.invoke('submit-contact', {
+        body: {
           name: formData.name,
           email: formData.email,
           company: formData.company || null,
-          project_type: formData.project_type || null,
+          projectType: formData.project_type || null,
           budget: formData.budget || null,
           message: formData.message
-        }]);
+        }
+      });
 
       if (error) {
         console.error('Contact form submission error:', error);
         toast.error('Failed to submit contact form. Please try again.');
+        return;
+      }
+
+      if (data?.error) {
+        console.error('Contact form submission error:', data.error);
+        toast.error(data.error);
         return;
       }
 

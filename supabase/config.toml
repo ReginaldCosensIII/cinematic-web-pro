@@ -54,3 +54,12 @@ verify_jwt = false
 
 [functions.submit-contact]
 verify_jwt = false
+
+[functions.submit-lead-capture]
+verify_jwt = false
+
+[functions.notify-project-brief]
+verify_jwt = false
+
+[functions.project-brief-ai]
+verify_jwt = false

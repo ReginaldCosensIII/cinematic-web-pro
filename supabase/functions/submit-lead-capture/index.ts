@@ -1,28 +1,24 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { Resend } from 'npm:resend@2.0.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-interface ContactFormData {
+interface LeadCaptureData {
   name: string;
   email: string;
-  company?: string;
-  projectType?: string;
-  budget?: string;
-  message: string;
   phone?: string;
-  userId?: string;
+  projectType?: string;
+  message?: string;
   honeypot?: string; // Honeypot field for bot detection
 }
 
-// Rate limiting: 5 submissions per IP per 10 minutes
+// Rate limiting: 3 lead captures per IP per 10 minutes
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 10 * 60 * 1000; // 10 minutes
-const MAX_SUBMISSIONS = 5;
+const MAX_SUBMISSIONS = 3;
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
@@ -47,7 +43,7 @@ function validateEmail(email: string): boolean {
   return emailRegex.test(email) && email.length <= 255;
 }
 
-function sanitizeInput(input: string, maxLength: number = 1000): string {
+function sanitizeInput(input: string, maxLength: number = 500): string {
   return input
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
@@ -56,8 +52,6 @@ function sanitizeInput(input: string, maxLength: number = 1000): string {
     .trim()
     .substring(0, maxLength);
 }
-
-const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
 
 serve(async (req) => {
   // Handle CORS preflight
@@ -75,7 +69,7 @@ serve(async (req) => {
     if (!checkRateLimit(clientIP)) {
       console.log(`Rate limit exceeded for IP: ${clientIP}`);
       return new Response(
-        JSON.stringify({ error: 'Too many submissions. Please try again later.' }),
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
         {
           status: 429,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -84,8 +78,8 @@ serve(async (req) => {
     }
 
     // Parse and validate request body
-    const body: ContactFormData = await req.json();
-    const { name, email, company, projectType, budget, message, phone, userId, honeypot } = body;
+    const body: LeadCaptureData = await req.json();
+    const { name, email, phone, projectType, message, honeypot } = body;
 
     // Honeypot check - if filled, it's likely a bot
     if (honeypot && honeypot.length > 0) {
@@ -121,24 +115,12 @@ serve(async (req) => {
       );
     }
 
-    if (!message || message.trim().length < 10) {
-      return new Response(
-        JSON.stringify({ error: 'Message must be at least 10 characters' }),
-        {
-          status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
-    }
-
     // Sanitize all inputs
     const sanitizedName = sanitizeInput(name, 100);
     const sanitizedEmail = sanitizeInput(email, 255);
-    const sanitizedCompany = company ? sanitizeInput(company, 100) : null;
-    const sanitizedProjectType = projectType ? sanitizeInput(projectType, 100) : null;
-    const sanitizedBudget = budget ? sanitizeInput(budget, 50) : null;
-    const sanitizedMessage = sanitizeInput(message, 2000);
     const sanitizedPhone = phone ? sanitizeInput(phone, 20) : null;
+    const sanitizedProjectType = projectType ? sanitizeInput(projectType, 100) : 'Lead Magnet Download';
+    const sanitizedMessage = message ? sanitizeInput(message, 500) : 'Downloaded free guide';
 
     // Create Supabase client with service role key to bypass RLS
     const supabaseAdmin = createClient(
@@ -146,18 +128,16 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     );
 
-    // Insert contact submission into database
+    // Insert lead capture into database
     const { data, error } = await supabaseAdmin
       .from('contact_submissions')
       .insert({
         name: sanitizedName,
         email: sanitizedEmail,
-        company: sanitizedCompany,
-        project_type: sanitizedProjectType,
-        budget: sanitizedBudget,
-        message: sanitizedMessage,
         phone: sanitizedPhone,
-        user_id: userId || null
+        project_type: sanitizedProjectType,
+        message: sanitizedMessage,
+        user_id: null
       })
       .select()
       .single();
@@ -165,7 +145,7 @@ serve(async (req) => {
     if (error) {
       console.error('Database error:', error);
       return new Response(
-        JSON.stringify({ error: 'Failed to save contact submission' }),
+        JSON.stringify({ error: 'Failed to save lead capture' }),
         {
           status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -173,35 +153,7 @@ serve(async (req) => {
       );
     }
 
-    console.log('Contact submission saved:', data.id, 'from IP:', clientIP);
-
-    // Send notification email
-    try {
-      const emailResponse = await resend.emails.send({
-        from: 'Contact Form <onboarding@resend.dev>',
-        to: ['reginaldcosensiii@gmail.com'],
-        subject: `New Contact Form Submission from ${sanitizedName}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${sanitizedName}</p>
-          <p><strong>Email:</strong> ${sanitizedEmail}</p>
-          <p><strong>Phone:</strong> ${sanitizedPhone || 'Not provided'}</p>
-          <p><strong>Company:</strong> ${sanitizedCompany || 'Not provided'}</p>
-          <p><strong>Project Type:</strong> ${sanitizedProjectType || 'Not provided'}</p>
-          <p><strong>Budget:</strong> ${sanitizedBudget || 'Not provided'}</p>
-          <p><strong>Message:</strong></p>
-          <p>${sanitizedMessage}</p>
-          <hr>
-          <p><small>Submission ID: ${data.id}</small></p>
-          <p><small>Submitted at: ${new Date(data.created_at).toLocaleString()}</small></p>
-        `,
-      });
-
-      console.log('Notification email sent successfully:', emailResponse);
-    } catch (emailError) {
-      console.error('Failed to send notification email:', emailError);
-      // Don't fail the entire request if email fails - the contact was still saved
-    }
+    console.log('Lead capture saved:', data.id, 'from IP:', clientIP);
 
     return new Response(
       JSON.stringify({ success: true, data }),
@@ -211,7 +163,7 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error in submit-contact function:', error);
+    console.error('Error in submit-lead-capture function:', error);
     return new Response(
       JSON.stringify({ error: 'Internal server error' }),
       {
