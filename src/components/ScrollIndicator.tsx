@@ -2,9 +2,18 @@
 import React from 'react';
 
 const ScrollIndicator = () => {
+  const handleScrollToHero = () => {
+    const heroSection = document.getElementById('hero-section');
+    heroSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="relative py-4 flex justify-center -mt-12">
-      <div className="flex flex-col items-center space-y-2 animate-bounce-slow group cursor-pointer">
+      <button 
+        onClick={handleScrollToHero}
+        className="flex flex-col items-center space-y-2 animate-bounce-slow group cursor-pointer focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2 focus:ring-offset-webdev-black rounded-lg p-2"
+        aria-label="Scroll down to next section"
+      >
         <span className="text-white text-sm tracking-widest uppercase group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
           Scroll Down
         </span>
@@ -47,7 +56,7 @@ const ScrollIndicator = () => {
             d="M19 14l-7 7m0 0l-7-7m7 7V3" 
           />
         </svg>
-      </div>
+      </button>
     </div>
   );
 };

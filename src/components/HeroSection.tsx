@@ -5,7 +5,7 @@ import { ArrowRight, ArrowDown } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 py-16" role="banner" aria-labelledby="hero-heading">
+    <section id="hero-section" className="relative min-h-screen flex items-center justify-center px-6 py-16" role="banner" aria-labelledby="hero-heading">
       <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10">
         {/* Main CTA */}
         <div className="space-y-6">
@@ -46,10 +46,10 @@ const HeroSection = () => {
           <button 
             className="flex flex-col items-center space-y-2 animate-bounce-slow group cursor-pointer focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2 focus:ring-offset-webdev-black rounded-lg p-2"
             onClick={() => {
-              const servicesSection = document.getElementById('services');
-              servicesSection?.scrollIntoView({ behavior: 'smooth' });
+              const featuredWorkSection = document.getElementById('featuredwork');
+              featuredWorkSection?.scrollIntoView({ behavior: 'smooth' });
             }}
-            aria-label="Scroll to view my work and services"
+            aria-label="Scroll to view my recent work"
           >
             <span className="text-white text-sm tracking-widest uppercase group-hover:bg-gradient-to-r group-hover:from-webdev-gradient-blue group-hover:to-webdev-gradient-purple group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
               View My Work
