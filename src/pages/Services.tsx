@@ -154,8 +154,8 @@ const Services = () => {
                   <span className="text-webdev-silver text-sm">Professional services</span>
                 </div>
                 
-                <h1 className="text-5xl md:text-7xl font-light tracking-tight">
-                  <span className="text-webdev-silver">Web Development </span>
+                <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide">
+                  Web Development{' '}
                   <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
                     Services
                   </span>

@@ -69,21 +69,20 @@ const ProjectBriefGenerator = () => {
           <div className="container mx-auto px-6 py-16">
             {/* Hero Section */}
             <div className="text-center max-w-5xl mx-auto mb-16">
-              <div className="flex justify-center mb-8">
-                <div className="w-28 h-28 rounded-full border-2 border-transparent flex items-center justify-center relative">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                      <Rocket className="w-14 h-14" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+              <div className="flex justify-center items-center mb-8">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4 relative">
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                    <div className="w-full h-full rounded-xl bg-webdev-dark-gray flex items-center justify-center">
+                      <Rocket className="w-6 h-6" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
                     </div>
                   </div>
                 </div>
+                <h1 className="text-5xl md:text-6xl font-bold text-webdev-silver">
+                  <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
+                    LaunchPad
+                  </span>
+                </h1>
               </div>
-              
-              <h1 className="text-6xl md:text-7xl font-bold text-webdev-silver mb-6 text-glow">
-                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                  LaunchPad
-                </span>
-              </h1>
               
               <p className="text-2xl text-webdev-soft-gray mb-8 font-medium">
                 From Idea to Action — Start Strong with LaunchPad.
