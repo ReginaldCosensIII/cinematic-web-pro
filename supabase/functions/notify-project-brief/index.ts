@@ -9,6 +9,39 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Rate limiting configuration
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW = 10 * 60 * 1000; // 10 minutes
+const MAX_REQUESTS = 5;
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+  
+  if (record.count >= MAX_REQUESTS) {
+    return false;
+  }
+  
+  record.count++;
+  return true;
+}
+
+// Input sanitization
+function sanitizeInput(input: string, maxLength: number = 1000): string {
+  return input
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=/gi, '')
+    .trim()
+    .substring(0, maxLength);
+}
+
 interface BriefNotificationRequest {
   briefContent: string;
   conversationHistory: Array<{
@@ -16,6 +49,7 @@ interface BriefNotificationRequest {
     content: string;
   }>;
   timestamp: string;
+  honeypot?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -25,17 +59,75 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { briefContent, conversationHistory, timestamp }: BriefNotificationRequest = await req.json();
+    // Get client IP for rate limiting
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+
+    // Check rate limit
+    if (!checkRateLimit(clientIP)) {
+      console.log(`Rate limit exceeded for IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Check request size
+    const contentLength = req.headers.get('content-length');
+    if (contentLength && parseInt(contentLength) > 500 * 1024) {
+      return new Response(
+        JSON.stringify({ error: 'Request too large' }),
+        { status: 413, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const requestData: BriefNotificationRequest = await req.json();
+
+    // Honeypot check for bot detection
+    if (requestData.honeypot) {
+      console.log('Bot detected via honeypot field');
+      // Return success to not alert bots, but don't process
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    const { briefContent, conversationHistory, timestamp } = requestData;
+
+    // Validate required fields
+    if (!briefContent || !conversationHistory || !timestamp) {
+      return new Response(
+        JSON.stringify({ error: 'Missing required fields' }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Validate conversation history is an array
+    if (!Array.isArray(conversationHistory)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid conversation history format' }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Sanitize inputs
+    const sanitizedBriefContent = sanitizeInput(briefContent, 10000);
+    const sanitizedConversationHistory = conversationHistory.slice(0, 50).map(msg => ({
+      role: msg.role === 'user' ? 'user' : 'assistant',
+      content: sanitizeInput(msg.content || '', 5000)
+    }));
 
     console.log("Sending project brief notification email");
 
     // Extract some basic info from the conversation
-    const userMessages = conversationHistory.filter(msg => msg.role === 'user');
+    const userMessages = sanitizedConversationHistory.filter(msg => msg.role === 'user');
     const projectType = userMessages.length > 0 ? userMessages[0].content.substring(0, 100) + '...' : 'Project details not specified';
 
     const emailResponse = await resend.emails.send({
       from: "LaunchPad AI <noreply@webdevpro.io>",
-      to: ["contact@webdevpro.io"], // Replace with your actual email
+      to: ["contact@webdevpro.io"],
       subject: `New Project Brief Generated - ${new Date(timestamp).toLocaleDateString()}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -50,12 +142,12 @@ const handler = async (req: Request): Promise<Response> => {
 
           <h3 style="color: #333;">Complete Project Brief:</h3>
           <div style="background-color: #ffffff; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; margin: 20px 0;">
-            <pre style="white-space: pre-wrap; font-family: inherit; margin: 0; color: #333; line-height: 1.6;">${briefContent}</pre>
+            <pre style="white-space: pre-wrap; font-family: inherit; margin: 0; color: #333; line-height: 1.6;">${sanitizedBriefContent}</pre>
           </div>
 
           <h3 style="color: #333;">Full Conversation History:</h3>
           <div style="background-color: #ffffff; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; margin: 20px 0;">
-            ${conversationHistory.map((msg, index) => `
+            ${sanitizedConversationHistory.map((msg) => `
               <div style="margin-bottom: 15px; padding: 10px; border-radius: 6px; ${msg.role === 'user' ? 'background-color: #e3f2fd;' : 'background-color: #f3e5f5;'}">
                 <strong style="color: ${msg.role === 'user' ? '#1976d2' : '#7b1fa2'};">
                   ${msg.role === 'user' ? '👤 User' : '🤖 AI Assistant'}:
@@ -92,7 +184,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in notify-project-brief function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: 'An error occurred processing your request' }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
