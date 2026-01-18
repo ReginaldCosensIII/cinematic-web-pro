@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Lightbulb, ArrowRight } from 'lucide-react';
-const highlightImage = '/lovable-uploads/50a159ac-3cf8-460a-9638-0be1d14908a6.png';
+import highlightImage from '@/assets/launchpad-homepage.png';
 
 const ProjectBriefHighlight = () => {
   return (
