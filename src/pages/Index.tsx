@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import SEOHead from '../components/SEOHead';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -20,7 +20,7 @@ import LeadCapture from '../components/LeadCapture';
 import PerformanceOptimizer from '../components/PerformanceOptimizer';
 
 const Index = () => {
-  // Organization structured data
+  const [videoEnded, setVideoEnded] = useState(false);
   const organizationData = {
     name: "WebDevPro.io - Reggie Cosens",
     description: "Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions.",
@@ -99,17 +99,15 @@ const Index = () => {
         {/* Glassmorphic header with semantic nav */}
         <Header />
         
-        {/* Video Intro Section */}
-        <section id="video-intro" role="banner" aria-label="Introduction video">
-          <VideoIntro />
-        </section>
+        {/* Video Intro Section - Collapses after video ends */}
+        <VideoIntro onVideoEnd={() => setVideoEnded(true)} />
         
-        {/* Scroll Indicator */}
-        <ScrollIndicator />
+        {/* Scroll Indicator - hide after video ends */}
+        {!videoEnded && <ScrollIndicator />}
         
         {/* Main content with semantic structure */}
-        <main id="main-content" className="relative z-10 mt-8" role="main">
-          <HeroSection />
+        <main id="main-content" className="relative z-10" role="main">
+          <HeroSection isVisible={videoEnded} />
           <div className="space-y-12">
             <section id="featured-work" aria-labelledby="featured-work-heading">
               <FeaturedWork />
