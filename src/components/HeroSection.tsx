@@ -1,20 +1,48 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  isVisible?: boolean;
+}
+
+const HeroSection = ({ isVisible = true }: HeroSectionProps) => {
   return (
-    <section id="hero-section" className="relative min-h-screen flex items-center justify-center px-6 py-16" role="banner" aria-labelledby="hero-heading">
+    <section 
+      id="hero-section" 
+      className="relative min-h-screen flex items-center justify-center px-6 py-16" 
+      role="banner" 
+      aria-labelledby="hero-heading"
+    >
       <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10">
-        {/* Main CTA */}
+        {/* Main CTA with Blur Reveal Animation */}
         <div className="space-y-6">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border" role="status" aria-live="polite">
+          {/* Badge - Stagger 1 */}
+          <div 
+            className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border transition-all duration-700 ease-out ${
+              isVisible 
+                ? 'opacity-100 blur-0 translate-y-0' 
+                : 'opacity-0 blur-md translate-y-4'
+            }`}
+            style={{ transitionDelay: isVisible ? '100ms' : '0ms' }}
+            role="status" 
+            aria-live="polite"
+          >
             <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse" aria-hidden="true"></div>
             <span className="text-webdev-silver text-sm">Available for new projects</span>
           </div>
           
-          <h1 id="hero-heading" className="text-5xl md:text-7xl font-light tracking-tight">
+          {/* Headline - Stagger 2 */}
+          <h1 
+            id="hero-heading" 
+            className={`text-5xl md:text-7xl font-light tracking-tight transition-all duration-700 ease-out ${
+              isVisible 
+                ? 'opacity-100 blur-0 translate-y-0' 
+                : 'opacity-0 blur-md translate-y-4'
+            }`}
+            style={{ transitionDelay: isVisible ? '250ms' : '0ms' }}
+          >
             <span className="text-webdev-silver">Ready to </span>
             <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
               Transform
@@ -23,13 +51,28 @@ const HeroSection = () => {
             <span className="text-webdev-silver">Your Vision?</span>
           </h1>
           
-          <p className="text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed">
+          {/* Subtext - Stagger 3 */}
+          <p 
+            className={`text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed transition-all duration-700 ease-out ${
+              isVisible 
+                ? 'opacity-100 blur-0 translate-y-0' 
+                : 'opacity-0 blur-md translate-y-4'
+            }`}
+            style={{ transitionDelay: isVisible ? '400ms' : '0ms' }}
+          >
             Let's collaborate to create exceptional web experiences that captivate your audience and drive results.
           </p>
         </div>
 
-        {/* CTA Button */}
-        <div className="flex justify-center">
+        {/* CTA Button - Stagger 4 */}
+        <div 
+          className={`flex justify-center transition-all duration-700 ease-out ${
+            isVisible 
+              ? 'opacity-100 blur-0 translate-y-0' 
+              : 'opacity-0 blur-md translate-y-4'
+          }`}
+          style={{ transitionDelay: isVisible ? '550ms' : '0ms' }}
+        >
           <Link 
             to="/contact"
             onClick={() => window.scrollTo(0, 0)}
@@ -41,8 +84,15 @@ const HeroSection = () => {
           </Link>
         </div>
 
-        {/* View My Work Animation */}
-        <div className="relative py-4 flex justify-center">
+        {/* View My Work Animation - Stagger 5 */}
+        <div 
+          className={`relative py-4 flex justify-center transition-all duration-700 ease-out ${
+            isVisible 
+              ? 'opacity-100 blur-0 translate-y-0' 
+              : 'opacity-0 blur-md translate-y-4'
+          }`}
+          style={{ transitionDelay: isVisible ? '700ms' : '0ms' }}
+        >
           <button 
             className="flex flex-col items-center space-y-2 animate-bounce-slow group cursor-pointer focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2 focus:ring-offset-webdev-black rounded-lg p-2"
             onClick={() => {
