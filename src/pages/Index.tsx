@@ -1,11 +1,9 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import SEOHead from '../components/SEOHead';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
-import VideoIntro from '../components/VideoIntro';
-import ScrollIndicator from '../components/ScrollIndicator';
 import HeroSection from '../components/HeroSection';
 import FeaturedWork from '../components/FeaturedWork';
 import TestimonialsSection from '../components/TestimonialsSection';
@@ -20,7 +18,6 @@ import LeadCapture from '../components/LeadCapture';
 import PerformanceOptimizer from '../components/PerformanceOptimizer';
 
 const Index = () => {
-  const [videoEnded, setVideoEnded] = useState(false);
   const organizationData = {
     name: "WebDevPro.io - Reggie Cosens",
     description: "Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions.",
@@ -99,15 +96,9 @@ const Index = () => {
         {/* Glassmorphic header with semantic nav */}
         <Header />
         
-        {/* Video Intro Section - Collapses after video ends */}
-        <VideoIntro onVideoEnd={() => setVideoEnded(true)} />
-        
-        {/* Scroll Indicator - hide after video ends */}
-        {!videoEnded && <ScrollIndicator />}
-        
         {/* Main content with semantic structure */}
         <main id="main-content" className="relative z-10" role="main">
-          <HeroSection isVisible={videoEnded} />
+          <HeroSection />
           <div className="space-y-12">
             <section id="featured-work" aria-labelledby="featured-work-heading">
               <FeaturedWork />
