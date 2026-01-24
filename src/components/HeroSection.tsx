@@ -3,10 +3,18 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
+const ROTATING_WORDS = ['Transform', 'Elevate', 'Launch', 'Build'];
+const TYPING_SPEED = 100;
+const DELETE_SPEED = 60;
+const PAUSE_DURATION = 2000;
+
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -14,6 +22,34 @@ const HeroSection = () => {
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Typing animation effect
+  useEffect(() => {
+    const currentWord = ROTATING_WORDS[currentWordIndex];
+    
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        // Typing
+        if (displayText.length < currentWord.length) {
+          setDisplayText(currentWord.slice(0, displayText.length + 1));
+        } else {
+          // Pause at full word, then start deleting
+          setTimeout(() => setIsDeleting(true), PAUSE_DURATION);
+        }
+      } else {
+        // Deleting
+        if (displayText.length > 0) {
+          setDisplayText(displayText.slice(0, -1));
+        } else {
+          // Move to next word
+          setIsDeleting(false);
+          setCurrentWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
+        }
+      }
+    }, isDeleting ? DELETE_SPEED : TYPING_SPEED);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, currentWordIndex]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -155,8 +191,9 @@ const HeroSection = () => {
           style={{ transitionDelay: '250ms' }}
         >
           <span className="text-webdev-silver">Ready to </span>
-          <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-            Transform
+          <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-block min-w-[200px] md:min-w-[300px] text-left">
+            {displayText}
+            <span className="inline-block w-[3px] h-[0.9em] bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple ml-1 animate-pulse align-middle" />
           </span>
           <br />
           <span className="text-webdev-silver">Your Vision?</span>
