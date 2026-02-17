@@ -1,16 +1,61 @@
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
-const ROTATING_WORDS = ['Transform', 'Elevate', 'Launch', 'Build'];
+const ROTATING_WORDS = ['Envision', 'Design', 'Develop', 'Launch'];
 const TYPING_SPEED = 100;
 const DELETE_SPEED = 60;
 const PAUSE_DURATION = 2000;
 
+// Sparkle/star particle component
+const HeroParticles = ({ mousePosition, parallaxOffset }: { mousePosition: { x: number; y: number }; parallaxOffset: number }) => {
+  const particles = useMemo(() => 
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left: `${5 + Math.random() * 90}%`,
+      top: `${5 + Math.random() * 90}%`,
+      size: 1 + Math.random() * 2.5,
+      delay: Math.random() * 4,
+      duration: 2 + Math.random() * 3,
+      parallaxFactor: 0.02 + Math.random() * 0.08,
+    }))
+  , []);
+
+  return (
+    <>
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: p.left,
+            top: p.top,
+            width: p.size,
+            height: p.size,
+            background: p.id % 3 === 0
+              ? 'rgba(66, 133, 244, 0.6)'
+              : p.id % 3 === 1
+              ? 'rgba(138, 43, 226, 0.5)'
+              : 'rgba(192, 192, 192, 0.4)',
+            boxShadow: p.id % 3 === 0
+              ? '0 0 6px rgba(66, 133, 244, 0.4)'
+              : p.id % 3 === 1
+              ? '0 0 6px rgba(138, 43, 226, 0.3)'
+              : '0 0 4px rgba(192, 192, 192, 0.3)',
+            animation: `sparkle ${p.duration}s ease-in-out infinite`,
+            animationDelay: `${p.delay}s`,
+            transform: `translateY(${-parallaxOffset * p.parallaxFactor}px)`,
+          }}
+        />
+      ))}
+    </>
+  );
+};
+
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [scrollY, setScrollY] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
@@ -18,30 +63,25 @@ const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // Trigger entrance animation after mount
     const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // Typing animation effect
+  // Typing animation
   useEffect(() => {
     const currentWord = ROTATING_WORDS[currentWordIndex];
     
     const timeout = setTimeout(() => {
       if (!isDeleting) {
-        // Typing
         if (displayText.length < currentWord.length) {
           setDisplayText(currentWord.slice(0, displayText.length + 1));
         } else {
-          // Pause at full word, then start deleting
           setTimeout(() => setIsDeleting(true), PAUSE_DURATION);
         }
       } else {
-        // Deleting
         if (displayText.length > 0) {
           setDisplayText(displayText.slice(0, -1));
         } else {
-          // Move to next word
           setIsDeleting(false);
           setCurrentWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
         }
@@ -62,23 +102,25 @@ const HeroSection = () => {
       }
     };
 
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+    const handleScroll = () => setScrollY(window.scrollY);
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // Parallax calculations
   const parallaxOffset = scrollY * 0.3;
   const glowX = mousePosition.x * 100;
   const glowY = mousePosition.y * 100;
+
+  // Symmetrical orb positions: one mirrors the other based on mouse
+  const orbOffset = {
+    x: (mousePosition.x - 0.5) * 40,
+    y: (mousePosition.y - 0.5) * 30,
+  };
 
   return (
     <section 
@@ -88,11 +130,11 @@ const HeroSection = () => {
       role="banner" 
       aria-labelledby="hero-heading"
     >
-      {/* Interactive Background Elements */}
+      {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Mouse-following gradient glow */}
         <div 
-          className="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-3xl transition-all duration-1000 ease-out"
+          className="absolute w-[600px] h-[600px] rounded-full opacity-15 blur-3xl transition-all duration-1000 ease-out"
           style={{
             background: 'radial-gradient(circle, rgba(66, 133, 244, 0.4) 0%, rgba(138, 43, 226, 0.2) 50%, transparent 70%)',
             left: `calc(${glowX}% - 300px)`,
@@ -100,23 +142,24 @@ const HeroSection = () => {
           }}
         />
         
-        {/* Floating orbs with parallax */}
+        {/* Symmetrical orb LEFT - follows mouse */}
         <div 
           className="absolute w-72 h-72 rounded-full bg-gradient-to-br from-webdev-gradient-blue/10 to-webdev-gradient-purple/5 blur-2xl"
           style={{ 
-            top: `calc(10% - ${parallaxOffset * 0.5}px)`, 
-            right: '15%',
-            transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`,
-            transition: 'transform 0.5s ease-out',
+            top: `calc(30% - ${parallaxOffset * 0.3}px)`, 
+            left: '12%',
+            transform: `translate(${-orbOffset.x}px, ${orbOffset.y}px)`,
+            transition: 'transform 0.6s ease-out',
           }}
         />
+        {/* Symmetrical orb RIGHT - mirrors mouse */}
         <div 
-          className="absolute w-96 h-96 rounded-full bg-gradient-to-br from-webdev-gradient-purple/8 to-webdev-gradient-blue/5 blur-3xl"
+          className="absolute w-72 h-72 rounded-full bg-gradient-to-bl from-webdev-gradient-purple/10 to-webdev-gradient-blue/5 blur-2xl"
           style={{ 
-            bottom: `calc(20% + ${parallaxOffset * 0.3}px)`, 
-            left: '10%',
-            transform: `translate(${mousePosition.x * -15}px, ${mousePosition.y * -15}px)`,
-            transition: 'transform 0.5s ease-out',
+            top: `calc(30% - ${parallaxOffset * 0.3}px)`, 
+            right: '12%',
+            transform: `translate(${orbOffset.x}px, ${orbOffset.y * 0.85}px)`,
+            transition: 'transform 0.6s ease-out',
           }}
         />
         
@@ -137,40 +180,16 @@ const HeroSection = () => {
         <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-webdev-gradient-blue/20 to-transparent animate-pulse" />
         <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-webdev-gradient-purple/15 to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
         
-        {/* Corner accents */}
-        <div className="absolute top-20 left-20 w-32 h-32">
-          <div className="absolute inset-0 border border-webdev-glass-border/30 rounded-2xl rotate-12 opacity-50" />
-          <div className="absolute inset-2 border border-webdev-gradient-blue/10 rounded-xl rotate-12" />
-        </div>
-        <div className="absolute bottom-32 right-20 w-40 h-40">
-          <div className="absolute inset-0 border border-webdev-glass-border/30 rounded-full opacity-40" />
-          <div className="absolute inset-4 border border-webdev-gradient-purple/10 rounded-full" />
-        </div>
-        
-        {/* Floating particles */}
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-webdev-gradient-blue/40"
-            style={{
-              left: `${15 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-              animation: `float ${3 + i * 0.5}s ease-in-out infinite`,
-              animationDelay: `${i * 0.3}s`,
-              transform: `translateY(${-parallaxOffset * (0.1 + i * 0.05)}px)`,
-            }}
-          />
-        ))}
+        {/* Sparkle particles */}
+        <HeroParticles mousePosition={mousePosition} parallaxOffset={parallaxOffset} />
       </div>
 
       {/* Main Content */}
       <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10">
-        {/* Badge - Stagger 1 */}
+        {/* Badge */}
         <div 
           className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border transition-all duration-700 ease-out ${
-            isVisible 
-              ? 'opacity-100 blur-0 translate-y-0' 
-              : 'opacity-0 blur-md translate-y-4'
+            isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
           }`}
           style={{ transitionDelay: '100ms' }}
           role="status" 
@@ -180,43 +199,39 @@ const HeroSection = () => {
           <span className="text-webdev-silver text-sm tracking-wide">Available for new projects</span>
         </div>
         
-        {/* Headline - Stagger 2 */}
+        {/* Headline with typewriter - always centered, fixed width for rotating word */}
         <h1 
           id="hero-heading" 
           className={`text-5xl md:text-7xl font-light tracking-tight transition-all duration-700 ease-out ${
-            isVisible 
-              ? 'opacity-100 blur-0 translate-y-0' 
-              : 'opacity-0 blur-md translate-y-4'
+            isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
           }`}
           style={{ transitionDelay: '250ms' }}
         >
           <span className="text-webdev-silver">Ready to </span>
-          <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-block min-w-[200px] md:min-w-[300px] text-left">
-            {displayText}
-            <span className="inline-block w-[3px] h-[0.9em] bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple ml-1 animate-pulse align-middle" />
+          <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-flex justify-center" style={{ minWidth: '280px', width: '280px' }}>
+            <span className="text-left w-full">
+              {displayText}
+              <span className="inline-block w-[3px] h-[0.9em] bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple ml-1 animate-pulse align-middle" />
+            </span>
           </span>
           <br />
           <span className="text-webdev-silver">Your Vision?</span>
         </h1>
         
-        {/* Subtext - Stagger 3 */}
+        {/* Subtext */}
         <p 
           className={`text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed transition-all duration-700 ease-out ${
-            isVisible 
-              ? 'opacity-100 blur-0 translate-y-0' 
-              : 'opacity-0 blur-md translate-y-4'
+            isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
           }`}
           style={{ transitionDelay: '400ms' }}
         >
           Let's collaborate to create exceptional web experiences that captivate your audience and drive results.
         </p>
 
-        {/* CTA Buttons - Stagger 4 */}
+        {/* Single centered CTA button */}
         <div 
-          className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 ease-out ${
-            isVisible 
-              ? 'opacity-100 blur-0 translate-y-0' 
-              : 'opacity-0 blur-md translate-y-4'
+          className={`flex justify-center transition-all duration-700 ease-out ${
+            isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
           }`}
           style={{ transitionDelay: '550ms' }}
         >
@@ -230,47 +245,43 @@ const HeroSection = () => {
             <span className="relative z-10">Start Your Project</span>
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 relative z-10" aria-hidden="true" />
           </Link>
-          
+        </div>
+
+        {/* Scroll Indicator with "View My Work" - clickable */}
+        <div 
+          className={`pt-8 transition-all duration-700 ease-out ${
+            isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
+          }`}
+          style={{ transitionDelay: '700ms' }}
+        >
           <button 
             onClick={() => {
-              const featuredWorkSection = document.getElementById('featured-work');
-              featuredWorkSection?.scrollIntoView({ behavior: 'smooth' });
+              const el = document.getElementById('featured-work');
+              el?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="px-8 py-3 rounded-xl text-webdev-soft-gray hover:text-webdev-silver transition-all duration-300 tracking-wide font-medium flex items-center gap-2 hover:bg-webdev-glass/30 focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue/50 focus:ring-offset-2 focus:ring-offset-webdev-black"
+            className="flex flex-col items-center space-y-3 animate-bounce-slow group cursor-pointer focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue/50 focus:ring-offset-2 focus:ring-offset-webdev-black rounded-lg p-2"
             aria-label="View my recent work"
           >
-            <span>View My Work</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="text-webdev-soft-gray text-xs tracking-[0.2em] uppercase group-hover:text-webdev-silver transition-colors duration-300">
+              View My Work
+            </span>
+            <div className="w-6 h-10 border-2 border-webdev-glass-border/60 group-hover:border-webdev-gradient-blue/40 rounded-full flex justify-center relative transition-colors duration-300">
+              <div className="w-1 h-3 bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple rounded-full mt-2 animate-scroll-indicator" />
+            </div>
+            <svg className="w-4 h-4 text-webdev-soft-gray group-hover:text-webdev-gradient-blue transition-colors duration-300 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           </button>
         </div>
-
-        {/* Scroll Indicator - Stagger 5 */}
-        <div 
-          className={`pt-8 transition-all duration-700 ease-out ${
-            isVisible 
-              ? 'opacity-100 blur-0 translate-y-0' 
-              : 'opacity-0 blur-md translate-y-4'
-          }`}
-          style={{ transitionDelay: '700ms' }}
-        >
-          <div className="flex flex-col items-center space-y-2 animate-bounce-slow">
-            <div className="w-6 h-10 border-2 border-webdev-glass-border rounded-full flex justify-center relative">
-              <div className="w-1 h-3 bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple rounded-full mt-2 animate-scroll-indicator" />
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Bottom gradient fade for smooth transition to next section */}
+      {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-webdev-black to-transparent pointer-events-none" />
 
-      {/* CSS for floating animation */}
       <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
+        @keyframes sparkle {
+          0%, 100% { opacity: 0; transform: scale(0.5); }
+          50% { opacity: 1; transform: scale(1.2); }
         }
       `}</style>
     </section>

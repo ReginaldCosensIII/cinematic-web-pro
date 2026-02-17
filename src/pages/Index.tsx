@@ -16,6 +16,7 @@ import StructuredData from '../components/StructuredData';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import LeadCapture from '../components/LeadCapture';
 import PerformanceOptimizer from '../components/PerformanceOptimizer';
+import ScrollReveal from '../components/ScrollReveal';
 
 const Index = () => {
   const organizationData = {
@@ -100,24 +101,36 @@ const Index = () => {
         <main id="main-content" className="relative z-10" role="main">
           <HeroSection />
           <div className="space-y-12">
-            <section id="featured-work" aria-labelledby="featured-work-heading">
-              <FeaturedWork />
-            </section>
-            <section id="services" aria-labelledby="services-heading">
-              <Services />
-            </section>
-            <section id="process" aria-labelledby="process-heading">
-              <ProcessSection />
-            </section>
-            <section id="testimonials" aria-labelledby="testimonials-heading">
-              <TestimonialsSection />
-            </section>
-            <section id="project-brief" aria-labelledby="project-brief-heading">
-              <ProjectBriefHighlight />
-            </section>
-            <section id="cta" aria-labelledby="cta-heading">
-              <CallToAction />
-            </section>
+            <ScrollReveal>
+              <section id="featured-work" aria-labelledby="featured-work-heading">
+                <FeaturedWork />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <section id="services" aria-labelledby="services-heading">
+                <Services />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <section id="process" aria-labelledby="process-heading">
+                <ProcessSection />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <section id="testimonials" aria-labelledby="testimonials-heading">
+                <TestimonialsSection />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <section id="project-brief" aria-labelledby="project-brief-heading">
+                <ProjectBriefHighlight />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <section id="cta" aria-labelledby="cta-heading">
+                <CallToAction />
+              </section>
+            </ScrollReveal>
           </div>
         </main>
         
