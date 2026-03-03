@@ -176,16 +176,13 @@ const HeroSection = () => {
           }}
         />
         
-        {/* Animated gradient lines */}
-        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-webdev-gradient-blue/20 to-transparent animate-pulse" />
-        <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-webdev-gradient-purple/15 to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
         
         {/* Sparkle particles */}
         <HeroParticles mousePosition={mousePosition} parallaxOffset={parallaxOffset} />
       </div>
 
       {/* Main Content */}
-      <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10">
+      <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 pt-16 sm:pt-8">
         {/* Badge */}
         <div 
           className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border transition-all duration-700 ease-out ${
