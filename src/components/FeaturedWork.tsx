@@ -1,348 +1,239 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  CarouselApi,
-} from "@/components/ui/carousel";
+import { ExternalLink, Github, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+import placeholderCes from '@/assets/placeholder-ces.jpg';
+import placeholderRsi from '@/assets/placeholder-rsi.jpg';
+import placeholderPortal from '@/assets/placeholder-portal.jpg';
+import placeholderBooknook from '@/assets/placeholder-booknook.jpg';
+import placeholderPortfolio from '@/assets/placeholder-portfolio.jpg';
+
+interface Project {
+  title: string;
+  client: string;
+  description: string;
+  technologies: string[];
+  type: 'professional' | 'personal';
+  image: string;
+  liveUrl?: string;
+  githubUrl?: string;
+  status: string;
+}
+
+const projects: Project[] = [
+  {
+    title: "CES IT Services Website",
+    client: "Computer Enhancement Systems, Inc.",
+    description: "Full redesign and development of a corporate IT services website with modern UI, service catalog, and client portal integration.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js"],
+    type: "professional",
+    image: placeholderCes,
+    liveUrl: "https://cesitservice.com",
+    status: "Live"
+  },
+  {
+    title: "RSI X-Ray Services Website",
+    client: "Computer Enhancement Systems, Inc.",
+    description: "Corporate website for industrial x-ray and inspection services featuring equipment showcase, service areas, and quote request system.",
+    technologies: ["React", "Tailwind CSS", "Supabase", "Vite"],
+    type: "professional",
+    image: placeholderRsi,
+    liveUrl: "https://rsi-xray.com",
+    status: "Live"
+  },
+  {
+    title: "HR Certifications Portal",
+    client: "Specialized Engineering",
+    description: "Internal web portal for tracking employee certifications, compliance deadlines, and automated renewal notifications across the organization.",
+    technologies: ["React", "PostgreSQL", "Node.js", "Express"],
+    type: "professional",
+    image: placeholderPortal,
+    status: "Internal LAN"
+  },
+  {
+    title: "Atomic's BookNook",
+    client: "Personal Project",
+    description: "Feature-rich online bookstore with role-based authentication, dynamic product displays, shopping cart, and full checkout system.",
+    technologies: ["Flask", "PostgreSQL", "Jinja2", "JavaScript"],
+    type: "personal",
+    image: placeholderBooknook,
+    liveUrl: "https://cs492-bookstore-project.onrender.com/",
+    githubUrl: "https://github.com/ReginaldCosensIII/cs492_bookstore_project",
+    status: "Live"
+  },
+  {
+    title: "WebDevPro.io Portfolio",
+    client: "Personal Project",
+    description: "Modern developer portfolio and business site with AI chatbot, project brief generator, blog, and client dashboard.",
+    technologies: ["React", "TypeScript", "Supabase", "Tailwind CSS"],
+    type: "personal",
+    image: placeholderPortfolio,
+    liveUrl: "https://webdevpro.io",
+    githubUrl: "https://github.com/reggiecosens/webdevpro",
+    status: "Live"
+  }
+];
+
 const FeaturedWork = () => {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
-  const [screenshotIndex, setScreenshotIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const isMobile = useIsMobile();
 
-  // BookNook project screenshots
-  const booknookScreenshots = [
-    '/lovable-uploads/6bb88bea-0fe1-493e-bba6-79f91be5c82e.png',
-    '/lovable-uploads/14e57b76-6e9a-437c-beb2-6c7cd7aa45ef.png',
-    '/lovable-uploads/ad13920d-ee62-453e-b69e-67570b06f3dd.png',
-    '/lovable-uploads/2c679128-e7f5-448f-aa45-3b0dcbcb05ae.png',
-    '/lovable-uploads/98391c75-0df0-4353-a43c-f7c6ecd15efe.png',
-    '/lovable-uploads/b1e9fdf3-bc1a-4d0b-a843-b5f8463bfa18.png'
-  ];
+  const next = () => setCurrentIndex((prev) => (prev + 1) % projects.length);
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
 
-  // Mobile screenshots for BookNook
-  const booknookMobileScreenshots = [
-    '/lovable-uploads/78a24ca5-a1da-48d7-b05d-7334d363b76f.png',
-    '/lovable-uploads/2e128ee3-eec6-4884-b321-3fb3f309b3b5.png',
-    '/lovable-uploads/01872e46-5a40-43ab-92f8-cf745fd8aad5.png',
-    '/lovable-uploads/084ae011-bc0f-42e7-8fef-9791f9207280.png',
-    '/lovable-uploads/fce73457-ff3a-4f3a-8436-577560ef09bc.png',
-    '/lovable-uploads/571f35d4-e1f4-4bd0-882f-a85f25541324.png'
-  ];
-
-  // Auto-rotation for BookNook screenshots
-  useEffect(() => {
-    const currentScreenshots = isMobile ? booknookMobileScreenshots : booknookScreenshots;
-    const interval = setInterval(() => {
-      setScreenshotIndex((prev) => (prev + 1) % currentScreenshots.length);
-    }, 4000); // Change image every 4 seconds
-
-    return () => clearInterval(interval);
-  }, [isMobile, booknookScreenshots.length, booknookMobileScreenshots.length]);
-
-  const nextScreenshot = () => {
-    const currentScreenshots = isMobile ? booknookMobileScreenshots : booknookScreenshots;
-    setScreenshotIndex((prev) => (prev + 1) % currentScreenshots.length);
-  };
-
-  const prevScreenshot = () => {
-    const currentScreenshots = isMobile ? booknookMobileScreenshots : booknookScreenshots;
-    setScreenshotIndex((prev) => (prev - 1 + currentScreenshots.length) % currentScreenshots.length);
-  };
-
-  // Custom BookNook SVG Icon Component
-  const BookNookIcon = ({ className }: { className?: string }) => (
-    <svg viewBox="0 0 48 48" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="booknook-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#4285f4" />
-          <stop offset="100%" stopColor="#8a2be2" />
-        </linearGradient>
-      </defs>
-      {/* Book spine */}
-      <rect x="8" y="12" width="32" height="24" rx="2" stroke="url(#booknook-gradient)" strokeWidth="2" fill="none"/>
-      {/* Book pages */}
-      <path d="M12 16h24M12 20h24M12 24h20M12 28h22" stroke="url(#booknook-gradient)" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Digital screen overlay */}
-      <rect x="18" y="18" width="12" height="8" rx="1" stroke="url(#booknook-gradient)" strokeWidth="1.5" fill="none"/>
-      {/* Screen pixels/dots */}
-      <circle cx="21" cy="21" r="0.5" fill="url(#booknook-gradient)"/>
-      <circle cx="24" cy="21" r="0.5" fill="url(#booknook-gradient)"/>
-      <circle cx="27" cy="21" r="0.5" fill="url(#booknook-gradient)"/>
-      <circle cx="21" cy="23" r="0.5" fill="url(#booknook-gradient)"/>
-      <circle cx="24" cy="23" r="0.5" fill="url(#booknook-gradient)"/>
-      <circle cx="27" cy="23" r="0.5" fill="url(#booknook-gradient)"/>
-    </svg>
-  );
-
-  const featuredProjects = [
-    {
-      title: "Atomic's BookNook",
-      description: "A feature rich online bookstore. Features role-based login, dynamic product displays, and a fully functional shopping cart and checkout system and more.",
-      details: ["Role-Based User Auth", "Modular Flask Blueprints", "Dynamic Reviews System", "Cart & Order Management", "Mobile Responsive Design"],
-      icon: BookNookIcon,
-      technologies: "Flask, PostgreSQL, Jinja2, HTML/CSS/JavaScript",
-      status: "Live Project",
-      hasCarousel: true
-    },
-    {
-      title: "Portfolio Website",
-      description: "Clean, minimalist portfolio showcasing creative work with smooth animations and interactive elements.",
-      details: ["Custom Animations", "Interactive UI", "Performance Optimized", "Modern Design"],
-      icon: () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="url(#featured-icon-gradient)" strokeWidth={2}>
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
-          <path d="M2 12h20"/>
-        </svg>
-      ),
-      technologies: "Next.js, Tailwind CSS, Framer Motion",
-      status: "Recently Completed"
-    },
-    {
-      title: "Mobile App Landing", 
-      description: "Converting landing page for a mobile application with compelling CTAs and feature highlights.",
-      details: ["High Conversion Rate", "A/B Tested", "Analytics Integration", "Cross-platform"],
-      icon: () => (
-        <svg viewBox="0 0 24 24" fill="none" stroke="url(#featured-icon-gradient)" strokeWidth={2}>
-          <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
-          <path d="M12 18h.01"/>
-        </svg>
-      ),
-      technologies: "React, GSAP, Google Analytics",
-      status: "High Converting"
-    }
-  ];
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
+  const project = projects[currentIndex];
 
   return (
     <section id="featuredwork" className="relative py-16 px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
-        <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
-          <div className="space-y-6">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
-              <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
-              <span className="text-webdev-silver text-sm">Featured Projects</span>
-            </div>
-            
-            <h2 className="text-5xl md:text-7xl font-light tracking-tight">
-              <span className="text-webdev-silver">Recent </span>
-              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                Work
-              </span>
-            </h2>
-            
-            <p className="text-xl text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed">
-              Explore a curated selection of my most impactful projects, showcasing innovative web solutions and digital experiences.
-            </p>
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="text-center space-y-6 max-w-4xl mx-auto relative z-10 mb-12">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
+            <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse" />
+            <span className="text-webdev-silver text-sm">Featured Projects</span>
           </div>
-        </div>
-
-        <div className="relative max-w-4xl mx-auto">
-          <Carousel
-            setApi={setApi}
-            opts={{
-              align: "center",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {featuredProjects.map((project, index) => {
-                const IconComponent = project.icon;
-                return (
-                  <CarouselItem key={index} className="basis-full">
-                    <div className="p-6">
-                      <div className="group relative glass-effect hover:glass-border rounded-xl p-12 text-center transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
-                        
-                        <div className="flex flex-col items-center mb-8">
-                          <div className="relative w-20 h-20 rounded-full mb-6">
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                              <div className="w-full h-full rounded-full bg-webdev-dark-gray flex items-center justify-center">
-                                <IconComponent 
-                                  className="w-10 h-10" 
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <h4 className="text-2xl font-semibold text-webdev-silver mb-2 group-hover:text-white transition-colors duration-300">
-                            {project.title}
-                          </h4>
-                          <span className="text-webdev-gradient-blue text-sm font-medium">
-                            {project.status}
-                          </span>
-                        </div>
-
-                        {/* Screenshot carousel for BookNook, placeholder for others */}
-                        {project.hasCarousel ? (
-                          <div className="relative w-full h-[350px] bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 overflow-hidden">
-                            <img 
-                              src={(isMobile ? booknookMobileScreenshots : booknookScreenshots)[screenshotIndex]} 
-                              alt={`${project.title} Screenshot ${screenshotIndex + 1}`}
-                              className="w-full h-full object-cover"
-                            />
-                            {/* Carousel navigation */}
-                            <button 
-                              onClick={prevScreenshot}
-                              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-webdev-dark-gray/80 hover:bg-webdev-dark-gray rounded-full flex items-center justify-center transition-colors"
-                            >
-                              <ChevronLeft className="w-4 h-4 text-webdev-silver" />
-                            </button>
-                            <button 
-                              onClick={nextScreenshot}
-                              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-webdev-dark-gray/80 hover:bg-webdev-dark-gray rounded-full flex items-center justify-center transition-colors"
-                            >
-                              <ChevronRight className="w-4 h-4 text-webdev-silver" />
-                            </button>
-                            {/* Carousel indicators */}
-                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1">
-                              {(isMobile ? booknookMobileScreenshots : booknookScreenshots).map((_, index) => (
-                                <button
-                                  key={index}
-                                  onClick={() => setScreenshotIndex(index)}
-                                  className={`w-2 h-2 rounded-full transition-colors ${
-                                    index === screenshotIndex 
-                                      ? 'bg-webdev-gradient-blue' 
-                                      : 'bg-webdev-soft-gray/50'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="w-full h-[350px] bg-webdev-dark-gray/30 border border-webdev-glass-border rounded-lg mb-6 flex items-center justify-center">
-                            <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">Project Screenshot</span>
-                          </div>
-                        )}
-                        
-                        {/* Project description moved below screenshots */}
-                        <p className="text-webdev-soft-gray text-lg mb-6 leading-relaxed max-w-md mx-auto group-hover:text-webdev-silver transition-colors duration-300">
-                          {project.description}
-                        </p>
-                        
-                        <div className="mb-6">
-                          <span className="text-webdev-silver text-sm font-medium group-hover:text-white transition-colors duration-300">Technologies: </span>
-                          <span className="text-webdev-soft-gray text-sm group-hover:text-webdev-silver transition-colors duration-300">{project.technologies}</span>
-                        </div>
-
-                        <ul className="space-y-3 max-w-sm mx-auto mb-8 hidden sm:block">
-                          {project.details.map((detail, index) => (
-                            <li key={index} className="text-webdev-soft-gray flex items-center justify-center group-hover:text-webdev-silver transition-colors duration-300">
-                              <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
-                              {detail}
-                            </li>
-                          ))}
-                        </ul>
-
-                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                          {project.title === "Atomic's BookNook" ? (
-                            <>
-                              <Button
-                                variant="glass"
-                                asChild
-                              >
-                                <a 
-                                  href="https://cs492-bookstore-project.onrender.com/"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <ExternalLink className="w-4 h-4" />
-                                  View Live
-                                </a>
-                              </Button>
-                              <Button
-                                variant="glass"
-                                asChild
-                              >
-                                <a 
-                                  href="https://github.com/ReginaldCosensIII/cs492_bookstore_project"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <Github className="w-4 h-4" />
-                                  Source Code
-                                </a>
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button variant="glass">
-                                <ExternalLink className="w-4 h-4" />
-                                View Live
-                              </Button>
-                              <Button variant="glass">
-                                <Github className="w-4 h-4" />
-                                Source Code
-                              </Button>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <CarouselPrevious className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white -left-16" />
-            <CarouselNext className="bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white -right-16" />
-          </Carousel>
-
-          {/* Progress indicator */}
-          <div className="mt-8 flex justify-center">
-            <div className="flex space-x-2">
-              {featuredProjects.map((_, index) => (
-                <div
-                  key={index}
-                  className="relative h-1 w-16 bg-webdev-darker-gray rounded-full overflow-hidden"
-                >
-                  <div
-                    className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${
-                      index + 1 === current ? 'w-full' : index + 1 < current ? 'w-full' : 'w-0'
-                    }`}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center mt-4">
-            <span className="text-webdev-soft-gray text-sm">
-              {current} of {count}
+          
+          <h2 className="text-5xl md:text-7xl font-light tracking-tight">
+            <span className="text-webdev-silver">Recent </span>
+            <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+              Work
             </span>
+          </h2>
+          
+          <p className="text-lg text-webdev-soft-gray max-w-2xl mx-auto leading-relaxed">
+            A curated selection of professional and personal projects showcasing full-stack web development.
+          </p>
+        </div>
+
+        {/* Project Card */}
+        <div className="relative max-w-4xl mx-auto">
+          <div className="group relative glass-effect rounded-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+            {/* Screenshot with overlay */}
+            <div className="relative w-full aspect-video overflow-hidden">
+              <img
+                src={project.image}
+                alt={`${project.title} preview screenshot`}
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+              
+              {/* Gradient overlay from bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
+              
+              {/* Status badge */}
+              <div className="absolute top-4 right-4 z-10">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md ${
+                  project.status === 'Internal LAN' 
+                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' 
+                    : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                }`}>
+                  {project.status === 'Internal LAN' && <Lock className="w-3 h-3" />}
+                  {project.status}
+                </span>
+              </div>
+
+              {/* Type badge */}
+              <div className="absolute top-4 left-4 z-10">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md bg-webdev-gradient-blue/20 text-blue-300 border border-blue-500/30">
+                  {project.type === 'professional' ? 'Professional' : 'Personal'}
+                </span>
+              </div>
+
+              {/* Overlay content */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10">
+                <p className="text-webdev-soft-gray text-xs uppercase tracking-wider mb-1">
+                  {project.client}
+                </p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-webdev-silver/80 text-sm md:text-base leading-relaxed max-w-xl mb-4">
+                  {project.description}
+                </p>
+
+                {/* Technologies */}
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {project.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2.5 py-1 rounded-md text-xs font-medium bg-white/10 text-webdev-silver backdrop-blur-sm border border-white/10"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex gap-3">
+                  {project.liveUrl && (
+                    <Button variant="glass" size="sm" asChild>
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4" />
+                        View Live
+                      </a>
+                    </Button>
+                  )}
+                  {project.githubUrl && (
+                    <Button variant="glass" size="sm" asChild>
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4" />
+                        Source Code
+                      </a>
+                    </Button>
+                  )}
+                  {!project.liveUrl && !project.githubUrl && (
+                    <span className="inline-flex items-center gap-1.5 text-sm text-webdev-soft-gray">
+                      <Lock className="w-4 h-4" />
+                      Internal deployment only
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation arrows */}
+          <button
+            onClick={prev}
+            className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/80 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            aria-label="Previous project"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={next}
+            className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/80 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            aria-label="Next project"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Progress indicator */}
+        <div className="mt-8 flex justify-center">
+          <div className="flex space-x-2">
+            {projects.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className="relative h-1.5 w-12 bg-webdev-darker-gray rounded-full overflow-hidden"
+                aria-label={`Go to project ${index + 1}`}
+              >
+                <div
+                  className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${
+                    index === currentIndex ? 'w-full' : 'w-0'
+                  }`}
+                />
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* SVG Gradient Definition */}
-        <svg width="0" height="0" className="absolute">
-          <defs>
-            <linearGradient id="featured-icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4285f4" />
-              <stop offset="100%" stopColor="#8a2be2" />
-            </linearGradient>
-          </defs>
-        </svg>
+        <div className="text-center mt-3">
+          <span className="text-webdev-soft-gray text-sm">
+            {currentIndex + 1} of {projects.length}
+          </span>
+        </div>
       </div>
     </section>
   );
