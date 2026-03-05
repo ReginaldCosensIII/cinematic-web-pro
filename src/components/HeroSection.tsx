@@ -199,7 +199,7 @@ const HeroSection = () => {
         {/* Headline with typewriter - always centered, fixed width for rotating word */}
         <h1 
           id="hero-heading" 
-          className={`text-5xl sm:text-5xl md:text-8xl font-light tracking-tight transition-all duration-700 ease-out ${
+          className={`text-4xl sm:text-5xl md:text-7xl font-light tracking-tight transition-all duration-700 ease-out ${
             isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
           }`}
           style={{ transitionDelay: '250ms' }}
@@ -207,7 +207,7 @@ const HeroSection = () => {
           {/* Desktop/tablet: inline layout */}
           <span className="hidden sm:inline">
             <span className="text-webdev-silver">Ready to </span>
-            <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-flex justify-center" style={{ minWidth: '280px', width: '280px' }}>
+            <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-flex justify-center" style={{ minWidth: '240px', width: '240px' }}>
               <span className="text-left w-full">
                 {displayText}
                 <span className="inline-block w-[3px] h-[0.9em] bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple ml-1 animate-pulse align-middle" />
