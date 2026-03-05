@@ -187,8 +187,12 @@ const FeaturedWork = () => {
   const [isPaused, setIsPaused] = useState(false);
   const isMobile = useIsMobile();
 
+  // Swipe gesture state
+  const touchStartX = React.useRef<number | null>(null);
+  const touchEndX = React.useRef<number | null>(null);
+
   const next = useCallback(() => setCurrentIndex((prev) => (prev + 1) % projects.length), []);
-  const prev = () => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  const prev = useCallback(() => setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length), []);
 
   // Auto-rotation: 5s interval, pauses on hover
   useEffect(() => {
@@ -196,6 +200,29 @@ const FeaturedWork = () => {
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
   }, [isPaused, next]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchEndX.current = null;
+    setIsPaused(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null && touchEndX.current !== null) {
+      const diff = touchStartX.current - touchEndX.current;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) next();
+        else prev();
+      }
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+    setTimeout(() => setIsPaused(false), 3000);
+  };
 
   const project = projects[currentIndex];
 
@@ -226,6 +253,9 @@ const FeaturedWork = () => {
           className="relative max-w-4xl mx-auto"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {isMobile ? (
             <MobileCard project={project} />
@@ -233,17 +263,17 @@ const FeaturedWork = () => {
             <DesktopCard project={project} />
           )}
 
-          {/* Navigation arrows */}
+          {/* Navigation arrows - moved to top area, more opaque */}
           <button
             onClick={prev}
-            className="absolute left-0 md:-left-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/80 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            className="absolute -left-2 md:-left-16 top-6 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/90 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
             aria-label="Previous project"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={next}
-            className="absolute right-0 md:-right-14 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/80 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            className="absolute -right-2 md:-right-16 top-6 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/90 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
             aria-label="Next project"
           >
             <ChevronRight className="w-5 h-5" />
