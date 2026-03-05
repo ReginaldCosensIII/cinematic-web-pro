@@ -86,7 +86,7 @@ const BlogArticle = () => {
 
       setArticle(articleData);
 
-      // Fetch comments
+      // Fetch comments - select only non-sensitive columns (excludes guest_email)
       const { data: commentsData, error: commentsError } = await supabase
         .from('blog_comments')
         .select('id, content, guest_name, user_id, created_at')

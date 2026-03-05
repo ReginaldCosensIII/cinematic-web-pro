@@ -8,23 +8,35 @@ import SmokeBackground from '@/components/SmokeBackground';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import UsersTable from '@/components/admin/users/UsersTable';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAdminCheck } from '@/hooks/useAdminCheck';
 import { Menu, X } from 'lucide-react';
 
 const AdminUsers = () => {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { isAdmin, loading: adminLoading } = useAdminCheck();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigate('/');
+    if (authLoading || adminLoading) return;
+    if (!user || !isAdmin) {
+      navigate(user ? '/dashboard' : '/');
     }
-  }, [user, loading, navigate]);
+  }, [user, isAdmin, authLoading, adminLoading, navigate]);
 
-  if (loading || !user) {
-    return null;
+  if (authLoading || adminLoading) {
+    return (
+      <div className="min-h-screen bg-webdev-black flex items-center justify-center">
+        <div className="text-webdev-silver">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue mx-auto mb-4"></div>
+          Verifying permissions...
+        </div>
+      </div>
+    );
   }
+
+  if (!user || !isAdmin) return null;
 
   return (
     <div className="min-h-screen bg-webdev-black relative overflow-hidden">
@@ -48,7 +60,6 @@ const AdminUsers = () => {
           )}
 
           <div className="flex gap-4 md:gap-8">
-            {/* Sidebar */}
             <div className={`
               ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
               ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
@@ -61,7 +72,6 @@ const AdminUsers = () => {
               {!isMobile && <AdminSidebar />}
             </div>
 
-            {/* Mobile Sidebar Overlay */}
             {isMobile && sidebarOpen && (
               <div 
                 className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAdminCheck } from '@/hooks/useAdminCheck';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
@@ -16,7 +17,8 @@ import { Menu, X, Save, User, Shield, Palette } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const AdminSettings = () => {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { isAdmin, loading: adminLoading } = useAdminCheck();
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -29,6 +31,13 @@ const AdminSettings = () => {
     newPassword: '',
     confirmPassword: '',
   });
+
+  useEffect(() => {
+    if (authLoading || adminLoading) return;
+    if (!user || !isAdmin) {
+      navigate(user ? '/dashboard' : '/');
+    }
+  }, [user, isAdmin, authLoading, adminLoading, navigate]);
 
   const handleSaveProfile = () => {
     toast({
@@ -60,9 +69,18 @@ const AdminSettings = () => {
     });
   };
 
-  if (loading || !user) {
-    return null;
+  if (authLoading || adminLoading) {
+    return (
+      <div className="min-h-screen bg-webdev-black flex items-center justify-center">
+        <div className="text-webdev-silver">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue mx-auto mb-4"></div>
+          Verifying permissions...
+        </div>
+      </div>
+    );
   }
+
+  if (!user || !isAdmin) return null;
 
   return (
     <div className="min-h-screen bg-webdev-black relative overflow-hidden">
@@ -86,7 +104,6 @@ const AdminSettings = () => {
           )}
 
           <div className="flex gap-4 md:gap-8">
-            {/* Sidebar */}
             <div className={`
               ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
               ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
@@ -99,7 +116,6 @@ const AdminSettings = () => {
               {!isMobile && <AdminSidebar />}
             </div>
 
-            {/* Mobile Sidebar Overlay */}
             {isMobile && sidebarOpen && (
               <div 
                 className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
@@ -114,7 +130,6 @@ const AdminSettings = () => {
               </div>
 
               <div className="space-y-6">
-                {/* Profile Settings */}
                 <Card className="glass-effect border-webdev-glass-border">
                   <CardHeader>
                     <CardTitle className="text-webdev-silver flex items-center gap-2">
@@ -146,7 +161,6 @@ const AdminSettings = () => {
                   </CardContent>
                 </Card>
 
-                {/* Security Settings */}
                 <Card className="glass-effect border-webdev-glass-border">
                   <CardHeader>
                     <CardTitle className="text-webdev-silver flex items-center gap-2">
@@ -198,7 +212,6 @@ const AdminSettings = () => {
                   </CardContent>
                 </Card>
 
-                {/* Preferences */}
                 <Card className="glass-effect border-webdev-glass-border">
                   <CardHeader>
                     <CardTitle className="text-webdev-silver flex items-center gap-2">

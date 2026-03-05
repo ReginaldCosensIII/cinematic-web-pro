@@ -15,6 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Search, Target, Calendar, Clock, Plus, Edit, Trash2, Menu, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAdminCheck } from '@/hooks/useAdminCheck';
 import { useToast } from '@/hooks/use-toast';
 
 interface Milestone {
@@ -32,7 +33,8 @@ interface Milestone {
 }
 
 const AdminMilestones = () => {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { isAdmin, loading: adminLoading } = useAdminCheck();
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -50,10 +52,11 @@ const AdminMilestones = () => {
   });
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigate('/');
+    if (authLoading || adminLoading) return;
+    if (!user || !isAdmin) {
+      navigate(user ? '/dashboard' : '/');
     }
-  }, [user, loading, navigate]);
+  }, [user, isAdmin, authLoading, adminLoading, navigate]);
 
   const { data: milestonesData, isLoading } = useQuery({
     queryKey: ['admin-milestones'],
@@ -221,9 +224,18 @@ const AdminMilestones = () => {
     milestone.description?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
-  if (loading || !user) {
-    return null;
+  if (authLoading || adminLoading) {
+    return (
+      <div className="min-h-screen bg-webdev-black flex items-center justify-center">
+        <div className="text-webdev-silver">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue mx-auto mb-4"></div>
+          Verifying permissions...
+        </div>
+      </div>
+    );
   }
+
+  if (!user || !isAdmin) return null;
 
   return (
     <div className="min-h-screen bg-webdev-black relative overflow-hidden">
