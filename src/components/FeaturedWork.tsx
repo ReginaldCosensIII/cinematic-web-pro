@@ -266,14 +266,14 @@ const FeaturedWork = () => {
           {/* Navigation arrows - moved to top area, more opaque */}
           <button
             onClick={prev}
-            className="absolute -left-2 md:-left-16 top-6 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/90 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            className="absolute -left-2 md:-left-16 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/90 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
             aria-label="Previous project"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={next}
-            className="absolute -right-2 md:-right-16 top-6 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/90 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            className="absolute -right-2 md:-right-16 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-webdev-darker-gray/90 border border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white flex items-center justify-center transition-colors backdrop-blur-sm"
             aria-label="Next project"
           >
             <ChevronRight className="w-5 h-5" />
