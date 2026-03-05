@@ -500,7 +500,47 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      blog_comments_public: {
+        Row: {
+          article_id: string | null
+          content: string | null
+          created_at: string | null
+          guest_name: string | null
+          id: string | null
+          is_approved: boolean | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          article_id?: string | null
+          content?: string | null
+          created_at?: string | null
+          guest_name?: string | null
+          id?: string | null
+          is_approved?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          article_id?: string | null
+          content?: string | null
+          created_at?: string | null
+          guest_name?: string | null
+          id?: string | null
+          is_approved?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_comments_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "blog_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       generate_slug: { Args: { title: string }; Returns: string }
