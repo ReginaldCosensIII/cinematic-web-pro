@@ -33,10 +33,10 @@ const ProjectBriefHighlight = () => {
           
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
-            {/* Content */}
-            <div className="animate-fade-in-up">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mr-4">
+            {/* Content - centered on tablet, left-aligned on desktop */}
+            <div className="animate-fade-in-up text-center lg:text-left">
+              <div className="flex flex-col items-center lg:flex-row lg:items-center mb-6">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-3 lg:mb-0 lg:mr-4">
                   <Lightbulb className="w-6 h-6 text-white" />
                 </div>
                 <span className="text-webdev-gradient-blue font-semibold tracking-wide">PLANNING TOOL</span>
@@ -55,7 +55,7 @@ const ProjectBriefHighlight = () => {
                 helps us understand exactly what you need to succeed.
               </p>
               
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-8 inline-block text-left">
                 <div className="flex items-center text-webdev-soft-gray">
                   <div className="w-2 h-2 rounded-full bg-webdev-gradient-blue mr-3"></div>
                   Guided questions to clarify your project goals

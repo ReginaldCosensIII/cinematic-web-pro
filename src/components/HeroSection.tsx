@@ -182,7 +182,7 @@ const HeroSection = () => {
       </div>
 
       {/* Main Content */}
-      <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 pt-16 sm:pt-8">
+      <div className="text-center space-y-6 sm:space-y-8 max-w-4xl mx-auto relative z-10 pt-10 sm:pt-8">
         {/* Badge */}
         <div 
           className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border transition-all duration-700 ease-out ${
@@ -199,7 +199,7 @@ const HeroSection = () => {
         {/* Headline with typewriter - always centered, fixed width for rotating word */}
         <h1 
           id="hero-heading" 
-          className={`text-4xl sm:text-5xl md:text-7xl font-light tracking-tight transition-all duration-700 ease-out ${
+          className={`text-5xl sm:text-5xl md:text-8xl font-light tracking-tight transition-all duration-700 ease-out ${
             isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
           }`}
           style={{ transitionDelay: '250ms' }}
