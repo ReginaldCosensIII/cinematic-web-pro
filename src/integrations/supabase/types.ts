@@ -509,7 +509,6 @@ export type Database = {
           id: string | null
           is_approved: boolean | null
           updated_at: string | null
-          user_id: string | null
         }
         Insert: {
           article_id?: string | null
@@ -519,7 +518,6 @@ export type Database = {
           id?: string | null
           is_approved?: boolean | null
           updated_at?: string | null
-          user_id?: string | null
         }
         Update: {
           article_id?: string | null
@@ -529,7 +527,6 @@ export type Database = {
           id?: string | null
           is_approved?: boolean | null
           updated_at?: string | null
-          user_id?: string | null
         }
         Relationships: [
           {
