@@ -207,7 +207,7 @@ const HeroSection = () => {
           {/* Desktop/tablet: inline layout */}
           <span className="hidden sm:inline">
             <span className="text-webdev-silver">Ready to </span>
-            <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-flex justify-center" style={{ minWidth: '240px', width: '240px' }}>
+            <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-flex justify-center" style={{ minWidth: '320px', width: '320px' }}>
               <span className="text-left w-full">
                 {displayText}
                 <span className="inline-block w-[3px] h-[0.9em] bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple ml-1 animate-pulse align-middle" />
