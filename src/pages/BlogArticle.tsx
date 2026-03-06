@@ -33,7 +33,6 @@ interface Comment {
   id: string;
   content: string;
   guest_name: string | null;
-  user_id: string | null;
   created_at: string;
 }
 
@@ -89,7 +88,7 @@ const BlogArticle = () => {
       // Fetch comments from public view (excludes guest_email for privacy)
       const { data: commentsData, error: commentsError } = await supabase
         .from('blog_comments_public')
-        .select('id, content, guest_name, user_id, created_at')
+        .select('id, content, guest_name, created_at')
         .eq('article_id', articleData.id)
         .eq('is_approved', true)
         .order('created_at', { ascending: false });
