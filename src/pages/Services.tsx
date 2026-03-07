@@ -263,6 +263,7 @@ const Services = () => {
                   </article>
                   </ScrollReveal>
                 );
+              })}
             </div>
 
             <ScrollReveal>
