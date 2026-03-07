@@ -31,6 +31,17 @@ const ProjectBriefHighlight = () => {
             </div>
           </div>
           
+          {/* Image - visible on mobile/tablet between header and content, stacked */}
+          <div className="animate-fade-in-up lg:hidden mb-12">
+            <div className="relative max-w-md mx-auto">
+              <img 
+                src={highlightImage} 
+                alt="AI-powered project planning assistant"
+                className="w-full rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
+
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             {/* Content - centered on tablet, left-aligned on desktop */}
@@ -83,7 +94,7 @@ const ProjectBriefHighlight = () => {
               </div>
             </div>
             
-            {/* Image - Hidden on mobile and tablet */}
+            {/* Image - desktop only (side-by-side) */}
             <div className="animate-fade-in-up hidden lg:block" style={{ animationDelay: '0.2s' }}>
               <div className="relative">
                 <img 
