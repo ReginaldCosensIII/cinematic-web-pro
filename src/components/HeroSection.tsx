@@ -214,7 +214,7 @@ const HeroSection = () => {
               </span>
             </span>
             <br />
-            <span className="text-webdev-silver">Your Vision?</span>
+            <span className="text-webdev-silver">Your Web Experience?</span>
           </span>
           {/* Mobile: stacked & centered layout */}
           <span className="sm:hidden flex flex-col items-center gap-1">
@@ -223,7 +223,7 @@ const HeroSection = () => {
               {displayText}
               <span className="inline-block w-[3px] h-[0.9em] bg-gradient-to-b from-webdev-gradient-blue to-webdev-gradient-purple ml-1 animate-pulse align-middle" />
             </span>
-            <span className="text-webdev-silver">Your Vision?</span>
+            <span className="text-webdev-silver">Your Web Experience?</span>
           </span>
         </h1>
         
