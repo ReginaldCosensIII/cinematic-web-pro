@@ -170,8 +170,8 @@ const ProjectBriefGenerator = () => {
                 </div>
               </div>
             </div>
-            </div>
             </ScrollReveal>
+          </div>
         ) : (
           <div className="container mx-auto px-6 py-8">
             {/* Chat Header */}
