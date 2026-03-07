@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SmokeBackground from '../components/SmokeBackground';
 import ChatBot from '../components/ChatBot';
+import ScrollReveal from '../components/ScrollReveal';
 import { Mail, MapPin, Phone, Send, CheckCircle, Bot, Lightbulb } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -111,8 +112,7 @@ const Contact = () => {
       
       <main className="relative z-10 pt-32 pb-20">
         <div className="max-w-6xl mx-auto px-6">
-          {/* Centered Header */}
-          <div className="text-center animate-fade-in-up mb-16">
+          <div className="text-center mb-16" style={{ animation: 'fade-in 0.7s ease-out both' }}>
             <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
               Let&apos;s Work{' '}
               <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
@@ -126,7 +126,7 @@ const Contact = () => {
 
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info Section */}
-            <div className="animate-fade-in-up">
+            <ScrollReveal>
               <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
                 <h2 className="text-2xl font-semibold text-webdev-silver mb-6">
                   Get In Touch
@@ -217,10 +217,10 @@ const Contact = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Contact Form Section */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <ScrollReveal delay={150}>
               <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border">
                 {isSubmitted ? (
                   <div className="text-center py-12">
@@ -355,8 +355,7 @@ const Contact = () => {
                   </>
                 )}
               </div>
-            </div>
-          </div>
+            </ScrollReveal>
         </div>
 
         {/* SVG Gradient Definition */}
