@@ -205,7 +205,7 @@ const HeroSection = () => {
           style={{ transitionDelay: '250ms' }}
         >
           {/* Desktop/tablet: inline layout */}
-          <span className="hidden sm:inline sm:pl-6 md:pl-8">
+          <span className="hidden sm:inline sm:pl-10 md:pl-14">
             <span className="text-webdev-silver">Ready to </span>
             <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold inline-flex justify-center" style={{ minWidth: '320px', width: '320px' }}>
               <span className="text-left w-full">
