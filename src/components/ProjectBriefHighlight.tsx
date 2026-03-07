@@ -31,17 +31,6 @@ const ProjectBriefHighlight = () => {
             </div>
           </div>
           
-          {/* Image - visible on mobile/tablet between header and content, stacked */}
-          <div className="animate-fade-in-up lg:hidden mb-12">
-            <div className="relative max-w-md mx-auto">
-              <img 
-                src={highlightImage} 
-                alt="AI-powered project planning assistant"
-                className="w-full rounded-2xl shadow-2xl"
-              />
-            </div>
-          </div>
-
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             
             {/* Content - centered on tablet, left-aligned on desktop */}
@@ -59,6 +48,17 @@ const ProjectBriefHighlight = () => {
                   LaunchPad
                 </span>
               </h3>
+
+              {/* Image - visible on mobile/tablet between headings and supporting text */}
+              <div className="lg:hidden mb-8">
+                <div className="relative max-w-md mx-auto">
+                  <img 
+                    src={highlightImage} 
+                    alt="AI-powered project planning assistant"
+                    className="w-full rounded-2xl shadow-2xl"
+                  />
+                </div>
+              </div>
               
               <p className="text-xl text-webdev-soft-gray mb-8 leading-relaxed">
                 Use our AI-powered LaunchPad to transform your ideas into action. 
