@@ -356,6 +356,7 @@ const Contact = () => {
                 )}
               </div>
             </ScrollReveal>
+          </div>
         </div>
 
         {/* SVG Gradient Definition */}
