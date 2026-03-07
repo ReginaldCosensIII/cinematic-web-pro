@@ -5,6 +5,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
 import StructuredData from '@/components/StructuredData';
+import ScrollReveal from '@/components/ScrollReveal';
+import SmokeBackground from '@/components/SmokeBackground';
 
 const Services = () => {
   const services = [
@@ -142,13 +144,14 @@ const Services = () => {
       />
       
       <div className="min-h-screen bg-webdev-black">
+        <SmokeBackground />
         <Header />
         
-        <main className="pt-24 pb-16 px-6">
+        <main className="pt-24 pb-16 px-6 relative z-10">
           <div className="max-w-6xl mx-auto">
             {/* Header Section */}
             <header className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
-              <div className="space-y-6">
+              <div className="space-y-6" style={{ animation: 'fade-in 0.7s ease-out both' }}>
                 <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect border border-webdev-glass-border">
                   <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
                   <span className="text-webdev-silver text-sm">Professional services</span>
@@ -172,8 +175,8 @@ const Services = () => {
               {services.map((service, index) => {
                 const IconComponent = service.icon;
                 return (
+                  <ScrollReveal key={service.title} delay={index * 80}>
                   <article
-                    key={service.title}
                     id={service.title.toLowerCase().replace(/\s+/g, '-')}
                     className="group glass-effect hover:glass-border rounded-xl p-8 md:p-12 border border-webdev-glass-border transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10"
                   >
@@ -258,11 +261,12 @@ const Services = () => {
                     </div>
                     
                   </article>
+                  </ScrollReveal>
                 );
               })}
             </div>
 
-            {/* CTA Section */}
+            <ScrollReveal>
             <section className="mt-20 text-center">
               <div className="glass-effect rounded-xl p-8 md:p-12 border border-webdev-glass-border">
                 <h2 className="text-3xl md:text-4xl font-light text-webdev-silver mb-4">
@@ -287,6 +291,7 @@ const Services = () => {
                 </div>
               </div>
             </section>
+            </ScrollReveal>
           </div>
         </main>
 
