@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import ProjectBriefChat from '@/components/ProjectBriefChat';
 import ProTipsCarousel from '@/components/ProTipsCarousel';
+import ScrollReveal from '@/components/ScrollReveal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
 import heroImage from '@/assets/project-brief-hero.jpg';
@@ -116,7 +117,7 @@ const ProjectBriefGenerator = () => {
               </div>
             </div>
 
-            {/* Launch Process Steps */}
+            <ScrollReveal>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
               <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
@@ -169,7 +170,8 @@ const ProjectBriefGenerator = () => {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
+            </ScrollReveal>
         ) : (
           <div className="container mx-auto px-6 py-8">
             {/* Chat Header */}
