@@ -62,11 +62,17 @@ const Dashboard = () => {
           <div className="flex gap-6 lg:gap-8">
             {/* Sidebar */}
             <div className={`
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
+              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out bg-webdev-black' : 'hidden lg:block w-64 flex-shrink-0'}
               ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
             `}>
               {isMobile && (
-                <div className="pt-24">
+                <div className="pt-24 relative">
+                  <button
+                    onClick={() => setSidebarOpen(false)}
+                    className="absolute top-6 right-4 z-50 glass-effect rounded-xl p-2 border border-webdev-glass-border"
+                  >
+                    <X className="w-5 h-5 text-webdev-silver" />
+                  </button>
                   <DashboardSidebar />
                 </div>
               )}
