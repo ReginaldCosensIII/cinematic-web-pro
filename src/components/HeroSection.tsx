@@ -118,8 +118,8 @@ const HeroSection = () => {
 
   // Symmetrical orb positions: one mirrors the other based on mouse
   const orbOffset = {
-    x: (mousePosition.x - 0.5) * 40,
-    y: (mousePosition.y - 0.5) * 30,
+    x: (mousePosition.x - 0.5) * 120,
+    y: (mousePosition.y - 0.5) * 90,
   };
 
   return (
