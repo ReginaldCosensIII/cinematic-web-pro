@@ -82,7 +82,7 @@ const Dashboard = () => {
             )}
             
             {/* Main Content */}
-            <div className={`flex-1 min-w-0 space-y-6 md:space-y-8 ${isMobile ? 'ml-0' : ''}`}>
+            <div className={`flex-1 min-w-0 space-y-6 md:space-y-8 ${isMobile ? 'ml-0 mt-14' : ''}`}>
               <DashboardWelcome user={user} />
               <div className="overflow-x-auto">
                 <ProjectOverview />
