@@ -76,10 +76,10 @@ const projects: Project[] = [
 ];
 
 const StatusBadge = ({ status }: { status: string }) => (
-  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md ${
+  <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg ${
     status === 'Internal LAN'
-      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-      : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+      ? 'bg-amber-950/90 text-amber-200 border border-amber-600/50'
+      : 'bg-emerald-950/90 text-emerald-200 border border-emerald-600/50'
   }`}>
     {status === 'Internal LAN' && <Lock className="w-3 h-3" />}
     {status}
@@ -87,7 +87,7 @@ const StatusBadge = ({ status }: { status: string }) => (
 );
 
 const TypeBadge = ({ type }: { type: 'professional' | 'personal' }) => (
-  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md bg-webdev-gradient-blue/20 text-blue-300 border border-blue-500/30">
+  <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg bg-webdev-darker-gray/90 text-blue-200 border border-blue-500/50">
     {type === 'professional' ? 'Professional' : 'Personal'}
   </span>
 );

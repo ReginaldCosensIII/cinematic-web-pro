@@ -32,6 +32,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import ProjectBriefGenerator from "./pages/ProjectBriefGenerator";
 import Services from "./pages/Services";
+import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -66,6 +67,7 @@ function AppContent() {
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/project-brief" element={<ProjectBriefGenerator />} />
       <Route path="/services" element={<Services />} />
+      <Route path="/portfolio" element={<Portfolio />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
