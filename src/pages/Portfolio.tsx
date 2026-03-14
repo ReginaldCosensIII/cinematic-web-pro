@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import StructuredData from '@/components/StructuredData';
+import SmokeBackground from '@/components/SmokeBackground';
 import SmokeBackground from '@/components/SmokeBackground';
 import ScrollReveal from '@/components/ScrollReveal';
 import { Button } from '@/components/ui/button';
