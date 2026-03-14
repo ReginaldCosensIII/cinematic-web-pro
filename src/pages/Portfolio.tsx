@@ -119,15 +119,7 @@ const Portfolio = () => {
       <SEOHead
         title="Portfolio | WebDevPro — Recent Work & Case Studies"
         description="Explore a curated collection of professional and personal web development projects. From corporate sites to full-stack apps, see the work behind WebDevPro."
-        canonical="https://webdevpro.io/portfolio"
-      />
-      <StructuredData
-        type="WebPage"
-        data={{
-          name: "Portfolio — WebDevPro",
-          description: "A curated showcase of professional web development projects by Reggie Cosens.",
-          url: "https://webdevpro.io/portfolio"
-        }}
+        canonicalUrl="https://webdevpro.io/portfolio"
       />
       <SmokeBackground />
       <Header />

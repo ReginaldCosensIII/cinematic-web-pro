@@ -46,16 +46,12 @@ const Dashboard = () => {
       <main className="relative z-10 pt-24 md:pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           {/* Mobile Sidebar Toggle */}
-          {isMobile && (
+          {isMobile && !sidebarOpen && (
             <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
+              onClick={() => setSidebarOpen(true)}
+              className="fixed top-20 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
             >
-              {sidebarOpen ? (
-                <X className="w-5 h-5 text-webdev-silver" />
-              ) : (
-                <Menu className="w-5 h-5 text-webdev-silver" />
-              )}
+              <Menu className="w-5 h-5 text-webdev-silver" />
             </button>
           )}
 
