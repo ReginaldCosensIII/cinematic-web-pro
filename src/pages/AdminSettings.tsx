@@ -71,7 +71,7 @@ const AdminSettings = () => {
 
   if (authLoading || adminLoading) {
     return (
-      <div className="min-h-screen bg-webdev-black flex items-center justify-center">
+      <div className="min-h-screen theme-bg flex items-center justify-center">
         <div className="text-webdev-silver">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue mx-auto mb-4"></div>
           Verifying permissions...
