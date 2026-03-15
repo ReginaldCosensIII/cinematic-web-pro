@@ -36,7 +36,6 @@ const Index = () => {
     ]
   };
 
-  // Service structured data
   const serviceData = {
     name: "Custom Web Development Services",
     description: "Professional web development services including custom website design, full-stack development, and AI integration.",
@@ -48,7 +47,6 @@ const Index = () => {
     serviceType: "Web Development"
   };
 
-  // FAQ structured data
   const faqData = {
     questions: [
       {
@@ -85,19 +83,14 @@ const Index = () => {
       <StructuredData type="service" data={serviceData} />
       <StructuredData type="faq" data={faqData} />
       
-      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-        {/* Skip to content link for accessibility */}
+      <div className="min-h-screen theme-bg relative overflow-hidden">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-webdev-gradient-blue text-white px-4 py-2 rounded-md z-50">
           Skip to main content
         </a>
         
-        {/* Animated smoke background */}
         <SmokeBackground />
-        
-        {/* Glassmorphic header with semantic nav */}
         <Header />
         
-        {/* Main content with semantic structure */}
         <main id="main-content" className="relative z-10" role="main">
           <HeroSection />
           <div className="space-y-12">
@@ -134,15 +127,12 @@ const Index = () => {
           </div>
         </main>
         
-        {/* Glassmorphic footer with semantic footer */}
         <Footer />
         
-        {/* AI Chatbot with proper accessibility */}
         <aside role="complementary" aria-label="AI Assistant">
           <ChatBot />
         </aside>
         
-        {/* Lead Capture - multiple triggers on homepage */}
         <LeadCapture type="multiple" />
       </div>
     </PerformanceOptimizer>
