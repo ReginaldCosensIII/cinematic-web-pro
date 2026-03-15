@@ -63,7 +63,7 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Custom WebDevPro theme colors
+				// Custom WebDevPro theme colors - these remain as fixed brand colors
 				'webdev': {
 					'black': '#000000',
 					'dark-gray': '#0a0a0a',
@@ -74,6 +74,14 @@ export default {
 					'glass-border': 'rgba(192, 192, 192, 0.1)',
 					'gradient-blue': '#4285f4',
 					'gradient-purple': '#8a2be2'
+				},
+				// Theme-aware semantic colors
+				'wdp': {
+					'bg': 'hsl(var(--webdev-bg))',
+					'bg-secondary': 'hsl(var(--webdev-bg-secondary))',
+					'bg-tertiary': 'hsl(var(--webdev-bg-tertiary))',
+					'text': 'hsl(var(--webdev-text-primary))',
+					'text-secondary': 'hsl(var(--webdev-text-secondary))',
 				}
 			},
 			borderRadius: {
@@ -83,79 +91,35 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				},
 				'smoke-float': {
-					'0%': {
-						transform: 'translateY(100vh) scale(0.8)',
-						opacity: '0'
-					},
-					'50%': {
-						opacity: '0.3'
-					},
-					'100%': {
-						transform: 'translateY(-100vh) scale(1.2)',
-						opacity: '0'
-					}
+					'0%': { transform: 'translateY(100vh) scale(0.8)', opacity: '0' },
+					'50%': { opacity: '0.3' },
+					'100%': { transform: 'translateY(-100vh) scale(1.2)', opacity: '0' }
 				},
 				'smoke-drift': {
-					'0%': {
-						transform: 'translateX(-50px) rotate(0deg)',
-						opacity: '0.2'
-					},
-					'50%': {
-						transform: 'translateX(50px) rotate(180deg)',
-						opacity: '0.4'
-					},
-					'100%': {
-						transform: 'translateX(-50px) rotate(360deg)',
-						opacity: '0.2'
-					}
+					'0%': { transform: 'translateX(-50px) rotate(0deg)', opacity: '0.2' },
+					'50%': { transform: 'translateX(50px) rotate(180deg)', opacity: '0.4' },
+					'100%': { transform: 'translateX(-50px) rotate(360deg)', opacity: '0.2' }
 				},
 				'fade-in-up': {
-					'0%': {
-						opacity: '0',
-						transform: 'translateY(30px)'
-					},
-					'100%': {
-						opacity: '1',
-						transform: 'translateY(0)'
-					}
+					'0%': { opacity: '0', transform: 'translateY(30px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
 				},
 				'bounce-slow': {
-					'0%, 100%': {
-						transform: 'translateY(0)',
-						animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)'
-					},
-					'50%': {
-						transform: 'translateY(-25%)',
-						animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)'
-					}
+					'0%, 100%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' },
+					'50%': { transform: 'translateY(-25%)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' }
 				},
 				'scroll-indicator': {
-					'0%': {
-						opacity: '0'
-					},
-					'50%': {
-						opacity: '1'
-					},
-					'100%': {
-						opacity: '0',
-						transform: 'translateY(20px)'
-					}
+					'0%': { opacity: '0' },
+					'50%': { opacity: '1' },
+					'100%': { opacity: '0', transform: 'translateY(20px)' }
 				}
 			},
 			animation: {

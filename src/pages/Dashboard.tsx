@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-webdev-black flex items-center justify-center">
+      <div className="min-h-screen theme-bg flex items-center justify-center">
         <div className="text-webdev-silver">Loading...</div>
       </div>
     );
@@ -39,7 +39,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+    <div className="min-h-screen theme-bg relative overflow-hidden">
       <SmokeBackground />
       <Header />
       
@@ -58,7 +58,7 @@ const Dashboard = () => {
           <div className="flex gap-6 lg:gap-8">
             {/* Sidebar */}
             <div className={`
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out bg-webdev-black' : 'hidden lg:block w-64 flex-shrink-0'}
+              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out theme-bg' : 'hidden lg:block w-64 flex-shrink-0'}
               ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
             `}>
               {isMobile && (

@@ -1,7 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const SmokeBackground = () => {
+  const { theme } = useTheme();
   const [smokeElements, setSmokeElements] = useState<Array<{
     id: number;
     x: number;
@@ -12,7 +14,6 @@ const SmokeBackground = () => {
   }>>([]);
 
   useEffect(() => {
-    // Generate more smoke elements for better coverage
     const elements = Array.from({ length: 12 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
@@ -27,13 +28,21 @@ const SmokeBackground = () => {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Base gradient overlay with more opacity */}
-      <div className="absolute inset-0 bg-gradient-to-b from-webdev-black via-webdev-dark-gray to-webdev-black opacity-95" />
+      {/* Base gradient overlay */}
+      {theme === 'dark' ? (
+        <div className="absolute inset-0 bg-gradient-to-b from-webdev-black via-webdev-dark-gray to-webdev-black opacity-95" />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-white to-gray-50 opacity-95" />
+      )}
       
-      {/* Additional atmospheric layers - changed to silver tones */}
-      <div className="absolute inset-0 bg-gradient-radial from-webdev-silver/5 via-transparent to-webdev-silver/3 opacity-40" />
+      {/* Additional atmospheric layers */}
+      {theme === 'dark' ? (
+        <div className="absolute inset-0 bg-gradient-radial from-webdev-silver/5 via-transparent to-webdev-silver/3 opacity-40" />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-radial from-webdev-gradient-blue/5 via-transparent to-webdev-gradient-purple/3 opacity-30" />
+      )}
       
-      {/* Animated smoke elements with silver/black tones */}
+      {/* Animated smoke elements */}
       {smokeElements.map((element) => (
         <div
           key={element.id}
@@ -49,7 +58,7 @@ const SmokeBackground = () => {
         />
       ))}
       
-      {/* Additional drifting elements with more subtle visibility */}
+      {/* Additional drifting elements */}
       {smokeElements.slice(0, 6).map((element) => (
         <div
           key={`drift-${element.id}`}
@@ -65,7 +74,7 @@ const SmokeBackground = () => {
         />
       ))}
       
-      {/* Floating particles for extra atmosphere */}
+      {/* Floating particles */}
       {smokeElements.slice(0, 8).map((element) => (
         <div
           key={`particle-${element.id}`}

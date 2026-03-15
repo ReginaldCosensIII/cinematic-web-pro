@@ -114,7 +114,7 @@ const Portfolio = () => {
   const filtered = activeCategory === 'All' ? projects : projects.filter(p => p.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+    <div className="min-h-screen theme-bg relative overflow-hidden">
       <SEOHead
         title="Portfolio | WebDevPro — Recent Work & Case Studies"
         description="Explore a curated collection of professional and personal web development projects. From corporate sites to full-stack apps, see the work behind WebDevPro."

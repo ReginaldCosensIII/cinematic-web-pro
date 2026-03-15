@@ -112,7 +112,7 @@ const Blog = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+      <div className="min-h-screen theme-bg relative overflow-hidden">
         <SmokeBackground />
         <Header />
         <main className="relative z-10 pt-32 pb-20">
@@ -152,7 +152,7 @@ const Blog = () => {
       />
       <StructuredData type="service" data={blogData} />
       
-      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+      <div className="min-h-screen theme-bg relative overflow-hidden">
         <SmokeBackground />
         <Header />
       
