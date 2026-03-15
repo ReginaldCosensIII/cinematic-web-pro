@@ -152,7 +152,7 @@ const Blog = () => {
       />
       <StructuredData type="service" data={blogData} />
       
-      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
+      <div className="min-h-screen theme-bg relative overflow-hidden">
         <SmokeBackground />
         <Header />
       

@@ -58,7 +58,7 @@ const Dashboard = () => {
           <div className="flex gap-6 lg:gap-8">
             {/* Sidebar */}
             <div className={`
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out bg-webdev-black' : 'hidden lg:block w-64 flex-shrink-0'}
+              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out theme-bg' : 'hidden lg:block w-64 flex-shrink-0'}
               ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
             `}>
               {isMobile && (
