@@ -23,7 +23,7 @@ const NotFound = () => {
         description="The page you're looking for doesn't exist. Return to our homepage or contact us for assistance with your web development needs."
         noIndex={true}
       />
-      <div className="min-h-screen bg-webdev-black relative">
+      <div className="min-h-screen theme-bg relative">
         <Header />
         
         <div className="container mx-auto px-6 py-20">

@@ -143,7 +143,7 @@ const Services = () => {
         }}
       />
       
-      <div className="min-h-screen bg-webdev-black">
+      <div className="min-h-screen theme-bg">
         <SmokeBackground />
         <Header />
         
