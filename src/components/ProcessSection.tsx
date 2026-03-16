@@ -80,10 +80,10 @@ const ProcessSection = () => {
                         </div>
                         
                         <div className="flex flex-col items-center mb-4">
-                          <div className="relative w-12 h-12 rounded-full mb-3">
+                          <div className="icon-gradient-container relative w-12 h-12 rounded-full mb-3">
                             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                              <div className={`w-full h-full rounded-full flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : 'bg-white'}`}>
-                                <IconComponent className="w-6 h-6" stroke="url(#process-icon-gradient)" fill="none" strokeWidth={2} />
+                              <div className={`icon-inner w-full h-full rounded-full flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
+                                <IconComponent className="w-6 h-6" stroke={isDark ? "url(#process-icon-gradient)" : "white"} fill="none" strokeWidth={2} />
                               </div>
                             </div>
                           </div>
@@ -108,8 +108,8 @@ const ProcessSection = () => {
                 );
               })}
             </CarouselContent>
-            <CarouselPrevious className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'} -left-16`} />
-            <CarouselNext className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'} -right-16`} />
+            <CarouselPrevious className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-wdp-text-secondary hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-800'} -left-16`} />
+            <CarouselNext className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-wdp-text-secondary hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-800'} -right-16`} />
           </Carousel>
 
           <div className="mt-8 flex justify-center">

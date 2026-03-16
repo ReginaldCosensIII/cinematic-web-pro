@@ -7,6 +7,7 @@ import SmokeBackground from '../components/SmokeBackground';
 import { Calendar, Clock, ArrowRight, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -37,10 +38,10 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
+  useEffect(() => { fetchArticles(); }, []);
 
   useEffect(() => {
     if (searchTerm.trim() === '') {
@@ -63,58 +64,37 @@ const Blog = () => {
         .select('id, title, slug, excerpt, published_at, tags, thumbnail_url, is_pinned')
         .eq('is_published', true)
         .order('published_at', { ascending: false });
-
       if (error) throw error;
-      
       const articles = data || [];
       setAllArticles(articles);
-
-      // Find pinned article or use most recent
       const pinned = articles.find(article => article.is_pinned);
       const featured = pinned || articles[0];
       setFeaturedArticle(featured || null);
-
-      // Get regular articles (exclude featured)
       const regular = articles.filter(article => article.id !== featured?.id);
       setRegularArticles(regular);
     } catch (error) {
       console.error('Error fetching articles:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load blog articles",
-        variant: "destructive"
-      });
+      toast({ title: "Error", description: "Failed to load blog articles", variant: "destructive" });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleArticleClick = (slug: string) => {
-    navigate(`/blog/${slug}`);
-  };
-
+  const handleArticleClick = (slug: string) => navigate(`/blog/${slug}`);
   const calculateReadTime = (excerpt: string) => {
     const words = excerpt?.split(' ').length || 0;
-    const readTime = Math.ceil(words / 200);
-    return `${readTime} min read`;
+    return `${Math.ceil(words / 200)} min read`;
   };
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE);
   const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
-  const endIndex = startIndex + ARTICLES_PER_PAGE;
-  const currentArticles = filteredArticles.slice(startIndex, endIndex);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const currentArticles = filteredArticles.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
+  const handlePageChange = (page: number) => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
   if (loading) {
     return (
       <div className="min-h-screen theme-bg relative overflow-hidden">
-        <SmokeBackground />
-        <Header />
+        <SmokeBackground /><Header />
         <main className="relative z-10 pt-32 pb-20">
           <div className="max-w-6xl mx-auto px-6">
             <div className="flex items-center justify-center p-8">
@@ -127,14 +107,10 @@ const Blog = () => {
     );
   }
 
-  // Blog page structured data
   const blogData = {
     name: "Web Development Blog - WebDevPro.io",
     description: "Latest insights, tutorials, and trends in web development, design, and technology.",
-    provider: {
-      name: "WebDevPro.io - Reggie Cosens",
-      url: "https://webdevpro.io"
-    },
+    provider: { name: "WebDevPro.io - Reggie Cosens", url: "https://webdevpro.io" },
     areaServed: "Worldwide",
     serviceType: "Educational Content"
   };
@@ -144,96 +120,72 @@ const Blog = () => {
       <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
       <SEOHead 
         title="Web Development Blog | Latest Insights & Tutorials - WebDevPro.io"
-        description="Stay updated with the latest web development trends, tutorials, and insights. Expert advice on React, TypeScript, SEO, and modern web technologies from Reggie Cosens."
-        keywords="web development blog, React tutorials, TypeScript guides, SEO tips, web design trends, JavaScript tutorials, frontend development, backend development, freelance web developer"
+        description="Stay updated with the latest web development trends, tutorials, and insights."
+        keywords="web development blog, React tutorials, TypeScript guides, SEO tips"
         canonicalUrl="https://webdevpro.io/blog"
-        ogImage="https://webdevpro.io/og-blog.jpg"
-        twitterImage="https://webdevpro.io/twitter-blog.jpg"
       />
       <StructuredData type="service" data={blogData} />
       
       <div className="min-h-screen theme-bg relative overflow-hidden">
-        <SmokeBackground />
-        <Header />
+        <SmokeBackground /><Header />
       
         <main className="relative z-10 pt-32 pb-20">
           <div className="max-w-6xl mx-auto px-4 md:px-6">
-            {/* Page Header */}
             <div className="text-center animate-fade-in-up mb-16">
-              <h1 className="text-4xl md:text-5xl font-light text-webdev-silver tracking-wide mb-6">
+              <h1 className="text-4xl md:text-5xl font-light text-wdp-text tracking-wide mb-6">
                 Web Development{' '}
-                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                  Blog
-                </span>
+                <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">Blog</span>
               </h1>
-              <p className="text-webdev-soft-gray text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
+              <p className="text-wdp-text-secondary text-lg tracking-wide max-w-2xl mx-auto leading-relaxed">
                 Expert insights, tutorials, and the latest trends in web development, React, TypeScript, and modern web technologies.
               </p>
             </div>
 
-          {/* Search Bar */}
           <div className="mb-12 animate-fade-in-up">
             <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-webdev-soft-gray w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-xl text-webdev-silver placeholder-webdev-soft-gray focus:outline-none focus:border-webdev-gradient-blue focus:ring-1 focus:ring-webdev-gradient-blue transition-all"
-              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-wdp-text-secondary w-5 h-5" />
+              <input type="text" placeholder="Search articles..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 theme-input rounded-xl placeholder:text-wdp-text-secondary focus:ring-1 focus:ring-webdev-gradient-blue transition-all" />
             </div>
           </div>
 
-          {/* Featured Article (only show if not searching) */}
           {!searchTerm && featuredArticle && (
             <div className="mb-16 animate-fade-in-up">
-              <div className="glass-effect rounded-2xl p-6 md:p-8 border border-webdev-glass-border hover:border-webdev-glass-border/50 transition-all duration-300 cursor-pointer"
+              <div className="glass-effect rounded-2xl p-6 md:p-8 transition-all duration-300 cursor-pointer"
                    onClick={() => handleArticleClick(featuredArticle.slug)}>
                 <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
                      {featuredArticle.thumbnail_url && (
                        <div className="lg:w-1/2">
-                         <img
-                           src={featuredArticle.thumbnail_url}
-                           alt={`${featuredArticle.title} - Featured web development article thumbnail`}
-                           className="w-full h-64 md:h-80 object-cover rounded-lg"
-                         />
+                         <img src={featuredArticle.thumbnail_url} alt={`${featuredArticle.title} - Featured article`}
+                           className="w-full h-64 md:h-80 object-cover rounded-lg" />
                        </div>
                      )}
                   <div className={`${featuredArticle.thumbnail_url ? 'lg:w-1/2' : 'w-full'} flex flex-col justify-between`}>
                     <div>
                       {featuredArticle.is_pinned && (
-                        <span className="inline-block px-3 py-1 bg-webdev-gradient-blue/20 text-webdev-gradient-blue text-sm rounded-full mb-4">
-                          Featured
-                        </span>
+                        <span className="inline-block px-3 py-1 bg-webdev-gradient-blue/20 text-webdev-gradient-blue text-sm rounded-full mb-4">Featured</span>
                       )}
-                      <h2 className="text-2xl md:text-3xl font-semibold text-webdev-silver mb-4 leading-tight hover:text-webdev-gradient-blue transition-colors">
+                      <h2 className="text-2xl md:text-3xl font-semibold text-wdp-text mb-4 leading-tight hover:text-webdev-gradient-blue transition-colors">
                         {featuredArticle.title}
                       </h2>
-                      <p className="text-webdev-soft-gray mb-6 leading-relaxed text-base md:text-lg">
+                      <p className="text-wdp-text-secondary mb-6 leading-relaxed text-base md:text-lg">
                         {featuredArticle.excerpt || 'No excerpt available.'}
                       </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-webdev-glass-border gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-border gap-4">
                       <div className="flex items-center space-x-4">
-                        <div className="flex items-center text-webdev-soft-gray text-sm">
+                        <div className="flex items-center text-wdp-text-secondary text-sm">
                           <Calendar className="w-4 h-4 mr-2" />
-                          {new Date(featuredArticle.published_at).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric' 
-                          })}
+                          {new Date(featuredArticle.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                         </div>
-                        <div className="flex items-center text-webdev-soft-gray text-sm">
+                        <div className="flex items-center text-wdp-text-secondary text-sm">
                           <Clock className="w-4 h-4 mr-2" />
                           {calculateReadTime(featuredArticle.excerpt || '')}
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
                         {featuredArticle.tags && featuredArticle.tags.slice(0, 2).map(tag => (
-                          <span key={tag} className="px-2 py-1 bg-webdev-darker-gray text-webdev-soft-gray text-xs rounded">
-                            {tag}
-                          </span>
+                          <span key={tag} className={`px-2 py-1 text-xs rounded ${isDark ? 'bg-webdev-darker-gray text-wdp-text-secondary' : 'bg-gray-100 text-gray-600'}`}>{tag}</span>
                         ))}
                         <ArrowRight className="w-4 h-4 text-webdev-gradient-blue" />
                       </div>
@@ -244,47 +196,32 @@ const Blog = () => {
             </div>
           )}
 
-          {/* Articles Grid */}
           {currentArticles.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-webdev-soft-gray text-lg">
-                {searchTerm ? 'No articles found matching your search.' : 'No articles available at the moment.'}
-              </p>
+              <p className="text-wdp-text-secondary text-lg">{searchTerm ? 'No articles found matching your search.' : 'No articles available at the moment.'}</p>
             </div>
           ) : (
             <>
               <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12">
                 {currentArticles.map((article, index) => (
                   <div key={article.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                    <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border hover:border-webdev-glass-border/50 transition-all duration-300 cursor-pointer h-full flex flex-col"
+                    <div className="glass-effect rounded-2xl p-6 transition-all duration-300 cursor-pointer h-full flex flex-col"
                          onClick={() => handleArticleClick(article.slug)}>
                        {article.thumbnail_url && (
                          <div className="mb-4">
-                           <img
-                             src={article.thumbnail_url}
-                             alt={`${article.title} - Web development article thumbnail`}
-                             className="w-full h-48 object-cover rounded-lg"
-                           />
+                           <img src={article.thumbnail_url} alt={`${article.title} thumbnail`} className="w-full h-48 object-cover rounded-lg" />
                          </div>
                        )}
                       <div className="flex flex-col flex-grow">
                         <div className="flex-grow">
-                          <h3 className="text-lg md:text-xl font-semibold text-webdev-silver mb-3 leading-tight hover:text-webdev-gradient-blue transition-colors">
-                            {article.title}
-                          </h3>
-                          <p className="text-webdev-soft-gray mb-4 leading-relaxed text-sm md:text-base">
-                            {article.excerpt || 'No excerpt available.'}
-                          </p>
+                          <h3 className="text-lg md:text-xl font-semibold text-wdp-text mb-3 leading-tight hover:text-webdev-gradient-blue transition-colors">{article.title}</h3>
+                          <p className="text-wdp-text-secondary mb-4 leading-relaxed text-sm md:text-base">{article.excerpt || 'No excerpt available.'}</p>
                         </div>
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-webdev-glass-border gap-2 sm:gap-4">
-                          <div className="flex items-center space-x-3 text-webdev-soft-gray text-xs md:text-sm">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-border gap-2 sm:gap-4">
+                          <div className="flex items-center space-x-3 text-wdp-text-secondary text-xs md:text-sm">
                             <div className="flex items-center">
                               <Calendar className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
-                              {new Date(article.published_at).toLocaleDateString('en-US', { 
-                                year: 'numeric', 
-                                month: 'short', 
-                                day: 'numeric' 
-                              })}
+                              {new Date(article.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                             </div>
                             <div className="flex items-center">
                               <Clock className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
@@ -294,9 +231,7 @@ const Blog = () => {
                           <div className="flex items-center justify-between sm:justify-end space-x-2">
                             <div className="flex space-x-1">
                               {article.tags && article.tags.slice(0, 2).map(tag => (
-                                <span key={tag} className="px-2 py-1 bg-webdev-darker-gray text-webdev-soft-gray text-xs rounded">
-                                  {tag}
-                                </span>
+                                <span key={tag} className={`px-2 py-1 text-xs rounded ${isDark ? 'bg-webdev-darker-gray text-wdp-text-secondary' : 'bg-gray-100 text-gray-600'}`}>{tag}</span>
                               ))}
                             </div>
                             <ArrowRight className="w-4 h-4 text-webdev-gradient-blue flex-shrink-0" />
@@ -308,70 +243,35 @@ const Blog = () => {
                 ))}
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex items-center justify-center space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50 disabled:opacity-50"
-                  >
-                    <ChevronLeft className="w-4 h-4 mr-1" />
-                    Previous
+                  <Button variant="ghost" size="sm" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}
+                    className="text-wdp-text-secondary hover:text-wdp-text disabled:opacity-50">
+                    <ChevronLeft className="w-4 h-4 mr-1" />Previous
                   </Button>
-                  
                   <div className="flex space-x-1">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                      <Button
-                        key={page}
-                        variant={currentPage === page ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => handlePageChange(page)}
-                        className={`${
-                          currentPage === page
-                            ? "bg-webdev-gradient-blue text-white"
-                            : "text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50"
-                        }`}
-                      >
+                      <Button key={page} variant={currentPage === page ? "default" : "ghost"} size="sm" onClick={() => handlePageChange(page)}
+                        className={currentPage === page ? "bg-webdev-gradient-blue text-white" : "text-wdp-text-secondary hover:text-wdp-text"}>
                         {page}
                       </Button>
                     ))}
                   </div>
-
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50 disabled:opacity-50"
-                  >
-                    Next
-                    <ChevronRight className="w-4 h-4 ml-1" />
+                  <Button variant="ghost" size="sm" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}
+                    className="text-wdp-text-secondary hover:text-wdp-text disabled:opacity-50">
+                    Next<ChevronRight className="w-4 h-4 ml-1" />
                   </Button>
                 </div>
               )}
 
-              {/* Newsletter Signup */}
               <div className="mt-16 animate-fade-in-up">
-                <div className="glass-effect rounded-2xl p-8 border border-webdev-glass-border text-center max-w-2xl mx-auto">
-                  <h2 className="text-2xl md:text-3xl font-semibold text-webdev-silver mb-4">
-                    Stay Updated
-                  </h2>
-                  <p className="text-webdev-soft-gray mb-6 leading-relaxed">
-                    Get the latest web development insights delivered to your inbox weekly.
-                  </p>
+                <div className="glass-effect rounded-2xl p-8 text-center max-w-2xl mx-auto">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-wdp-text mb-4">Stay Updated</h2>
+                  <p className="text-wdp-text-secondary mb-6 leading-relaxed">Get the latest web development insights delivered to your inbox weekly.</p>
                   <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                    <input
-                      type="email"
-                      placeholder="Enter your email address"
-                      className="flex-1 px-4 py-3 bg-webdev-darker-gray/50 border border-webdev-glass-border rounded-xl text-webdev-silver placeholder-webdev-soft-gray focus:outline-none focus:border-webdev-gradient-blue focus:ring-1 focus:ring-webdev-gradient-blue transition-all"
-                      required
-                    />
-                    <Button variant="glass" className="px-6 py-3">
-                      Subscribe
-                    </Button>
+                    <input type="email" placeholder="Enter your email address"
+                      className="flex-1 px-4 py-3 theme-input rounded-xl placeholder:text-wdp-text-secondary focus:ring-1 focus:ring-webdev-gradient-blue transition-all" required />
+                    <Button variant="glass" className="px-6 py-3">Subscribe</Button>
                   </form>
                 </div>
               </div>
@@ -381,8 +281,6 @@ const Blog = () => {
         </main>
         
         <Footer />
-        
-        {/* Lead Capture for blog pages */}
         <LeadCapture type="multiple" />
       </div>
     </>

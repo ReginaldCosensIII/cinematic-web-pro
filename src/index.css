@@ -99,10 +99,10 @@
 
     /* WebDevPro Light Theme Tokens */
     --webdev-bg: 0 0% 98%;
-    --webdev-bg-secondary: 0 0% 96%;
+    --webdev-bg-secondary: 220 20% 97%;
     --webdev-bg-tertiary: 220 14% 96%;
     --webdev-text-primary: 222 47% 11%;
-    --webdev-text-secondary: 215 16% 47%;
+    --webdev-text-secondary: 215 16% 40%;
     --webdev-glass-bg: 0 0% 100% / 0.7;
     --webdev-glass-border: 220 13% 80% / 0.4;
     --webdev-gradient-start: 217 90% 59%;
@@ -174,12 +174,23 @@
 /* Custom glassmorphism utilities */
 @layer utilities {
   .glass-effect {
-    background: hsla(var(--webdev-glass-bg));
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Dark mode glass: translucent dark bg with faint border */
+  .dark .glass-effect {
+    background: hsla(var(--webdev-glass-bg));
     border: 1px solid hsla(var(--webdev-glass-border));
   }
-  
+
+  /* Light mode glass: subtle gradient-tinted frosted bg */
+  .light .glass-effect {
+    background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(240,245,255,0.7) 100%);
+    border: 1px solid rgba(66, 133, 244, 0.12);
+    box-shadow: 0 2px 16px rgba(66, 133, 244, 0.06), 0 1px 4px rgba(138, 43, 226, 0.04);
+  }
+
   .glass-border {
     border: 1px solid hsla(var(--webdev-glass-border));
   }
@@ -216,6 +227,119 @@
   .theme-bg-tertiary {
     background-color: hsl(var(--webdev-bg-tertiary));
   }
+
+  /* Theme-aware icon containers */
+  .icon-gradient-container {
+    position: relative;
+  }
+
+  .dark .icon-gradient-container .icon-inner {
+    background-color: #0a0a0a;
+  }
+
+  .light .icon-gradient-container .icon-inner {
+    background: linear-gradient(135deg, #4285f4, #8a2be2);
+  }
+
+  .light .icon-gradient-container .icon-inner svg {
+    color: white;
+    stroke: white !important;
+  }
+
+  /* Theme-aware form inputs */
+  .theme-input {
+    border: 1px solid hsla(var(--webdev-glass-border));
+    color: hsl(var(--webdev-text-primary));
+  }
+
+  .dark .theme-input {
+    background-color: #1a1a1a;
+  }
+
+  .light .theme-input {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(66, 133, 244, 0.2);
+  }
+
+  .light .theme-input:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.1);
+  }
+}
+
+/* ===================== */
+/* LIGHT MODE: Button overrides */
+/* ===================== */
+
+/* Glass buttons in light mode get gradient fill */
+.light .btn-glass-themed,
+.light [data-variant="glass"] {
+  background: linear-gradient(135deg, #4285f4, #8a2be2) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3), 0 2px 8px rgba(138, 43, 226, 0.2);
+}
+
+.light .btn-glass-themed::before,
+.light [data-variant="glass"]::before,
+.light .btn-glass-themed::after,
+.light [data-variant="glass"]::after {
+  display: none !important;
+}
+
+.light .btn-glass-themed:hover,
+.light [data-variant="glass"]:hover {
+  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4), 0 4px 12px rgba(138, 43, 226, 0.3);
+  opacity: 0.95;
+}
+
+.light .btn-glass-themed svg,
+.light [data-variant="glass"] svg {
+  color: white !important;
+}
+
+/* ===================== */
+/* LIGHT MODE: Card overrides */
+/* ===================== */
+.light .glass-effect.rounded-xl,
+.light .glass-effect.rounded-2xl {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,245,255,0.85) 50%, rgba(245,240,255,0.8) 100%) !important;
+  border: 1px solid rgba(66, 133, 244, 0.15) !important;
+  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.08), 0 2px 8px rgba(138, 43, 226, 0.04);
+}
+
+.light .glass-effect.rounded-xl:hover,
+.light .glass-effect.rounded-2xl:hover {
+  border-color: rgba(66, 133, 244, 0.25) !important;
+  box-shadow: 0 8px 30px rgba(66, 133, 244, 0.12), 0 4px 12px rgba(138, 43, 226, 0.08);
+}
+
+/* ===================== */
+/* LIGHT MODE: Badge overrides */
+/* ===================== */
+.light .badge-status-live {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.2)) !important;
+  color: #065f46 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+.light .badge-status-internal {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.2)) !important;
+  color: #92400e !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+
+.light .badge-type {
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.12), rgba(138, 43, 226, 0.12)) !important;
+  color: #1e40af !important;
+  border: 1px solid rgba(66, 133, 244, 0.25) !important;
+}
+
+/* Glass-effect pill badges (small badges like "Available for new projects") */
+.light .glass-effect.rounded-full {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,245,255,0.9)) !important;
+  border: 1px solid rgba(66, 133, 244, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(66, 133, 244, 0.08);
 }
 
 /* Enhanced smoke effect background elements */
