@@ -9,6 +9,7 @@ import ChatBot from '../components/ChatBot';
 import ScrollReveal from '../components/ScrollReveal';
 import { Mail, MapPin, Phone, Send, CheckCircle, Bot } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -197,11 +198,10 @@ const Contact = () => {
                           placeholder="Tell me about your project, goals, and timeline..." required />
                       </div>
                       
-                      <button type="submit" disabled={isSubmitting} data-variant="glass"
-                        className="btn-glass-themed w-full glass-effect px-8 py-3 rounded-xl text-wdp-text hover:opacity-90 transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden border-0 before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-[calc(0.75rem-1px)] after:bg-wdp-bg-tertiary after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] flex items-center justify-center gap-2 disabled:opacity-50">
-                        <Send className="w-4 h-4 relative z-10" />
-                        <span className="relative z-10">{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                      </button>
+                      <Button type="submit" disabled={isSubmitting} variant="glass" className="w-full flex items-center justify-center gap-2 disabled:opacity-50">
+                        <Send className="w-4 h-4" />
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                      </Button>
                     </form>
                   </>
                 )}

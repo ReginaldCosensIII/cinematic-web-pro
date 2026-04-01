@@ -39,7 +39,7 @@ const Services = () => {
       <div className="max-w-6xl mx-auto">
         <header className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
           <div className="space-y-6">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect" role="status" aria-live="polite">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover" role="status" aria-live="polite">
               <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse" aria-hidden="true"></div>
               <span className="text-wdp-text text-sm">Professional services</span>
             </div>

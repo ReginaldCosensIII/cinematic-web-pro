@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Message {
   id: string;
@@ -24,6 +25,8 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
   const [isGeneratingBrief, setIsGeneratingBrief] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -34,7 +37,6 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
   }, [messages]);
 
   useEffect(() => {
-    // Welcome message
     const welcomeMessage: Message = {
       id: '1',
       role: 'assistant',
@@ -61,21 +63,17 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
     try {
       const conversationHistory = messages.map(msg => ({
         role: msg.role,
-        content: msg.content
+        content: msg.content,
       }));
 
       const { data, error } = await supabase.functions.invoke('project-brief-ai', {
         body: {
           message: inputValue,
-          conversationHistory
-        }
+          conversationHistory,
+        },
       });
 
       if (error) throw error;
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -85,13 +83,12 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-
     } catch (error) {
       console.error('Chat error:', error);
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive"
+        description: "Failed to get a response. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -103,21 +100,18 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
     try {
       const conversationHistory = messages.map(msg => ({
         role: msg.role,
-        content: msg.content
+        content: msg.content,
       }));
 
       const { data, error } = await supabase.functions.invoke('project-brief-ai', {
         body: {
-          message: "Based on our conversation, please generate a comprehensive, well-formatted project brief that summarizes all the requirements, features, timeline, and other details we've discussed. Format it professionally as if it's a document that could be submitted to a development team.",
-          conversationHistory
-        }
+          message: 'Please generate a comprehensive project brief based on our entire conversation.',
+          conversationHistory,
+          generateBrief: true,
+        },
       });
 
       if (error) throw error;
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
 
       const briefMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -127,43 +121,13 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
       };
 
       setMessages(prev => [...prev, briefMessage]);
-      
-      if (onBriefGenerated) {
-        onBriefGenerated(data.message);
-      }
-
-      // Send email notification in the background
-      try {
-        await supabase.functions.invoke('notify-project-brief', {
-          body: {
-            briefContent: data.message,
-            conversationHistory: [...conversationHistory, {
-              role: 'user',
-              content: "Based on our conversation, please generate a comprehensive, well-formatted project brief that summarizes all the requirements, features, timeline, and other details we've discussed. Format it professionally as if it's a document that could be submitted to a development team."
-            }, {
-              role: 'assistant',
-              content: data.message
-            }],
-            timestamp: new Date().toISOString()
-          }
-        });
-        console.log('Project brief notification sent successfully');
-      } catch (notificationError) {
-        console.error('Failed to send project brief notification:', notificationError);
-        // Don't throw here - we don't want to break the user experience if notification fails
-      }
-
-      toast({
-        title: "Brief Generated!",
-        description: "Your project brief has been generated successfully.",
-      });
-
+      onBriefGenerated?.(data.message);
     } catch (error) {
       console.error('Brief generation error:', error);
       toast({
         title: "Error",
         description: "Failed to generate brief. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsGeneratingBrief(false);
@@ -171,17 +135,16 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
   };
 
   const downloadBrief = () => {
-    const briefContent = messages
-      .filter(msg => msg.role === 'assistant')
-      .pop()?.content || '';
-    
-    const element = document.createElement('a');
-    const file = new Blob([briefContent], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = 'project-brief.txt';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    const lastAssistantMessage = [...messages].reverse().find(m => m.role === 'assistant');
+    if (!lastAssistantMessage) return;
+
+    const blob = new Blob([lastAssistantMessage.content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'project-brief.txt';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const restartBrief = () => {
@@ -201,7 +164,7 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
   };
 
   return (
-    <Card className="glass-effect border-webdev-glass-border h-[600px] flex flex-col">
+    <Card className="glass-effect h-[600px] flex flex-col">
       <CardContent className="p-0 flex flex-col h-full">
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
@@ -215,19 +178,19 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
               }`}>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                   message.role === 'user' 
-                    ? 'bg-webdev-darker-gray' 
+                    ? (isDark ? 'bg-webdev-darker-gray' : 'brief-chat-user-avatar bg-blue-100')
                     : 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple'
                 }`}>
                   {message.role === 'user' ? (
-                    <User className="w-4 h-4 text-webdev-silver" />
+                    <User className={`w-4 h-4 ${isDark ? 'text-webdev-silver' : 'text-blue-600'}`} />
                   ) : (
                     <Bot className="w-4 h-4 text-white" />
                   )}
                 </div>
                 <div className={`rounded-lg p-4 ${
                   message.role === 'user'
-                    ? 'bg-webdev-darker-gray text-webdev-silver'
-                    : 'bg-webdev-darker-gray/50 text-webdev-soft-gray'
+                    ? (isDark ? 'bg-webdev-darker-gray text-webdev-silver' : 'brief-chat-user-msg bg-blue-50 text-wdp-text')
+                    : (isDark ? 'bg-webdev-darker-gray/50 text-webdev-soft-gray' : 'brief-chat-bot-msg bg-gray-50 text-wdp-text')
                 }`}>
                   <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                 </div>
@@ -240,11 +203,11 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
-                <div className="bg-webdev-darker-gray/50 rounded-lg p-4">
+                <div className={`rounded-lg p-4 ${isDark ? 'bg-webdev-darker-gray/50' : 'bg-gray-50'}`}>
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-webdev-soft-gray rounded-full animate-pulse"></div>
-                    <div className="w-2 h-2 bg-webdev-soft-gray rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-webdev-soft-gray rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-wdp-text-secondary rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-wdp-text-secondary rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-wdp-text-secondary rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
               </div>
@@ -255,12 +218,12 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
 
         {/* Actions */}
         {messages.length > 4 && (
-          <div className="p-4 border-t border-webdev-glass-border">
+          <div className="p-4 border-t border-border">
             <div className="flex flex-wrap gap-2 mb-4">
               <Button
                 onClick={generateBrief}
                 disabled={isGeneratingBrief}
-                className="glass-effect border border-webdev-glass-border text-webdev-silver hover:text-white transition-all duration-300"
+                variant="glass"
               >
                 {isGeneratingBrief ? (
                   <>
@@ -273,16 +236,14 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
               </Button>
               <Button
                 onClick={downloadBrief}
-                variant="outline"
-                className="glass-effect border border-webdev-glass-border text-webdev-silver hover:text-white"
+                variant="glass"
               >
                 <Download className="w-4 h-4 mr-2" />
                 Download
               </Button>
               <Button
                 onClick={restartBrief}
-                variant="outline"
-                className="glass-effect border border-webdev-glass-border text-webdev-silver hover:text-white"
+                variant="glass"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Restart
@@ -292,14 +253,13 @@ const ProjectBriefChat = ({ onBriefGenerated }: ProjectBriefChatProps) => {
         )}
 
         {/* Input */}
-        <div className="p-4 border-t border-webdev-glass-border">
+        <div className="p-4 border-t border-border">
           <div className="flex space-x-2">
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your response..."
-              className="flex-1 bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver placeholder-webdev-soft-gray focus:border-webdev-gradient-blue"
               disabled={isLoading}
             />
             <Button

@@ -10,6 +10,7 @@ import ProTipsCarousel from '@/components/ProTipsCarousel';
 import ScrollReveal from '@/components/ScrollReveal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTheme } from '@/contexts/ThemeContext';
 import heroImage from '@/assets/project-brief-hero.jpg';
 
 const ProjectBriefGenerator = () => {
@@ -17,6 +18,8 @@ const ProjectBriefGenerator = () => {
   const [generatedBrief, setGeneratedBrief] = useState<string>('');
   const [showTips, setShowTips] = useState(false);
   const isMobile = useIsMobile();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const handleStartBrief = () => {
     setShowChat(true);
@@ -57,214 +60,178 @@ const ProjectBriefGenerator = () => {
         keywords="project brief generator, AI project planning, web development planning, project requirements, technical specifications, project scope, free project brief"
         canonicalUrl="https://webdevpro.io/project-brief"
       />
-      <div className="min-h-screen bg-webdev-black relative overflow-hidden">
-        {/* Animated smoke background */}
+      <div className="min-h-screen theme-bg relative overflow-hidden">
         <SmokeBackground />
+        <Header />
       
-      {/* Glassmorphic header */}
-      <Header />
-      
-      {/* Main content */}
-      <main className="relative z-10 pt-24">
-        {!showChat ? (
-          <div className="container mx-auto px-6 py-16">
-            {/* Hero Section */}
-            <div className="text-center max-w-5xl mx-auto mb-16">
-              <div className="flex justify-center items-center mb-8">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4 relative">
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-xl bg-webdev-dark-gray flex items-center justify-center">
-                      <Rocket className="w-6 h-6" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
+        <main className="relative z-10 pt-24">
+          {!showChat ? (
+            <div className="container mx-auto px-6 py-16">
+              {/* Hero Section */}
+              <div className="text-center max-w-5xl mx-auto mb-16">
+                <div className="flex justify-center items-center mb-8">
+                  <div className="icon-gradient-container relative w-12 h-12 rounded-xl mr-4">
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                      <div className={`icon-inner w-full h-full rounded-xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
+                        <Rocket className="w-6 h-6" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
+                      </div>
                     </div>
                   </div>
+                  <h1 className="text-5xl md:text-6xl font-bold text-wdp-text">
+                    <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
+                      LaunchPad
+                    </span>
+                  </h1>
                 </div>
-                <h1 className="text-5xl md:text-6xl font-bold text-webdev-silver">
-                  <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                    LaunchPad
-                  </span>
-                </h1>
-              </div>
-              
-              <p className="text-2xl text-webdev-soft-gray mb-8 font-medium">
-                From Idea to Action — Start Strong with LaunchPad.
-              </p>
-              
-              {/* Hero Image */}
-              <div className="mb-10 relative rounded-3xl overflow-hidden shadow-2xl">
-                <img 
-                  src={isMobile ? "/lovable-uploads/50a159ac-3cf8-460a-9638-0be1d14908a6.png" : "/lovable-uploads/d8463260-7630-4879-8871-71075ff0c11d.png"}
-                  alt={isMobile ? "AI-powered project planning assistant" : "LaunchPad AI project brief generator with checklist and flowchart visualization"}
-                  className="w-full h-64 md:h-80 object-cover"
-                />
-              </div>
-              
-              <p className="text-xl text-webdev-soft-gray mb-10 leading-relaxed max-w-3xl mx-auto">
-                Our AI-powered LaunchPad guides you through a personalized conversation to create a 
-                comprehensive project brief. Get clarity on your vision, requirements, and goals in minutes.
-              </p>
-              
-              <div className="flex justify-center">
-                <button
-                  onClick={handleStartBrief}
-                  className="glass-effect px-10 py-4 rounded-full text-webdev-silver hover:text-white transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden group border-0 before:absolute before:inset-0 before:rounded-full before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-full after:bg-webdev-darker-gray after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] text-xl flex items-center"
-                >
-                  <span className="relative z-10 flex items-center">
-                    <Rocket className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                
+                <p className="text-2xl text-wdp-text-secondary mb-8 font-medium">
+                  From Idea to Action — Start Strong with LaunchPad.
+                </p>
+                
+                {/* Hero Image */}
+                <div className="mb-10 relative rounded-3xl overflow-hidden shadow-2xl">
+                  <img 
+                    src={isMobile ? "/lovable-uploads/50a159ac-3cf8-460a-9638-0be1d14908a6.png" : "/lovable-uploads/d8463260-7630-4879-8871-71075ff0c11d.png"}
+                    alt={isMobile ? "AI-powered project planning assistant" : "LaunchPad AI project brief generator with checklist and flowchart visualization"}
+                    className="w-full h-64 md:h-80 object-cover"
+                  />
+                </div>
+                
+                <p className="text-xl text-wdp-text-secondary mb-10 leading-relaxed max-w-3xl mx-auto">
+                  Our AI-powered LaunchPad guides you through a personalized conversation to create a 
+                  comprehensive project brief. Get clarity on your vision, requirements, and goals in minutes.
+                </p>
+                
+                <div className="flex justify-center">
+                  <Button
+                    onClick={handleStartBrief}
+                    variant="glass"
+                    className="px-10 py-4 rounded-full text-xl"
+                  >
+                    <Rocket className="w-6 h-6 mr-3" />
                     Start My Brief
-                    <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
-                  </span>
-                </button>
+                    <ArrowRight className="w-6 h-6 ml-3" />
+                  </Button>
+                </div>
               </div>
-            </div>
 
-            <ScrollReveal>
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                <div className="relative z-10">
-                  <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                      <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                        <Target className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300 mb-3">Define Your Vision</h3>
-                  <p className="text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300 leading-relaxed">
-                    Share your ideas, goals, and requirements through our guided conversation with AI.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                <div className="relative z-10">
-                  <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                      <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                        <Code className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300 mb-3">Generate Brief</h3>
-                  <p className="text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300 leading-relaxed">
-                    AI creates a comprehensive, professional project brief based on your conversation.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="glass-effect border border-webdev-glass-border rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                <div className="relative z-10">
-                  <div className="relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                      <div className="w-full h-full rounded-2xl bg-webdev-dark-gray flex items-center justify-center">
-                        <CheckCircle className="w-8 h-8" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-webdev-silver group-hover:text-white transition-colors duration-300 mb-3">Launch Ready</h3>
-                  <p className="text-webdev-soft-gray group-hover:text-webdev-silver transition-colors duration-300 leading-relaxed">
-                    Download your brief or submit it directly to our team to get started immediately.
-                  </p>
-                </div>
-              </div>
-            </div>
-            </ScrollReveal>
-          </div>
-        ) : (
-          <div className="container mx-auto px-6 py-8">
-            {/* Chat Header */}
-            <div className="text-center mb-8">
-              <div className="flex justify-center items-center mb-4">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4 relative">
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                    <div className="w-full h-full rounded-xl bg-webdev-dark-gray flex items-center justify-center">
-                      <Rocket className="w-6 h-6" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                    </div>
-                  </div>
-                </div>
-                <h1 className="text-5xl md:text-6xl font-bold text-webdev-silver">
-                  <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                    LaunchPad
-                  </span>
-                </h1>
-              </div>
-              <p className="text-webdev-soft-gray text-lg">
-                Let's create your professional project brief together
-              </p>
-            </div>
-
-            {/* Mobile/Tablet Pro Tips Toggle */}
-            <div className="lg:hidden mb-6 max-w-4xl mx-auto">
-              <Button
-                onClick={() => setShowTips(!showTips)}
-                variant="glass"
-                className="w-full"
-              >
-                <Lightbulb className="w-4 h-4 mr-2" />
-                {showTips ? 'Hide Pro Tips' : 'Show Pro Tips'}
-              </Button>
-              
-              {/* Mobile/Tablet Tips Content */}
-              {showTips && (
-                <div className="mt-4 space-y-4">
-                  <Card className="glass-effect border-webdev-glass-border bg-webdev-black/40">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg text-webdev-silver flex items-center">
-                        <Palette className="w-5 h-5 mr-2 text-webdev-gradient-blue" />
-                        Pro Tips
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {proTips.map((tip, index) => (
-                        <div key={index} className="p-4 rounded-lg bg-webdev-black/30 border border-webdev-glass-border/50">
-                          <div className="flex items-start space-x-3">
-                            <div className="relative w-8 h-8 rounded-lg flex-shrink-0 mt-1">
-                              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                                <div className="w-full h-full rounded-lg bg-webdev-dark-gray flex items-center justify-center">
-                                  <tip.icon className="w-4 h-4" stroke="url(#icon-gradient)" fill="none" strokeWidth={2} />
-                                </div>
-                              </div>
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-webdev-silver text-sm mb-2">{tip.title}</h4>
-                              <p className="text-webdev-soft-gray text-xs leading-relaxed">{tip.content}</p>
-                            </div>
+              <ScrollReveal>
+              <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+                {[
+                  { icon: Target, title: "Define Your Vision", desc: "Share your ideas, goals, and requirements through our guided conversation with AI." },
+                  { icon: Code, title: "Generate Brief", desc: "AI creates a comprehensive, professional project brief based on your conversation." },
+                  { icon: CheckCircle, title: "Launch Ready", desc: "Download your brief or submit it directly to our team to get started immediately." }
+                ].map((card) => (
+                  <div key={card.title} className="glass-effect rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+                    <div className="relative z-10">
+                      <div className="icon-gradient-container relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                          <div className={`icon-inner w-full h-full rounded-2xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
+                            <card.icon className="w-8 h-8" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
                           </div>
                         </div>
-                      ))}
-                    </CardContent>
-                  </Card>
+                      </div>
+                      <h3 className="text-xl font-semibold text-wdp-text group-hover:opacity-80 transition-colors duration-300 mb-3">{card.title}</h3>
+                      <p className="text-wdp-text-secondary group-hover:text-wdp-text transition-colors duration-300 leading-relaxed">
+                        {card.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              </ScrollReveal>
+            </div>
+          ) : (
+            <div className="container mx-auto px-6 py-8">
+              {/* Chat Header */}
+              <div className="text-center mb-8">
+                <div className="flex justify-center items-center mb-4">
+                  <div className="icon-gradient-container relative w-12 h-12 rounded-xl mr-4">
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                      <div className={`icon-inner w-full h-full rounded-xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
+                        <Rocket className="w-6 h-6" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
+                      </div>
+                    </div>
+                  </div>
+                  <h1 className="text-5xl md:text-6xl font-bold text-wdp-text">
+                    <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
+                      LaunchPad
+                    </span>
+                  </h1>
                 </div>
-              )}
-            </div>
-            
-            {/* Chat Area - Full width now */}
-            <div className="max-w-4xl mx-auto">
-              <ProjectBriefChat onBriefGenerated={handleBriefGenerated} />
-            </div>
+                <p className="text-wdp-text-secondary text-lg">
+                  Let's create your professional project brief together
+                </p>
+              </div>
 
-            {/* Desktop Pro Tips Carousel - Below chat on desktop */}
-            <div className="hidden lg:block mt-8">
-              <ProTipsCarousel />
+              {/* Mobile/Tablet Pro Tips Toggle */}
+              <div className="lg:hidden mb-6 max-w-4xl mx-auto">
+                <Button
+                  onClick={() => setShowTips(!showTips)}
+                  variant="glass"
+                  className="w-full"
+                >
+                  <Lightbulb className="w-4 h-4 mr-2" />
+                  {showTips ? 'Hide Pro Tips' : 'Show Pro Tips'}
+                </Button>
+                
+                {showTips && (
+                  <div className="mt-4 space-y-4">
+                    <Card className="glass-effect">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-lg text-wdp-text flex items-center">
+                          <Palette className="w-5 h-5 mr-2 text-webdev-gradient-blue" />
+                          Pro Tips
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {proTips.map((tip, index) => (
+                          <div key={index} className="p-4 rounded-lg glass-effect">
+                            <div className="flex items-start space-x-3">
+                              <div className="icon-gradient-container relative w-8 h-8 rounded-lg flex-shrink-0 mt-1">
+                                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
+                                  <div className={`icon-inner w-full h-full rounded-lg flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
+                                    <tip.icon className="w-4 h-4" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <h4 className="font-semibold text-wdp-text text-sm mb-2">{tip.title}</h4>
+                                <p className="text-wdp-text-secondary text-xs leading-relaxed">{tip.content}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+              </div>
+              
+              {/* Chat Area */}
+              <div className="max-w-4xl mx-auto">
+                <ProjectBriefChat onBriefGenerated={handleBriefGenerated} />
+              </div>
+
+              {/* Desktop Pro Tips Carousel */}
+              <div className="hidden lg:block mt-8">
+                <ProTipsCarousel />
+              </div>
             </div>
-          </div>
-        )}
-      </main>
-      
-      {/* Glassmorphic footer */}
-      <Footer />
-      
-      {/* SVG Gradient Definition */}
-      <svg width="0" height="0" className="absolute">
-        <defs>
-          <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4285f4" />
-            <stop offset="100%" stopColor="#8a2be2" />
-          </linearGradient>
-        </defs>
-      </svg>
+          )}
+        </main>
+        
+        <Footer />
+        
+        <svg width="0" height="0" className="absolute">
+          <defs>
+            <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#4285f4" />
+              <stop offset="100%" stopColor="#8a2be2" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
     </>
   );

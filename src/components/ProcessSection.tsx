@@ -1,13 +1,11 @@
 
-import React, { useState, useEffect } from 'react';
-import { Search, Palette, Code, ShieldCheck, Rocket } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Search, Palette, Code, ShieldCheck, Rocket, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   CarouselApi,
 } from "@/components/ui/carousel";
 
@@ -29,8 +27,8 @@ const ProcessSection = () => {
   useEffect(() => {
     if (!api) return;
     setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-    api.on("select", () => { setCurrent(api.selectedScrollSnap() + 1); });
+    setCurrent(api.selectedScrollSnap());
+    api.on("select", () => { setCurrent(api.selectedScrollSnap()); });
   }, [api]);
 
   useEffect(() => {
@@ -39,12 +37,15 @@ const ProcessSection = () => {
     return () => clearInterval(interval);
   }, [api]);
 
+  const scrollPrev = useCallback(() => { api?.scrollPrev(); }, [api]);
+  const scrollNext = useCallback(() => { api?.scrollNext(); }, [api]);
+
   return (
     <section className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
           <div className="space-y-6">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover">
               <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
               <span className="text-wdp-text text-sm">Strategic approach</span>
             </div>
@@ -108,22 +109,32 @@ const ProcessSection = () => {
                 );
               })}
             </CarouselContent>
-            <CarouselPrevious className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-wdp-text-secondary hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-800'} -left-16`} />
-            <CarouselNext className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-wdp-text-secondary hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-800'} -right-16`} />
           </Carousel>
 
-          <div className="mt-8 flex justify-center">
-            <div className="flex space-x-2">
-              {processSteps.map((_, index) => (
-                <div key={index} className={`relative h-1 w-16 rounded-full overflow-hidden ${isDark ? 'bg-webdev-darker-gray' : 'bg-gray-200'}`}>
-                  <div className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${index + 1 === current ? 'w-full' : index + 1 < current ? 'w-full' : 'w-0'}`} />
-                </div>
+          {/* Unified carousel controls */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <button onClick={scrollPrev} className="carousel-chevron" aria-label="Previous step">
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            
+            <div className="flex gap-2">
+              {Array.from({ length: count }).map((_, index) => (
+                <button
+                  key={index}
+                  className={`carousel-dot ${index === current ? 'active' : ''}`}
+                  onClick={() => api?.scrollTo(index)}
+                  aria-label={`Go to step ${index + 1}`}
+                />
               ))}
             </div>
+            
+            <button onClick={scrollNext} className="carousel-chevron" aria-label="Next step">
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
 
-          <div className="text-center mt-4">
-            <span className="text-wdp-text-secondary text-sm">{current} of {count}</span>
+          <div className="text-center mt-3">
+            <span className="text-wdp-text-secondary text-sm">{current + 1} of {count}</span>
           </div>
         </div>
 
