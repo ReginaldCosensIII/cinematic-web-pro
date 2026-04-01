@@ -9,6 +9,7 @@ import ChatBot from '../components/ChatBot';
 import ScrollReveal from '../components/ScrollReveal';
 import { Mail, MapPin, Phone, Send, CheckCircle, Bot } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
