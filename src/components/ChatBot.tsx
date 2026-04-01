@@ -62,18 +62,24 @@ const ChatBot = () => {
 
   if (!isOpen) {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button onClick={toggleChat}
-          className="glass-effect w-14 h-14 rounded-full p-0 border-2 bg-transparent hover:bg-gradient-to-r hover:from-webdev-gradient-blue/10 hover:to-webdev-gradient-purple/10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] transition-all duration-300 hover:scale-110 relative before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:p-[2px] before:-z-10"
-          style={{ borderImage: 'linear-gradient(45deg, #4285f4, #8a2be2) 1', borderImageSlice: 1 }}>
-          <MessageCircle className="w-6 h-6" style={{ background: 'linear-gradient(45deg, #4285f4, #8a2be2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }} />
-        </Button>
+      <div className="fixed bottom-20 right-6 z-50">
+        <button
+          onClick={toggleChat}
+          className={`chatbot-bubble w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg ${
+            isDark
+              ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple'
+              : ''
+          }`}
+          aria-label="Open chat"
+        >
+          <MessageCircle className="w-6 h-6 text-white" />
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-20 right-6 z-50">
       <div className={`glass-effect rounded-2xl transition-all duration-300 ${isMinimized ? 'w-80 h-16' : 'w-80 h-96'}`}>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center space-x-2">
@@ -106,14 +112,19 @@ const ChatBot = () => {
                 <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`flex items-start space-x-2 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      message.role === 'user' ? (isDark ? 'bg-webdev-darker-gray' : 'bg-gray-200') : 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple'
+                      message.role === 'user'
+                        ? (isDark ? 'bg-webdev-darker-gray' : 'bg-blue-100')
+                        : 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple'
                     }`}>
-                      {message.role === 'user' ? <User className="w-3 h-3 text-wdp-text" /> : <Bot className="w-3 h-3 text-white" />}
+                      {message.role === 'user'
+                        ? <User className={`w-3 h-3 ${isDark ? 'text-wdp-text' : 'text-blue-600'}`} />
+                        : <Bot className="w-3 h-3 text-white" />
+                      }
                     </div>
                     <div className={`rounded-lg p-3 ${
                       message.role === 'user'
-                        ? (isDark ? 'bg-webdev-darker-gray text-wdp-text' : 'bg-gray-100 text-wdp-text')
-                        : (isDark ? 'bg-webdev-darker-gray/50 text-wdp-text-secondary' : 'bg-blue-50 text-wdp-text-secondary')
+                        ? (isDark ? 'bg-webdev-darker-gray text-wdp-text' : 'bg-blue-50 text-wdp-text')
+                        : (isDark ? 'bg-webdev-darker-gray/50 text-wdp-text-secondary' : 'bg-gray-50 text-wdp-text')
                     }`}>
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                     </div>
@@ -126,7 +137,7 @@ const ChatBot = () => {
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
                       <Bot className="w-3 h-3 text-white" />
                     </div>
-                    <div className={`rounded-lg p-3 ${isDark ? 'bg-webdev-darker-gray/50' : 'bg-blue-50'}`}>
+                    <div className={`rounded-lg p-3 ${isDark ? 'bg-webdev-darker-gray/50' : 'bg-gray-50'}`}>
                       <div className="flex space-x-1">
                         <div className="w-2 h-2 bg-wdp-text-secondary rounded-full animate-pulse"></div>
                         <div className="w-2 h-2 bg-wdp-text-secondary rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>

@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Quote } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   CarouselApi,
 } from "@/components/ui/carousel";
 
 const TestimonialsSection = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -49,6 +48,7 @@ const TestimonialsSection = () => {
   useEffect(() => {
     if (!api) return;
 
+    setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap());
     
     api.on("select", () => {
@@ -65,12 +65,15 @@ const TestimonialsSection = () => {
     return () => clearInterval(interval);
   }, [api, testimonials.length]);
 
+  const scrollPrev = useCallback(() => { api?.scrollPrev(); }, [api]);
+  const scrollNext = useCallback(() => { api?.scrollNext(); }, [api]);
+
   return (
     <section className="relative py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
           <div className="space-y-6">
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect">
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover">
               <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
               <span className="text-wdp-text text-sm">Client Testimonials</span>
             </div>
@@ -109,14 +112,6 @@ const TestimonialsSection = () => {
                             {testimonial.supportingText}
                           </p>
                         </div>
-                        
-                        <div className="flex space-x-2">
-                          {testimonials.map((_, idx) => (
-                            <div key={idx} className={`relative h-1 w-16 rounded-full overflow-hidden ${isDark ? 'bg-webdev-darker-gray' : 'bg-gray-200'}`}>
-                              <div className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${idx === current ? 'w-full' : 'w-0'}`} />
-                            </div>
-                          ))}
-                        </div>
                       </div>
 
                       <div className="order-1 lg:order-2">
@@ -150,19 +145,28 @@ const TestimonialsSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            
-            <CarouselPrevious className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'} -left-16 hidden lg:flex`} />
-            <CarouselNext className={`${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-webdev-silver hover:bg-webdev-glass hover:text-white' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'} -right-16 hidden lg:flex`} />
           </Carousel>
 
-          <div className="flex justify-center mt-8 lg:hidden">
-            <div className="flex space-x-2">
-              {testimonials.map((_, index) => (
-                <div key={index} className={`relative h-1 w-16 rounded-full overflow-hidden ${isDark ? 'bg-webdev-darker-gray' : 'bg-gray-200'}`}>
-                  <div className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${index === current ? 'w-full' : 'w-0'}`} />
-                </div>
+          {/* Unified carousel controls */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <button onClick={scrollPrev} className="carousel-chevron hidden lg:flex" aria-label="Previous testimonial">
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            
+            <div className="flex gap-2">
+              {Array.from({ length: count }).map((_, index) => (
+                <button
+                  key={index}
+                  className={`carousel-dot ${index === current ? 'active' : ''}`}
+                  onClick={() => api?.scrollTo(index)}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
               ))}
             </div>
+            
+            <button onClick={scrollNext} className="carousel-chevron hidden lg:flex" aria-label="Next testimonial">
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>

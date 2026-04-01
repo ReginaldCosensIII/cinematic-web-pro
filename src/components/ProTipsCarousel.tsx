@@ -70,24 +70,24 @@ const ProTipsCarousel = () => {
         </CarouselContent>
       </Carousel>
       
+      {/* Unified carousel controls */}
       <div className="flex items-center justify-center gap-4 mt-4">
-        <button onClick={scrollPrev}
-          className={`h-8 w-8 rounded-full border flex items-center justify-center transition-colors ${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-wdp-text-secondary hover:text-white' : 'bg-white border-gray-200 text-gray-500 hover:text-gray-800'}`}>
+        <button onClick={scrollPrev} className="carousel-chevron" aria-label="Previous tip">
           <ChevronLeft className="h-4 w-4" />
         </button>
         
         <div className="flex gap-2">
           {Array.from({ length: count }).map((_, index) => (
-            <button key={index}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === current ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple w-6' : isDark ? 'bg-webdev-glass-border hover:bg-webdev-soft-gray' : 'bg-gray-300 hover:bg-gray-400'
-              }`}
-              onClick={() => api?.scrollTo(index)} />
+            <button
+              key={index}
+              className={`carousel-dot ${index === current ? 'active' : ''}`}
+              onClick={() => api?.scrollTo(index)}
+              aria-label={`Go to tip ${index + 1}`}
+            />
           ))}
         </div>
         
-        <button onClick={scrollNext}
-          className={`h-8 w-8 rounded-full border flex items-center justify-center transition-colors ${isDark ? 'bg-webdev-darker-gray border-webdev-glass-border text-wdp-text-secondary hover:text-white' : 'bg-white border-gray-200 text-gray-500 hover:text-gray-800'}`}>
+        <button onClick={scrollNext} className="carousel-chevron" aria-label="Next tip">
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>

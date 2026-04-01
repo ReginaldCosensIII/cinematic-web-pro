@@ -185,7 +185,7 @@ const HeroSection = () => {
       <div className="text-center space-y-6 sm:space-y-8 max-w-4xl mx-auto relative z-10 pt-10 sm:pt-8">
         {/* Badge */}
         <div 
-          className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect transition-all duration-700 ease-out ${
+          className={`inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover transition-all duration-700 ease-out ${
             isVisible ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-md translate-y-4'
           }`}
           style={{ transitionDelay: '100ms' }}
@@ -247,7 +247,8 @@ const HeroSection = () => {
           <Link 
             to="/contact"
             onClick={() => window.scrollTo(0, 0)}
-            className="group glass-effect px-8 py-3 rounded-xl text-wdp-text hover:opacity-90 transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden flex items-center gap-2 border-0 before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-[11px] after:bg-wdp-bg-tertiary after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2 focus:ring-offset-wdp-bg"
+            className="group btn-glass-themed glass-effect px-8 py-3 rounded-xl text-wdp-text hover:opacity-90 transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden flex items-center gap-2 border-0 before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-[11px] after:bg-wdp-bg-tertiary after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2 focus:ring-offset-wdp-bg"
+            data-variant="glass"
             aria-label="Start your web development project"
           >
             <Sparkles className="w-4 h-4 relative z-10" aria-hidden="true" />

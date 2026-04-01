@@ -265,19 +265,103 @@
     border-color: #4285f4;
     box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.1);
   }
+
+  /* ===================== */
+  /* Badge hover effects (both themes) */
+  /* ===================== */
+  .badge-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+
+  .badge-hover:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
+  }
+
+  /* ===================== */
+  /* Unified carousel controls */
+  /* ===================== */
+  .carousel-chevron {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border: 1px solid;
+    flex-shrink: 0;
+  }
+
+  .dark .carousel-chevron {
+    background-color: #1a1a1a;
+    border-color: hsla(var(--webdev-glass-border));
+    color: hsl(var(--webdev-text-secondary));
+  }
+
+  .dark .carousel-chevron:hover {
+    background-color: hsla(var(--webdev-glass-bg));
+    color: white;
+  }
+
+  .light .carousel-chevron {
+    background-color: white;
+    border-color: rgba(66, 133, 244, 0.2);
+    color: hsl(var(--webdev-text-secondary));
+  }
+
+  .light .carousel-chevron:hover {
+    background-color: rgba(240, 245, 255, 0.9);
+    color: hsl(var(--webdev-text-primary));
+    border-color: rgba(66, 133, 244, 0.4);
+  }
+
+  .carousel-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .dark .carousel-dot {
+    background-color: hsla(0, 0%, 75%, 0.15);
+  }
+
+  .dark .carousel-dot:hover {
+    background-color: hsla(0, 0%, 75%, 0.3);
+  }
+
+  .light .carousel-dot {
+    background-color: rgba(66, 133, 244, 0.15);
+  }
+
+  .light .carousel-dot:hover {
+    background-color: rgba(66, 133, 244, 0.3);
+  }
+
+  .carousel-dot.active {
+    width: 1.5rem;
+    background: linear-gradient(135deg, #4285f4, #8a2be2);
+  }
 }
 
 /* ===================== */
 /* LIGHT MODE: Button overrides */
 /* ===================== */
 
-/* Glass buttons in light mode get gradient fill */
+/* Glass buttons in light mode: gradient bg with shimmer effect */
 .light .btn-glass-themed,
 .light [data-variant="glass"] {
-  background: linear-gradient(135deg, #4285f4, #8a2be2) !important;
+  background: linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2) !important;
+  background-size: 200% 200% !important;
   color: white !important;
   border: none !important;
-  box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3), 0 2px 8px rgba(138, 43, 226, 0.2);
+  box-shadow: 0 4px 15px rgba(66, 133, 244, 0.25), 0 2px 8px rgba(138, 43, 226, 0.15);
+  position: relative;
 }
 
 .light .btn-glass-themed::before,
@@ -289,8 +373,9 @@
 
 .light .btn-glass-themed:hover,
 .light [data-variant="glass"]:hover {
-  box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4), 0 4px 12px rgba(138, 43, 226, 0.3);
-  opacity: 0.95;
+  background-position: 100% 50% !important;
+  box-shadow: 0 8px 25px rgba(66, 133, 244, 0.35), 0 4px 15px rgba(138, 43, 226, 0.25), 0 0 20px rgba(66, 133, 244, 0.2);
+  transform: translateY(-1px);
 }
 
 .light .btn-glass-themed svg,
@@ -303,15 +388,15 @@
 /* ===================== */
 .light .glass-effect.rounded-xl,
 .light .glass-effect.rounded-2xl {
-  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,245,255,0.85) 50%, rgba(245,240,255,0.8) 100%) !important;
+  background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(240,245,255,0.88) 50%, rgba(245,240,255,0.84) 100%) !important;
   border: 1px solid rgba(66, 133, 244, 0.15) !important;
-  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.08), 0 2px 8px rgba(138, 43, 226, 0.04);
+  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.06), 0 2px 8px rgba(138, 43, 226, 0.03);
 }
 
 .light .glass-effect.rounded-xl:hover,
 .light .glass-effect.rounded-2xl:hover {
   border-color: rgba(66, 133, 244, 0.25) !important;
-  box-shadow: 0 8px 30px rgba(66, 133, 244, 0.12), 0 4px 12px rgba(138, 43, 226, 0.08);
+  box-shadow: 0 8px 30px rgba(66, 133, 244, 0.1), 0 4px 12px rgba(138, 43, 226, 0.06);
 }
 
 /* ===================== */
@@ -340,6 +425,46 @@
   background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,245,255,0.9)) !important;
   border: 1px solid rgba(66, 133, 244, 0.2) !important;
   box-shadow: 0 2px 8px rgba(66, 133, 244, 0.08);
+}
+
+/* ===================== */
+/* LIGHT MODE: Blog tag badges */
+/* ===================== */
+.light .blog-tag {
+  background: linear-gradient(135deg, rgba(66, 133, 244, 0.08), rgba(138, 43, 226, 0.08)) !important;
+  color: #4338ca !important;
+  border: 1px solid rgba(66, 133, 244, 0.2) !important;
+  font-weight: 600;
+}
+
+/* ===================== */
+/* LIGHT MODE: Chatbot overrides */
+/* ===================== */
+.light .chatbot-bubble {
+  background: linear-gradient(135deg, #4285f4, #8a2be2) !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.3), 0 2px 8px rgba(138, 43, 226, 0.2);
+}
+
+/* ===================== */
+/* LIGHT MODE: ProjectBriefChat text fix */
+/* ===================== */
+.light .brief-chat-user-msg {
+  background-color: rgba(66, 133, 244, 0.08) !important;
+  color: hsl(var(--webdev-text-primary)) !important;
+}
+
+.light .brief-chat-bot-msg {
+  background-color: rgba(240, 245, 255, 0.8) !important;
+  color: hsl(var(--webdev-text-primary)) !important;
+}
+
+.light .brief-chat-user-avatar {
+  background-color: rgba(66, 133, 244, 0.12) !important;
+}
+
+.light .brief-chat-user-avatar svg {
+  color: #4285f4 !important;
 }
 
 /* Enhanced smoke effect background elements */

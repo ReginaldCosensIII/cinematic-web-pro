@@ -218,13 +218,12 @@ const FeaturedWork = () => {
   };
 
   const project = projects[currentIndex];
-  const isDark = theme === 'dark';
 
   return (
     <section id="featuredwork" className="relative py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center space-y-6 max-w-4xl mx-auto relative z-10 mb-12">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover">
             <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse" />
             <span className="text-wdp-text text-sm">Featured Projects</span>
           </div>
@@ -254,40 +253,28 @@ const FeaturedWork = () => {
           ) : (
             <DesktopCard project={project} />
           )}
-
-          <button
-            onClick={prev}
-            className={`absolute -left-2 md:-left-16 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border flex items-center justify-center transition-colors backdrop-blur-sm ${isDark ? 'bg-webdev-darker-gray/90 border-webdev-glass-border text-wdp-text-secondary hover:text-wdp-text' : 'bg-white/90 border-gray-200 text-gray-500 hover:text-gray-800 hover:bg-white'}`}
-            aria-label="Previous project"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            onClick={next}
-            className={`absolute -right-2 md:-right-16 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full border flex items-center justify-center transition-colors backdrop-blur-sm ${isDark ? 'bg-webdev-darker-gray/90 border-webdev-glass-border text-wdp-text-secondary hover:text-wdp-text' : 'bg-white/90 border-gray-200 text-gray-500 hover:text-gray-800 hover:bg-white'}`}
-            aria-label="Next project"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <div className="flex space-x-2">
+        {/* Unified carousel controls */}
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button onClick={prev} className="carousel-chevron" aria-label="Previous project">
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          
+          <div className="flex gap-2">
             {projects.map((_, index) => (
               <button
                 key={index}
+                className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
                 onClick={() => setCurrentIndex(index)}
-                className={`relative h-1.5 w-12 rounded-full overflow-hidden ${isDark ? 'bg-webdev-darker-gray' : 'bg-gray-200'}`}
                 aria-label={`Go to project ${index + 1}`}
-              >
-                <div
-                  className={`absolute top-0 left-0 h-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full transition-all duration-500 ease-out ${
-                    index === currentIndex ? 'w-full' : 'w-0'
-                  }`}
-                />
-              </button>
+              />
             ))}
           </div>
+          
+          <button onClick={next} className="carousel-chevron" aria-label="Next project">
+            <ChevronRight className="h-4 w-4" />
+          </button>
         </div>
 
         <div className="text-center mt-3">
