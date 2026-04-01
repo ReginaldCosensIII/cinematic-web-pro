@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import SEOHead from '../components/SEOHead';
 import Breadcrumbs from '../components/Breadcrumbs';
 import StructuredData from '../components/StructuredData';
@@ -27,6 +28,24 @@ interface BlogArticle {
 }
 
 const ARTICLES_PER_PAGE = 10;
+
+const BlogSkeleton = () => (
+  <div className="max-w-6xl mx-auto px-4 md:px-6">
+    <div className="text-center mb-16">
+      <Skeleton className="h-12 w-80 mx-auto mb-6" />
+      <Skeleton className="h-6 w-96 mx-auto" />
+    </div>
+    <Skeleton className="h-12 w-full max-w-md mx-auto mb-12 rounded-xl" />
+    <div className="mb-16">
+      <Skeleton className="h-80 w-full rounded-2xl" />
+    </div>
+    <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+      {[1, 2, 3, 4].map(i => (
+        <Skeleton key={i} className="h-64 rounded-2xl" />
+      ))}
+    </div>
+  </div>
+);
 
 const Blog = () => {
   const [allArticles, setAllArticles] = useState<BlogArticle[]>([]);
@@ -91,22 +110,6 @@ const Blog = () => {
   const currentArticles = filteredArticles.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
   const handlePageChange = (page: number) => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen theme-bg relative overflow-hidden">
-        <SmokeBackground /><Header />
-        <main className="relative z-10 pt-32 pb-20">
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="flex items-center justify-center p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-webdev-gradient-blue"></div>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
   const blogData = {
     name: "Web Development Blog - WebDevPro.io",
     description: "Latest insights, tutorials, and trends in web development, design, and technology.",
@@ -130,6 +133,9 @@ const Blog = () => {
         <SmokeBackground /><Header />
       
         <main className="relative z-10 pt-32 pb-20">
+          {loading ? (
+            <BlogSkeleton />
+          ) : (
           <div className="max-w-6xl mx-auto px-4 md:px-6">
             <div className="text-center animate-fade-in-up mb-16">
               <h1 className="text-4xl md:text-5xl font-light text-wdp-text tracking-wide mb-6">
@@ -163,7 +169,7 @@ const Blog = () => {
                   <div className={`${featuredArticle.thumbnail_url ? 'lg:w-1/2' : 'w-full'} flex flex-col justify-between`}>
                     <div>
                       {featuredArticle.is_pinned && (
-                        <span className="inline-block px-3 py-1 bg-webdev-gradient-blue/20 text-webdev-gradient-blue text-sm rounded-full mb-4">Featured</span>
+                        <span className="inline-block px-3 py-1 bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 text-webdev-gradient-blue text-sm rounded-full mb-4 border border-webdev-gradient-blue/30 font-semibold">Featured</span>
                       )}
                       <h2 className="text-2xl md:text-3xl font-semibold text-wdp-text mb-4 leading-tight hover:text-webdev-gradient-blue transition-colors">
                         {featuredArticle.title}
@@ -185,7 +191,7 @@ const Blog = () => {
                       </div>
                       <div className="flex items-center space-x-2">
                         {featuredArticle.tags && featuredArticle.tags.slice(0, 2).map(tag => (
-                          <span key={tag} className={`px-2 py-1 text-xs rounded ${isDark ? 'bg-webdev-darker-gray text-wdp-text-secondary' : 'bg-gray-100 text-gray-600'}`}>{tag}</span>
+                          <span key={tag} className="blog-tag px-2.5 py-1 text-xs rounded-full font-medium bg-gradient-to-r from-webdev-gradient-blue/10 to-webdev-gradient-purple/10 text-wdp-text-secondary border border-webdev-gradient-blue/20">{tag}</span>
                         ))}
                         <ArrowRight className="w-4 h-4 text-webdev-gradient-blue" />
                       </div>
@@ -231,7 +237,7 @@ const Blog = () => {
                           <div className="flex items-center justify-between sm:justify-end space-x-2">
                             <div className="flex space-x-1">
                               {article.tags && article.tags.slice(0, 2).map(tag => (
-                                <span key={tag} className={`px-2 py-1 text-xs rounded ${isDark ? 'bg-webdev-darker-gray text-wdp-text-secondary' : 'bg-gray-100 text-gray-600'}`}>{tag}</span>
+                                <span key={tag} className="blog-tag px-2.5 py-1 text-xs rounded-full font-medium bg-gradient-to-r from-webdev-gradient-blue/10 to-webdev-gradient-purple/10 text-wdp-text-secondary border border-webdev-gradient-blue/20">{tag}</span>
                               ))}
                             </div>
                             <ArrowRight className="w-4 h-4 text-webdev-gradient-blue flex-shrink-0" />
@@ -252,7 +258,7 @@ const Blog = () => {
                   <div className="flex space-x-1">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                       <Button key={page} variant={currentPage === page ? "default" : "ghost"} size="sm" onClick={() => handlePageChange(page)}
-                        className={currentPage === page ? "bg-webdev-gradient-blue text-white" : "text-wdp-text-secondary hover:text-wdp-text"}>
+                        className={currentPage === page ? "bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white border-none" : "text-wdp-text-secondary hover:text-wdp-text"}>
                         {page}
                       </Button>
                     ))}
@@ -278,6 +284,7 @@ const Blog = () => {
             </>
           )}
           </div>
+          )}
         </main>
         
         <Footer />
