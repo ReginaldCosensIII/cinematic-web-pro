@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Lightbulb, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import highlightImage from '@/assets/launchpad-homepage.png';
 
 const ProjectBriefHighlight = () => {
@@ -12,7 +13,7 @@ const ProjectBriefHighlight = () => {
           
           <div className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
             <div className="space-y-6">
-              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect">
+              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover">
                 <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
                 <span className="text-wdp-text text-sm">AI Integrated</span>
               </div>
@@ -62,14 +63,11 @@ const ProjectBriefHighlight = () => {
               </div>
               
               <div className="flex justify-center">
-                <Link
-                  to="/project-brief"
-                  className="inline-flex items-center glass-effect px-8 py-3 rounded-xl text-wdp-text hover:opacity-90 transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden border-0 before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-[11px] after:bg-wdp-bg-tertiary after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)]"
-                >
-                  <span className="relative z-10 flex items-center">
+                <Link to="/project-brief">
+                  <Button variant="glass" size="lg" className="inline-flex items-center gap-2">
                     Start Your Brief
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
                 </Link>
               </div>
             </div>
