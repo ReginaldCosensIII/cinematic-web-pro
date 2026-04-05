@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const ROTATING_WORDS = ['Envision', 'Design', 'Develop', 'Launch'];
@@ -247,13 +248,13 @@ const HeroSection = () => {
           <Link 
             to="/contact"
             onClick={() => window.scrollTo(0, 0)}
-            className="group btn-glass-themed glass-effect px-8 py-3 rounded-xl text-wdp-text hover:opacity-90 transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden flex items-center gap-2 border-0 before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-[11px] after:bg-wdp-bg-tertiary after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2 focus:ring-offset-wdp-bg"
-            data-variant="glass"
             aria-label="Start your web development project"
           >
-            <Sparkles className="w-4 h-4 relative z-10" aria-hidden="true" />
-            <span className="relative z-10">Start Your Project</span>
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 relative z-10" aria-hidden="true" />
+            <Button variant="glass" size="lg" className="group inline-flex items-center gap-2">
+              <Sparkles className="w-4 h-4" aria-hidden="true" />
+              Start Your Project
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Button>
           </Link>
         </div>
 
@@ -286,7 +287,7 @@ const HeroSection = () => {
       </div>
 
       {/* Bottom gradient fade */}
-      <div className={`absolute bottom-0 left-0 right-0 h-32 pointer-events-none ${isDark ? 'bg-gradient-to-t from-webdev-black to-transparent' : 'bg-gradient-to-t from-gray-50 to-transparent'}`} />
+      <div className={`absolute bottom-0 left-0 right-0 h-32 pointer-events-none hero-bottom-fade ${isDark ? 'bg-gradient-to-t from-webdev-black to-transparent' : ''}`} />
 
       <style>{`
         @keyframes sparkle {
