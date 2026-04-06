@@ -30,13 +30,13 @@
 ### Light Theme Colors
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--webdev-bg` | `hsl(0, 0%, 98%)` / `#fafafa` | Page background |
-| `--webdev-bg-secondary` | `hsl(0, 0%, 96%)` / `#f5f5f5` | Subtle background layers |
-| `--webdev-bg-tertiary` | `hsl(220, 14%, 96%)` / `#f1f3f5` | Cards, inputs, elevated surfaces |
+| `--webdev-bg` | `hsl(220, 20%, 95%)` | Page background (cool gray) |
+| `--webdev-bg-secondary` | `hsl(220, 18%, 93%)` | Subtle background layers |
+| `--webdev-bg-tertiary` | `hsl(220, 14%, 96%)` | Cards, inputs, elevated surfaces |
 | `--webdev-text-primary` | `hsl(222, 47%, 11%)` / `#0f172a` | Primary body text (dark navy) |
-| `--webdev-text-secondary` | `hsl(215, 16%, 47%)` / `#64748b` | Secondary/muted text |
-| `--webdev-glass-bg` | `hsla(0, 0%, 100%, 0.7)` | Glassmorphism card backgrounds |
-| `--webdev-glass-border` | `hsla(220, 13%, 80%, 0.4)` | Glassmorphism borders |
+| `--webdev-text-secondary` | `hsl(215, 20%, 35%)` | Secondary/muted text (high contrast) |
+| `--webdev-glass-bg` | `hsla(0, 0%, 100%, 0.85)` | Glassmorphism card backgrounds |
+| `--webdev-glass-border` | `hsla(220, 13%, 75%, 0.35)` | Glassmorphism borders |
 
 ---
 
@@ -69,8 +69,16 @@ background: linear-gradient(to right, #4285f4, #8a2be2);
 /* Tailwind: bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent */
 ```
 
-### Button Gradient Border (Glass Variant)
-Buttons use a pseudo-element gradient border technique:
+### Button Gradient (Light Mode)
+```css
+/* Solid gradient fill with shimmer animation */
+background: linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2);
+background-size: 200% 200%;
+color: white;
+/* Hover: background-position shifts for shimmer effect */
+```
+
+### Button Gradient Border (Dark Mode — Glass Variant)
 ```css
 /* Gradient border with solid interior */
 before: gradient border (1px)
@@ -89,19 +97,78 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 
 ### Glass Card Effect
 ```css
-.glass-effect {
-  background: hsla(var(--webdev-glass-bg));
+/* Dark mode */
+.dark .glass-effect {
+  background: hsla(0, 0%, 10%, 0.3);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid hsla(var(--webdev-glass-border));
+  border: 1px solid hsla(0, 0%, 75%, 0.1);
+}
+
+/* Light mode — multi-stop gradient with elevated shadow */
+.light .glass-effect {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,245,255,0.92), rgba(245,240,255,0.88));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(66, 133, 244, 0.18);
+  box-shadow: 0 4px 24px rgba(66, 133, 244, 0.08), 0 2px 8px rgba(138, 43, 226, 0.04);
 }
 ```
 
 ### Key Principles:
 - All cards, headers, footers, and modals use the `glass-effect` class
-- Borders are semi-transparent and theme-aware
+- Light mode cards use white-to-blue-to-purple gradient backgrounds for visual distinction from the cool gray page background
+- Dark mode cards use translucent dark backgrounds
 - Backdrop blur creates depth without opaque backgrounds
 - Works in both light and dark themes
+
+---
+
+## Button System
+
+### Dark Mode — Glass Variant
+- Gradient border via pseudo-elements (before/after)
+- Solid dark interior (`bg-wdp-bg-tertiary`)
+- Theme text color
+- Hover: blue/purple glow shadow
+
+### Light Mode — Gradient Fill
+- Solid brand gradient background (`#4285f4` → `#7c3aed` → `#8a2be2`)
+- `background-size: 200%` for shimmer animation on hover
+- White text and white icon colors
+- Hover: elevated shadow + translateY(-1px) lift
+- Applied uniformly to ALL primary buttons site-wide via `[data-variant="glass"]`
+
+### All Buttons:
+- Synced inner/outer border-radius: `0.75rem` outer, `calc(0.75rem - 1px)` inner
+- Consistent `tracking-wide font-medium` typography
+- `hover:scale-[1.02]` subtle scale effect
+
+---
+
+## Badge System
+
+### Interactive Badge Effects
+- Hover: `transform: scale(1.08)` + dual-layer gradient glow
+- Light mode resting state: subtle blue border + shadow for visibility
+- Dark mode resting state: glass-effect translucent
+
+### Blog Tags
+- Light mode: gradient-tinted background with blue/purple border, dark indigo text
+- Dark mode: standard glass-effect appearance
+
+---
+
+## Icon System
+
+### Dark Mode
+- Outer: gradient ring (blue→purple) via `p-0.5` padding trick
+- Inner: solid dark background (`bg-webdev-dark-gray`)
+- Icon: SVG gradient stroke using `linearGradient` definition
+
+### Light Mode
+- Outer: same gradient ring
+- Inner: solid gradient fill background (`linear-gradient(135deg, #4285f4, #8a2be2)`)
+- Icon: white solid stroke (`stroke: white`)
+- Applied via `.light .icon-gradient-container .icon-inner` CSS
 
 ---
 
@@ -112,24 +179,15 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 2. **Large heading** — `text-5xl md:text-7xl` with gradient keyword
 3. **Supporting paragraph** — `text-xl text-wdp-text-secondary`
 
-### Buttons
-- **Primary CTA:** `glass` variant with gradient border, py-3 padding
-- **Carousel nav:** Solid bg (theme-aware) with standard border, no gradient
-- **Ghost/text links:** Gradient blue color, hover to purple
-
 ### Cards
 - `glass-effect` + `rounded-xl` + `hover:scale-[1.02]`
 - Gradient glow on hover: `hover:shadow-2xl hover:shadow-webdev-gradient-blue/10`
+- Light mode: elevated with stronger borders and shadows for distinction from background
 
----
-
-## Iconography
-
-- **Icon library:** Lucide React
-- **Icon treatment:** Icons inside gradient-bordered circular containers
-  - Outer: gradient ring (blue→purple)
-  - Inner: solid theme-aware background
-  - Icon: SVG gradient stroke using `linearGradient` definition
+### Carousel Controls
+- Standardized `carousel-chevron` (2rem circular buttons)
+- `carousel-dot` slide indicators with morphing-width animation
+- Active dot: `width: 1.5rem` + brand gradient fill
 
 ---
 
@@ -144,6 +202,7 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 | `scroll-indicator` | 2s ease-in-out infinite | Mouse scroll hint |
 | `sparkle` | 2-5s ease-in-out infinite | Hero particles |
 | Hover scale | 300ms | `hover:scale-[1.02]` on cards/buttons |
+| Badge hover glow | 300ms ease | `scale(1.08)` + gradient box-shadow |
 
 ---
 
@@ -157,11 +216,29 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 - Fallback to `localStorage` for non-authenticated users
 - Default: `dark`
 
+### Light vs Dark Design Philosophy
+- **Dark mode**: Pure black background, translucent glass cards, gradient stroke icons, gradient-border buttons
+- **Light mode**: Cool gray background (`hsl(220, 20%, 95%)`), white gradient cards with elevated shadows, solid gradient-fill icons with white glyphs, solid gradient-fill buttons with white text
+- Both modes share: brand gradient accents, animation system, component structure, typography scale
+
 ### Tailwind Usage
 - Use `text-wdp-text` / `text-wdp-text-secondary` for text
 - Use `theme-bg` for page backgrounds
 - Use `glass-effect` for cards (auto-adapts)
 - Brand gradient colors remain constant across themes
+
+---
+
+## Smoke Background
+
+### Dark Mode
+- Subtle silver/gray radial gradients
+- Low opacity (`0.08–0.12`) for atmospheric depth
+
+### Light Mode
+- Blue/purple tinted radial gradients
+- Very low opacity (`0.025–0.03`) for subtle texture without distraction
+- Less prominent than dark mode to maintain clean, bright aesthetic
 
 ---
 
@@ -180,15 +257,15 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 ## Social Media & Marketing Guidelines
 
 ### Colors for Social Assets
-- **Primary backgrounds:** Dark (#000000) or Light (#fafafa)
+- **Primary backgrounds:** Dark (#000000) or Cool Gray (#eef0f4)
 - **Accent:** Always use the blue-to-purple gradient
 - **Text on dark:** Silver (#c0c0c0) or White (#ffffff)
-- **Text on light:** Dark navy (#0f172a) or Slate (#64748b)
+- **Text on light:** Dark navy (#0f172a) or Slate (#4a5568)
 
 ### Imagery Style
 - Glassmorphic UI mockups and screenshots
 - Atmospheric smoke/particle effects in dark mode
-- Clean, minimal compositions in light mode
+- Clean, elevated compositions with subtle gradient tints in light mode
 - Blue-purple gradient accents on all visual assets
 
 ### Tone of Voice
@@ -203,14 +280,14 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 
 | File | Purpose |
 |------|---------|
-| `src/index.css` | All CSS custom properties and theme tokens |
+| `src/index.css` | All CSS custom properties, theme tokens, and component overrides |
 | `tailwind.config.ts` | Tailwind extensions and brand colors |
 | `src/contexts/ThemeContext.tsx` | Theme state management |
-| `src/components/ui/button.tsx` | Glass button variant |
-| `src/components/Header.tsx` | Theme toggle in navigation |
-| `src/components/SmokeBackground.tsx` | Theme-aware atmospheric bg |
+| `src/components/ui/button.tsx` | Glass button variant with data-variant attribute |
+| `src/components/Header.tsx` | Theme toggle + Button component integration |
+| `src/components/SmokeBackground.tsx` | Theme-aware atmospheric background |
 
 ---
 
-*Document Version: 1.0 — March 2026*  
+*Document Version: 2.0 — April 2026*  
 *Brand: WebDevPro.io by Reggie Cosens*
