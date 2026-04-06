@@ -169,6 +169,7 @@ const ServicesPage = () => {
                         </ul>
                       </div>
                     </div>
+                    </div>
                   </article>
                   </ScrollReveal>
                 );
