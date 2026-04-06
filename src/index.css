@@ -60,7 +60,7 @@
 
   /* Light theme overrides */
   .light {
-    --background: 0 0% 98%;
+    --background: 220 20% 97%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -84,8 +84,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
+    --border: 220 13% 88%;
+    --input: 220 13% 88%;
     --ring: 217 90% 59%;
 
     --sidebar-background: 0 0% 98%;
@@ -98,13 +98,13 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* WebDevPro Light Theme Tokens */
-    --webdev-bg: 0 0% 98%;
-    --webdev-bg-secondary: 220 20% 97%;
+    --webdev-bg: 220 20% 95%;
+    --webdev-bg-secondary: 220 18% 93%;
     --webdev-bg-tertiary: 220 14% 96%;
     --webdev-text-primary: 222 47% 11%;
-    --webdev-text-secondary: 215 16% 40%;
-    --webdev-glass-bg: 0 0% 100% / 0.7;
-    --webdev-glass-border: 220 13% 80% / 0.4;
+    --webdev-text-secondary: 215 20% 35%;
+    --webdev-glass-bg: 0 0% 100% / 0.85;
+    --webdev-glass-border: 220 13% 75% / 0.35;
     --webdev-gradient-start: 217 90% 59%;
     --webdev-gradient-end: 271 76% 53%;
   }
@@ -401,15 +401,15 @@
 /* ===================== */
 .light .glass-effect.rounded-xl,
 .light .glass-effect.rounded-2xl {
-  background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(240,245,255,0.88) 50%, rgba(245,240,255,0.84) 100%) !important;
-  border: 1px solid rgba(66, 133, 244, 0.15) !important;
-  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.06), 0 2px 8px rgba(138, 43, 226, 0.03);
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,245,255,0.92) 50%, rgba(245,240,255,0.88) 100%) !important;
+  border: 1px solid rgba(66, 133, 244, 0.18) !important;
+  box-shadow: 0 4px 24px rgba(66, 133, 244, 0.08), 0 2px 8px rgba(138, 43, 226, 0.04), 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .light .glass-effect.rounded-xl:hover,
 .light .glass-effect.rounded-2xl:hover {
-  border-color: rgba(66, 133, 244, 0.25) !important;
-  box-shadow: 0 8px 30px rgba(66, 133, 244, 0.1), 0 4px 12px rgba(138, 43, 226, 0.06);
+  border-color: rgba(66, 133, 244, 0.3) !important;
+  box-shadow: 0 8px 30px rgba(66, 133, 244, 0.12), 0 4px 12px rgba(138, 43, 226, 0.08), 0 2px 6px rgba(0,0,0,0.05);
 }
 
 /* ===================== */
@@ -532,7 +532,7 @@
 }
 
 .light .smoke-element-subtle {
-  background: radial-gradient(circle, rgba(66, 133, 244, 0.05) 0%, rgba(138, 43, 226, 0.03) 30%, transparent 60%);
+  background: radial-gradient(circle, rgba(66, 133, 244, 0.025) 0%, rgba(138, 43, 226, 0.015) 30%, transparent 60%);
 }
 
 .smoke-particle {
@@ -562,5 +562,5 @@
 }
 
 .light .smoke-particle-subtle {
-  background: radial-gradient(circle, rgba(66, 133, 244, 0.06) 0%, rgba(138, 43, 226, 0.03) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(66, 133, 244, 0.03) 0%, rgba(138, 43, 226, 0.015) 50%, transparent 70%);
 }

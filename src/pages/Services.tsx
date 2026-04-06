@@ -9,6 +9,10 @@ import StructuredData from '@/components/StructuredData';
 import ScrollReveal from '@/components/ScrollReveal';
 import SmokeBackground from '@/components/SmokeBackground';
 import { useTheme } from '@/contexts/ThemeContext';
+import serviceCustomDesign from '@/assets/service-custom-design.jpg';
+import serviceFullstackDev from '@/assets/service-fullstack-dev.jpg';
+import serviceSeoOptimization from '@/assets/service-seo-optimization.jpg';
+import serviceRedesignRevamp from '@/assets/service-redesign-revamp.jpg';
 
 const ServicesPage = () => {
   const { theme } = useTheme();
@@ -17,6 +21,8 @@ const ServicesPage = () => {
   const services = [
     {
       icon: Palette, title: "Custom Website Design",
+      image: serviceCustomDesign,
+      imageAlt: "Abstract floating UI components representing custom website design services",
       description: "Crafting responsive, on-brand websites that captivate and convert.",
       features: ["Mobile-first design", "Clean, user-focused layouts", "High-end visual polish"],
       detailedDescription: "Transform your digital presence with custom website designs that perfectly reflect your brand identity.",
@@ -26,6 +32,8 @@ const ServicesPage = () => {
     },
     {
       icon: Code, title: "Full-Stack Development",
+      image: serviceFullstackDev,
+      imageAlt: "Code editor windows and server architecture representing full-stack development",
       description: "Complete front-end and back-end builds using modern code and frameworks.",
       features: ["HTML, CSS, JavaScript, Python (Flask)", "Database and API integration", "Performance-optimized"],
       detailedDescription: "Build robust, scalable web applications with modern full-stack development.",
@@ -35,6 +43,8 @@ const ServicesPage = () => {
     },
     {
       icon: Search, title: "SEO & Optimization",
+      image: serviceSeoOptimization,
+      imageAlt: "Analytics charts and search metrics representing SEO optimization services",
       description: "Making your site fast, discoverable, and high-performing.",
       features: ["On-page SEO", "Load time enhancements", "Semantic HTML structure"],
       detailedDescription: "Maximize your website's visibility and performance with comprehensive SEO optimization.",
@@ -44,6 +54,8 @@ const ServicesPage = () => {
     },
     {
       icon: RefreshCw, title: "Redesign & Revamp",
+      image: serviceRedesignRevamp,
+      imageAlt: "Before and after website transformation representing redesign services",
       description: "Give your outdated site a full makeover — sleek, modern, and high-converting.",
       features: ["UI/UX refresh", "Code cleanup or replatforming", "Conversion-focused updates"],
       detailedDescription: "Breathe new life into your existing website with a complete redesign and modernization.",
@@ -86,8 +98,21 @@ const ServicesPage = () => {
                 return (
                   <ScrollReveal key={service.title} delay={index * 80}>
                   <article id={service.title.toLowerCase().replace(/\s+/g, '-')}
-                    className="group glass-effect hover:glass-border rounded-xl p-8 md:p-12 transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+                    className="group glass-effect hover:glass-border rounded-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
                     
+                    {/* Service Image */}
+                    <div className="w-full h-48 md:h-56 overflow-hidden">
+                      <img 
+                        src={service.image} 
+                        alt={service.imageAlt}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        width={896}
+                        height={512}
+                      />
+                    </div>
+
+                    <div className="p-8 md:p-12">
                     <header className="flex flex-col md:flex-row md:items-center gap-6 mb-8">
                       <div className="icon-gradient-container relative w-16 h-16 rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:rotate-12">
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
@@ -143,6 +168,7 @@ const ServicesPage = () => {
                           ))}
                         </ul>
                       </div>
+                    </div>
                     </div>
                   </article>
                   </ScrollReveal>
