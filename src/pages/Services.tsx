@@ -78,7 +78,7 @@ const ServicesPage = () => {
           <div className="max-w-6xl mx-auto">
             <header className="text-center space-y-8 max-w-4xl mx-auto relative z-10 mb-16">
               <div className="space-y-6" style={{ animation: 'fade-in 0.7s ease-out both' }}>
-                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect">
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover cursor-default">
                   <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse"></div>
                   <span className="text-wdp-text text-sm">Professional services</span>
                 </div>
@@ -130,7 +130,7 @@ const ServicesPage = () => {
                     <p className="text-wdp-text-secondary group-hover:text-wdp-text transition-colors duration-300 text-lg leading-relaxed mb-10">{service.detailedDescription}</p>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                      <div className="glass-effect rounded-lg p-6 transition-all duration-500 hover:scale-[1.02]">
+                      <div className="service-sub-card glass-effect rounded-lg p-6 transition-all duration-500 hover:scale-[1.02]">
                         <h3 className="text-lg font-semibold text-wdp-text mb-4 flex items-center gap-2">
                           <Check className="w-5 h-5 text-webdev-gradient-blue" />Key Benefits
                         </h3>
@@ -144,7 +144,7 @@ const ServicesPage = () => {
                         </ul>
                       </div>
 
-                      <div className="glass-effect rounded-lg p-6 transition-all duration-500 hover:scale-[1.02]">
+                      <div className="service-sub-card glass-effect rounded-lg p-6 transition-all duration-500 hover:scale-[1.02]">
                         <h3 className="text-lg font-semibold text-wdp-text mb-4 flex items-center gap-2">
                           <Zap className="w-5 h-5 text-webdev-gradient-purple" />Technologies & Tools
                         </h3>
@@ -155,7 +155,7 @@ const ServicesPage = () => {
                         </div>
                       </div>
 
-                      <div className="glass-effect rounded-lg p-6 transition-all duration-500 hover:scale-[1.02]">
+                      <div className="service-sub-card glass-effect rounded-lg p-6 transition-all duration-500 hover:scale-[1.02]">
                         <h3 className="text-lg font-semibold text-wdp-text mb-4 flex items-center gap-2">
                           <TrendingUp className="w-5 h-5 text-webdev-gradient-blue" />What You'll Receive
                         </h3>

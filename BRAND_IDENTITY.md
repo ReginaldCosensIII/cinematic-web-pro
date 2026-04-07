@@ -128,32 +128,47 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 - Gradient border via pseudo-elements (before/after)
 - Solid dark interior (`bg-wdp-bg-tertiary`)
 - Theme text color
-- Hover: blue/purple glow shadow
+- Hover: blue/purple glow shadow + `scale(1.02)`
+- Border-radius: `0.75rem` (rounded-xl)
 
 ### Light Mode — Gradient Fill
 - Solid brand gradient background (`#4285f4` → `#7c3aed` → `#8a2be2`)
 - `background-size: 200%` for shimmer animation on hover
 - White text and white icon colors
-- Hover: elevated shadow + translateY(-1px) lift
+- Hover: `scale(1.02)` + elevated glow shadow (matches dark mode enlarge behavior)
+- Border-radius: `0.75rem` (matches dark mode — uniform across themes)
 - Applied uniformly to ALL primary buttons site-wide via `[data-variant="glass"]`
 
 ### All Buttons:
-- Synced inner/outer border-radius: `0.75rem` outer, `calc(0.75rem - 1px)` inner
+- Uniform border-radius: `0.75rem` (rounded-xl) in both themes
 - Consistent `tracking-wide font-medium` typography
-- `hover:scale-[1.02]` subtle scale effect
+- `hover:scale(1.02)` enlarge effect on hover (both themes)
+- Gradient glow shadow on hover (both themes)
+
+### Start My Brief (LaunchPad CTA)
+- Custom larger sizing: `px-14 py-5 text-lg font-semibold`
+- Same gradient fill in both themes (inline style for maximum control)
+- Identical hover behavior: shimmer + scale + glow
 
 ---
 
 ## Badge System
 
 ### Interactive Badge Effects
+- Class: `badge-hover` applied to all section badges site-wide (Homepage, Services, Portfolio, Blog)
 - Hover: `transform: scale(1.08)` + dual-layer gradient glow
-- Light mode resting state: subtle blue border + shadow for visibility
+- Light mode resting state: stronger blue border + elevated shadow for visibility
+- Light mode hover: intensified glow (`0.45` blue, `0.3` purple opacity)
 - Dark mode resting state: glass-effect translucent
 
 ### Blog Tags
 - Light mode: gradient-tinted background with blue/purple border, dark indigo text
 - Dark mode: standard glass-effect appearance
+
+### Service Sub-Cards
+- Class: `service-sub-card` on Key Benefits, Technologies & Tools, What You'll Receive
+- Light mode: subtle blue-purple gradient bg at rest, full intensity on hover
+- Dark mode: transparent at rest, glass-effect bg on hover
 
 ---
 
@@ -217,9 +232,15 @@ box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
 - Default: `dark`
 
 ### Light vs Dark Design Philosophy
-- **Dark mode**: Pure black background, translucent glass cards, gradient stroke icons, gradient-border buttons
-- **Light mode**: Cool gray background (`hsl(220, 20%, 95%)`), white gradient cards with elevated shadows, solid gradient-fill icons with white glyphs, solid gradient-fill buttons with white text
-- Both modes share: brand gradient accents, animation system, component structure, typography scale
+- **Dark mode**: Pure black background, translucent glass cards, gradient stroke icons, gradient-border buttons with `scale(1.02)` hover
+- **Light mode**: Cool gray background (`hsl(220, 20%, 95%)`), white gradient cards with elevated shadows, solid gradient-fill icons with white glyphs, solid gradient-fill buttons with `scale(1.02)` hover + shimmer
+- Both modes share: brand gradient accents, animation system, component structure, typography scale, uniform `0.75rem` button radius, `scale(1.02)` hover behavior
+
+### Dashboard Light Mode
+- Headings: dark navy (`hsl(222, 47%, 11%)`) via `.dash-heading`
+- Body text: slate (`hsl(215, 20%, 35%)`) via `.dash-text`
+- Muted text: gray (`hsl(215, 16%, 47%)`) via `.dash-text-muted`
+- Skeleton loaders: light gray (`hsl(220, 14%, 90%)`) via `.dash-skeleton`
 
 ### Tailwind Usage
 - Use `text-wdp-text` / `text-wdp-text-secondary` for text
