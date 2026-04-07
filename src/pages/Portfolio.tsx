@@ -101,7 +101,7 @@ const Portfolio = () => {
         <section className="max-w-6xl mx-auto px-6 mb-20">
           <ScrollReveal>
             <div className="space-y-6">
-              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect">
+              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover cursor-default">
                 <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse" />
                 <span className="text-wdp-text text-sm">Portfolio</span>
               </div>
