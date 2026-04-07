@@ -60,7 +60,7 @@
 
   /* Light theme overrides */
   .light {
-    --background: 220 20% 97%;
+    --background: 220 20% 95%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -360,6 +360,7 @@
   background-size: 200% 200% !important;
   color: white !important;
   border: none !important;
+  border-radius: 0.75rem !important;
   box-shadow: 0 4px 15px rgba(66, 133, 244, 0.25), 0 2px 8px rgba(138, 43, 226, 0.15);
   position: relative;
 }
@@ -375,7 +376,7 @@
 .light [data-variant="glass"]:hover {
   background-position: 100% 50% !important;
   box-shadow: 0 8px 25px rgba(66, 133, 244, 0.35), 0 4px 15px rgba(138, 43, 226, 0.25), 0 0 20px rgba(66, 133, 244, 0.2);
-  transform: translateY(-1px);
+  transform: scale(1.02);
 }
 
 .light .btn-glass-themed svg,
@@ -387,13 +388,13 @@
 /* LIGHT MODE: Badge enhanced glow */
 /* ===================== */
 .light .badge-hover {
-  box-shadow: 0 2px 12px rgba(66, 133, 244, 0.12), 0 1px 4px rgba(138, 43, 226, 0.08);
-  border: 1px solid rgba(66, 133, 244, 0.2) !important;
+  box-shadow: 0 4px 16px rgba(66, 133, 244, 0.18), 0 2px 8px rgba(138, 43, 226, 0.12);
+  border: 1px solid rgba(66, 133, 244, 0.25) !important;
 }
 
 .light .badge-hover:hover {
-  box-shadow: 0 0 20px rgba(66, 133, 244, 0.35), 0 0 35px rgba(138, 43, 226, 0.25), 0 4px 16px rgba(66, 133, 244, 0.15) !important;
-  border-color: rgba(66, 133, 244, 0.4) !important;
+  box-shadow: 0 0 24px rgba(66, 133, 244, 0.45), 0 0 40px rgba(138, 43, 226, 0.3), 0 4px 20px rgba(66, 133, 244, 0.2) !important;
+  border-color: rgba(66, 133, 244, 0.5) !important;
 }
 
 /* ===================== */
@@ -401,15 +402,59 @@
 /* ===================== */
 .light .glass-effect.rounded-xl,
 .light .glass-effect.rounded-2xl {
-  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,245,255,0.92) 50%, rgba(245,240,255,0.88) 100%) !important;
-  border: 1px solid rgba(66, 133, 244, 0.18) !important;
-  box-shadow: 0 4px 24px rgba(66, 133, 244, 0.08), 0 2px 8px rgba(138, 43, 226, 0.04), 0 1px 3px rgba(0,0,0,0.04);
+  background: linear-gradient(135deg, rgba(255,255,255,0.97) 0%, rgba(240,245,255,0.94) 50%, rgba(245,240,255,0.90) 100%) !important;
+  border: 1px solid rgba(66, 133, 244, 0.2) !important;
+  box-shadow: 0 4px 24px rgba(66, 133, 244, 0.1), 0 2px 8px rgba(138, 43, 226, 0.06), 0 1px 3px rgba(0,0,0,0.06);
 }
 
 .light .glass-effect.rounded-xl:hover,
 .light .glass-effect.rounded-2xl:hover {
+  border-color: rgba(66, 133, 244, 0.35) !important;
+  box-shadow: 0 8px 30px rgba(66, 133, 244, 0.15), 0 4px 12px rgba(138, 43, 226, 0.1), 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* ===================== */
+/* LIGHT MODE: Service sub-card gradient bg */
+/* ===================== */
+.light .service-sub-card {
+  background: linear-gradient(135deg, rgba(240,245,255,0.6) 0%, rgba(245,240,255,0.5) 100%) !important;
+  border: 1px solid rgba(66, 133, 244, 0.15) !important;
+  box-shadow: 0 2px 12px rgba(66, 133, 244, 0.06);
+}
+
+.light .service-sub-card:hover {
+  background: linear-gradient(135deg, rgba(235,242,255,0.95) 0%, rgba(240,235,255,0.9) 100%) !important;
   border-color: rgba(66, 133, 244, 0.3) !important;
-  box-shadow: 0 8px 30px rgba(66, 133, 244, 0.12), 0 4px 12px rgba(138, 43, 226, 0.08), 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.12), 0 2px 8px rgba(138, 43, 226, 0.08);
+}
+
+.dark .service-sub-card {
+  transition: all 0.3s ease;
+}
+
+.dark .service-sub-card:hover {
+  background: hsla(var(--webdev-glass-bg)) !important;
+  border-color: rgba(66, 133, 244, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(66, 133, 244, 0.1), 0 2px 8px rgba(138, 43, 226, 0.06);
+}
+
+/* ===================== */
+/* LIGHT MODE: Dashboard overrides */
+/* ===================== */
+.light .dash-heading {
+  color: hsl(222, 47%, 11%) !important;
+}
+
+.light .dash-text {
+  color: hsl(215, 20%, 35%) !important;
+}
+
+.light .dash-text-muted {
+  color: hsl(215, 16%, 47%) !important;
+}
+
+.light .dash-skeleton {
+  background-color: hsl(220, 14%, 90%) !important;
 }
 
 /* ===================== */
