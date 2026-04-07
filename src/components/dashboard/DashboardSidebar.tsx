@@ -32,10 +32,10 @@ const DashboardSidebar = () => {
   return (
     <div className="glass-effect rounded-2xl p-6 border border-webdev-glass-border h-fit sticky top-32">
       <div className="mb-8">
-        <Link to="/" className="text-2xl font-light text-webdev-silver hover:text-white transition-colors">
+        <Link to="/" className="text-2xl font-light dash-heading text-wdp-text hover:opacity-80 transition-colors">
           &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">Pro</span>&gt;
         </Link>
-        <p className="text-sm text-webdev-soft-gray mt-1">Client Portal</p>
+        <p className="text-sm dash-text-muted text-wdp-text-secondary mt-1">Client Portal</p>
       </div>
       
       <nav className="space-y-2">
@@ -49,8 +49,8 @@ const DashboardSidebar = () => {
               to={item.path}
               className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 group ${
                 isActive 
-                  ? 'bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 text-webdev-silver border border-webdev-gradient-blue/30' 
-                  : 'text-webdev-soft-gray hover:text-webdev-silver hover:bg-webdev-darker-gray/50'
+                  ? 'bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 dash-heading text-wdp-text border border-webdev-gradient-blue/30' 
+                  : 'dash-text-muted text-wdp-text-secondary hover:text-wdp-text hover:bg-webdev-darker-gray/50'
               }`}
             >
               <IconComponent className={`w-5 h-5 transition-colors ${
@@ -65,7 +65,7 @@ const DashboardSidebar = () => {
       <div className="mt-8 pt-6 border-t border-webdev-glass-border">
         <button
           onClick={handleSignOut}
-          className="flex items-center space-x-3 px-4 py-3 rounded-xl text-webdev-soft-gray hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 w-full group"
+          className="flex items-center space-x-3 px-4 py-3 rounded-xl dash-text-muted text-wdp-text-secondary hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 w-full group"
         >
           <LogOut className="w-5 h-5 group-hover:text-red-400 transition-colors" />
           <span className="font-medium">Sign Out</span>

@@ -103,16 +103,30 @@ const ProjectBriefGenerator = () => {
                 </p>
                 
                 <div className="flex justify-center">
-                  <Button
+                  <button
                     onClick={handleStartBrief}
-                    variant="glass"
-                    size="lg"
-                    className="px-12 py-6 rounded-xl text-lg h-auto group"
+                    className="group relative px-14 py-5 rounded-xl text-lg font-semibold tracking-wide transition-all duration-300 hover:scale-[1.02] overflow-hidden"
+                    style={{
+                      background: 'linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2)',
+                      backgroundSize: '200% 200%',
+                      color: 'white',
+                      boxShadow: '0 4px 20px rgba(66,133,244,0.3), 0 2px 10px rgba(138,43,226,0.2)',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundPosition = '100% 50%';
+                      e.currentTarget.style.boxShadow = '0 8px 30px rgba(66,133,244,0.4), 0 4px 15px rgba(138,43,226,0.3), 0 0 25px rgba(66,133,244,0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundPosition = '0% 50%';
+                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(66,133,244,0.3), 0 2px 10px rgba(138,43,226,0.2)';
+                    }}
                   >
-                    <Rocket className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                    Start My Brief
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Button>
+                    <span className="flex items-center">
+                      <Rocket className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                      Start My Brief
+                      <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+                    </span>
+                  </button>
                 </div>
               </div>
 
