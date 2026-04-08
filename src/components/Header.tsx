@@ -92,12 +92,9 @@ const Header = () => {
                 >
                   Dashboard
                 </Link>
-                <button
-                  onClick={handleSignOut}
-                  className="glass-effect px-4 py-2 rounded-xl text-wdp-text hover:opacity-80 transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden border-0 before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-[11px] after:bg-wdp-bg-tertiary after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] text-sm"
-                >
-                  <span className="relative z-10">Sign Out</span>
-                </button>
+                <Button variant="glass" size="sm" onClick={handleSignOut} className="tracking-wide">
+                  Sign Out
+                </Button>
               </div>
             ) : (
               <Link to="/auth">
@@ -163,12 +160,9 @@ const Header = () => {
                   >
                     Dashboard
                   </Link>
-                  <button
-                    onClick={handleSignOut}
-                    className="glass-effect px-4 py-2 rounded-xl text-wdp-text hover:opacity-80 transition-all duration-300 tracking-wide font-medium hover:scale-[1.02] relative overflow-hidden border-0 before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-webdev-gradient-blue before:to-webdev-gradient-purple before:-z-10 after:absolute after:inset-[1px] after:rounded-[11px] after:bg-wdp-bg-tertiary after:-z-10 hover:shadow-[0_0_20px_rgba(66,133,244,0.3),0_0_30px_rgba(138,43,226,0.2)] inline-block text-center mt-2 text-sm"
-                  >
-                    <span className="relative z-10">Sign Out</span>
-                  </button>
+                  <Button variant="glass" size="sm" onClick={handleSignOut} className="w-full tracking-wide mt-2">
+                    Sign Out
+                  </Button>
                 </>
               ) : (
                 <Link
