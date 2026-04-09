@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, Send, X, Minimize2, User, Bot } from 'lucide-react';
+import { MessageCircle, Send, X, Minimize2, Maximize2, User, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { useTheme } from '@/contexts/ThemeContext';
+
 
 interface Message {
   id: string;
@@ -21,8 +21,7 @@ const ChatBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const isDark = true;
 
   const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); };
   useEffect(() => { scrollToBottom(); }, [messages]);
@@ -104,7 +103,11 @@ const ChatBot = () => {
         </div>
 
         {isMinimized ? (
-          <Button onClick={() => setIsMinimized(false)} variant="ghost" className="w-full h-8 text-wdp-text-secondary hover:text-wdp-text text-sm">Click to restore chat</Button>
+          <div className="flex items-center justify-end px-2 h-8">
+            <Button onClick={() => setIsMinimized(false)} variant="ghost" size="sm" className="w-8 h-8 p-0 text-wdp-text-secondary hover:text-wdp-text">
+              <Maximize2 className="w-4 h-4" />
+            </Button>
+          </div>
         ) : (
           <>
             <div className="flex-1 overflow-y-auto p-4 space-y-4 h-64">
