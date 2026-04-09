@@ -8,8 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
-import { Shield, Eye, EyeOff, Sun, Moon, Palette } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
+import { Shield, Eye, EyeOff } from 'lucide-react';
 
 interface SecureProfileSettingsProps {
   user: User;
@@ -31,7 +30,6 @@ interface FormErrors {
 }
 
 const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) => {
-  const { theme, setTheme } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     full_name: user.user_metadata?.full_name || '',
     current_password: '',
@@ -112,45 +110,6 @@ const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) =
 
   return (
     <div className="space-y-6 w-full max-w-2xl">
-      {/* Theme Preference Card */}
-      <Card className="glass-effect border-none bg-transparent">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-wdp-text">
-            <Palette className="w-5 h-5" />
-            Theme Preference
-          </CardTitle>
-          <CardDescription className="text-wdp-text-secondary">
-            Choose your preferred visual theme
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-4">
-            <button
-              onClick={() => setTheme('dark')}
-              className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all duration-300 ${
-                theme === 'dark'
-                  ? 'border-webdev-gradient-blue bg-webdev-gradient-blue/10'
-                  : 'glass-effect hover:border-webdev-gradient-blue/50'
-              }`}
-            >
-              <Moon className={`w-5 h-5 ${theme === 'dark' ? 'text-webdev-gradient-blue' : 'text-wdp-text-secondary'}`} />
-              <span className={`font-medium ${theme === 'dark' ? 'text-webdev-gradient-blue' : 'text-wdp-text-secondary'}`}>Dark</span>
-            </button>
-            <button
-              onClick={() => setTheme('light')}
-              className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all duration-300 ${
-                theme === 'light'
-                  ? 'border-webdev-gradient-blue bg-webdev-gradient-blue/10'
-                  : 'glass-effect hover:border-webdev-gradient-blue/50'
-              }`}
-            >
-              <Sun className={`w-5 h-5 ${theme === 'light' ? 'text-webdev-gradient-blue' : 'text-wdp-text-secondary'}`} />
-              <span className={`font-medium ${theme === 'light' ? 'text-webdev-gradient-blue' : 'text-wdp-text-secondary'}`}>Light</span>
-            </button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Profile Settings Card */}
       <Card className="glass-effect border-none bg-transparent">
         <CardHeader>

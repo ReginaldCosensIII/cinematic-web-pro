@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
-import { useTheme } from '@/contexts/ThemeContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
   const { isAdmin } = useAdminCheck();
-  const { theme, toggleTheme } = useTheme();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -66,18 +64,6 @@ const Header = () => {
               </Link>
             ))}
 
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg glass-effect transition-all duration-300 hover:scale-105"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-wdp-text-secondary hover:text-yellow-400 transition-colors" />
-              ) : (
-                <Moon className="w-4 h-4 text-wdp-text-secondary hover:text-webdev-gradient-purple transition-colors" />
-              )}
-            </button>
 
             {/* User Menu */}
             {user ? (
@@ -107,17 +93,6 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center space-x-3 md:hidden">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg glass-effect transition-all duration-300"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-wdp-text-secondary" />
-              ) : (
-                <Moon className="w-4 h-4 text-wdp-text-secondary" />
-              )}
-            </button>
             <button
               onClick={toggleMenu}
               className="text-wdp-text hover:opacity-80 transition-colors duration-300"

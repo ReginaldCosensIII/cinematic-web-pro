@@ -105,7 +105,7 @@ const ProjectBriefGenerator = () => {
                 <div className="flex justify-center">
                   <button
                     onClick={handleStartBrief}
-                    className="group relative px-14 py-5 rounded-xl text-lg font-semibold tracking-wide transition-all duration-300 hover:scale-[1.02] overflow-hidden"
+                    className="group relative px-14 py-5 rounded-full text-lg font-semibold tracking-wide transition-all duration-300 hover:scale-[1.02] overflow-hidden"
                     style={{
                       background: 'linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2)',
                       backgroundSize: '200% 200%',
@@ -121,7 +121,7 @@ const ProjectBriefGenerator = () => {
                       e.currentTarget.style.boxShadow = '0 4px 20px rgba(66,133,244,0.3), 0 2px 10px rgba(138,43,226,0.2)';
                     }}
                   >
-                    <span className="flex items-center">
+                    <span className="flex items-center text-white">
                       <Rocket className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                       Start My Brief
                       <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
