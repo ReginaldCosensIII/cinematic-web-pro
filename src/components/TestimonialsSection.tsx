@@ -116,10 +116,8 @@ const TestimonialsSection = () => {
 
                       <div className="order-1 lg:order-2">
                         <div className="relative group glass-effect hover:glass-border rounded-xl p-8 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
-                          <div className="absolute -top-4 -left-4 w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                            <div className={`w-full h-full rounded-full flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : 'bg-white'}`}>
-                              <Quote className="w-4 h-4 text-wdp-text" />
-                            </div>
+                          <div className="absolute -top-4 -left-4 icon-badge-3d w-8 h-8 rounded-full flex items-center justify-center">
+                            <Quote className="w-4 h-4 text-white" />
                           </div>
 
                           <div className="flex items-center mb-6">

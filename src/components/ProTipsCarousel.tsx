@@ -54,10 +54,8 @@ const ProTipsCarousel = () => {
                 <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center">
                     <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                        <div className={`icon-inner w-full h-full rounded-xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                          <tip.icon className="w-6 h-6" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                        </div>
+                      <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                        <tip.icon className="w-6 h-6" />
                       </div>
                     </div>
                     <h4 className="font-semibold text-wdp-text text-sm mb-2">{tip.title}</h4>
