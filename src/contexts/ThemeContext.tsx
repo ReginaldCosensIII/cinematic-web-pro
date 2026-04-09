@@ -22,62 +22,18 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    // Check localStorage first for immediate render
-    const stored = localStorage.getItem('webdevpro-theme');
-    return (stored === 'light' || stored === 'dark') ? stored : 'dark';
-  });
-  const { user } = useAuth();
+  const [theme] = useState<Theme>('dark');
 
-  // Load preference from DB when user logs in
-  useEffect(() => {
-    if (!user) return;
-
-    const loadPreference = async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('theme_preference')
-        .eq('id', user.id)
-        .single();
-
-      if (!error && data?.theme_preference) {
-        const pref = data.theme_preference as Theme;
-        setThemeState(pref);
-        localStorage.setItem('webdevpro-theme', pref);
-      }
-    };
-
-    loadPreference();
-  }, [user]);
-
-  // Apply theme class to document
+  // Always apply dark mode
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'light') {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    } else {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    }
-  }, [theme]);
+    root.classList.add('dark');
+    root.classList.remove('light');
+  }, []);
 
-  const setTheme = async (newTheme: Theme) => {
-    setThemeState(newTheme);
-    localStorage.setItem('webdevpro-theme', newTheme);
-
-    // Persist to DB if logged in
-    if (user) {
-      await supabase
-        .from('profiles')
-        .update({ theme_preference: newTheme })
-        .eq('id', user.id);
-    }
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
+  // No-op setters — light mode is disabled for now
+  const setTheme = (_newTheme: Theme) => {};
+  const toggleTheme = () => {};
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>

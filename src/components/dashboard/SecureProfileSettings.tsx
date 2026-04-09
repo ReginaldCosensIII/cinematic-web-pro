@@ -8,8 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
-import { Shield, Eye, EyeOff, Sun, Moon, Palette } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
+import { Shield, Eye, EyeOff } from 'lucide-react';
 
 interface SecureProfileSettingsProps {
   user: User;
@@ -31,7 +30,6 @@ interface FormErrors {
 }
 
 const SecureProfileSettings = ({ user, onUpdate }: SecureProfileSettingsProps) => {
-  const { theme, setTheme } = useTheme();
   const [formData, setFormData] = useState<FormData>({
     full_name: user.user_metadata?.full_name || '',
     current_password: '',
