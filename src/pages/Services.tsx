@@ -115,10 +115,8 @@ const ServicesPage = () => {
                     <div className="p-8 md:p-12">
                     <header className="flex flex-col md:flex-row md:items-center gap-6 mb-8">
                       <div className="icon-gradient-container relative w-16 h-16 rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:rotate-12">
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                          <div className={`icon-inner w-full h-full rounded-xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                            <IconComponent className="w-8 h-8" stroke={isDark ? "url(#services-icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                          </div>
+                        <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                          <IconComponent className="w-8 h-8" />
                         </div>
                       </div>
                       <div>

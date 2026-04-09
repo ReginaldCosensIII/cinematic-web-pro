@@ -71,15 +71,8 @@ const Services = () => {
                 
                 <header className="flex items-center mb-6">
                   <div className="icon-gradient-container relative w-12 h-12 rounded-lg mr-4 transition-transform duration-300 group-hover:rotate-12" aria-hidden="true">
-                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                      <div className={`icon-inner w-full h-full rounded-lg flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                        <IconComponent 
-                          className="w-6 h-6" 
-                          stroke={isDark ? "url(#icon-gradient)" : "white"}
-                          fill="none"
-                          strokeWidth={2}
-                        />
-                      </div>
+                    <div className="icon-inner w-full h-full rounded-lg flex items-center justify-center">
+                      <IconComponent className="w-6 h-6" />
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold text-wdp-text group-hover:opacity-80 transition-colors duration-300">

@@ -99,10 +99,8 @@ const Contact = () => {
                   ].map(({ icon: Icon, label, value }) => (
                     <div key={label} className="flex items-center">
                       <div className="icon-gradient-container relative w-12 h-12 rounded-full mr-4">
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                          <div className={`icon-inner w-full h-full rounded-full flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                            <Icon className="w-5 h-5" stroke={isDark ? "url(#contact-icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                          </div>
+                        <div className="icon-inner w-full h-full rounded-full flex items-center justify-center">
+                          <Icon className="w-5 h-5" />
                         </div>
                       </div>
                       <div>

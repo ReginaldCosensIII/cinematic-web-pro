@@ -100,19 +100,19 @@ const Portfolio = () => {
         {/* Hero */}
         <section className="max-w-6xl mx-auto px-6 mb-20">
           <ScrollReveal>
-            <div className="space-y-6">
+            <header className="text-center space-y-6">
               <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover cursor-default">
                 <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse" />
                 <span className="text-wdp-text text-sm">Portfolio</span>
               </div>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight leading-[0.95]">
-                <span className="text-wdp-text">Crafted with</span><br />
+              <h1 className="text-4xl md:text-5xl font-light text-wdp-text tracking-wide">
+                Crafted with{' '}
                 <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">Precision</span>
               </h1>
-              <p className="text-lg md:text-xl text-wdp-text-secondary max-w-xl leading-relaxed">
+              <p className="text-xl text-wdp-text-secondary max-w-2xl mx-auto leading-relaxed">
                 Each project is a study in thoughtful engineering, clean design, and purposeful user experience.
               </p>
-            </div>
+            </header>
           </ScrollReveal>
         </section>
 
