@@ -82,10 +82,8 @@ const ProcessSection = () => {
                         
                         <div className="flex flex-col items-center mb-4">
                           <div className="icon-gradient-container relative w-12 h-12 rounded-full mb-3">
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                              <div className={`icon-inner w-full h-full rounded-full flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                                <IconComponent className="w-6 h-6" stroke={isDark ? "url(#process-icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                              </div>
+                            <div className="icon-inner w-full h-full rounded-full flex items-center justify-center">
+                              <IconComponent className="w-6 h-6" />
                             </div>
                           </div>
                           <h4 className="text-lg font-semibold text-wdp-text group-hover:opacity-80 transition-colors duration-300">{step.title}</h4>
