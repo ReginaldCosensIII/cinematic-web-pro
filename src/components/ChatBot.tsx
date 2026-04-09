@@ -64,14 +64,10 @@ const ChatBot = () => {
       <div className="fixed bottom-20 right-6 z-50">
         <button
           onClick={toggleChat}
-          className={`chatbot-bubble w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg ${
-            isDark
-              ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple'
-              : ''
-          }`}
+          className="chatbot-bubble w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple"
           aria-label="Open chat"
         >
-          <MessageCircle className="w-6 h-6 text-white" />
+          <Bot className="w-6 h-6 text-white" />
         </button>
       </div>
     );
@@ -79,10 +75,10 @@ const ChatBot = () => {
 
   return (
     <div className="fixed bottom-20 right-6 z-50">
-      <div className={`glass-effect rounded-2xl transition-all duration-300 ${isMinimized ? 'w-80 h-16' : 'w-80 h-96'}`}>
-        <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className={`glass-effect rounded-2xl transition-all duration-300 ${isMinimized ? 'w-80 h-14' : 'w-80 h-[26rem]'}`}>
+        <div className="flex items-center justify-between p-3 border-b border-border">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
+            <div className="icon-badge-3d w-8 h-8 rounded-full flex items-center justify-center">
               <Bot className="w-4 h-4 text-white" />
             </div>
             <div>
@@ -90,8 +86,12 @@ const ChatBot = () => {
               <p className="text-wdp-text-secondary text-xs">Online</p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
-            {!isMinimized && (
+          <div className="flex items-center space-x-1">
+            {isMinimized ? (
+              <Button onClick={() => setIsMinimized(false)} variant="ghost" size="sm" className="w-8 h-8 p-0 text-wdp-text-secondary hover:text-wdp-text">
+                <Maximize2 className="w-4 h-4" />
+              </Button>
+            ) : (
               <Button onClick={() => setIsMinimized(true)} variant="ghost" size="sm" className="w-8 h-8 p-0 text-wdp-text-secondary hover:text-wdp-text">
                 <Minimize2 className="w-4 h-4" />
               </Button>
@@ -102,13 +102,7 @@ const ChatBot = () => {
           </div>
         </div>
 
-        {isMinimized ? (
-          <div className="flex items-center justify-end px-2 h-8">
-            <Button onClick={() => setIsMinimized(false)} variant="ghost" size="sm" className="w-8 h-8 p-0 text-wdp-text-secondary hover:text-wdp-text">
-              <Maximize2 className="w-4 h-4" />
-            </Button>
-          </div>
-        ) : (
+        {isMinimized ? null : (
           <>
             <div className="flex-1 overflow-y-auto p-4 space-y-4 h-64">
               {messages.map((message) => (
@@ -157,7 +151,7 @@ const ChatBot = () => {
               <div className="flex space-x-2">
                 <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about web development..." disabled={isLoading} />
-                <Button onClick={sendMessage} disabled={!inputValue.trim() || isLoading} variant="glass" className="px-3 py-2">
+                <Button onClick={sendMessage} disabled={!inputValue.trim() || isLoading} variant="glass" className="px-3 py-2 flex-shrink-0">
                   <Send className="w-4 h-4" />
                 </Button>
               </div>
