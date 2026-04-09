@@ -71,10 +71,8 @@ const ProjectBriefGenerator = () => {
               <div className="text-center max-w-5xl mx-auto mb-16">
                 <div className="flex justify-center items-center mb-8">
                   <div className="icon-gradient-container relative w-12 h-12 rounded-xl mr-4">
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                      <div className={`icon-inner w-full h-full rounded-xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                        <Rocket className="w-6 h-6" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                      </div>
+                    <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                      <Rocket className="w-6 h-6" />
                     </div>
                   </div>
                   <h1 className="text-5xl md:text-6xl font-bold text-wdp-text">
@@ -141,10 +139,8 @@ const ProjectBriefGenerator = () => {
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
                     <div className="relative z-10">
                       <div className="icon-gradient-container relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                          <div className={`icon-inner w-full h-full rounded-2xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                            <card.icon className="w-8 h-8" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                          </div>
+                        <div className="icon-inner w-full h-full rounded-2xl flex items-center justify-center">
+                          <card.icon className="w-8 h-8" />
                         </div>
                       </div>
                       <h3 className="text-xl font-semibold text-wdp-text group-hover:opacity-80 transition-colors duration-300 mb-3">{card.title}</h3>
@@ -163,10 +159,8 @@ const ProjectBriefGenerator = () => {
               <div className="text-center mb-8">
                 <div className="flex justify-center items-center mb-4">
                   <div className="icon-gradient-container relative w-12 h-12 rounded-xl mr-4">
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                      <div className={`icon-inner w-full h-full rounded-xl flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                        <Rocket className="w-6 h-6" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                      </div>
+                    <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                      <Rocket className="w-6 h-6" />
                     </div>
                   </div>
                   <h1 className="text-5xl md:text-6xl font-bold text-wdp-text">
@@ -205,10 +199,8 @@ const ProjectBriefGenerator = () => {
                           <div key={index} className="p-4 rounded-lg glass-effect">
                             <div className="flex items-start space-x-3">
                               <div className="icon-gradient-container relative w-8 h-8 rounded-lg flex-shrink-0 mt-1">
-                                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple p-0.5">
-                                  <div className={`icon-inner w-full h-full rounded-lg flex items-center justify-center ${isDark ? 'bg-webdev-dark-gray' : ''}`}>
-                                    <tip.icon className="w-4 h-4" stroke={isDark ? "url(#icon-gradient)" : "white"} fill="none" strokeWidth={2} />
-                                  </div>
+                                <div className="icon-inner w-full h-full rounded-lg flex items-center justify-center">
+                                  <tip.icon className="w-4 h-4" />
                                 </div>
                               </div>
                               <div>
