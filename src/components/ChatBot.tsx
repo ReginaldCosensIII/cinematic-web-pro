@@ -110,18 +110,18 @@ const ChatBot = () => {
                   <div className={`flex items-start space-x-2 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                       message.role === 'user'
-                        ? (isDark ? 'bg-webdev-darker-gray' : 'bg-blue-100')
-                        : 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple'
+                        ? 'bg-webdev-darker-gray'
+                        : 'icon-badge-3d'
                     }`}>
                       {message.role === 'user'
-                        ? <User className={`w-3 h-3 ${isDark ? 'text-wdp-text' : 'text-blue-600'}`} />
+                        ? <User className="w-3 h-3 text-wdp-text" />
                         : <Bot className="w-3 h-3 text-white" />
                       }
                     </div>
                     <div className={`rounded-lg p-3 ${
                       message.role === 'user'
-                        ? (isDark ? 'bg-webdev-darker-gray text-wdp-text' : 'bg-blue-50 text-wdp-text')
-                        : (isDark ? 'bg-webdev-darker-gray/50 text-wdp-text-secondary' : 'bg-gray-50 text-wdp-text')
+                        ? 'bg-webdev-darker-gray text-wdp-text'
+                        : 'bg-webdev-darker-gray/50 text-wdp-text-secondary'
                     }`}>
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                     </div>
@@ -131,10 +131,10 @@ const ChatBot = () => {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start space-x-2">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center">
+                    <div className="icon-badge-3d w-6 h-6 rounded-full flex items-center justify-center">
                       <Bot className="w-3 h-3 text-white" />
                     </div>
-                    <div className={`rounded-lg p-3 ${isDark ? 'bg-webdev-darker-gray/50' : 'bg-gray-50'}`}>
+                    <div className="rounded-lg p-3 bg-webdev-darker-gray/50">
                       <div className="flex space-x-1">
                         <div className="w-2 h-2 bg-wdp-text-secondary rounded-full animate-pulse"></div>
                         <div className="w-2 h-2 bg-wdp-text-secondary rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
