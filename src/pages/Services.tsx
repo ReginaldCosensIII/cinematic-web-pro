@@ -114,7 +114,7 @@ const ServicesPage = () => {
 
                     <div className="p-8 md:p-12">
                     <header className="flex flex-col md:flex-row md:items-center gap-6 mb-8">
-                      <div className="icon-gradient-container relative w-16 h-16 rounded-xl flex-shrink-0 transition-transform duration-300 group-hover:rotate-12">
+                      <div className="icon-gradient-container relative w-16 h-16 rounded-xl flex-shrink-0">
                         <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
                           <IconComponent className="w-8 h-8" />
                         </div>
