@@ -253,6 +253,91 @@
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 
                 inset 0 -1px 2px rgba(0, 0, 0, 0.2),
                 0 2px 8px rgba(66, 133, 244, 0.3);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Premium shimmer hover for all icon badges */
+  .icon-badge-3d:hover,
+  .icon-gradient-container:hover .icon-inner {
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(66, 133, 244, 0.5),
+                0 2px 8px rgba(138, 43, 226, 0.3),
+                0 0 24px rgba(66, 133, 244, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.1);
+  }
+
+  .icon-gradient-container .icon-inner {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Shimmer sweep animation on hover */
+  .icon-badge-3d::after,
+  .icon-gradient-container .icon-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 100%
+    );
+    transition: left 0.6s ease;
+    border-radius: inherit;
+  }
+
+  .icon-badge-3d:hover::after,
+  .icon-gradient-container:hover .icon-inner::after {
+    left: 100%;
+  }
+
+  .icon-badge-3d,
+  .icon-gradient-container .icon-inner {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Chatbot window styling */
+  .chatbot-window {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid rgba(66, 133, 244, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                0 0 1px rgba(66, 133, 244, 0.3),
+                0 0 20px rgba(66, 133, 244, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* LaunchPad outline icon badge */
+  .icon-badge-outline {
+    background: transparent;
+    border: 2px solid rgba(138, 43, 226, 0.6);
+    box-shadow: 0 0 12px rgba(138, 43, 226, 0.15),
+                inset 0 0 8px rgba(66, 133, 244, 0.05);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .icon-badge-outline svg {
+    background: linear-gradient(135deg, #4285f4, #8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    stroke: url(#icon-gradient);
+  }
+
+  .icon-badge-outline:hover {
+    border-color: rgba(138, 43, 226, 0.8);
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.25),
+                0 0 8px rgba(66, 133, 244, 0.15);
+    transform: scale(1.1);
   }
 
   /* Theme-aware form inputs */
