@@ -11,6 +11,21 @@ const Header = () => {
   const { user, signOut } = useAuth();
   const { isAdmin } = useAdminCheck();
 
+  // Close menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isMenuOpen]);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -48,8 +63,8 @@ const Header = () => {
             &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">Pro</span>&gt;
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-4 lg:space-x-6">
+          {/* Desktop Navigation — hidden below lg breakpoint */}
+          <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -63,7 +78,6 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-
 
             {/* User Menu */}
             {user ? (
@@ -91,8 +105,8 @@ const Header = () => {
             )}
           </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-3 md:hidden">
+          {/* Mobile/Tablet Menu Button — visible below lg */}
+          <div className="flex items-center space-x-3 lg:hidden">
             <button
               onClick={toggleMenu}
               className="text-wdp-text hover:opacity-80 transition-colors duration-300"
@@ -103,9 +117,13 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden mt-4 glass-effect rounded-lg backdrop-blur-xl">
+        {/* Mobile/Tablet Navigation with smooth transition */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen ? 'max-h-[500px] opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'
+          }`}
+        >
+          <div className="glass-effect rounded-lg backdrop-blur-xl">
             <nav className="flex flex-col space-y-2 p-4">
               {navItems.map((item) => (
                 <Link
@@ -151,7 +169,7 @@ const Header = () => {
               )}
             </nav>
           </div>
-        )}
+        </div>
       </div>
     </header>
   );

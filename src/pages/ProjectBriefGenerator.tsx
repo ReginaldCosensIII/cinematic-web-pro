@@ -70,10 +70,8 @@ const ProjectBriefGenerator = () => {
               {/* Hero Section */}
               <div className="text-center max-w-5xl mx-auto mb-16">
                 <div className="flex justify-center items-center mb-8">
-                  <div className="icon-gradient-container relative w-12 h-12 rounded-xl mr-4">
-                    <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
-                      <Rocket className="w-6 h-6" />
-                    </div>
+                  <div className="icon-badge-outline w-12 h-12 rounded-xl mr-4 flex items-center justify-center">
+                    <Rocket className="w-6 h-6" style={{ color: '#8a2be2' }} />
                   </div>
                   <h1 className="text-5xl md:text-6xl font-bold text-wdp-text">
                     <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
@@ -103,26 +101,20 @@ const ProjectBriefGenerator = () => {
                 <div className="flex justify-center">
                   <button
                     onClick={handleStartBrief}
-                    className="group relative px-14 py-5 rounded-full text-lg font-semibold tracking-wide transition-all duration-300 hover:scale-[1.02] overflow-hidden"
-                    style={{
-                      background: 'linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2)',
-                      backgroundSize: '200% 200%',
-                      color: 'white',
-                      boxShadow: '0 4px 20px rgba(66,133,244,0.3), 0 2px 10px rgba(138,43,226,0.2)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundPosition = '100% 50%';
-                      e.currentTarget.style.boxShadow = '0 8px 30px rgba(66,133,244,0.4), 0 4px 15px rgba(138,43,226,0.3), 0 0 25px rgba(66,133,244,0.25)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundPosition = '0% 50%';
-                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(66,133,244,0.3), 0 2px 10px rgba(138,43,226,0.2)';
-                    }}
+                    className="group relative rounded-full overflow-hidden transition-all duration-300 hover:scale-[1.02]"
                   >
-                    <span className="flex items-center text-white">
-                      <Rocket className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
-                      Start My Brief
-                      <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+                    {/* Gradient border pseudo-element via wrapper */}
+                    <span className="block relative px-14 py-5 rounded-full text-lg font-semibold tracking-wide"
+                      style={{
+                        background: 'linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2)',
+                        padding: '2px',
+                      }}
+                    >
+                      <span className="flex items-center justify-center px-14 py-4 rounded-full bg-[#1a1a1a] text-wdp-text hover:bg-[#222] transition-colors duration-300">
+                        <Rocket className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                        Start My Brief
+                        <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
+                      </span>
                     </span>
                   </button>
                 </div>
@@ -138,7 +130,7 @@ const ProjectBriefGenerator = () => {
                   <div key={card.title} className="glass-effect rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
                     <div className="relative z-10">
-                      <div className="icon-gradient-container relative w-16 h-16 rounded-2xl mx-auto mb-6 group-hover:rotate-6 transition-transform duration-300">
+                      <div className="icon-gradient-container relative w-16 h-16 rounded-2xl mx-auto mb-6">
                         <div className="icon-inner w-full h-full rounded-2xl flex items-center justify-center">
                           <card.icon className="w-8 h-8" />
                         </div>
@@ -158,10 +150,8 @@ const ProjectBriefGenerator = () => {
               {/* Chat Header */}
               <div className="text-center mb-8">
                 <div className="flex justify-center items-center mb-4">
-                  <div className="icon-gradient-container relative w-12 h-12 rounded-xl mr-4">
-                    <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
-                      <Rocket className="w-6 h-6" />
-                    </div>
+                  <div className="icon-badge-outline w-12 h-12 rounded-xl mr-4 flex items-center justify-center">
+                    <Rocket className="w-6 h-6" style={{ color: '#8a2be2' }} />
                   </div>
                   <h1 className="text-5xl md:text-6xl font-bold text-wdp-text">
                     <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">

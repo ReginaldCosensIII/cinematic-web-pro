@@ -59,12 +59,15 @@ const ChatBot = () => {
   const handleKeyPress = (e: React.KeyboardEvent) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
   const toggleChat = () => { setIsOpen(!isOpen); setIsMinimized(false); };
 
+  // Desktop: bottom-6, tablets (md but not lg): bottom-20, mobile: bottom-6 (over footer is fine)
+  const positionClass = "fixed bottom-6 right-6 md:bottom-20 lg:bottom-6 z-50";
+
   if (!isOpen) {
     return (
-      <div className="fixed bottom-20 right-6 z-50">
+      <div className={positionClass}>
         <button
           onClick={toggleChat}
-          className="chatbot-bubble w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple"
+          className="chatbot-bubble icon-badge-3d w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
           aria-label="Open chat"
         >
           <Bot className="w-6 h-6 text-white" />
@@ -74,9 +77,9 @@ const ChatBot = () => {
   }
 
   return (
-    <div className="fixed bottom-20 right-6 z-50">
-      <div className={`glass-effect rounded-2xl transition-all duration-300 ${isMinimized ? 'w-80 h-14' : 'w-80 h-[26rem]'}`}>
-        <div className="flex items-center justify-between p-3 border-b border-border">
+    <div className={positionClass}>
+      <div className={`chatbot-window rounded-2xl transition-all duration-300 ${isMinimized ? 'w-80 h-14' : 'w-80 h-[26rem]'}`}>
+        <div className="flex items-center justify-between p-3 border-b border-white/10">
           <div className="flex items-center space-x-2">
             <div className="icon-badge-3d w-8 h-8 rounded-full flex items-center justify-center">
               <Bot className="w-4 h-4 text-white" />
@@ -147,7 +150,7 @@ const ChatBot = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-4 border-t border-border">
+            <div className="p-4 border-t border-white/10">
               <div className="flex space-x-2">
                 <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about web development..." disabled={isLoading} />
