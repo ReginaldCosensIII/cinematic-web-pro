@@ -9,7 +9,7 @@ import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import TimeEntryDetailsModal from '@/components/dashboard/TimeEntryDetailsModal';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Clock, FolderOpen, TargetX } from 'lucide-react';
+import { Clock, FolderOpen, Target } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface TimeEntry {

@@ -9,7 +9,7 @@ import InvoiceDetailsModal from '@/components/dashboard/InvoiceDetailsModal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Search, Receipt, Calendar, DollarSign, FileText, DownloadX, Eye } from 'lucide-react';
+import { Search, Receipt, Calendar, DollarSign, FileText, Download, Eye } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';

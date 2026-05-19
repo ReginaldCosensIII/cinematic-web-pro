@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import MilestoneDetailsModal from '@/components/dashboard/MilestoneDetailsModal';
-import { Target, Calendar, Clock, CheckCircleX } from 'lucide-react';
+import { Target, Calendar, Clock, CheckCircle } from 'lucide-react';
 
 interface Milestone {
   id: string;
