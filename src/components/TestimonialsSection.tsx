@@ -135,7 +135,7 @@ const TestimonialsSection = () => {
                             "{testimonial.quote}"
                           </blockquote>
 
-                          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none"></div>
+                          
                         </div>
                       </div>
                     </div>
