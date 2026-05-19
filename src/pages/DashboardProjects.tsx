@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import ProjectDetailsModal from '@/components/dashboard/ProjectDetailsModal';
-import { FolderOpen, Calendar, Clock, TargetX } from 'lucide-react';
+import { FolderOpen, Calendar, Clock, Target } from 'lucide-react';
 
 interface Project {
   id: string;

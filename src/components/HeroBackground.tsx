@@ -167,30 +167,13 @@ const HeroBackground: React.FC<{
       rotSpeed: number;
       done: boolean;
     } | null;
-    type Nebula = {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      r: number;
-      depth: number;
-      hueA: string;
-      hueB: string;
-      life: number;
-      maxLife: number;
-      fadeIn: number;
-      fadeOut: number;
-      done: boolean;
-    } | null;
 
     let satellite: Satellite = null;
-    let nebula: Nebula = null;
     // Time (in seconds since loop start) at which the director should next
     // attempt to spawn each entity. 0 means "as soon as possible".
     let nextSatelliteAt = 4 + Math.random() * 6; // first satellite within 4–10s
-    let nextNebulaAt = 6 + Math.random() * 8; // first nebula within 6–14s
     let satelliteAbsentSince = 0;
-    let nebulaAbsentSince = 0;
+
 
     const spawnSatellite = () => {
       const fromLeft = Math.random() < 0.5;
@@ -210,36 +193,7 @@ const HeroBackground: React.FC<{
       };
     };
 
-    const spawnNebula = () => {
-      const fromLeft = Math.random() < 0.5;
-      const depth = 0.3 + Math.random() * 0.6;
-      const r = 180 + Math.random() * 220 + depth * 120;
-      // Brand-aligned palette; mix blue/purple/violet pairs
-      const palette = [
-        ['rgba(80, 140, 255,', 'rgba(140, 60, 220,'],
-        ['rgba(150, 90, 255,', 'rgba(70, 120, 240,'],
-        ['rgba(100, 80, 220,', 'rgba(180, 110, 240,'],
-      ];
-      const [hueA, hueB] = palette[Math.floor(Math.random() * palette.length)];
-      const speed = 6 + Math.random() * 8; // very slow drift
-      const angle = (Math.random() - 0.5) * 0.6;
-      nebula = {
-        x: fromLeft ? -r : width + r,
-        y: height * (0.1 + Math.random() * 0.7),
-        vx: (fromLeft ? 1 : -1) * speed * Math.cos(angle),
-        vy: speed * Math.sin(angle) * 0.5,
-        r,
-        depth,
-        hueA,
-        hueB,
-        life: 0,
-        // Long lifetime (20–35s) since drift is slow
-        maxLife: 22 + Math.random() * 14,
-        fadeIn: 3.5,
-        fadeOut: 4.5,
-        done: false,
-      };
-    };
+
 
 
     // ----- Orbs -----
@@ -416,82 +370,14 @@ const HeroBackground: React.FC<{
       // Smoothstep for buttery ramps
       const revealEase = reveal * reveal * (3 - 2 * reveal);
 
-      // ===== Scene director: nebula + satellite =====
-      // Track absent durations for fairness (favor whichever has been gone longer).
-      if (!nebula) nebulaAbsentSince += dt;
-      else nebulaAbsentSince = 0;
+      // ===== Scene director: satellite =====
       if (!satellite) satelliteAbsentSince += dt;
       else satelliteAbsentSince = 0;
-
-      // If both absent, ensure something spawns within ~10s by tightening
-      // whichever schedule is later.
-      if (!satellite && !nebula) {
-        const earliest = Math.min(nextSatelliteAt, nextNebulaAt);
-        if (earliest > elapsed + 9) {
-          // Tighten the closer one to spawn within 4–9s.
-          if (nextSatelliteAt < nextNebulaAt) {
-            nextSatelliteAt = elapsed + 4 + Math.random() * 5;
-          } else {
-            nextNebulaAt = elapsed + 4 + Math.random() * 5;
-          }
-        }
-      }
 
       if (!satellite && elapsed >= nextSatelliteAt && !reduceMotion) {
         spawnSatellite();
       }
-      if (!nebula && elapsed >= nextNebulaAt && !reduceMotion) {
-        spawnNebula();
-      }
 
-      // ===== Nebula (drawn first — sits behind orbs/stars) =====
-      if (nebula) {
-        nebula.life += dt;
-        nebula.x += nebula.vx * dt;
-        nebula.y += nebula.vy * dt;
-        // Lifecycle alpha: fade in, hold, fade out
-        let nAlpha = 1;
-        if (nebula.life < nebula.fadeIn) {
-          nAlpha = nebula.life / nebula.fadeIn;
-        } else if (nebula.life > nebula.maxLife - nebula.fadeOut) {
-          nAlpha = Math.max(0, (nebula.maxLife - nebula.life) / nebula.fadeOut);
-        }
-        const offScreen =
-          nebula.x < -nebula.r * 1.4 ||
-          nebula.x > width + nebula.r * 1.4 ||
-          nebula.life >= nebula.maxLife;
-        if (offScreen || nAlpha <= 0.01) {
-          nebula = null;
-          // Schedule next nebula in 8–18s (longer cooldown so it feels rare)
-          nextNebulaAt = elapsed + 8 + Math.random() * 10;
-        } else {
-          const baseAlpha = nAlpha * (0.42 + nebula.depth * 0.32) * revealEase;
-          const nebulaY = nebula.y + scroll.current * (12 + nebula.depth * 24);
-          // Two overlapping radial gradients for a soft, painterly look
-          const g1 = ctx.createRadialGradient(
-            nebula.x, nebulaY, 0,
-            nebula.x, nebulaY, nebula.r,
-          );
-          g1.addColorStop(0, `${nebula.hueA} ${baseAlpha.toFixed(3)})`);
-          g1.addColorStop(0.55, `${nebula.hueA} ${(baseAlpha * 0.25).toFixed(3)})`);
-          g1.addColorStop(1, `${nebula.hueA} 0)`);
-          ctx.fillStyle = g1;
-          ctx.beginPath();
-          ctx.arc(nebula.x, nebulaY, nebula.r, 0, Math.PI * 2);
-          ctx.fill();
-
-          const g2 = ctx.createRadialGradient(
-            nebula.x + nebula.r * 0.25, nebulaY - nebula.r * 0.2, 0,
-            nebula.x + nebula.r * 0.25, nebulaY - nebula.r * 0.2, nebula.r * 0.7,
-          );
-          g2.addColorStop(0, `${nebula.hueB} ${(baseAlpha * 1.45).toFixed(3)})`);
-          g2.addColorStop(1, `${nebula.hueB} 0)`);
-          ctx.fillStyle = g2;
-          ctx.beginPath();
-          ctx.arc(nebula.x + nebula.r * 0.25, nebulaY - nebula.r * 0.2, nebula.r * 0.7, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
 
 
       // --- Orbs ---

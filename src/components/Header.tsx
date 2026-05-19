@@ -183,7 +183,7 @@ const Header = () => {
                     className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-80"
                     role="menu"
                   >
-                    <div className="glass-effect backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl shadow-black/30 overflow-hidden">
+                    <div className="rounded-xl border border-white/10 shadow-2xl shadow-black/50 overflow-hidden bg-webdev-black/95 backdrop-blur-2xl">
                       {SERVICE_LINKS.map((s) => {
                         const Icon = s.icon;
                         const active = isActive(s.path);

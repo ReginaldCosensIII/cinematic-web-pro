@@ -13,7 +13,7 @@ import BlogTable from '@/components/admin/blog/BlogTable';
 import CreateBlogModal from '@/components/admin/blog/CreateBlogModal';
 import EditBlogModal from '@/components/admin/blog/EditBlogModal';
 import { Button } from '@/components/ui/button';
-import { PlusX } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const AdminBlog = () => {
