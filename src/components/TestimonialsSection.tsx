@@ -115,7 +115,7 @@ const TestimonialsSection = () => {
                       </div>
 
                       <div className="order-1 lg:order-2">
-                        <div className="relative group glass-effect hover:glass-border rounded-xl p-8 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl">
+                        <div className="group blog-card glass-effect rounded-xl p-8">
                           <div className="absolute -top-4 -left-4 icon-badge-3d w-8 h-8 rounded-full flex items-center justify-center">
                             <Quote className="w-4 h-4 text-white" />
                           </div>
