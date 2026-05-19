@@ -186,7 +186,7 @@ const ServicesPage = () => {
                       <a
                         key={s.slug}
                         href={`#${s.slug}`}
-                        className="group glass-effect hover:glass-border rounded-xl p-6 transition-all duration-500 hover:shadow-xl hover:shadow-webdev-gradient-blue/10 flex flex-col"
+                        className="group blog-card glass-effect rounded-xl p-6 flex flex-col"
                       >
                         <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
                           <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
@@ -215,7 +215,7 @@ const ServicesPage = () => {
                   <ScrollReveal key={service.slug} delay={index * 60}>
                     <article
                       id={service.slug}
-                      className="group glass-effect hover:glass-border rounded-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 scroll-mt-32"
+                      className="group blog-card glass-effect rounded-xl overflow-hidden scroll-mt-32"
                     >
                       <div className="grid lg:grid-cols-5">
                         <div className="lg:col-span-2 h-48 lg:h-auto overflow-hidden">
