@@ -63,11 +63,10 @@ const Services = () => {
             return (
               <article
                 key={service.title}
-                className="group relative glass-effect hover:glass-border rounded-xl p-8 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 h-full flex flex-col focus-within:ring-2 focus-within:ring-webdev-gradient-blue"
+                className="group blog-card glass-effect rounded-xl p-8 h-full flex flex-col focus-within:ring-2 focus-within:ring-webdev-gradient-blue"
                 style={{ animationDelay: `${index * 150}ms` }}
                 role="listitem"
               >
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                 
                 <header className="flex items-center mb-6">
                   <div className="icon-gradient-container relative w-12 h-12 rounded-lg mr-4" aria-hidden="true">
