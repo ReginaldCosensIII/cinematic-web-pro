@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
@@ -12,14 +11,10 @@ import MilestonesSection from '@/components/dashboard/MilestonesSection';
 import InvoicesSection from '@/components/dashboard/InvoicesSection';
 import ProfileDetails from '@/components/dashboard/ProfileDetails';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Menu, X } from 'lucide-react';
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   useEffect(() => {
     if (!loading && !user) {
       navigate('/');
@@ -45,46 +40,14 @@ const Dashboard = () => {
       
       <main className="relative z-10 pt-24 md:pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          {/* Mobile Sidebar Toggle */}
-          {isMobile && !sidebarOpen && (
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="fixed top-20 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
-            >
-              <Menu className="w-5 h-5 text-webdev-silver" />
-            </button>
-          )}
-
           <div className="flex gap-6 lg:gap-8">
-            {/* Sidebar */}
-            <div className={`
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out theme-bg' : 'hidden lg:block w-64 flex-shrink-0'}
-              ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
-            `}>
-              {isMobile && (
-                <div className="pt-24 relative">
-                  <button
-                    onClick={() => setSidebarOpen(false)}
-                    className="absolute top-6 right-4 z-50 glass-effect rounded-xl p-2 border border-webdev-glass-border"
-                  >
-                    <X className="w-5 h-5 text-webdev-silver" />
-                  </button>
-                  <DashboardSidebar />
-                </div>
-              )}
-              {!isMobile && <DashboardSidebar />}
+            {/* Desktop Sidebar (mobile/tablet nav lives in the header menu) */}
+            <div className="hidden lg:block w-64 flex-shrink-0">
+              <DashboardSidebar />
             </div>
-
-            {/* Mobile Sidebar Overlay */}
-            {isMobile && sidebarOpen && (
-              <div 
-                className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-                onClick={() => setSidebarOpen(false)}
-              />
-            )}
             
             {/* Main Content */}
-            <div className={`flex-1 min-w-0 space-y-6 md:space-y-8 ${isMobile ? 'ml-0 mt-14' : ''}`}>
+            <div className={`flex-1 min-w-0 space-y-6 md:space-y-8`}>
               <DashboardWelcome user={user} />
               <div className="overflow-x-auto">
                 <ProjectOverview />

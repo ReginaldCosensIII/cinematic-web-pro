@@ -10,6 +10,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import Services from '../components/Services';
 import ProcessSection from '../components/ProcessSection';
 import ProjectBriefHighlight from '../components/ProjectBriefHighlight';
+import AISolutionsHighlight from '../components/AISolutionsHighlight';
 import CallToAction from '../components/CallToAction';
 import ChatBot from '../components/ChatBot';
 import StructuredData from '../components/StructuredData';
@@ -78,12 +79,13 @@ const Index = () => {
         canonicalUrl="https://webdevpro.io/"
         ogImage="https://webdevpro.io/og-home.jpg"
         twitterImage="https://webdevpro.io/twitter-home.jpg"
+        noIndex={true}
       />
       <StructuredData type="organization" data={organizationData} />
       <StructuredData type="service" data={serviceData} />
       <StructuredData type="faq" data={faqData} />
       
-      <div className="min-h-screen theme-bg relative overflow-hidden">
+      <div className="min-h-screen theme-bg relative">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-webdev-gradient-blue text-white px-4 py-2 rounded-md z-50">
           Skip to main content
         </a>
@@ -112,6 +114,11 @@ const Index = () => {
             <ScrollReveal delay={100}>
               <section id="testimonials" aria-labelledby="testimonials-heading">
                 <TestimonialsSection />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <section id="ai-solutions" aria-labelledby="ai-solutions-heading">
+                <AISolutionsHighlight />
               </section>
             </ScrollReveal>
             <ScrollReveal delay={100}>

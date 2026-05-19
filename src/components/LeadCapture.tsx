@@ -33,7 +33,7 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({ type, triggerDelay = 30000, s
     if (!isAllowedPage) return;
     if (hasShown) return;
 
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     let mouseMoveHandler: (e: MouseEvent) => void;
     let scrollHandler: () => void;
 
@@ -108,8 +108,8 @@ const LeadCapture: React.FC<LeadCaptureProps> = ({ type, triggerDelay = 30000, s
         </button>
 
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full mb-4">
-            <BookOpen className="w-8 h-8 text-white" />
+          <div className="icon-badge-3d inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
+            <BookOpen className="w-8 h-8 text-white relative z-10" />
           </div>
           <h3 className="text-2xl font-bold text-wdp-text mb-2">Free Web Development Guide</h3>
           <p className="text-wdp-text-secondary text-sm">

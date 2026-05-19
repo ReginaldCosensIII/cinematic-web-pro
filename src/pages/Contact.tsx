@@ -139,8 +139,8 @@ const Contact = () => {
 
                   <div className="mb-6 p-4 glass-effect rounded-xl">
                     <div className="flex items-start space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Bot className="w-4 h-4 text-white" />
+                      <div className="icon-badge-3d w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Bot className="w-4 h-4 text-white relative z-10" />
                       </div>
                       <div className="flex-1">
                         <p className="text-wdp-text-secondary text-sm leading-relaxed mb-2">

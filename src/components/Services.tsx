@@ -70,7 +70,7 @@ const Services = () => {
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
                 
                 <header className="flex items-center mb-6">
-                  <div className="icon-gradient-container relative w-12 h-12 rounded-lg mr-4 transition-transform duration-300 group-hover:rotate-12" aria-hidden="true">
+                  <div className="icon-gradient-container relative w-12 h-12 rounded-lg mr-4" aria-hidden="true">
                     <div className="icon-inner w-full h-full rounded-lg flex items-center justify-center">
                       <IconComponent className="w-6 h-6" />
                     </div>
@@ -95,7 +95,7 @@ const Services = () => {
 
                 <div className="flex justify-end mt-auto">
                   <Link 
-                    to="/services"
+                    to="/services/web-development"
                     className="inline-flex items-center text-base text-webdev-gradient-blue hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link focus:outline-none focus:ring-2 focus:ring-webdev-gradient-blue focus:ring-offset-2 rounded-md p-2"
                     aria-label={`Learn more about ${service.title}`}
                   >

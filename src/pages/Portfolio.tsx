@@ -129,40 +129,18 @@ const Portfolio = () => {
       <SmokeBackground /><Header />
 
       <main className="relative z-10 pt-32 pb-20">
-        {/* Hero */}
-        <section className="max-w-6xl mx-auto px-6 mb-20">
+        {/* Hero — tightened spacing (matches Services page approach) */}
+        <section className="max-w-6xl mx-auto px-6 mb-8">
           <ScrollReveal>
-            <header className="text-center space-y-6">
-              <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover cursor-default">
-                <div className="w-2 h-2 bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple rounded-full animate-pulse" />
-                <span className="text-wdp-text text-sm">Portfolio</span>
-              </div>
+            <header className="text-center space-y-4">
               <h1 className="text-4xl md:text-5xl font-light text-wdp-text tracking-wide">
                 Crafted with{' '}
                 <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">Precision</span>
               </h1>
-              <p className="text-xl text-wdp-text-secondary max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg text-wdp-text-secondary max-w-2xl mx-auto leading-relaxed">
                 Each project is a study in thoughtful engineering, clean design, and purposeful user experience.
               </p>
             </header>
-          </ScrollReveal>
-        </section>
-
-        {/* Filter */}
-        <section className="max-w-6xl mx-auto px-6 mb-12">
-          <ScrollReveal>
-            <div className="flex flex-wrap gap-3">
-              {categories.map(cat => (
-                <button key={cat} onClick={() => setActiveCategory(cat)}
-                  className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                    activeCategory === cat
-                      ? 'bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white shadow-lg shadow-webdev-gradient-blue/25'
-                      : 'glass-effect text-wdp-text-secondary hover:text-wdp-text'
-                  }`}>
-                  {cat}
-                </button>
-              ))}
-            </div>
           </ScrollReveal>
         </section>
 
@@ -250,6 +228,24 @@ const Portfolio = () => {
           </section>
         )}
 
+        {/* Filter chips — moved below featured project */}
+        <section className="max-w-6xl mx-auto px-6 mb-8">
+          <ScrollReveal>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {categories.map(cat => (
+                <button key={cat} onClick={() => setActiveCategory(cat)}
+                  className={`chip-3d px-5 py-2.5 rounded-full text-sm font-medium ${
+                    activeCategory === cat
+                      ? 'chip-active bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple text-white'
+                      : 'glass-effect text-wdp-text-secondary hover:text-wdp-text'
+                  }`}>
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </ScrollReveal>
+        </section>
+
         {/* Projects Grid (remaining) */}
         {gridProjects.length > 0 && (
           <section className="max-w-6xl mx-auto px-6">
@@ -309,9 +305,7 @@ const Portfolio = () => {
         {/* CTA */}
         <section className="max-w-6xl mx-auto px-6 mt-24">
           <ScrollReveal>
-            <div className="glass-effect rounded-2xl p-10 md:p-16 text-center relative overflow-hidden">
-              <div className="absolute -top-32 -right-32 w-64 h-64 bg-webdev-gradient-blue/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-webdev-gradient-purple/10 rounded-full blur-3xl" />
+            <div className="card-unified card-cta">
               <div className="relative z-10">
                 <h2 className="text-3xl md:text-5xl font-light text-wdp-text mb-4">
                   Ready to build something <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">exceptional</span>?

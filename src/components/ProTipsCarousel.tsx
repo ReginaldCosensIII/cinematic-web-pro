@@ -50,7 +50,7 @@ const ProTipsCarousel = () => {
         <CarouselContent className="-ml-4">
           {proTips.map((tip, index) => (
             <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-              <Card className="glass-effect h-full">
+              <Card className="card-unified card-feature h-full border-0 bg-transparent shadow-none">
                 <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center">
                     <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">

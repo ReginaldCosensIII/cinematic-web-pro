@@ -9,7 +9,7 @@ const GoogleAnalytics: React.FC<GoogleAnalyticsProps> = ({
   measurementId = 'G-XXXXXXXXXX' // Placeholder - user will replace
 }) => {
   // Don't load if no measurement ID or in development
-  if (!measurementId || measurementId === 'G-XXXXXXXXXX' || process.env.NODE_ENV === 'development') {
+  if (!measurementId || measurementId === 'G-XXXXXXXXXX' || import.meta.env.DEV) {
     return null;
   }
 

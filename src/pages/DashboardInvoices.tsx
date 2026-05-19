@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useIsMobile } from '@/hooks/use-mobile';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SmokeBackground from '@/components/SmokeBackground';
@@ -10,7 +9,7 @@ import InvoiceDetailsModal from '@/components/dashboard/InvoiceDetailsModal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Search, Receipt, Calendar, DollarSign, FileText, Download, Menu, X, Eye } from 'lucide-react';
+import { Search, Receipt, Calendar, DollarSign, FileText, DownloadX, Eye } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -34,9 +33,7 @@ interface Invoice {
 const DashboardInvoices = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
   const [searchTerm, setSearchTerm] = useState('');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -110,41 +107,11 @@ const DashboardInvoices = () => {
       
       <main className="relative z-10 pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          {/* Mobile Sidebar Toggle */}
-          {isMobile && (
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
-            >
-              {sidebarOpen ? (
-                <X className="w-5 h-5 text-webdev-silver" />
-              ) : (
-                <Menu className="w-5 h-5 text-webdev-silver" />
-              )}
-            </button>
-          )}
-
-          <div className="flex gap-4 md:gap-8">
-            {/* Sidebar */}
-            <div className={`
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
-              ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
-            `}>
-              {isMobile && (
-                <div className="pt-24">
-                  <DashboardSidebar />
-                </div>
-              )}
-              {!isMobile && <DashboardSidebar />}
+          <div className="flex gap-6 lg:gap-8">
+            {/* Desktop Sidebar (mobile/tablet nav lives in the header menu) */}
+            <div className="hidden lg:block w-64 flex-shrink-0">
+              <DashboardSidebar />
             </div>
-
-            {/* Mobile Sidebar Overlay */}
-            {isMobile && sidebarOpen && (
-              <div 
-                className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-                onClick={() => setSidebarOpen(false)}
-              />
-            )}
 
             <div className="flex-1 min-w-0">
               <div className="mb-6 md:mb-8">

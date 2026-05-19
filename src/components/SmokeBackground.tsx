@@ -14,12 +14,8 @@ const SmokeBackground = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-white to-gray-50 opacity-95" />
       )}
       
-      {/* Additional atmospheric layers */}
-      {theme === 'dark' ? (
-        <div className="absolute inset-0 bg-gradient-radial from-webdev-silver/5 via-transparent to-webdev-silver/3 opacity-40" />
-      ) : (
-        <div className="absolute inset-0 bg-gradient-radial from-webdev-gradient-blue/5 via-transparent to-webdev-gradient-purple/3 opacity-30" />
-      )}
+      {/* Gray orb layer removed per design update — keep base gradient only.
+          Hero-section colored effects live in HeroSection/VideoHero, untouched. */}
     </div>
   );
 };

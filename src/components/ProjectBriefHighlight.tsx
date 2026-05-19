@@ -31,9 +31,11 @@ const ProjectBriefHighlight = () => {
           
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in-up text-center lg:text-left">
-              <div className="flex flex-col items-center lg:flex-row lg:items-center mb-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple flex items-center justify-center mb-3 lg:mb-0 lg:mr-4">
-                  <Lightbulb className="w-6 h-6 text-white" />
+              <div className="flex flex-col items-center lg:flex-row lg:items-center mb-6 group">
+                <div className="icon-gradient-container relative w-12 h-12 rounded-full mb-3 lg:mb-0 lg:mr-4">
+                  <div className="icon-inner w-full h-full rounded-full flex items-center justify-center">
+                    <Lightbulb className="w-6 h-6 text-white" />
+                  </div>
                 </div>
                 <span className="text-webdev-gradient-blue font-semibold tracking-wide">PLANNING TOOL</span>
               </div>

@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useLocation } from 'react-router-dom';
+import { heroProgress } from '@/components/hero/heroProgress';
+import { useMotionValueEvent } from 'framer-motion';
 
 
 interface Message {
@@ -21,6 +24,12 @@ const ChatBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+  const [visible, setVisible] = useState(!isHome);
+  useMotionValueEvent(heroProgress, 'change', (v) => {
+    if (isHome && v >= 0.95) setVisible(true);
+  });
   const isDark = true;
 
   const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); };
@@ -61,10 +70,11 @@ const ChatBot = () => {
 
   // Desktop: bottom-6, tablets (md but not lg): bottom-20, mobile: bottom-6 (over footer is fine)
   const positionClass = "fixed bottom-6 right-6 md:bottom-20 lg:bottom-6 z-50";
+  const fadeClass = `transition-opacity duration-700 ease-out ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
 
   if (!isOpen) {
     return (
-      <div className={positionClass}>
+      <div className={`${positionClass} ${fadeClass}`}>
         <button
           onClick={toggleChat}
           className="chatbot-bubble icon-badge-3d w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg"
@@ -77,8 +87,8 @@ const ChatBot = () => {
   }
 
   return (
-    <div className={positionClass}>
-      <div className={`chatbot-window rounded-2xl transition-all duration-300 ${isMinimized ? 'w-80 h-14' : 'w-80 h-[26rem]'}`}>
+    <div className={`${positionClass} ${fadeClass}`}>
+      <div className={`chatbot-window rounded-2xl flex flex-col transition-all duration-300 ${isMinimized ? 'w-[18rem] sm:w-[22rem] h-14' : 'w-[18rem] sm:w-[22rem] md:w-[24rem] lg:w-[26rem] h-[24rem] sm:h-[26rem] md:h-[28rem]'}`}>
         <div className="flex items-center justify-between p-3 border-b border-white/10">
           <div className="flex items-center space-x-2">
             <div className="icon-badge-3d w-8 h-8 rounded-full flex items-center justify-center">
@@ -107,7 +117,7 @@ const ChatBot = () => {
 
         {isMinimized ? null : (
           <>
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 h-64">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
               {messages.map((message) => (
                 <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`flex items-start space-x-2 max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
@@ -150,7 +160,7 @@ const ChatBot = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-4 border-t border-white/10">
+            <div className="px-4 pt-3 pb-4 border-t border-white/10">
               <div className="flex space-x-2">
                 <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about web development..." disabled={isLoading} />

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -10,7 +9,7 @@ import SmokeBackground from '@/components/SmokeBackground';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import TimeEntryDetailsModal from '@/components/dashboard/TimeEntryDetailsModal';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Clock, FolderOpen, Target, Menu, X } from 'lucide-react';
+import { Clock, FolderOpen, TargetX } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface TimeEntry {
@@ -25,11 +24,9 @@ interface TimeEntry {
 const DashboardTimeTracking = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
   const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [totalHours, setTotalHours] = useState(0);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedTimeEntry, setSelectedTimeEntry] = useState<TimeEntry | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -143,43 +140,13 @@ const DashboardTimeTracking = () => {
       <main className="relative z-10 pt-24 md:pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex gap-8">
-            {/* Mobile Sidebar Toggle */}
-            {isMobile && (
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
-              >
-                {sidebarOpen ? (
-                  <X className="w-5 h-5 text-webdev-silver" />
-                ) : (
-                  <Menu className="w-5 h-5 text-webdev-silver" />
-                )}
-              </button>
-            )}
-
-            {/* Sidebar */}
-            <div className={`
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
-              ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
-            `}>
-              {isMobile && (
-                <div className="pt-24">
-                  <DashboardSidebar />
-                </div>
-              )}
-              {!isMobile && <DashboardSidebar />}
+            {/* Desktop Sidebar (mobile/tablet nav lives in the header menu) */}
+            <div className="hidden lg:block w-64 flex-shrink-0">
+              <DashboardSidebar />
             </div>
-
-            {/* Mobile Sidebar Overlay */}
-            {isMobile && sidebarOpen && (
-              <div 
-                className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-                onClick={() => setSidebarOpen(false)}
-              />
-            )}
             
             {/* Main Content */}
-            <div className={`flex-1 ${isMobile ? 'ml-0' : ''}`}>
+            <div className={`flex-1`}>
               <div className="glass-effect rounded-2xl p-4 md:p-8 border border-webdev-glass-border">
                 <div className="flex items-center gap-4 mb-6 md:mb-8">
                   <Clock className="w-6 md:w-8 h-6 md:h-8 text-webdev-gradient-blue" />

@@ -164,15 +164,59 @@
     @apply border-border;
   }
 
+  html {
+    overflow-x: clip;
+  }
+
   body {
     background-color: hsl(var(--webdev-bg));
     color: hsl(var(--webdev-text-primary));
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 }
 
 /* Custom glassmorphism utilities */
 @layer utilities {
+  /* Brand gradient hover — used for nav/footer links AND social icons.
+     Single utility so future color changes happen in one place. */
+  .hover-gradient-text {
+    transition: background-image 0.3s ease, color 0.3s ease, fill 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+  }
+  .hover-gradient-text:hover {
+    background-image: linear-gradient(135deg, #4285f4, #8a2be2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  /* SVG children get the TRUE brand gradient via url(#brandGradient).
+     The gradient def is injected once globally (see <BrandGradientDefs />). */
+  .hover-gradient-text svg {
+    transition: filter 0.3s ease;
+  }
+  .hover-gradient-text:hover svg {
+    filter:
+      drop-shadow(0 0 4px rgba(66, 133, 244, 0.45))
+      drop-shadow(0 0 8px rgba(138, 43, 226, 0.45));
+  }
+  /* Stroke-based icons (lucide) — apply gradient to the stroke. */
+  .hover-gradient-text:hover svg[stroke],
+  .hover-gradient-text:hover svg :is(path, line, circle, rect, polyline, polygon)[stroke] {
+    stroke: url(#brandGradient);
+  }
+  /* Fill-based icons (custom paths like TikTok) — apply gradient to the fill. */
+  .hover-gradient-text:hover svg :is(path, polygon, rect, circle)[fill]:not([fill="none"]),
+  .hover-gradient-text:hover svg[fill]:not([fill="none"]) {
+    fill: url(#brandGradient);
+  }
+  .hover-gradient-icon {
+    transition: color 0.3s ease, filter 0.3s ease;
+  }
+  .hover-gradient-icon:hover {
+    color: #8a2be2;
+    filter: drop-shadow(0 0 6px rgba(138, 43, 226, 0.45));
+  }
+
   .glass-effect {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -302,18 +346,31 @@
     overflow: hidden;
   }
 
-  /* Chatbot window styling */
+  /* Chatbot window styling — elevated card that pops from the page */
   .chatbot-window {
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid rgba(66, 133, 244, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-                0 0 1px rgba(66, 133, 244, 0.3),
-                0 0 20px rgba(66, 133, 244, 0.08);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: linear-gradient(180deg, rgba(18, 18, 22, 0.97) 0%, rgba(10, 10, 14, 0.97) 100%);
+    border: 1px solid rgba(138, 43, 226, 0.28);
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.65),
+      0 8px 24px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(66, 133, 244, 0.12),
+      0 0 32px rgba(66, 133, 244, 0.12),
+      0 0 48px rgba(138, 43, 226, 0.10);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
 
-  /* LaunchPad outline icon badge */
+  .light .chatbot-window {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 255, 0.97) 100%);
+    border: 1px solid rgba(66, 133, 244, 0.28);
+    box-shadow:
+      0 24px 60px rgba(66, 133, 244, 0.18),
+      0 8px 24px rgba(138, 43, 226, 0.12),
+      0 0 0 1px rgba(66, 133, 244, 0.10),
+      0 0 32px rgba(66, 133, 244, 0.10);
+  }
+
+  /* LaunchPad outline icon badge — original soft outline (legacy) */
   .icon-badge-outline {
     background: transparent;
     border: 2px solid rgba(138, 43, 226, 0.6);
@@ -325,12 +382,8 @@
   }
 
   .icon-badge-outline svg {
-    background: linear-gradient(135deg, #4285f4, #8a2be2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
     stroke: url(#icon-gradient);
+    color: transparent;
   }
 
   .icon-badge-outline:hover {
@@ -338,6 +391,356 @@
     box-shadow: 0 0 20px rgba(138, 43, 226, 0.25),
                 0 0 8px rgba(66, 133, 244, 0.15);
     transform: scale(1.1);
+  }
+
+  /* LaunchPad rocket badge — thick brand gradient outline + softer depth (less mirror) */
+  .icon-badge-outline-3d {
+    position: relative;
+    background:
+      linear-gradient(hsl(var(--webdev-bg)), hsl(var(--webdev-bg))) padding-box,
+      linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2) border-box;
+    border: 3px solid transparent;
+    box-shadow:
+      0 6px 18px rgba(66, 133, 244, 0.22),
+      0 2px 8px rgba(138, 43, 226, 0.16);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+  }
+  .light .icon-badge-outline-3d {
+    background:
+      linear-gradient(#ffffff, #ffffff) padding-box,
+      linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2) border-box;
+    box-shadow:
+      inset 0 1px 2px rgba(255,255,255,0.6),
+      inset 0 -2px 4px rgba(66,133,244,0.10),
+      0 6px 18px rgba(66, 133, 244, 0.22),
+      0 2px 8px rgba(138, 43, 226, 0.15);
+  }
+  .icon-badge-outline-3d::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(180, 200, 255, 0.20) 38%,
+      rgba(220, 205, 255, 0.45) 50%,
+      rgba(180, 200, 255, 0.20) 62%,
+      transparent 100%
+    );
+    transition: left 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .icon-badge-outline-3d:hover {
+    transform: scale(1.06);
+    box-shadow:
+      0 8px 26px rgba(66, 133, 244, 0.38),
+      0 4px 14px rgba(138, 43, 226, 0.28),
+      0 0 28px rgba(138, 43, 226, 0.20);
+  }
+  .icon-badge-outline-3d:hover::after { left: 100%; }
+
+  /* Opt-out for buttons that should NOT have the subtle marketing shimmer */
+  button[data-variant="glass"].no-shimmer::after,
+  a[data-variant="glass"].no-shimmer::after {
+    background-image: none !important;
+  }
+
+  /* Edge-to-center brand gradient fill (used by Start My Brief).
+     The dark inner ::after layer is replaced with the brand gradient,
+     masked by a radial that shrinks from outside to center on hover. */
+  button[data-variant="glass"].btn-fill-center::after,
+  a[data-variant="glass"].btn-fill-center::after {
+    background:
+      radial-gradient(circle at center,
+        hsl(var(--webdev-bg-tertiary)) 0%,
+        hsl(var(--webdev-bg-tertiary)) 60%,
+        transparent 75%),
+      linear-gradient(135deg, #4285f4, #7c3aed, #8a2be2) !important;
+    background-size: 220% 220%, 100% 100% !important;
+    background-position: center, center !important;
+    background-repeat: no-repeat !important;
+    transition: background-size 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+  button[data-variant="glass"].btn-fill-center:hover::after,
+  a[data-variant="glass"].btn-fill-center:hover::after {
+    background-size: 0% 0%, 100% 100% !important;
+  }
+  button[data-variant="glass"].btn-fill-center:hover,
+  a[data-variant="glass"].btn-fill-center:hover {
+    color: #ffffff !important;
+  }
+
+  /* Portfolio category chips — 3D shimmer treatment */
+  .chip-3d {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .chip-3d::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.22) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.7s ease;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  .chip-3d:hover::after { transform: translateX(100%); }
+  .chip-3d:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow:
+      0 6px 20px rgba(66, 133, 244, 0.30),
+      0 3px 10px rgba(138, 43, 226, 0.22),
+      0 0 24px rgba(66, 133, 244, 0.15);
+  }
+  .chip-3d.chip-active {
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.3),
+      inset 0 -1px 2px rgba(0,0,0,0.2),
+      0 4px 14px rgba(66, 133, 244, 0.35),
+      0 2px 8px rgba(138, 43, 226, 0.25);
+  }
+
+  /* Blog card hover lift + gradient ring */
+  .blog-card {
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(66,133,244,0.0), rgba(138,43,226,0.0));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    transition: background 0.4s ease;
+  }
+  .blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 18px 40px rgba(66, 133, 244, 0.18),
+      0 8px 20px rgba(138, 43, 226, 0.14);
+  }
+  .blog-card:hover::before {
+    background: linear-gradient(135deg, rgba(66,133,244,0.55), rgba(138,43,226,0.55));
+  }
+  .blog-card .blog-card-img {
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .blog-card:hover .blog-card-img {
+    transform: scale(1.06);
+  }
+  .blog-card-img-wrap {
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+
+  /* ==========================================================================
+     Unified Card System (marketing pages)
+     - .card-unified : shared base (glass surface, radius, transition)
+     - .card-feature : rich variant — gradient ring on hover + lift + dual glow
+     - .card-subtle  : minimal variant — small lift + soft shadow
+     - .card-cta     : end-of-page CTA — generous padding + ambient corner orbs
+     No shimmer on cards (per design spec). Shimmer is reserved for buttons/emblems.
+     ========================================================================== */
+  .card-unified {
+    position: relative;
+    border-radius: 1rem; /* rounded-2xl */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.45s ease,
+                border-color 0.45s ease;
+  }
+  .dark .card-unified {
+    background: hsla(var(--webdev-glass-bg));
+    border: 1px solid hsla(var(--webdev-glass-border));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+  .light .card-unified {
+    background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(240,245,255,0.78) 100%);
+    border: 1px solid rgba(66, 133, 244, 0.14);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 2px 12px rgba(66, 133, 244, 0.06);
+  }
+
+  /* ----- Feature variant: rich hover with gradient ring + lift ----- */
+  .card-feature::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(66,133,244,0), rgba(138,43,226,0));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    transition: background 0.45s ease;
+  }
+  .card-feature:hover {
+    transform: translateY(-6px);
+    border-color: transparent;
+    box-shadow:
+      0 18px 44px rgba(66, 133, 244, 0.20),
+      0 8px 22px rgba(138, 43, 226, 0.16),
+      0 0 32px rgba(66, 133, 244, 0.10);
+  }
+  .card-feature:hover::before {
+    background: linear-gradient(135deg, rgba(66,133,244,0.6), rgba(138,43,226,0.6));
+  }
+
+  /* ----- Subtle variant: minimal lift, no gradient ring ----- */
+  .card-subtle:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 18px rgba(0, 0, 0, 0.18),
+      0 2px 6px rgba(0, 0, 0, 0.10);
+  }
+  .light .card-subtle:hover {
+    box-shadow:
+      0 6px 18px rgba(66, 133, 244, 0.10),
+      0 2px 6px rgba(138, 43, 226, 0.06);
+  }
+
+  /* ----- CTA variant: end-of-page hero card with ambient corner orbs -----
+     Reference: Portfolio "Ready to build something exceptional?" section.
+     Padding scales responsively. Orbs are decorative and pointer-event safe.
+     Inner content should be wrapped in a relatively-positioned container if it
+     needs to sit above the orbs (z-10), but the orbs are already behind. */
+  .card-cta {
+    padding: 2.5rem 1.5rem; /* 40px / 24px — mobile */
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate; /* keep orbs contained */
+  }
+  @media (min-width: 768px) {
+    .card-cta { padding: 4rem 3rem; }
+  }
+  .card-cta::before,
+  .card-cta::after {
+    content: '';
+    position: absolute;
+    width: 16rem;
+    height: 16rem;
+    border-radius: 9999px;
+    filter: blur(48px);
+    pointer-events: none;
+    z-index: -1;
+    transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0.85;
+  }
+  .card-cta::before {
+    top: -8rem;
+    right: -8rem;
+    background: rgba(66, 133, 244, 0.18);
+  }
+  .card-cta::after {
+    bottom: -8rem;
+    left: -8rem;
+    background: rgba(138, 43, 226, 0.18);
+  }
+  .light .card-cta::before { background: rgba(66, 133, 244, 0.22); }
+  .light .card-cta::after  { background: rgba(138, 43, 226, 0.20); }
+  .card-cta:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 22px 50px rgba(66, 133, 244, 0.18),
+      0 10px 24px rgba(138, 43, 226, 0.14),
+      0 0 40px rgba(66, 133, 244, 0.10);
+  }
+  .card-cta:hover::before {
+    transform: translate(-1.5rem, 1.5rem) scale(1.08);
+    opacity: 1;
+  }
+  .card-cta:hover::after {
+    transform: translate(1.5rem, -1.5rem) scale(1.08);
+    opacity: 1;
+  }
+
+  /* Reusable shimmer + glow on buttons */
+  .btn-shimmer-3d {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .btn-shimmer-3d::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.22) 50%, transparent 100%);
+    transition: left 0.7s ease;
+    pointer-events: none;
+  }
+  .btn-shimmer-3d:hover::after { left: 100%; }
+  .btn-shimmer-3d:hover {
+    box-shadow:
+      0 8px 28px rgba(66, 133, 244, 0.35),
+      0 4px 14px rgba(138, 43, 226, 0.25),
+      0 0 32px rgba(66, 133, 244, 0.18);
+  }
+
+  /* Subtle horizontal shimmer on all glass (primary marketing) buttons.
+     Works on top of existing hover effects (gradient border + scale).
+     Uses a soft off-black/lighter tint rather than bright white so it stays subtle. */
+  button[data-variant="glass"],
+  a[data-variant="glass"] {
+    position: relative;
+  }
+  button[data-variant="glass"]::before,
+  a[data-variant="glass"]::before {
+    /* keep existing ::before gradient border defined in the variant */
+  }
+  /* Use a dedicated shimmer layer that sits above the after bg layer (z-index 0)
+     but below the button text. The variant already uses ::before and ::after
+     for the gradient border, so we attach the shimmer to the inner ::after
+     bg layer via a wrapping background-image animation instead. */
+  button[data-variant="glass"]::after,
+  a[data-variant="glass"]::after {
+    background-image:
+      linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,255,255,0.06) 45%,
+        rgba(180,190,210,0.10) 50%,
+        rgba(255,255,255,0.06) 55%,
+        transparent 100%);
+    background-size: 250% 100%;
+    background-position: -150% 0;
+    background-repeat: no-repeat;
+    transition: background-position 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background-color 0.3s ease;
+  }
+  button[data-variant="glass"]:hover::after,
+  a[data-variant="glass"]:hover::after {
+    background-position: 250% 0;
+  }
+  .light button[data-variant="glass"]::after,
+  .light a[data-variant="glass"]::after {
+    background-image:
+      linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,255,255,0.18) 45%,
+        rgba(255,255,255,0.35) 50%,
+        rgba(255,255,255,0.18) 55%,
+        transparent 100%);
+    background-size: 250% 100%;
+    background-position: -150% 0;
+    background-repeat: no-repeat;
   }
 
   /* Theme-aware form inputs */
@@ -371,6 +774,62 @@
   .badge-hover:hover {
     transform: scale(1.08);
     box-shadow: 0 0 20px rgba(66, 133, 244, 0.3), 0 0 30px rgba(138, 43, 226, 0.2);
+  }
+
+  /* ===================== */
+  /* Cosmic accent — animated brand-gradient sweep + per-letter wobble */
+  /* ===================== */
+  @keyframes cosmic-shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .cosmic-accent {
+    display: inline-block;
+    font-weight: 700;
+    --cosmic-hover: 0;
+    /* Soft brand glow halo on the whole phrase */
+    filter: drop-shadow(0 0 18px rgba(66, 133, 244, 0.18))
+            drop-shadow(0 0 28px rgba(138, 43, 226, 0.14));
+    transition: filter 0.45s ease;
+    cursor: default;
+    pointer-events: auto;
+    isolation: isolate;
+    padding: 0.14em 0.08em 0.2em;
+    margin: -0.14em -0.08em -0.2em;
+  }
+  .cosmic-accent--active {
+    filter: drop-shadow(0 0 22px rgba(66, 133, 244, 0.34))
+            drop-shadow(0 0 36px rgba(138, 43, 226, 0.28));
+  }
+  /* Each letter is its own gradient-clipped element so inline-block + transform
+     don't break the background-clip context. */
+  .cosmic-accent__letter {
+    background-image: linear-gradient(
+      90deg,
+      #4285f4 0%,
+      #8a2be2 25%,
+      #b56dff 50%,
+      #8a2be2 75%,
+      #4285f4 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: cosmic-shimmer 7s linear infinite;
+    transition: filter 0.35s ease;
+  }
+  .cosmic-accent--active .cosmic-accent__letter {
+    filter: brightness(1.2) saturate(1.28)
+            drop-shadow(0 0 9px rgba(66, 133, 244, 0.28))
+            drop-shadow(0 0 15px rgba(138, 43, 226, 0.24));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cosmic-accent__letter {
+      animation: none;
+      background-position: 25% 50%;
+    }
   }
 
   /* ===================== */

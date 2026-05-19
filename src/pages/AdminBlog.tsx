@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
@@ -14,15 +13,13 @@ import BlogTable from '@/components/admin/blog/BlogTable';
 import CreateBlogModal from '@/components/admin/blog/CreateBlogModal';
 import EditBlogModal from '@/components/admin/blog/EditBlogModal';
 import { Button } from '@/components/ui/button';
-import { Plus, Menu, X } from 'lucide-react';
+import { PlusX } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const AdminBlog = () => {
   const { user, loading: authLoading } = useAuth();
   const { isAdmin, loading: adminLoading } = useAdminCheck();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState(null);
   const queryClient = useQueryClient();
@@ -123,41 +120,11 @@ const AdminBlog = () => {
       
       <main className="relative z-10 pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          {/* Mobile Sidebar Toggle */}
-          {isMobile && (
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="fixed top-24 left-4 z-50 glass-effect rounded-xl p-3 border border-webdev-glass-border lg:hidden"
-            >
-              {sidebarOpen ? (
-                <X className="w-5 h-5 text-webdev-silver" />
-              ) : (
-                <Menu className="w-5 h-5 text-webdev-silver" />
-              )}
-            </button>
-          )}
-
-          <div className="flex gap-4 md:gap-8">
-            {/* Sidebar */}
-            <div className={`
-              ${isMobile ? 'fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ease-in-out' : 'hidden lg:block w-64 flex-shrink-0'}
-              ${sidebarOpen || !isMobile ? 'translate-x-0' : '-translate-x-full'}
-            `}>
-              {isMobile && (
-                <div className="pt-24">
-                  <AdminSidebar />
-                </div>
-              )}
-              {!isMobile && <AdminSidebar />}
+          <div className="flex gap-6 lg:gap-8">
+            {/* Desktop Sidebar (mobile/tablet nav lives in the header menu) */}
+            <div className="hidden lg:block w-64 flex-shrink-0">
+              <AdminSidebar />
             </div>
-
-            {/* Mobile Sidebar Overlay */}
-            {isMobile && sidebarOpen && (
-              <div 
-                className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
-                onClick={() => setSidebarOpen(false)}
-              />
-            )}
 
             <div className="flex-1 space-y-6 md:space-y-8 min-w-0">
               {/* Header */}
