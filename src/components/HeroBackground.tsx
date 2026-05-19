@@ -193,36 +193,7 @@ const HeroBackground: React.FC<{
       };
     };
 
-    const spawnNebula = () => {
-      const fromLeft = Math.random() < 0.5;
-      const depth = 0.3 + Math.random() * 0.6;
-      const r = 180 + Math.random() * 220 + depth * 120;
-      // Brand-aligned palette; mix blue/purple/violet pairs
-      const palette = [
-        ['rgba(80, 140, 255,', 'rgba(140, 60, 220,'],
-        ['rgba(150, 90, 255,', 'rgba(70, 120, 240,'],
-        ['rgba(100, 80, 220,', 'rgba(180, 110, 240,'],
-      ];
-      const [hueA, hueB] = palette[Math.floor(Math.random() * palette.length)];
-      const speed = 6 + Math.random() * 8; // very slow drift
-      const angle = (Math.random() - 0.5) * 0.6;
-      nebula = {
-        x: fromLeft ? -r : width + r,
-        y: height * (0.1 + Math.random() * 0.7),
-        vx: (fromLeft ? 1 : -1) * speed * Math.cos(angle),
-        vy: speed * Math.sin(angle) * 0.5,
-        r,
-        depth,
-        hueA,
-        hueB,
-        life: 0,
-        // Long lifetime (20–35s) since drift is slow
-        maxLife: 22 + Math.random() * 14,
-        fadeIn: 3.5,
-        fadeOut: 4.5,
-        done: false,
-      };
-    };
+
 
 
     // ----- Orbs -----
