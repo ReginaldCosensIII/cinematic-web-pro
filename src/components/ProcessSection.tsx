@@ -69,8 +69,7 @@ const ProcessSection = () => {
                 return (
                   <CarouselItem key={step.number} className="basis-full">
                     <div className="p-4">
-                      <div className="group relative glass-effect hover:glass-border rounded-xl p-6 text-center max-w-sm mx-auto transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm -z-10" />
+                      <div className="group blog-card glass-effect rounded-xl p-6 text-center max-w-sm mx-auto">
                         
                         <div className="mb-6 w-full aspect-[4/3]">
                           <img 
@@ -100,7 +99,6 @@ const ProcessSection = () => {
                           ))}
                         </ul>
 
-                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-webdev-gradient-blue/5 to-webdev-gradient-purple/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                       </div>
                     </div>
                   </CarouselItem>

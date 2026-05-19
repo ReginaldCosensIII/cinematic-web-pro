@@ -197,7 +197,7 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                       <article
                         key={s.slug}
                         id={s.slug}
-                        className="group glass-effect hover:glass-border rounded-xl p-8 transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 scroll-mt-32"
+                        className="group blog-card glass-effect rounded-xl p-8 scroll-mt-32"
                       >
                         <div className="flex items-start gap-5 mb-5">
                           <div className="icon-gradient-container relative w-14 h-14 rounded-xl flex-shrink-0">
@@ -251,7 +251,7 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                       <article
                         key={s.slug}
                         id={s.slug}
-                        className="group glass-effect hover:glass-border rounded-xl p-6 transition-all duration-500 hover:shadow-xl hover:shadow-webdev-gradient-blue/10 scroll-mt-32 flex flex-col"
+                        className="group blog-card glass-effect rounded-xl p-6 scroll-mt-32 flex flex-col"
                       >
                         <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
                           <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
