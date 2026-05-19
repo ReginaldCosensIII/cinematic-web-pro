@@ -167,30 +167,13 @@ const HeroBackground: React.FC<{
       rotSpeed: number;
       done: boolean;
     } | null;
-    type Nebula = {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      r: number;
-      depth: number;
-      hueA: string;
-      hueB: string;
-      life: number;
-      maxLife: number;
-      fadeIn: number;
-      fadeOut: number;
-      done: boolean;
-    } | null;
 
     let satellite: Satellite = null;
-    let nebula: Nebula = null;
     // Time (in seconds since loop start) at which the director should next
     // attempt to spawn each entity. 0 means "as soon as possible".
     let nextSatelliteAt = 4 + Math.random() * 6; // first satellite within 4–10s
-    let nextNebulaAt = 6 + Math.random() * 8; // first nebula within 6–14s
     let satelliteAbsentSince = 0;
-    let nebulaAbsentSince = 0;
+
 
     const spawnSatellite = () => {
       const fromLeft = Math.random() < 0.5;
