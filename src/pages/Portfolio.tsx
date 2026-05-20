@@ -159,7 +159,8 @@ const Portfolio = () => {
                     className="cursor-pointer"
                     onClick={() => setSelectedProject(featuredProject)}
                   >
-                    <div className="relative glass-effect rounded-2xl overflow-hidden transition-all duration-500">
+                    <div className="relative card-unified card-feature rounded-2xl overflow-hidden">
+
                       <div className="relative overflow-hidden aspect-[21/9]">
                         <img src={featuredProject.image} alt={`${featuredProject.title} — ${featuredProject.description}`}
                           className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" />
@@ -258,7 +259,7 @@ const Portfolio = () => {
                       transition={{ duration: 0.4, delay: index * 0.1 }}
                       className="group cursor-pointer"
                       onClick={() => handleGridCardClick(project)}>
-                      <div className="relative glass-effect rounded-2xl overflow-hidden transition-all duration-500">
+                      <div className="relative card-unified card-feature rounded-2xl overflow-hidden">
                         <div className="relative overflow-hidden aspect-video">
                           <img src={project.image} alt={`${project.title} — ${project.description}`}
                             className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" loading="lazy" />

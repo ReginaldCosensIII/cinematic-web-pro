@@ -578,7 +578,10 @@
       0 2px 12px rgba(66, 133, 244, 0.06);
   }
 
-  /* ----- Feature variant: rich hover with gradient ring + lift ----- */
+  /* ----- Feature variant: rich hover with gradient ring + lift + dual glow.
+     Models the Blog card: gradient ring fades in, card lifts, optional inner
+     <img class="card-feature-img"> scales subtly. Use for high-action,
+     clickable marketing cards (services, portfolio, blog, testimonials). ----- */
   .card-feature::before {
     content: '';
     position: absolute;
@@ -596,25 +599,40 @@
     transform: translateY(-6px);
     border-color: transparent;
     box-shadow:
-      0 18px 44px rgba(66, 133, 244, 0.20),
-      0 8px 22px rgba(138, 43, 226, 0.16),
-      0 0 32px rgba(66, 133, 244, 0.10);
+      0 20px 46px rgba(66, 133, 244, 0.22),
+      0 10px 24px rgba(138, 43, 226, 0.18),
+      0 0 36px rgba(66, 133, 244, 0.12);
   }
   .card-feature:hover::before {
     background: linear-gradient(135deg, rgba(66,133,244,0.6), rgba(138,43,226,0.6));
   }
+  /* Optional inner image zoom (parity with blog cards) */
+  .card-feature .card-feature-img {
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .card-feature:hover .card-feature-img {
+    transform: scale(1.06);
+  }
+  .card-feature-img-wrap {
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
 
-  /* ----- Subtle variant: minimal lift, no gradient ring ----- */
-  .card-subtle:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 6px 18px rgba(0, 0, 0, 0.18),
-      0 2px 6px rgba(0, 0, 0, 0.10);
+
+
+  /* ----- Subtle variant: soft hover lift only — no shadow, no gradient ring.
+     Use for informational/secondary cards (FAQ, feature lists, stat tiles). ----- */
+  .card-subtle {
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                border-color 0.4s ease;
+  }
+  .dark .card-subtle:hover {
+    transform: translateY(-3px);
+    border-color: hsla(var(--webdev-glass-border-strong, var(--webdev-glass-border)));
   }
   .light .card-subtle:hover {
-    box-shadow:
-      0 6px 18px rgba(66, 133, 244, 0.10),
-      0 2px 6px rgba(138, 43, 226, 0.06);
+    transform: translateY(-3px);
+    border-color: rgba(66, 133, 244, 0.28);
   }
 
   /* ----- CTA variant: end-of-page hero card with ambient corner orbs -----

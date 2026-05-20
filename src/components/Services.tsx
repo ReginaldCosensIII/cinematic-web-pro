@@ -63,7 +63,7 @@ const Services = () => {
             return (
               <article
                 key={service.title}
-                className="group blog-card glass-effect rounded-xl p-8 h-full flex flex-col focus-within:ring-2 focus-within:ring-webdev-gradient-blue"
+                className="group card-unified card-feature rounded-xl p-8 h-full flex flex-col focus-within:ring-2 focus-within:ring-webdev-gradient-blue"
                 style={{ animationDelay: `${index * 150}ms` }}
                 role="listitem"
               >

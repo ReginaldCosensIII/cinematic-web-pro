@@ -151,7 +151,7 @@ const ServicesPage = () => {
               <section className="grid md:grid-cols-3 gap-6 mb-24" aria-labelledby="value-heading">
                 <h2 id="value-heading" className="sr-only">Why work with WebDevPro</h2>
                 {valueProps.map(({ icon: Icon, title, body }) => (
-                  <div key={title} className="glass-effect rounded-xl p-6">
+                  <div key={title} className="card-unified card-subtle rounded-xl p-6">
                     <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
                       <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
                         <Icon className="w-6 h-6" />
@@ -186,7 +186,7 @@ const ServicesPage = () => {
                       <a
                         key={s.slug}
                         href={`#${s.slug}`}
-                        className="group blog-card glass-effect rounded-xl p-6 flex flex-col"
+                        className="group card-unified card-feature rounded-xl p-6 flex flex-col"
                       >
                         <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
                           <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
@@ -215,7 +215,7 @@ const ServicesPage = () => {
                   <ScrollReveal key={service.slug} delay={index * 60}>
                     <article
                       id={service.slug}
-                      className="group blog-card glass-effect rounded-xl overflow-hidden scroll-mt-32"
+                      className="group card-unified card-feature rounded-xl overflow-hidden scroll-mt-32"
                     >
                       <div className="grid lg:grid-cols-5">
                         <div className="lg:col-span-2 h-48 lg:h-auto overflow-hidden">
@@ -309,7 +309,7 @@ const ServicesPage = () => {
                   {processSteps.map((step, i) => {
                     const Icon = step.icon;
                     return (
-                      <div key={step.title} className="glass-effect rounded-xl p-6 relative">
+                      <div key={step.title} className="card-unified card-subtle rounded-xl p-6 relative">
                         <div className="absolute top-4 right-4 text-xs font-mono bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
                           0{i + 1}
                         </div>
@@ -364,7 +364,7 @@ const ServicesPage = () => {
                 </div>
                 <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                   {faqs.map((f) => (
-                    <div key={f.q} className="glass-effect rounded-xl p-6">
+                    <div key={f.q} className="card-unified card-subtle rounded-xl p-6">
                       <h3 className="text-lg font-semibold text-wdp-text mb-2">{f.q}</h3>
                       <p className="text-wdp-text-secondary leading-relaxed text-sm">{f.a}</p>
                     </div>
