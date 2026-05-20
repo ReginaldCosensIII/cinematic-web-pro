@@ -160,7 +160,7 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                   { icon: Shield, title: 'Secure by default', body: 'Private deployments, role-based access, and guardrails built in from day one.' },
                   { icon: Zap, title: 'Real ROI, fast', body: 'We target the bottlenecks that actually cost you money and time, then automate them.' },
                 ].map(({ icon: Icon, title, body }) => (
-                  <div key={title} className="glass-effect rounded-xl p-6">
+                  <div key={title} className="card-unified card-subtle rounded-xl p-6">
                     <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
                       <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
                         <Icon className="w-6 h-6" />
