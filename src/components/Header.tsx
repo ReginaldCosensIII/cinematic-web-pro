@@ -180,7 +180,7 @@ const Header = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute left-0 top-full pt-5 w-80"
+                    className="absolute left-0 top-full pt-7 w-80"
                     role="menu"
                   >
                     <div className="rounded-xl border border-white/10 shadow-2xl shadow-black/50 overflow-hidden bg-webdev-black/90 backdrop-blur-2xl">
