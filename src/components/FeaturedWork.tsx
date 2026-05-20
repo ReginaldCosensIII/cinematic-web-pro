@@ -121,7 +121,7 @@ const ProjectActions = ({ project }: { project: Project }) => (
 );
 
 const DesktopCard = ({ project }: { project: Project }) => (
-  <div className="group relative glass-effect rounded-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10">
+  <div className="group relative card-unified card-feature rounded-xl overflow-hidden">
     <div className="relative w-full aspect-video overflow-hidden">
       <img
         src={project.image}
@@ -149,7 +149,7 @@ const DesktopCard = ({ project }: { project: Project }) => (
 );
 
 const MobileCard = ({ project }: { project: Project }) => (
-  <div className="glass-effect rounded-xl overflow-hidden">
+  <div className="card-unified card-subtle rounded-xl overflow-hidden">
     <div className="relative w-full aspect-[16/10] overflow-hidden">
       <img
         src={project.image}
