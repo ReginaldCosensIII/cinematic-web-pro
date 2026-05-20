@@ -157,14 +157,14 @@ const Blog = () => {
 
           {!searchTerm && featuredArticle && (
             <div className="mb-16 animate-fade-in-up">
-              <div className="blog-card glass-effect rounded-2xl p-6 md:p-8 cursor-pointer"
+              <div className="card-unified card-feature rounded-2xl p-6 md:p-8 cursor-pointer"
                    onClick={() => handleArticleClick(featuredArticle.slug)}>
                 <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
                      {featuredArticle.thumbnail_url && (
                        <div className="lg:w-1/2">
-                         <div className="blog-card-img-wrap">
+                         <div className="card-feature-img-wrap">
                            <img src={featuredArticle.thumbnail_url} alt={`${featuredArticle.title} - Featured article`}
-                             className="blog-card-img w-full h-64 md:h-80 object-cover" />
+                             className="card-feature-img w-full h-64 md:h-80 object-cover" />
                          </div>
                        </div>
                      )}
@@ -213,12 +213,12 @@ const Blog = () => {
               <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12">
                 {currentArticles.map((article, index) => (
                   <div key={article.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                    <div className="blog-card glass-effect rounded-2xl p-6 cursor-pointer h-full flex flex-col"
+                    <div className="card-unified card-feature rounded-2xl p-6 cursor-pointer h-full flex flex-col"
                          onClick={() => handleArticleClick(article.slug)}>
                        {article.thumbnail_url && (
                          <div className="mb-4">
-                           <div className="blog-card-img-wrap">
-                             <img src={article.thumbnail_url} alt={`${article.title} thumbnail`} className="blog-card-img w-full h-48 object-cover" />
+                           <div className="card-feature-img-wrap">
+                             <img src={article.thumbnail_url} alt={`${article.title} thumbnail`} className="card-feature-img w-full h-48 object-cover" />
                            </div>
                          </div>
                        )}
