@@ -41,7 +41,7 @@ const AISolutionsHighlight = () => {
                 <Link
                   key={solution.slug}
                   to={`/services/ai-solutions#${solution.slug}`}
-                  className="group blog-card glass-effect rounded-xl p-8 animate-fade-in-up flex flex-col"
+                  className="group card-unified card-feature rounded-xl p-8 animate-fade-in-up flex flex-col"
                   style={{ animationDelay: `${idx * 80}ms` }}
                 >
                   <div className="icon-gradient-container relative w-14 h-14 rounded-xl mb-6">

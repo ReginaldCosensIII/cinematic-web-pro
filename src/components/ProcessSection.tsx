@@ -69,7 +69,7 @@ const ProcessSection = () => {
                 return (
                   <CarouselItem key={step.number} className="basis-full">
                     <div className="p-4">
-                      <div className="group blog-card glass-effect rounded-xl p-6 text-center max-w-sm mx-auto">
+                      <div className="group card-unified card-feature rounded-xl p-6 text-center max-w-sm mx-auto">
                         
                         <div className="mb-6 w-full aspect-[4/3]">
                           <img 
