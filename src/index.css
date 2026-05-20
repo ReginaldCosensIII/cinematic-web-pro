@@ -613,6 +613,12 @@
   .card-feature:hover .card-feature-img {
     transform: scale(1.06);
   }
+  .card-feature-img-wrap {
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+
+
 
   /* ----- Subtle variant: soft hover lift only — no shadow, no gradient ring.
      Use for informational/secondary cards (FAQ, feature lists, stat tiles). ----- */
