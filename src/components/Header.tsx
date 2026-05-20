@@ -180,10 +180,10 @@ const Header = () => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-80"
+                    className="absolute left-0 top-full pt-3 w-80"
                     role="menu"
                   >
-                    <div className="rounded-xl border border-white/10 shadow-2xl shadow-black/50 overflow-hidden bg-webdev-black/95 backdrop-blur-2xl">
+                    <div className="rounded-xl border border-white/10 shadow-2xl shadow-black/50 overflow-hidden bg-white/[0.06] backdrop-blur-2xl">
                       {SERVICE_LINKS.map((s) => {
                         const Icon = s.icon;
                         const active = isActive(s.path);
@@ -193,7 +193,7 @@ const Header = () => {
                             to={s.path}
                             role="menuitem"
                             onClick={() => setServicesOpen(false)}
-                            className="group flex items-start gap-3 p-4 transition-colors duration-200 hover:bg-white/5 focus:bg-white/5 focus:outline-none"
+                            className="group flex items-start gap-3 p-4 transition-colors duration-200 hover:bg-white/[0.10] focus:bg-white/[0.10] focus:outline-none"
                           >
                             <div className="icon-gradient-container relative w-10 h-10 rounded-lg flex-shrink-0">
                               <div className="icon-inner w-full h-full rounded-lg flex items-center justify-center">
