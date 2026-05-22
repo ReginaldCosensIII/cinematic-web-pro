@@ -149,7 +149,7 @@ const DesktopCard = ({ project }: { project: Project }) => (
 );
 
 const MobileCard = ({ project }: { project: Project }) => (
-  <div className="card-unified card-subtle rounded-xl overflow-hidden">
+  <div className="card-unified card-feature rounded-xl overflow-hidden">
     <div className="relative w-full aspect-[16/10] overflow-hidden">
       <img
         src={project.image}
