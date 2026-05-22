@@ -107,6 +107,11 @@ const Index = () => {
               </section>
             </ScrollReveal>
             <ScrollReveal delay={100}>
+              <section id="ai-solutions" aria-labelledby="ai-solutions-heading">
+                <AISolutionsHighlight />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
               <section id="process" aria-labelledby="process-heading">
                 <ProcessSection />
               </section>
@@ -114,11 +119,6 @@ const Index = () => {
             <ScrollReveal delay={100}>
               <section id="testimonials" aria-labelledby="testimonials-heading">
                 <TestimonialsSection />
-              </section>
-            </ScrollReveal>
-            <ScrollReveal delay={100}>
-              <section id="ai-solutions" aria-labelledby="ai-solutions-heading">
-                <AISolutionsHighlight />
               </section>
             </ScrollReveal>
             <ScrollReveal delay={100}>
