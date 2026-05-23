@@ -1180,3 +1180,50 @@
 .light .smoke-particle-subtle {
   background: radial-gradient(circle, rgba(66, 133, 244, 0.03) 0%, rgba(138, 43, 226, 0.015) 50%, transparent 70%);
 }
+
+/* ===================================================================
+   Premium scroll/load reveal system
+   - .reveal-base: hidden initial state used with IntersectionObserver
+   - .reveal-in: visible state
+   - Variants: -fade, -rise, -blur, -scale (compose by stacking)
+   - Stagger via inline --reveal-delay
+   =================================================================== */
+.reveal-base {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  filter: blur(8px);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+.reveal-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-base { opacity: 1; transform: none; filter: none; transition: none; }
+}
+
+/* Per-slide reveal for the Featured Work carousel — short, sophisticated */
+@keyframes slide-reveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.99);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+.animate-slide-reveal {
+  animation: slide-reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-reveal { animation: none; }
+}
