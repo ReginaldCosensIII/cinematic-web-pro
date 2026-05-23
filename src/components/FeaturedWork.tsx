@@ -258,18 +258,20 @@ const FeaturedWork = () => {
         </div>
 
         <div
-          className="relative max-w-4xl mx-auto"
+          className="relative max-w-6xl mx-auto"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {isMobile ? (
-            <MobileCard project={project} />
-          ) : (
-            <DesktopCard project={project} />
-          )}
+          <div key={currentIndex} className="animate-slide-reveal">
+            {isMobile ? (
+              <MobileCard project={project} />
+            ) : (
+              <DesktopCard project={project} />
+            )}
+          </div>
         </div>
 
         {/* Unified carousel controls */}
