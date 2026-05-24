@@ -277,7 +277,7 @@ const FeaturedWork = () => {
           onTouchEnd={handleTouchEnd}
         >
           <div key={currentIndex} className="animate-slide-reveal">
-            {isMobile ? (
+            {isBelowDesktop ? (
               <MobileCard project={project} />
             ) : (
               <DesktopCard project={project} />
