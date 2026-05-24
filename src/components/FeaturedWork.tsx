@@ -269,7 +269,7 @@ const FeaturedWork = () => {
   const project = projects[currentIndex];
 
   return (
-    <section id="featuredwork" className="relative py-16 px-6">
+    <section id="featuredwork" aria-label="Recent Work" className="relative py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center space-y-6 max-w-4xl mx-auto relative z-10 mb-12">
           <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover">
@@ -290,7 +290,12 @@ const FeaturedWork = () => {
         </div>
 
         <div
-          className="relative max-w-6xl mx-auto"
+          ref={carouselRef}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Featured projects carousel"
+          tabIndex={0}
+          className="relative max-w-6xl mx-auto outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-[hsl(var(--webdev-gradient-start))] rounded-2xl"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
@@ -306,16 +311,23 @@ const FeaturedWork = () => {
           </div>
         </div>
 
+        {/* Live region for screen readers */}
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          Showing project {currentIndex + 1} of {projects.length}: {project.title}
+        </div>
+
         {/* Unified carousel controls */}
         <div className="flex items-center justify-center gap-4 mt-8">
           <button onClick={prev} className="carousel-chevron" aria-label="Previous project">
             <ChevronLeft className="h-4 w-4" />
           </button>
           
-          <div className="flex gap-2">
+          <div className="flex gap-2" role="tablist" aria-label="Select project">
             {projects.map((_, index) => (
               <button
                 key={index}
+                role="tab"
+                aria-selected={index === currentIndex}
                 className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
                 onClick={() => setCurrentIndex(index)}
                 aria-label={`Go to project ${index + 1}`}
@@ -329,7 +341,7 @@ const FeaturedWork = () => {
         </div>
 
         <div className="text-center mt-3">
-          <span className="text-wdp-text-secondary text-sm">
+          <span className="text-wdp-text-secondary text-sm" aria-hidden="true">
             {currentIndex + 1} of {projects.length}
           </span>
         </div>
