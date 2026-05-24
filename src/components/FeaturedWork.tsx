@@ -125,7 +125,7 @@ const DesktopCard = ({ project }: { project: Project }) => (
       <img
         src={project.image}
         alt={`${project.title} preview screenshot`}
-        className="card-feature-img absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+        className="card-feature-img absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 motion-safe:group-hover:scale-[1.02]"
       />
       {/* Gradient overlays for readable text */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
@@ -149,16 +149,16 @@ const DesktopCard = ({ project }: { project: Project }) => (
           <p className="text-wdp-text-secondary text-base leading-relaxed mb-5 line-clamp-2">
             {project.description}
           </p>
-          <div className="flex flex-wrap gap-2 mb-5">
+          <ul className="flex flex-wrap gap-2 mb-5" aria-label="Technologies used">
             {project.technologies.map((tech) => (
-              <span
+              <li
                 key={tech}
                 className="px-2.5 py-1 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary border border-white/10"
               >
                 {tech}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
           <ProjectActions project={project} />
         </div>
       </div>
