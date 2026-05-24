@@ -122,44 +122,46 @@ const ProjectActions = ({ project }: { project: Project }) => (
 
 const DesktopCard = ({ project }: { project: Project }) => (
   <div className="group relative card-unified card-feature rounded-2xl overflow-hidden">
-    <div className="grid grid-cols-12 items-stretch">
-      {/* Content — left 5 cols */}
-      <div className="col-span-12 lg:col-span-5 p-8 lg:p-10 xl:p-12 flex flex-col justify-center order-2 lg:order-1">
-        <div className="flex items-center gap-2 mb-5">
-          <TypeBadge type={project.type} />
-          <StatusBadge status={project.status} />
-        </div>
-        <p className="text-wdp-text-secondary text-[11px] font-semibold tracking-[0.2em] uppercase mb-2">
-          {project.client}
-        </p>
-        <h3 className="text-3xl xl:text-4xl font-bold text-wdp-text leading-tight mb-4">
-          {project.title}
-        </h3>
-        <p className="text-wdp-text-secondary text-base leading-relaxed mb-6">
-          {project.description}
-        </p>
-        <div className="flex flex-wrap gap-2 mb-8">
-          {project.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="px-2.5 py-1 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary border border-white/10"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-        <ProjectActions project={project} />
+    <div className="relative w-full aspect-video overflow-hidden">
+      <img
+        src={project.image}
+        alt={`${project.title} preview screenshot`}
+        className="card-feature-img absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+      />
+      {/* Gradient overlays for readable text */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
+
+      {/* Top badges */}
+      <div className="absolute top-5 left-5 flex items-center gap-2 z-10">
+        <TypeBadge type={project.type} />
+        <StatusBadge status={project.status} />
       </div>
 
-      {/* Image — right 7 cols */}
-      <div className="col-span-12 lg:col-span-7 relative order-1 lg:order-2 bg-webdev-darker-gray/40 overflow-hidden min-h-[280px] lg:min-h-[460px]">
-        {/* edge fade into content column on desktop */}
-        <div className="hidden lg:block absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[hsl(var(--webdev-bg-secondary))] to-transparent z-10 pointer-events-none" />
-        <img
-          src={project.image}
-          alt={`${project.title} preview screenshot`}
-          className="card-feature-img absolute inset-0 w-full h-full object-cover object-top"
-        />
+      {/* Bottom content overlay */}
+      <div className="absolute inset-x-0 bottom-0 p-8 lg:p-10 z-10">
+        <div className="max-w-3xl">
+          <p className="text-wdp-text-secondary text-[11px] font-semibold tracking-[0.2em] uppercase mb-2">
+            {project.client}
+          </p>
+          <h3 className="text-3xl xl:text-4xl font-bold text-wdp-text leading-tight mb-3">
+            {project.title}
+          </h3>
+          <p className="text-wdp-text-secondary text-base leading-relaxed mb-5 line-clamp-2">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-2 mb-5">
+            {project.technologies.map((tech) => (
+              <span
+                key={tech}
+                className="px-2.5 py-1 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary border border-white/10"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+          <ProjectActions project={project} />
+        </div>
       </div>
     </div>
   </div>
