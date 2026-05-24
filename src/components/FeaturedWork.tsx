@@ -197,9 +197,9 @@ const MobileCard = ({ project }: { project: Project }) => (
 const FeaturedWork = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const isMobile = useIsMobile();
   const [isBelowDesktop, setIsBelowDesktop] = useState(false);
   const { theme } = useTheme();
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 1023px)');
