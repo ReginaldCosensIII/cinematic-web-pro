@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ExternalLink, Github, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTheme } from '@/contexts/ThemeContext';
 
 import placeholderCes from '@/assets/placeholder-ces.jpg';
@@ -126,7 +125,7 @@ const DesktopCard = ({ project }: { project: Project }) => (
       <img
         src={project.image}
         alt={`${project.title} preview screenshot`}
-        className="card-feature-img absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+        className="card-feature-img absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 motion-safe:group-hover:scale-[1.02]"
       />
       {/* Gradient overlays for readable text */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
@@ -150,16 +149,16 @@ const DesktopCard = ({ project }: { project: Project }) => (
           <p className="text-wdp-text-secondary text-base leading-relaxed mb-5 line-clamp-2">
             {project.description}
           </p>
-          <div className="flex flex-wrap gap-2 mb-5">
+          <ul className="flex flex-wrap gap-2 mb-5" aria-label="Technologies used">
             {project.technologies.map((tech) => (
-              <span
+              <li
                 key={tech}
                 className="px-2.5 py-1 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary border border-white/10"
               >
                 {tech}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
           <ProjectActions project={project} />
         </div>
       </div>
@@ -183,13 +182,13 @@ const MobileCard = ({ project }: { project: Project }) => (
       <p className="text-wdp-text-secondary text-xs uppercase tracking-wider">{project.client}</p>
       <h3 className="text-xl font-bold text-wdp-text">{project.title}</h3>
       <p className="text-wdp-text-secondary text-sm leading-relaxed">{project.description}</p>
-      <div className="flex flex-wrap gap-1.5">
+      <ul className="flex flex-wrap gap-1.5" aria-label="Technologies used">
         {project.technologies.map((tech) => (
-          <span key={tech} className="px-2 py-0.5 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary">
+          <li key={tech} className="px-2 py-0.5 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary">
             {tech}
-          </span>
+          </li>
         ))}
-      </div>
+      </ul>
       <ProjectActions project={project} />
     </div>
   </div>
@@ -198,9 +197,9 @@ const MobileCard = ({ project }: { project: Project }) => (
 const FeaturedWork = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const isMobile = useIsMobile();
   const [isBelowDesktop, setIsBelowDesktop] = useState(false);
   const { theme } = useTheme();
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 1023px)');
@@ -221,6 +220,28 @@ const FeaturedWork = () => {
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
   }, [isPaused, next]);
+
+  // Keyboard navigation for carousel
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!carouselRef.current?.contains(document.activeElement)) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prev();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        setCurrentIndex(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        setCurrentIndex(projects.length - 1);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [prev, next]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.targetTouches[0].clientX;
@@ -248,7 +269,7 @@ const FeaturedWork = () => {
   const project = projects[currentIndex];
 
   return (
-    <section id="featuredwork" className="relative py-16 px-6">
+    <section id="featuredwork" aria-label="Recent Work" className="relative py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center space-y-6 max-w-4xl mx-auto relative z-10 mb-12">
           <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-effect badge-hover">
@@ -269,7 +290,12 @@ const FeaturedWork = () => {
         </div>
 
         <div
-          className="relative max-w-6xl mx-auto"
+          ref={carouselRef}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Featured projects carousel"
+          tabIndex={0}
+          className="relative max-w-6xl mx-auto outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-[hsl(var(--webdev-gradient-start))] rounded-2xl"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
@@ -285,16 +311,23 @@ const FeaturedWork = () => {
           </div>
         </div>
 
+        {/* Live region for screen readers */}
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          Showing project {currentIndex + 1} of {projects.length}: {project.title}
+        </div>
+
         {/* Unified carousel controls */}
         <div className="flex items-center justify-center gap-4 mt-8">
           <button onClick={prev} className="carousel-chevron" aria-label="Previous project">
             <ChevronLeft className="h-4 w-4" />
           </button>
           
-          <div className="flex gap-2">
+          <div className="flex gap-2" role="tablist" aria-label="Select project">
             {projects.map((_, index) => (
               <button
                 key={index}
+                role="tab"
+                aria-selected={index === currentIndex}
                 className={`carousel-dot ${index === currentIndex ? 'active' : ''}`}
                 onClick={() => setCurrentIndex(index)}
                 aria-label={`Go to project ${index + 1}`}
@@ -308,7 +341,7 @@ const FeaturedWork = () => {
         </div>
 
         <div className="text-center mt-3">
-          <span className="text-wdp-text-secondary text-sm">
+          <span className="text-wdp-text-secondary text-sm" aria-hidden="true">
             {currentIndex + 1} of {projects.length}
           </span>
         </div>
