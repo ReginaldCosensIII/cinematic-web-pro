@@ -221,6 +221,28 @@ const FeaturedWork = () => {
     return () => clearInterval(timer);
   }, [isPaused, next]);
 
+  // Keyboard navigation for carousel
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!carouselRef.current?.contains(document.activeElement)) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prev();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        setCurrentIndex(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        setCurrentIndex(projects.length - 1);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [prev, next]);
+
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.targetTouches[0].clientX;
     touchEndX.current = null;
