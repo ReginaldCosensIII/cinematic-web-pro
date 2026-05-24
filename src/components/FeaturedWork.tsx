@@ -182,13 +182,13 @@ const MobileCard = ({ project }: { project: Project }) => (
       <p className="text-wdp-text-secondary text-xs uppercase tracking-wider">{project.client}</p>
       <h3 className="text-xl font-bold text-wdp-text">{project.title}</h3>
       <p className="text-wdp-text-secondary text-sm leading-relaxed">{project.description}</p>
-      <div className="flex flex-wrap gap-1.5">
+      <ul className="flex flex-wrap gap-1.5" aria-label="Technologies used">
         {project.technologies.map((tech) => (
-          <span key={tech} className="px-2 py-0.5 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary">
+          <li key={tech} className="px-2 py-0.5 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary">
             {tech}
-          </span>
+          </li>
         ))}
-      </div>
+      </ul>
       <ProjectActions project={project} />
     </div>
   </div>
