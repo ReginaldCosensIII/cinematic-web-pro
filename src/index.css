@@ -871,9 +871,15 @@
     color: hsl(var(--webdev-text-secondary));
   }
 
-  .dark .carousel-chevron:hover {
+  .dark .carousel-chevron:hover,
+  .dark .carousel-chevron:focus-visible {
     background-color: hsla(var(--webdev-glass-bg));
     color: white;
+  }
+
+  .dark .carousel-chevron:focus-visible {
+    outline: 2px solid hsl(var(--webdev-gradient-start));
+    outline-offset: 2px;
   }
 
   .light .carousel-chevron {
@@ -882,10 +888,16 @@
     color: hsl(var(--webdev-text-secondary));
   }
 
-  .light .carousel-chevron:hover {
+  .light .carousel-chevron:hover,
+  .light .carousel-chevron:focus-visible {
     background-color: rgba(240, 245, 255, 0.9);
     color: hsl(var(--webdev-text-primary));
     border-color: rgba(66, 133, 244, 0.4);
+  }
+
+  .light .carousel-chevron:focus-visible {
+    outline: 2px solid hsl(var(--webdev-gradient-start));
+    outline-offset: 2px;
   }
 
   .carousel-dot {
@@ -898,11 +910,17 @@
     padding: 0;
   }
 
+  .carousel-dot:focus-visible {
+    outline: 2px solid hsl(var(--webdev-gradient-start));
+    outline-offset: 3px;
+  }
+
   .dark .carousel-dot {
     background-color: hsla(0, 0%, 75%, 0.15);
   }
 
-  .dark .carousel-dot:hover {
+  .dark .carousel-dot:hover,
+  .dark .carousel-dot:focus-visible {
     background-color: hsla(0, 0%, 75%, 0.3);
   }
 
@@ -910,13 +928,19 @@
     background-color: rgba(66, 133, 244, 0.15);
   }
 
-  .light .carousel-dot:hover {
+  .light .carousel-dot:hover,
+  .light .carousel-dot:focus-visible {
     background-color: rgba(66, 133, 244, 0.3);
   }
 
   .carousel-dot.active {
     width: 1.5rem;
     background: linear-gradient(135deg, #4285f4, #8a2be2);
+  }
+
+  .carousel-dot.active:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
   }
 }
 
