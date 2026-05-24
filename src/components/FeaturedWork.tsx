@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ExternalLink, Github, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTheme } from '@/contexts/ThemeContext';
 
 import placeholderCes from '@/assets/placeholder-ces.jpg';
