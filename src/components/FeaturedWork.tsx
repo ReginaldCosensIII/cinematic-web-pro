@@ -199,7 +199,16 @@ const FeaturedWork = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const isMobile = useIsMobile();
+  const [isBelowDesktop, setIsBelowDesktop] = useState(false);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1023px)');
+    const update = () => setIsBelowDesktop(mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, []);
 
   const touchStartX = React.useRef<number | null>(null);
   const touchEndX = React.useRef<number | null>(null);
@@ -268,7 +277,7 @@ const FeaturedWork = () => {
           onTouchEnd={handleTouchEnd}
         >
           <div key={currentIndex} className="animate-slide-reveal">
-            {isMobile ? (
+            {isBelowDesktop ? (
               <MobileCard project={project} />
             ) : (
               <DesktopCard project={project} />
