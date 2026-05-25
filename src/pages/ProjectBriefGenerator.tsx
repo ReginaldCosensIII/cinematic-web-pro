@@ -119,19 +119,16 @@ const ProjectBriefGenerator = () => {
                   { icon: Code, title: "Generate Brief", desc: "AI creates a comprehensive, professional project brief based on your conversation." },
                   { icon: CheckCircle, title: "Launch Ready", desc: "Download your brief or submit it directly to our team to get started immediately." }
                 ].map((card) => (
-                  <div key={card.title} className="glass-effect rounded-2xl p-8 text-center group hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-webdev-gradient-blue/10 relative">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-webdev-gradient-blue/20 to-webdev-gradient-purple/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
-                    <div className="relative z-10">
-                      <div className="icon-gradient-container relative w-16 h-16 rounded-2xl mx-auto mb-6">
-                        <div className="icon-inner w-full h-full rounded-2xl flex items-center justify-center">
-                          <card.icon className="w-8 h-8" />
-                        </div>
+                  <div key={card.title} className="group card-unified card-feature rounded-2xl p-8 text-center">
+                    <div className="icon-gradient-container relative w-16 h-16 rounded-2xl mx-auto mb-6">
+                      <div className="icon-inner w-full h-full rounded-2xl flex items-center justify-center">
+                        <card.icon className="w-8 h-8" />
                       </div>
-                      <h3 className="text-xl font-semibold text-wdp-text group-hover:opacity-80 transition-colors duration-300 mb-3">{card.title}</h3>
-                      <p className="text-wdp-text-secondary group-hover:text-wdp-text transition-colors duration-300 leading-relaxed">
-                        {card.desc}
-                      </p>
                     </div>
+                    <h3 className="text-xl font-semibold text-wdp-text group-hover:opacity-80 transition-colors duration-300 mb-3">{card.title}</h3>
+                    <p className="text-wdp-text-secondary group-hover:text-wdp-text transition-colors duration-300 leading-relaxed">
+                      {card.desc}
+                    </p>
                   </div>
                 ))}
               </div>

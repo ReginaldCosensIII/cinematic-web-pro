@@ -625,6 +625,11 @@
       z-index: 2;
     }
   }
+  /* Opt-in: always keep the gradient border above inner images, including
+     desktop side-by-side image/text layouts (e.g. Services category cards). */
+  .card-feature.card-feature-bordered::before {
+    z-index: 2;
+  }
 
 
 

@@ -12,6 +12,8 @@ import serviceCustomDesign from '@/assets/service-custom-design.jpg';
 import serviceFullstackDev from '@/assets/service-fullstack-dev.jpg';
 import serviceSeoOptimization from '@/assets/service-seo-optimization.jpg';
 import serviceRedesignRevamp from '@/assets/service-redesign-revamp.jpg';
+import servicesHeroImage from '@/assets/services-web-dev-hero.jpg';
+import ChatBot from '@/components/ChatBot';
 
 const services = [
   {
@@ -135,6 +137,15 @@ const ServicesPage = () => {
                   From a polished marketing site to a full custom web application — modern, fast,
                   conversion-focused builds that make your business look as serious as it is.
                 </p>
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
+                  <img
+                    src={servicesHeroImage}
+                    alt="Modern web development services — responsive interfaces, code, and device mockups"
+                    className="w-full h-64 md:h-80 object-cover"
+                    width={1536}
+                    height={832}
+                  />
+                </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
                   <Link to="/contact">
                     <Button variant="glass" size="lg">Book a Free Consult</Button>
@@ -215,7 +226,7 @@ const ServicesPage = () => {
                   <ScrollReveal key={service.slug} delay={index * 60}>
                     <article
                       id={service.slug}
-                      className="group card-unified card-feature rounded-xl overflow-hidden scroll-mt-32"
+                      className="group card-unified card-feature card-feature-bordered rounded-xl overflow-hidden scroll-mt-32"
                     >
                       <div className="grid lg:grid-cols-5">
                         <div className="lg:col-span-2 h-48 lg:h-auto overflow-hidden">
@@ -404,6 +415,10 @@ const ServicesPage = () => {
         </main>
 
         <Footer />
+
+        <aside role="complementary" aria-label="AI Assistant">
+          <ChatBot />
+        </aside>
       </div>
     </>
   );
