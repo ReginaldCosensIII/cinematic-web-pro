@@ -128,8 +128,8 @@ const DesktopCard = ({ project }: { project: Project }) => (
         className="card-feature-img absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 motion-safe:group-hover:scale-[1.02]"
       />
       {/* Gradient overlays for readable text */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-black/90 via-black/40 to-transparent" />
 
       {/* Top badges */}
       <div className="absolute top-5 left-5 flex items-center gap-2 z-10">
