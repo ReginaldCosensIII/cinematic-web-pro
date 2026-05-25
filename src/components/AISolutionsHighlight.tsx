@@ -24,7 +24,7 @@ const AISolutionsHighlight = () => {
               <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
                 AI
               </span>
-              <span className="text-wdp-text"> to work in your business</span>
+              <span className="text-wdp-text"> To Work In Your Business</span>
             </h2>
 
             <p className="text-xl text-wdp-text-secondary leading-relaxed max-w-3xl mx-auto">
@@ -55,9 +55,9 @@ const AISolutionsHighlight = () => {
                   <p className="text-wdp-text-secondary leading-relaxed mb-6 flex-1">
                     {solution.description}
                   </p>
-                  <span className="inline-flex items-center gap-2 text-sm font-medium bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                    Learn more
-                    <ArrowRight className="w-4 h-4 text-webdev-gradient-blue" />
+                  <span className="inline-flex items-center text-base text-webdev-gradient-blue hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link">
+                    Learn More
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover/link:translate-x-1 transition-transform duration-300" />
                   </span>
                 </Link>
               );
