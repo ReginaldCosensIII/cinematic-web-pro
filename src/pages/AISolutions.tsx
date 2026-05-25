@@ -360,6 +360,10 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
         </main>
 
         <Footer />
+
+        <aside role="complementary" aria-label="AI Assistant">
+          <ChatBot />
+        </aside>
       </div>
     </>
   );
