@@ -617,6 +617,14 @@
     overflow: hidden;
     border-radius: 0.5rem;
   }
+  /* Below desktop, lift the gradient border above inner images so the ring
+     remains visible across the image portion of cards. Desktop keeps the
+     default stacking (border behind overlay content). */
+  @media (max-width: 1023px) {
+    .card-feature::before {
+      z-index: 2;
+    }
+  }
 
 
 
