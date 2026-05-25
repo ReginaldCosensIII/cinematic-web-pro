@@ -153,7 +153,7 @@ const DesktopCard = ({ project }: { project: Project }) => (
             {project.technologies.map((tech) => (
               <li
                 key={tech}
-                className="px-2.5 py-1 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary border border-white/10"
+                className="px-2.5 py-1 rounded-md text-[11px] font-medium glass-effect text-wdp-text-secondary border border-white/10 transition-all duration-300 hover:border-webdev-gradient-blue/50 hover:text-wdp-text hover:-translate-y-0.5 hover:shadow-[0_4px_12px_-2px_hsl(var(--webdev-gradient-start)/0.3)]"
               >
                 {tech}
               </li>
