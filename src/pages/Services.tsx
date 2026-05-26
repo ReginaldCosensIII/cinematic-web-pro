@@ -127,6 +127,15 @@ const ServicesPage = () => {
             {/* Hero */}
             <header className="text-center space-y-8 max-w-4xl mx-auto mb-20">
               <div className="space-y-6" style={{ animation: 'fade-in 0.7s ease-out both' }}>
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
+                  <img
+                    src={servicesHeroImage}
+                    alt="Friendly web developer at a multi-monitor workstation building responsive websites"
+                    className="w-full h-64 md:h-80 object-cover"
+                    width={1536}
+                    height={832}
+                  />
+                </div>
                 <h1 className="text-4xl md:text-6xl font-light text-wdp-text tracking-wide">
                   Web Development{' '}
                   <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
@@ -137,15 +146,6 @@ const ServicesPage = () => {
                   From a polished marketing site to a full custom web application — modern, fast,
                   conversion-focused builds that make your business look as serious as it is.
                 </p>
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
-                  <img
-                    src={servicesHeroImage}
-                    alt="Modern web development services — responsive interfaces, code, and device mockups"
-                    className="w-full h-64 md:h-80 object-cover"
-                    width={1536}
-                    height={832}
-                  />
-                </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
                   <Link to="/contact">
                     <Button variant="glass" size="lg">Book a Free Consult</Button>
@@ -155,6 +155,7 @@ const ServicesPage = () => {
                   </Link>
                 </div>
               </div>
+
             </header>
 
             {/* Value props */}

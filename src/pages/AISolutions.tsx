@@ -118,6 +118,15 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                     <span className="text-wdp-text text-sm">Serving {locality.label}</span>
                   </div>
                 )}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
+                  <img
+                    src={aiSolutionsHero}
+                    alt="Friendly professional collaborating with an AI assistant through a holographic chat interface"
+                    className="w-full h-64 md:h-80 object-cover"
+                    width={1536}
+                    height={832}
+                  />
+                </div>
                 <h1 className="text-4xl md:text-6xl font-light text-wdp-text tracking-wide">
                   {locality ? (
                     <>
@@ -142,15 +151,6 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                   answering to bespoke executive assistants and full operational automation. Remove
                   bottlenecks, recover lost hours, and scale without adding headcount.
                 </p>
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
-                  <img
-                    src={aiSolutionsHero}
-                    alt="AI solutions and integrations — neural networks, chatbots, and workflow automation"
-                    className="w-full h-64 md:h-80 object-cover"
-                    width={1536}
-                    height={832}
-                  />
-                </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
                   <Link to="/contact">
                     <Button variant="glass" size="lg">Book a Free AI Consult</Button>
@@ -160,6 +160,7 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                   </Link>
                 </div>
               </div>
+
             </header>
 
             {/* Why us */}
