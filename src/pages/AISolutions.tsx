@@ -118,15 +118,6 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                     <span className="text-wdp-text text-sm">Serving {locality.label}</span>
                   </div>
                 )}
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
-                  <img
-                    src={aiSolutionsHero}
-                    alt="Friendly professional collaborating with an AI assistant through a holographic chat interface"
-                    className="w-full h-64 md:h-80 object-cover"
-                    width={1536}
-                    height={832}
-                  />
-                </div>
                 <h1 className="text-4xl md:text-6xl font-light text-wdp-text tracking-wide">
                   {locality ? (
                     <>
@@ -146,6 +137,15 @@ const AISolutionsPage: React.FC<AISolutionsPageProps> = ({ locality }) => {
                     </>
                   )}
                 </h1>
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
+                  <img
+                    src={aiSolutionsHero}
+                    alt="Friendly professional collaborating with an AI assistant through a holographic chat interface"
+                    className="w-full h-64 md:h-80 object-cover"
+                    width={1536}
+                    height={832}
+                  />
+                </div>
                 <p className="text-xl text-wdp-text-secondary max-w-3xl mx-auto leading-relaxed">
                   Practical, custom AI built around your workflow — from simple chatbots and AI phone
                   answering to bespoke executive assistants and full operational automation. Remove
