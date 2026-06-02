@@ -127,6 +127,12 @@ const ServicesPage = () => {
             {/* Hero */}
             <header className="text-center space-y-8 max-w-4xl mx-auto mb-20">
               <div className="space-y-6" style={{ animation: 'fade-in 0.7s ease-out both' }}>
+                <h1 className="text-4xl md:text-6xl font-light text-wdp-text tracking-wide">
+                  Web Development{' '}
+                  <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                    Services
+                  </span>
+                </h1>
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
                   <img
                     src={servicesHeroImage}
@@ -136,12 +142,6 @@ const ServicesPage = () => {
                     height={832}
                   />
                 </div>
-                <h1 className="text-4xl md:text-6xl font-light text-wdp-text tracking-wide">
-                  Web Development{' '}
-                  <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                    Services
-                  </span>
-                </h1>
                 <p className="text-xl text-wdp-text-secondary max-w-3xl mx-auto leading-relaxed">
                   From a polished marketing site to a full custom web application — modern, fast,
                   conversion-focused builds that make your business look as serious as it is.
