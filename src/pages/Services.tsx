@@ -14,6 +14,7 @@ import serviceSeoOptimization from '@/assets/service-seo-optimization.jpg';
 import serviceRedesignRevamp from '@/assets/service-redesign-revamp.jpg';
 import servicesHeroImage from '@/assets/services-web-dev-hero.jpg';
 import ChatBot from '@/components/ChatBot';
+import TechStackMarquee from '@/components/TechStackMarquee';
 
 const services = [
   {
@@ -352,13 +353,10 @@ const ServicesPage = () => {
                     </h2>
                     <p className="text-wdp-text-secondary mt-3 max-w-2xl mx-auto">
                       Battle-tested technologies chosen for performance, scalability, and longevity.
+                      <span className="block text-xs text-wdp-text-secondary/70 mt-2">Hover any tile to learn more.</span>
                     </p>
                   </div>
-                  <div className="flex flex-wrap justify-center gap-3">
-                    {techStack.map((t) => (
-                      <span key={t} className="px-4 py-2 text-sm glass-effect rounded-full text-wdp-text">{t}</span>
-                    ))}
-                  </div>
+                  <TechStackMarquee />
                 </div>
               </section>
             </ScrollReveal>
