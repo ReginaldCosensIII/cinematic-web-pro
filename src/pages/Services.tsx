@@ -343,21 +343,19 @@ const ServicesPage = () => {
             {/* Tech stack */}
             <ScrollReveal>
               <section className="mb-24" aria-labelledby="stack-heading">
-                <div className="glass-effect rounded-2xl p-8 md:p-12">
-                  <div className="text-center mb-8">
-                    <h2 id="stack-heading" className="text-3xl md:text-4xl font-light text-wdp-text">
-                      Modern{' '}
-                      <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                        stack
-                      </span>
-                    </h2>
-                    <p className="text-wdp-text-secondary mt-3 max-w-2xl mx-auto">
-                      Battle-tested technologies chosen for performance, scalability, and longevity.
-                      <span className="block text-xs text-wdp-text-secondary/70 mt-2">Hover any tile to learn more.</span>
-                    </p>
-                  </div>
-                  <TechStackMarquee />
+                <div className="text-center mb-8">
+                  <h2 id="stack-heading" className="text-3xl md:text-4xl font-light text-wdp-text">
+                    Modern{' '}
+                    <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                      stack
+                    </span>
+                  </h2>
+                  <p className="text-wdp-text-secondary mt-3 max-w-2xl mx-auto">
+                    Battle-tested technologies chosen for performance, scalability, and longevity.
+                    <span className="block text-xs text-wdp-text-secondary/70 mt-2">Hover any tile to learn more.</span>
+                  </p>
                 </div>
+                <TechStackMarquee />
               </section>
             </ScrollReveal>
 
