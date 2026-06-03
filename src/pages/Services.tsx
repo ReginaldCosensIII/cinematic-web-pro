@@ -199,7 +199,7 @@ const ServicesPage = () => {
                       <a
                         key={s.slug}
                         href={`#${s.slug}`}
-                        className="group card-unified card-feature rounded-xl p-6 flex flex-col"
+                        className="group card-unified card-feature rounded-xl p-6 flex flex-col focus-within:ring-2 focus-within:ring-webdev-gradient-blue"
                       >
                         <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
                           <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
@@ -209,11 +209,14 @@ const ServicesPage = () => {
                         <h3 className="text-lg font-semibold text-wdp-text mb-1">{s.title}</h3>
                         <p className="text-sm text-webdev-gradient-blue mb-2">{s.tagline}</p>
                         <p className="text-sm text-wdp-text-secondary leading-relaxed flex-1">{s.description}</p>
-                        <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
-                          Details
-                          <ArrowRight className="w-4 h-4 text-webdev-gradient-blue" />
-                        </span>
+                        <div className="flex justify-end mt-4">
+                          <span className="inline-flex items-center text-base text-webdev-gradient-blue group-hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link">
+                            Learn More
+                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
+                          </span>
+                        </div>
                       </a>
+
                     );
                   })}
                 </div>
