@@ -60,7 +60,7 @@ const TechStackMarquee = () => {
 
   return (
     <div
-      className="relative overflow-hidden group"
+      className="relative overflow-x-clip overflow-y-visible py-8 -my-2 group"
       style={{
         maskImage:
           'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
@@ -69,7 +69,8 @@ const TechStackMarquee = () => {
       }}
       aria-label="Modern technology stack, scrolling carousel"
     >
-      <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
+      <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] py-2">
+
         {loop.map((tech, i) => (
           <TechCard key={`${tech.name}-${i}`} tech={tech} />
         ))}
