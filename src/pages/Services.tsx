@@ -14,6 +14,7 @@ import serviceSeoOptimization from '@/assets/service-seo-optimization.jpg';
 import serviceRedesignRevamp from '@/assets/service-redesign-revamp.jpg';
 import servicesHeroImage from '@/assets/services-web-dev-hero.jpg';
 import ChatBot from '@/components/ChatBot';
+import TechStackMarquee from '@/components/TechStackMarquee';
 
 const services = [
   {
