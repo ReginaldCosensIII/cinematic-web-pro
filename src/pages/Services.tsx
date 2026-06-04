@@ -47,14 +47,14 @@ const services = [
     slug: 'seo-optimization',
     icon: Search,
     image: serviceSeoOptimization,
-    imageAlt: 'Analytics charts and search metrics representing SEO optimization services',
-    title: 'SEO & Optimization',
-    tagline: 'Faster, leaner, more findable',
-    description: 'Making your site fast, discoverable, and high-performing.',
-    detailedDescription: 'Maximize your website&apos;s visibility and performance with comprehensive SEO and Core Web Vitals optimization.',
-    keyBenefits: ['Improved search engine rankings', 'Faster page load speeds', 'Enhanced user experience', 'Mobile optimization', 'Better conversion rates', 'Increased organic traffic'],
-    technologies: ['Google Analytics', 'Search Console', 'Lighthouse', 'GTMetrix', 'Schema Markup'],
-    deliverables: ['Complete SEO audit report', 'Optimized meta tags and content', 'Technical SEO improvements', 'Performance optimization', 'Analytics setup and tracking'],
+    imageAlt: 'Analytics charts and search metrics representing SEO and AEO optimization services',
+    title: 'SEO, AEO & AI Discoverability',
+    tagline: 'Found by search engines, LLMs, and AI agents',
+    description: 'Making your site fast, discoverable, and citation-ready for Google, ChatGPT, Perplexity, and AI agents.',
+    detailedDescription: 'Maximize visibility across traditional search and the new AI layer. We optimize for SEO, Answer Engine Optimization (AEO), and machine-readable content so your business is surfaced and cited by LLMs, AI assistants, and autonomous agents — not just Google.',
+    keyBenefits: ['Improved Google & Bing rankings', 'Cited by ChatGPT, Perplexity & Gemini', 'Crawlable by LLMs and AI agents', 'Structured data & schema markup', 'Faster Core Web Vitals', 'Answer-ready content structure', 'Agent-friendly site architecture'],
+    technologies: ['Google Analytics', 'Search Console', 'Lighthouse', 'Schema.org / JSON-LD', 'llms.txt', 'robots.txt for AI crawlers', 'Open Graph & semantic HTML'],
+    deliverables: ['Complete SEO + AEO audit report', 'Optimized meta tags & structured data', 'llms.txt and AI crawler access setup', 'Answer-engine-friendly content rewrites', 'Technical SEO improvements', 'Performance optimization', 'Analytics & citation tracking'],
   },
   {
     slug: 'redesign-revamp',
@@ -234,11 +234,11 @@ const ServicesPage = () => {
                       className="group card-unified card-feature card-feature-bordered rounded-xl overflow-hidden scroll-mt-32"
                     >
                       <div className="grid lg:grid-cols-5">
-                        <div className="lg:col-span-2 h-48 lg:h-auto overflow-hidden">
+                        <div className="lg:col-span-2 aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[360px] overflow-hidden bg-webdev-darker-gray">
                           <img
                             src={service.image}
                             alt={service.imageAlt}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                             loading="lazy"
                             width={896}
                             height={512}
