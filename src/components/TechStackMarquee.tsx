@@ -47,7 +47,14 @@ const TechCard = ({ tech }: { tech: Tech }) => (
           <span className="text-sm font-medium text-wdp-text">{tech.name}</span>
         </div>
       </TooltipTrigger>
-      <TooltipContent side="top" className="max-w-xs text-center">
+      <TooltipContent
+        side="top"
+        align="center"
+        sideOffset={8}
+        collisionPadding={16}
+        avoidCollisions
+        className="max-w-[min(20rem,calc(100vw-2rem))] text-center"
+      >
         <p className="text-xs leading-relaxed">{tech.description}</p>
       </TooltipContent>
     </Tooltip>
