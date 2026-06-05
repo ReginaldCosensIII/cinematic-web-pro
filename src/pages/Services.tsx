@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code, Palette, Search, RefreshCw, Check, Zap, TrendingUp, Sparkles, Shield, Rocket, Compass, PenTool, Hammer, Gauge, ArrowRight } from 'lucide-react';
+import { Code, Palette, Search, RefreshCw, Check, Zap, TrendingUp, Sparkles, Shield, Rocket, Compass, PenTool, Hammer, Gauge, ArrowRight, Database, Cloud, ShoppingCart, Mail, Plug, FileText, LineChart, Wrench } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
@@ -82,6 +82,17 @@ const processSteps = [
   { icon: PenTool, title: 'Design', body: 'Brand-aligned design system and high-fidelity mockups before a line of code.' },
   { icon: Hammer, title: 'Build', body: 'Production-quality code, responsive on every device, optimized from the start.' },
   { icon: Rocket, title: 'Launch & iterate', body: 'Deploy, measure, refine. Your site grows with the business.' },
+];
+
+const additionalServices = [
+  { icon: ShoppingCart, title: 'E-Commerce Builds', body: 'Shopify, Stripe, and custom checkout flows engineered to convert and scale with your catalog.' },
+  { icon: Plug, title: 'API & Third-Party Integrations', body: 'Connect your site to CRMs, payment processors, booking systems, and any REST/GraphQL service.' },
+  { icon: Database, title: 'Database Design & Migration', body: 'PostgreSQL, SQL Server, and Supabase schemas built for performance — plus safe migrations from legacy systems.' },
+  { icon: Cloud, title: 'Cloud Hosting & DevOps', body: 'Azure, Vercel, and Cloudflare deployments with CI/CD pipelines, monitoring, and automated backups.' },
+  { icon: Mail, title: 'Transactional Email & Automation', body: 'Resend, SendGrid, and workflow automations for notifications, drip campaigns, and lead nurturing.' },
+  { icon: FileText, title: 'CMS & Content Workflows', body: 'Headless CMS setups so your team can update content without touching code or risking the site.' },
+  { icon: LineChart, title: 'Analytics & Conversion Tracking', body: 'GA4, PostHog, and custom event tracking so you know exactly what is working and what is not.' },
+  { icon: Wrench, title: 'Ongoing Maintenance & Support', body: 'Security patches, dependency updates, performance tune-ups, and on-call help when you need it.' },
 ];
 
 const techStack = [
@@ -177,48 +188,34 @@ const ServicesPage = () => {
               </section>
             </ScrollReveal>
 
-            {/* Services overview grid (jump links) */}
+            {/* Services overview intro */}
             <ScrollReveal>
               <section className="mb-24" aria-labelledby="overview-heading">
-                <div className="text-center mb-12">
+                <div className="text-center mb-8">
                   <h2 id="overview-heading" className="text-3xl md:text-5xl font-light text-wdp-text">
                     What we{' '}
                     <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
                       build
                     </span>
                   </h2>
-                  <p className="text-wdp-text-secondary mt-4 max-w-2xl mx-auto">
-                    Four core services, each scoped and delivered to a professional standard.
-                  </p>
                 </div>
-
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {services.map((s) => {
-                    const Icon = s.icon;
-                    return (
-                      <a
-                        key={s.slug}
-                        href={`#${s.slug}`}
-                        className="group card-unified card-feature rounded-xl p-6 flex flex-col focus-within:ring-2 focus-within:ring-webdev-gradient-blue"
-                      >
-                        <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
-                          <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
-                            <Icon className="w-6 h-6" />
-                          </div>
-                        </div>
-                        <h3 className="text-lg font-semibold text-wdp-text mb-1">{s.title}</h3>
-                        <p className="text-sm text-webdev-gradient-blue mb-2">{s.tagline}</p>
-                        <p className="text-sm text-wdp-text-secondary leading-relaxed flex-1">{s.description}</p>
-                        <div className="flex justify-end mt-4">
-                          <span className="inline-flex items-center text-base text-webdev-gradient-blue group-hover:text-webdev-gradient-purple transition-colors duration-300 cursor-pointer group/link">
-                            Learn More
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
-                          </span>
-                        </div>
-                      </a>
-
-                    );
-                  })}
+                <div className="max-w-3xl mx-auto space-y-5 text-center">
+                  <p className="text-lg text-wdp-text-secondary leading-relaxed">
+                    Every engagement is built around four core services — designed to cover the full
+                    lifecycle of a modern web presence, from first impression to long-term growth.
+                  </p>
+                  <p className="text-wdp-text-secondary leading-relaxed">
+                    Whether you need a brand-new custom site that signals quality, a full-stack
+                    application with authentication and a database, an SEO and AEO overhaul that gets
+                    your business cited by Google and AI agents, or a complete revamp of a tired
+                    legacy site — the work is scoped tightly, priced clearly, and delivered to a
+                    professional standard.
+                  </p>
+                  <p className="text-wdp-text-secondary leading-relaxed">
+                    Each service below is detailed with the key benefits, deliverables, and tech
+                    stack you can expect. Beyond the core four, additional services are available to
+                    fill in anything else your project needs.
+                  </p>
                 </div>
               </section>
             </ScrollReveal>
@@ -233,6 +230,7 @@ const ServicesPage = () => {
                       id={service.slug}
                       className="group card-unified card-feature card-feature-bordered rounded-xl overflow-hidden scroll-mt-32"
                     >
+
                       <div className="grid lg:grid-cols-5">
                         <div className="lg:col-span-2 aspect-square lg:aspect-auto lg:h-full overflow-hidden bg-webdev-darker-gray">
                           <img
@@ -305,6 +303,39 @@ const ServicesPage = () => {
                 );
               })}
             </section>
+
+            {/* Additional services */}
+            <ScrollReveal>
+              <section className="mb-24" aria-labelledby="additional-heading">
+                <div className="text-center mb-12">
+                  <h2 id="additional-heading" className="text-3xl md:text-5xl font-light text-wdp-text">
+                    Additional{' '}
+                    <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                      services
+                    </span>
+                  </h2>
+                  <p className="text-wdp-text-secondary mt-4 max-w-2xl mx-auto">
+                    Beyond the four core services, here is everything else available to round out your project.
+                  </p>
+                </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {additionalServices.map(({ icon: Icon, title, body }) => (
+                    <div key={title} className="card-unified card-feature rounded-xl p-6">
+                      <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
+                        <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-semibold text-wdp-text mb-2">{title}</h3>
+                      <p className="text-sm text-wdp-text-secondary leading-relaxed">{body}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </ScrollReveal>
+
+
 
             {/* Process */}
             <ScrollReveal>

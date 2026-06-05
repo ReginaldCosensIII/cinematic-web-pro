@@ -21,6 +21,8 @@ const techStack: Tech[] = [
   { name: 'Tailwind CSS', slug: 'tailwindcss', color: '06B6D4', description: 'Utility-first CSS for rapid, consistent, design-system-driven styling.' },
   { name: 'Node.js', slug: 'nodedotjs', color: '5FA04E', description: 'JavaScript runtime powering fast, scalable backend services and APIs.' },
   { name: 'Python', slug: 'python', color: '3776AB', description: 'Versatile language for backend APIs, automation, and data work.' },
+  { name: 'ASP.NET', slug: 'dotnet', color: '512BD4', description: 'Microsoft\'s high-performance framework for enterprise-grade web apps and APIs.' },
+  { name: 'Azure', slug: 'microsoftazure', color: '0078D4', description: 'Microsoft\'s cloud platform for hosting, databases, AI, and global-scale deployments.' },
   { name: 'PostgreSQL', slug: 'postgresql', color: '4169E1', description: 'Battle-tested relational database with rock-solid reliability at scale.' },
   { name: 'Supabase', slug: 'supabase', color: '3FCF8E', description: 'Open-source backend with auth, database, storage, and edge functions.' },
   { name: 'Vercel', slug: 'vercel', color: 'FFFFFF', description: 'Edge deployment platform with global CDN and instant rollbacks.' },
