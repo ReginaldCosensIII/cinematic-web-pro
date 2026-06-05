@@ -234,14 +234,14 @@ const ServicesPage = () => {
                       className="group card-unified card-feature card-feature-bordered rounded-xl overflow-hidden scroll-mt-32"
                     >
                       <div className="grid lg:grid-cols-5">
-                        <div className="lg:col-span-2 aspect-[4/3] overflow-hidden bg-webdev-darker-gray flex items-center justify-center p-4">
+                        <div className="lg:col-span-2 aspect-square lg:aspect-auto lg:h-full overflow-hidden bg-webdev-darker-gray">
                           <img
                             src={service.image}
                             alt={service.imageAlt}
-                            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             loading="lazy"
-                            width={896}
-                            height={512}
+                            width={1024}
+                            height={1024}
                           />
                         </div>
 
