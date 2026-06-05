@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code, Palette, Search, RefreshCw, Check, Zap, TrendingUp, Sparkles, Shield, Rocket, Compass, PenTool, Hammer, Gauge, ArrowRight } from 'lucide-react';
+import { Code, Palette, Search, RefreshCw, Check, Zap, TrendingUp, Sparkles, Shield, Rocket, Compass, PenTool, Hammer, Gauge, ArrowRight, Database, Cloud, ShoppingCart, Mail, Plug, FileText, LineChart, Wrench } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
