@@ -84,6 +84,17 @@ const processSteps = [
   { icon: Rocket, title: 'Launch & iterate', body: 'Deploy, measure, refine. Your site grows with the business.' },
 ];
 
+const additionalServices = [
+  { icon: ShoppingCart, title: 'E-Commerce Builds', body: 'Shopify, Stripe, and custom checkout flows engineered to convert and scale with your catalog.' },
+  { icon: Plug, title: 'API & Third-Party Integrations', body: 'Connect your site to CRMs, payment processors, booking systems, and any REST/GraphQL service.' },
+  { icon: Database, title: 'Database Design & Migration', body: 'PostgreSQL, SQL Server, and Supabase schemas built for performance — plus safe migrations from legacy systems.' },
+  { icon: Cloud, title: 'Cloud Hosting & DevOps', body: 'Azure, Vercel, and Cloudflare deployments with CI/CD pipelines, monitoring, and automated backups.' },
+  { icon: Mail, title: 'Transactional Email & Automation', body: 'Resend, SendGrid, and workflow automations for notifications, drip campaigns, and lead nurturing.' },
+  { icon: FileText, title: 'CMS & Content Workflows', body: 'Headless CMS setups so your team can update content without touching code or risking the site.' },
+  { icon: LineChart, title: 'Analytics & Conversion Tracking', body: 'GA4, PostHog, and custom event tracking so you know exactly what is working and what is not.' },
+  { icon: Wrench, title: 'Ongoing Maintenance & Support', body: 'Security patches, dependency updates, performance tune-ups, and on-call help when you need it.' },
+];
+
 const techStack = [
   'React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Node.js', 'Python', 'PostgreSQL', 'Supabase', 'Vercel', 'Cloudflare', 'Figma', 'Framer Motion',
 ];
