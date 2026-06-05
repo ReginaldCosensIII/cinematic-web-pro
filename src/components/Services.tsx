@@ -22,9 +22,9 @@ const Services = () => {
     },
     {
       icon: Search,
-      title: "SEO & Optimization",
-      description: "Making your site fast, discoverable, and high-performing.",
-      features: ["On-page SEO", "Load time enhancements", "Semantic HTML structure"]
+      title: "SEO, AEO & AI Discoverability",
+      description: "Found by Google, ChatGPT, Perplexity, and AI agents — fast, citation-ready, and built for the new search layer.",
+      features: ["SEO + AEO optimization", "Cited by LLMs & AI agents", "Schema, llms.txt & semantic HTML"]
     },
     {
       icon: RefreshCw,
