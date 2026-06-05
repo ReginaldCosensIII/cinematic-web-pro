@@ -188,16 +188,6 @@ const ServicesPage = () => {
               </section>
             </ScrollReveal>
 
-            {/* Services overview grid (jump links) */}
-            <ScrollReveal>
-              <section className="mb-24" aria-labelledby="overview-heading">
-                <div className="text-center mb-12">
-                  <h2 id="overview-heading" className="text-3xl md:text-5xl font-light text-wdp-text">
-                    What we{' '}
-                    <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                      build
-                    </span>
-                  </h2>
             {/* Services overview intro */}
             <ScrollReveal>
               <section className="mb-24" aria-labelledby="overview-heading">
