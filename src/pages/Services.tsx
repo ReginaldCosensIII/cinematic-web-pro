@@ -304,6 +304,39 @@ const ServicesPage = () => {
               })}
             </section>
 
+            {/* Additional services */}
+            <ScrollReveal>
+              <section className="mb-24" aria-labelledby="additional-heading">
+                <div className="text-center mb-12">
+                  <h2 id="additional-heading" className="text-3xl md:text-5xl font-light text-wdp-text">
+                    Additional{' '}
+                    <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                      services
+                    </span>
+                  </h2>
+                  <p className="text-wdp-text-secondary mt-4 max-w-2xl mx-auto">
+                    Beyond the four core services, here is everything else available to round out your project.
+                  </p>
+                </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {additionalServices.map(({ icon: Icon, title, body }) => (
+                    <div key={title} className="card-unified card-feature rounded-xl p-6">
+                      <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
+                        <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-semibold text-wdp-text mb-2">{title}</h3>
+                      <p className="text-sm text-wdp-text-secondary leading-relaxed">{body}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </ScrollReveal>
+
+
+
             {/* Process */}
             <ScrollReveal>
               <section className="mb-24" aria-labelledby="process-heading">
