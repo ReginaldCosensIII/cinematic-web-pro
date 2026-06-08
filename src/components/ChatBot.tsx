@@ -21,13 +21,7 @@ const ChatBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const location = useLocation();
-  const isHome = location.pathname === '/';
-  const [visible, setVisible] = useState(!isHome);
-  useMotionValueEvent(heroProgress, 'change', (v) => {
-    if (isHome && v >= 0.95) setVisible(true);
-  });
-  const isDark = true;
+
 
   const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); };
   useEffect(() => { scrollToBottom(); }, [messages]);
