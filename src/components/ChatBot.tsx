@@ -4,9 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { useLocation } from 'react-router-dom';
-import { heroProgress } from '@/components/hero/heroProgress';
-import { useMotionValueEvent } from 'framer-motion';
 
 
 interface Message {
@@ -24,13 +21,7 @@ const ChatBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const location = useLocation();
-  const isHome = location.pathname === '/';
-  const [visible, setVisible] = useState(!isHome);
-  useMotionValueEvent(heroProgress, 'change', (v) => {
-    if (isHome && v >= 0.95) setVisible(true);
-  });
-  const isDark = true;
+
 
   const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); };
   useEffect(() => { scrollToBottom(); }, [messages]);
@@ -70,7 +61,7 @@ const ChatBot = () => {
 
   // Desktop: bottom-6, tablets (md but not lg): bottom-20, mobile: bottom-6 (over footer is fine)
   const positionClass = "fixed bottom-6 right-6 md:bottom-20 lg:bottom-6 z-50";
-  const fadeClass = `transition-opacity duration-700 ease-out ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
+  const fadeClass = "";
 
   if (!isOpen) {
     return (
