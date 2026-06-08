@@ -4,9 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { useLocation } from 'react-router-dom';
-import { heroProgress } from '@/components/hero/heroProgress';
-import { useMotionValueEvent } from 'framer-motion';
 
 
 interface Message {
