@@ -61,7 +61,7 @@ const ChatBot = () => {
 
   // Desktop: bottom-6, tablets (md but not lg): bottom-20, mobile: bottom-6 (over footer is fine)
   const positionClass = "fixed bottom-6 right-6 md:bottom-20 lg:bottom-6 z-50";
-  const fadeClass = `transition-opacity duration-700 ease-out ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`;
+  const fadeClass = "";
 
   if (!isOpen) {
     return (
