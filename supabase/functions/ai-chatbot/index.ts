@@ -109,7 +109,7 @@ const tools = [
     type: "function",
     function: {
       name: "submit_contact_request",
-      description: "Submit a contact request to the WebDevPro.io team on behalf of the visitor. Only call after the visitor has confirmed they want their info sent and you have name, email, and a clear message.",
+      description: "Submit a contact request to the Version III Web Services team on behalf of the visitor. Only call after the visitor has confirmed they want their info sent and you have name, email, and a clear message.",
       parameters: {
         type: "object",
         properties: {
