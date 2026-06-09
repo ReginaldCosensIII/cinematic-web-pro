@@ -201,24 +201,12 @@ const ServicesPage = () => {
                     </span>
                   </h2>
                 </div>
-                <div className="max-w-3xl mx-auto space-y-5 text-center">
+                <div className="max-w-3xl mx-auto text-center">
                   <p className="text-lg text-wdp-text-secondary leading-relaxed">
-                    Every engagement is built around four core services — designed to cover the full
-                    lifecycle of a modern web presence, from first impression to long-term growth.
-                  </p>
-                  <p className="text-wdp-text-secondary leading-relaxed">
-                    Whether you need a brand-new custom site that signals quality, a full-stack
-                    application with authentication and a database, an SEO and AEO overhaul that gets
-                    your business cited by Google and AI agents, or a complete revamp of a tired
-                    legacy site — the work is scoped tightly, priced clearly, and delivered to a
-                    professional standard.
-                  </p>
-                  <p className="text-wdp-text-secondary leading-relaxed">
-                    Each service below is detailed with the key benefits, deliverables, and tech
-                    stack you can expect. Beyond the core four, additional services are available to
-                    fill in anything else your project needs.
+                    Every engagement is built around four core services that cover the full lifecycle of a modern web presence — whether you need a brand-new custom site that signals quality, a full-stack application with authentication and a database, an SEO and AEO overhaul that gets your business cited by Google and AI agents, or a complete revamp of a tired legacy site. Each one is scoped tightly, priced clearly, and delivered to a professional standard, with the key benefits, deliverables, and tech stack detailed below — plus a set of additional services to fill in anything else your project needs.
                   </p>
                 </div>
+
               </section>
             </ScrollReveal>
 
