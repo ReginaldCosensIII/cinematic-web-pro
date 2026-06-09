@@ -78,11 +78,13 @@ const valueProps = [
 ];
 
 const processSteps = [
-  { icon: Compass, title: 'Discover', body: 'Goals, audience, competitors, and the actual outcomes you need the site to drive.' },
-  { icon: PenTool, title: 'Design', body: 'Brand-aligned design system and high-fidelity mockups before a line of code.' },
-  { icon: Hammer, title: 'Build', body: 'Production-quality code, responsive on every device, optimized from the start.' },
-  { icon: Rocket, title: 'Launch & iterate', body: 'Deploy, measure, refine. Your site grows with the business.' },
+  { icon: Compass, title: 'Discovery', body: 'We start by understanding your business goals, target audience, and competitors — and defining the real outcomes the site needs to drive. Every decision downstream is anchored to this.' },
+  { icon: PenTool, title: 'Design', body: 'Wireframes and high-fidelity visual designs that align with your brand. You see and approve the look, feel, and user experience before a single line of production code is written.' },
+  { icon: Hammer, title: 'Build', body: 'Production-grade code using a modern stack — clean front-end, secure back-end, responsive on every device, and optimized for speed and SEO from day one.' },
+  { icon: ShieldCheck, title: 'Test', body: 'Cross-browser checks, mobile optimization, accessibility passes, and performance audits. Everything is verified end-to-end so launch day is a non-event.' },
+  { icon: Rocket, title: 'Launch', body: 'Domain, hosting, and analytics configured. We go live with monitoring in place, then iterate based on real user data so the site keeps improving.' },
 ];
+
 
 const additionalServices = [
   { icon: ShoppingCart, title: 'E-Commerce Builds', body: 'Shopify, Stripe, and custom checkout flows engineered to convert and scale with your catalog.' },
