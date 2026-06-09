@@ -342,24 +342,60 @@ const ServicesPage = () => {
                   </p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {processSteps.map((step, i) => {
-                    const Icon = step.icon;
-                    return (
-                      <div key={step.title} className="card-unified card-feature rounded-xl p-6 relative">
-                        <div className="absolute top-4 right-4 text-xs font-mono bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                          0{i + 1}
-                        </div>
-                        <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
-                          <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
-                            <Icon className="w-6 h-6" />
+                <div className="relative max-w-5xl mx-auto">
+                  {/* Vertical timeline spine */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute top-0 bottom-0 left-6 md:left-1/2 md:-translate-x-1/2 w-px bg-gradient-to-b from-webdev-gradient-blue/60 via-webdev-gradient-purple/40 to-transparent"
+                  />
+
+                  <ol className="space-y-10 md:space-y-16">
+                    {processSteps.map((step, i) => {
+                      const Icon = step.icon;
+                      const isLeft = i % 2 === 0;
+                      return (
+                        <li key={step.title} className="relative md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                          {/* Node dot on the spine */}
+                          <div
+                            aria-hidden="true"
+                            className="absolute left-6 md:left-1/2 top-6 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-webdev-gradient-blue to-webdev-gradient-purple ring-4 ring-webdev-darker-gray z-10"
+                          />
+
+                          {/* Card */}
+                          <div
+                            className={`pl-16 md:pl-0 ${
+                              isLeft ? 'md:col-start-1 md:pr-8 md:text-right' : 'md:col-start-2 md:pl-8'
+                            }`}
+                          >
+                            <div className="card-unified card-feature rounded-xl p-6 relative">
+                              <div
+                                className={`flex items-center gap-3 mb-3 ${
+                                  isLeft ? 'md:flex-row-reverse' : ''
+                                }`}
+                              >
+                                <div className="icon-gradient-container relative w-12 h-12 rounded-xl flex-shrink-0">
+                                  <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                                    <Icon className="w-6 h-6" />
+                                  </div>
+                                </div>
+                                <div className={isLeft ? 'md:text-right' : ''}>
+                                  <span className="block text-xs font-mono bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                                    Step 0{i + 1}
+                                  </span>
+                                  <h3 className="text-xl font-semibold text-wdp-text leading-tight">
+                                    {step.title}
+                                  </h3>
+                                </div>
+                              </div>
+                              <p className="text-sm md:text-base text-wdp-text-secondary leading-relaxed text-left md:text-inherit">
+                                {step.body}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <h3 className="text-lg font-semibold text-wdp-text mb-2">{step.title}</h3>
-                        <p className="text-sm text-wdp-text-secondary leading-relaxed">{step.body}</p>
-                      </div>
-                    );
-                  })}
+                        </li>
+                      );
+                    })}
+                  </ol>
                 </div>
               </section>
             </ScrollReveal>
