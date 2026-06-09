@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code, Palette, Search, RefreshCw, Check, Zap, TrendingUp, Sparkles, Shield, Rocket, Compass, PenTool, Hammer, Gauge, ArrowRight, Database, Cloud, ShoppingCart, Mail, Plug, FileText, LineChart, Wrench } from 'lucide-react';
+import { Code, Palette, Search, RefreshCw, Check, Zap, TrendingUp, Sparkles, Shield, Rocket, Compass, PenTool, Hammer, Gauge, ArrowRight, Database, Cloud, ShoppingCart, Mail, Plug, FileText, LineChart, Wrench, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
@@ -78,11 +78,13 @@ const valueProps = [
 ];
 
 const processSteps = [
-  { icon: Compass, title: 'Discover', body: 'Goals, audience, competitors, and the actual outcomes you need the site to drive.' },
-  { icon: PenTool, title: 'Design', body: 'Brand-aligned design system and high-fidelity mockups before a line of code.' },
-  { icon: Hammer, title: 'Build', body: 'Production-quality code, responsive on every device, optimized from the start.' },
-  { icon: Rocket, title: 'Launch & iterate', body: 'Deploy, measure, refine. Your site grows with the business.' },
+  { icon: Compass, title: 'Discovery', body: 'We start by understanding your business goals, target audience, and competitors — and defining the real outcomes the site needs to drive. Every decision downstream is anchored to this.' },
+  { icon: PenTool, title: 'Design', body: 'Wireframes and high-fidelity visual designs that align with your brand. You see and approve the look, feel, and user experience before a single line of production code is written.' },
+  { icon: Hammer, title: 'Build', body: 'Production-grade code using a modern stack — clean front-end, secure back-end, responsive on every device, and optimized for speed and SEO from day one.' },
+  { icon: ShieldCheck, title: 'Test', body: 'Cross-browser checks, mobile optimization, accessibility passes, and performance audits. Everything is verified end-to-end so launch day is a non-event.' },
+  { icon: Rocket, title: 'Launch', body: 'Domain, hosting, and analytics configured. We go live with monitoring in place, then iterate based on real user data so the site keeps improving.' },
 ];
+
 
 const additionalServices = [
   { icon: ShoppingCart, title: 'E-Commerce Builds', body: 'Shopify, Stripe, and custom checkout flows engineered to convert and scale with your catalog.' },
@@ -199,24 +201,12 @@ const ServicesPage = () => {
                     </span>
                   </h2>
                 </div>
-                <div className="max-w-3xl mx-auto space-y-5 text-center">
+                <div className="max-w-3xl mx-auto text-center">
                   <p className="text-lg text-wdp-text-secondary leading-relaxed">
-                    Every engagement is built around four core services — designed to cover the full
-                    lifecycle of a modern web presence, from first impression to long-term growth.
-                  </p>
-                  <p className="text-wdp-text-secondary leading-relaxed">
-                    Whether you need a brand-new custom site that signals quality, a full-stack
-                    application with authentication and a database, an SEO and AEO overhaul that gets
-                    your business cited by Google and AI agents, or a complete revamp of a tired
-                    legacy site — the work is scoped tightly, priced clearly, and delivered to a
-                    professional standard.
-                  </p>
-                  <p className="text-wdp-text-secondary leading-relaxed">
-                    Each service below is detailed with the key benefits, deliverables, and tech
-                    stack you can expect. Beyond the core four, additional services are available to
-                    fill in anything else your project needs.
+                    Every engagement is built around four core services that cover the full lifecycle of a modern web presence — whether you need a brand-new custom site that signals quality, a full-stack application with authentication and a database, an SEO and AEO overhaul that gets your business cited by Google and AI agents, or a complete revamp of a tired legacy site. Each one is scoped tightly, priced clearly, and delivered to a professional standard, with the key benefits, deliverables, and tech stack detailed below — plus a set of additional services to fill in anything else your project needs.
                   </p>
                 </div>
+
               </section>
             </ScrollReveal>
 
@@ -319,16 +309,16 @@ const ServicesPage = () => {
                   </p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                   {additionalServices.map(({ icon: Icon, title, body }) => (
-                    <div key={title} className="card-unified card-feature rounded-xl p-6">
-                      <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
+                    <div key={title} className="card-unified card-feature rounded-xl p-4 sm:p-6">
+                      <div className="icon-gradient-container relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl mb-3 sm:mb-4">
                         <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
-                          <Icon className="w-6 h-6" />
+                          <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
                       </div>
-                      <h3 className="text-lg font-semibold text-wdp-text mb-2">{title}</h3>
-                      <p className="text-sm text-wdp-text-secondary leading-relaxed">{body}</p>
+                      <h3 className="text-sm sm:text-lg font-semibold text-wdp-text mb-1.5 sm:mb-2 leading-tight">{title}</h3>
+                      <p className="text-xs sm:text-sm text-wdp-text-secondary leading-relaxed">{body}</p>
                     </div>
                   ))}
                 </div>
@@ -352,24 +342,60 @@ const ServicesPage = () => {
                   </p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {processSteps.map((step, i) => {
-                    const Icon = step.icon;
-                    return (
-                      <div key={step.title} className="card-unified card-feature rounded-xl p-6 relative">
-                        <div className="absolute top-4 right-4 text-xs font-mono bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                          0{i + 1}
-                        </div>
-                        <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
-                          <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
-                            <Icon className="w-6 h-6" />
+                <div className="relative max-w-5xl mx-auto">
+                  {/* Vertical timeline spine */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute top-0 bottom-0 left-6 md:left-1/2 md:-translate-x-1/2 w-px bg-gradient-to-b from-webdev-gradient-blue/60 via-webdev-gradient-purple/40 to-transparent"
+                  />
+
+                  <ol className="space-y-10 md:space-y-16">
+                    {processSteps.map((step, i) => {
+                      const Icon = step.icon;
+                      const isLeft = i % 2 === 0;
+                      return (
+                        <li key={step.title} className="relative md:grid md:grid-cols-2 md:gap-12 md:items-center">
+                          {/* Node dot on the spine */}
+                          <div
+                            aria-hidden="true"
+                            className="absolute left-6 md:left-1/2 top-6 md:top-1/2 -translate-x-1/2 md:-translate-y-1/2 w-4 h-4 rounded-full bg-gradient-to-br from-webdev-gradient-blue to-webdev-gradient-purple ring-4 ring-webdev-darker-gray z-10"
+                          />
+
+                          {/* Card */}
+                          <div
+                            className={`pl-16 md:pl-0 ${
+                              isLeft ? 'md:col-start-1 md:pr-8 md:text-right' : 'md:col-start-2 md:pl-8'
+                            }`}
+                          >
+                            <div className="card-unified card-feature rounded-xl p-6 relative">
+                              <div
+                                className={`flex items-center gap-3 mb-3 ${
+                                  isLeft ? 'md:flex-row-reverse' : ''
+                                }`}
+                              >
+                                <div className="icon-gradient-container relative w-12 h-12 rounded-xl flex-shrink-0">
+                                  <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
+                                    <Icon className="w-6 h-6" />
+                                  </div>
+                                </div>
+                                <div className={isLeft ? 'md:text-right' : ''}>
+                                  <span className="block text-xs font-mono bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
+                                    Step 0{i + 1}
+                                  </span>
+                                  <h3 className="text-xl font-semibold text-wdp-text leading-tight">
+                                    {step.title}
+                                  </h3>
+                                </div>
+                              </div>
+                              <p className="text-sm md:text-base text-wdp-text-secondary leading-relaxed text-left md:text-inherit">
+                                {step.body}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <h3 className="text-lg font-semibold text-wdp-text mb-2">{step.title}</h3>
-                        <p className="text-sm text-wdp-text-secondary leading-relaxed">{step.body}</p>
-                      </div>
-                    );
-                  })}
+                        </li>
+                      );
+                    })}
+                  </ol>
                 </div>
               </section>
             </ScrollReveal>
