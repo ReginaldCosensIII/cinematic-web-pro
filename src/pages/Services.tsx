@@ -309,16 +309,16 @@ const ServicesPage = () => {
                   </p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                   {additionalServices.map(({ icon: Icon, title, body }) => (
-                    <div key={title} className="card-unified card-feature rounded-xl p-6">
-                      <div className="icon-gradient-container relative w-12 h-12 rounded-xl mb-4">
+                    <div key={title} className="card-unified card-feature rounded-xl p-4 sm:p-6">
+                      <div className="icon-gradient-container relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl mb-3 sm:mb-4">
                         <div className="icon-inner w-full h-full rounded-xl flex items-center justify-center">
-                          <Icon className="w-6 h-6" />
+                          <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
                       </div>
-                      <h3 className="text-lg font-semibold text-wdp-text mb-2">{title}</h3>
-                      <p className="text-sm text-wdp-text-secondary leading-relaxed">{body}</p>
+                      <h3 className="text-sm sm:text-lg font-semibold text-wdp-text mb-1.5 sm:mb-2 leading-tight">{title}</h3>
+                      <p className="text-xs sm:text-sm text-wdp-text-secondary leading-relaxed">{body}</p>
                     </div>
                   ))}
                 </div>
