@@ -37,7 +37,7 @@ const Footer = () => {
           </div>
           
           <p className="text-wdp-text-secondary text-sm tracking-wide">
-            © 2025 WebDevPro
+            © 2025 Version III Web Services LLC
           </p>
           
           <div className="flex items-center space-x-4">
@@ -53,7 +53,7 @@ const Footer = () => {
         {/* Mobile Layout */}
         <div className="md:hidden flex justify-center">
           <p className="text-wdp-text-secondary text-sm tracking-wide">
-            © 2025 WebDevPro
+            © 2025 Version III Web Services LLC
           </p>
         </div>
       </div>

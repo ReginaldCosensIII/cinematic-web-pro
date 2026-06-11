@@ -130,9 +130,18 @@ const Header = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold text-wdp-text hover:opacity-80 transition-colors duration-300 tracking-wide"
+            aria-label="Version III Web Services — Home"
+            className="group flex items-baseline gap-2 hover:opacity-90 transition-opacity duration-300"
           >
-            &lt;/WebDev<span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">Pro</span>&gt;
+            <span className="text-2xl font-bold text-wdp-text tracking-wide leading-none">
+              Version{' '}
+              <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent">
+                III
+              </span>
+            </span>
+            <span className="hidden sm:inline text-[0.7rem] uppercase tracking-[0.18em] text-wdp-text-secondary leading-none">
+              Web Services
+            </span>
           </Link>
 
           {/* Desktop Navigation — hidden below lg breakpoint */}

@@ -8,7 +8,8 @@ import HeroSection from '../components/HeroSection';
 import FeaturedWork from '../components/FeaturedWork';
 import TestimonialsSection from '../components/TestimonialsSection';
 import Services from '../components/Services';
-import ProcessSection from '../components/ProcessSection';
+import WhatWeBuild from '../components/WhatWeBuild';
+import ModernizeSection from '../components/ModernizeSection';
 import ProjectBriefHighlight from '../components/ProjectBriefHighlight';
 import AISolutionsHighlight from '../components/AISolutionsHighlight';
 import CallToAction from '../components/CallToAction';
@@ -21,8 +22,8 @@ import ScrollReveal from '../components/ScrollReveal';
 
 const Index = () => {
   const organizationData = {
-    name: "WebDevPro.io - Reggie Cosens",
-    description: "Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions.",
+    name: "Version III Web Services LLC",
+    description: "Version III Web Services builds modern websites, custom web tools, and practical AI-powered solutions for small to mid-sized businesses.",
     url: "https://webdevpro.io",
     logo: "https://webdevpro.io/logo.png",
     contactPoint: {
@@ -32,16 +33,15 @@ const Index = () => {
     },
     sameAs: [
       "https://www.linkedin.com/in/reggiecosens",
-      "https://github.com/reggiecosens",
       "https://twitter.com/WebDevProIO"
     ]
   };
 
   const serviceData = {
-    name: "Custom Web Development Services",
-    description: "Professional web development services including custom website design, full-stack development, and AI integration.",
+    name: "Web Development & AI Solutions",
+    description: "Modern websites, custom web tools, and practical AI-powered solutions built around real business needs.",
     provider: {
-      name: "WebDevPro.io - Reggie Cosens",
+      name: "Version III Web Services LLC",
       url: "https://webdevpro.io"
     },
     areaServed: "Worldwide",
@@ -73,9 +73,9 @@ const Index = () => {
     <PerformanceOptimizer>
       <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
       <SEOHead 
-        title="WebDevPro.io | Professional Web Developer - Custom Websites & Full-Stack Development"
-        description="Expert freelance web developer specializing in custom website design, full-stack development, and AI-powered solutions. Transform your business with responsive, high-performance websites that drive results."
-        keywords="web developer, freelance web developer, custom website design, full-stack development, responsive web design, SEO optimization, website redesign, web applications, AI integration, React developer, small business websites, modern website design"
+        title="Version III Web Services | Web Development & AI Solutions"
+        description="Version III Web Services builds modern websites, custom web tools, and practical AI-powered solutions for small to mid-sized businesses ready to improve their digital presence."
+        keywords="version iii web services, web development, custom websites, ai solutions, custom web tools, small business websites, modern website design, ai chatbot, knowledge base assistant, workflow automation"
         canonicalUrl="https://webdevpro.io/"
         ogImage="https://webdevpro.io/og-home.jpg"
         twitterImage="https://webdevpro.io/twitter-home.jpg"
@@ -96,7 +96,12 @@ const Index = () => {
         <main id="main-content" className="relative z-10" role="main">
           <HeroSection />
           <div className="space-y-12">
-            <ScrollReveal>
+            <ScrollReveal delay={50}>
+              <section id="what-we-build" aria-labelledby="what-we-build-heading">
+                <WhatWeBuild />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
               <section id="featured-work" aria-labelledby="featured-work-heading">
                 <FeaturedWork />
               </section>
@@ -112,8 +117,8 @@ const Index = () => {
               </section>
             </ScrollReveal>
             <ScrollReveal delay={100}>
-              <section id="process" aria-labelledby="process-heading">
-                <ProcessSection />
+              <section id="modernize" aria-labelledby="modernize-heading">
+                <ModernizeSection />
               </section>
             </ScrollReveal>
             <ScrollReveal delay={100}>

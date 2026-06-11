@@ -20,17 +20,17 @@ const AISolutionsHighlight = () => {
             </div>
 
             <h2 id="ai-solutions-heading" className="text-5xl md:text-7xl font-light tracking-tight">
-              <span className="text-wdp-text">Put </span>
+              <span className="text-wdp-text">Practical </span>
               <span className="bg-gradient-to-r from-webdev-gradient-blue to-webdev-gradient-purple bg-clip-text text-transparent font-bold">
-                AI
+                AI Solutions
               </span>
-              <span className="text-wdp-text"> To Work In Your Business</span>
+              <span className="text-wdp-text"> for Real Business Needs</span>
             </h2>
 
             <p className="text-xl text-wdp-text-secondary leading-relaxed max-w-3xl mx-auto">
-              From AI phone answering and customer service chatbots to bespoke executive assistants and
-              full workflow automation — practical AI built around your business, not a generic tool you
-              have to bend yourself around.
+              AI should solve real problems, not create more complexity. Version III Web Services helps
+              businesses adopt practical AI tools — chatbots, knowledge base assistants, customer support
+              helpers, and workflow automation — built around how the business actually works.
             </p>
           </div>
 
