@@ -96,7 +96,12 @@ const Index = () => {
         <main id="main-content" className="relative z-10" role="main">
           <HeroSection />
           <div className="space-y-12">
-            <ScrollReveal>
+            <ScrollReveal delay={50}>
+              <section id="what-we-build" aria-labelledby="what-we-build-heading">
+                <WhatWeBuild />
+              </section>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
               <section id="featured-work" aria-labelledby="featured-work-heading">
                 <FeaturedWork />
               </section>
@@ -112,8 +117,8 @@ const Index = () => {
               </section>
             </ScrollReveal>
             <ScrollReveal delay={100}>
-              <section id="process" aria-labelledby="process-heading">
-                <ProcessSection />
+              <section id="modernize" aria-labelledby="modernize-heading">
+                <ModernizeSection />
               </section>
             </ScrollReveal>
             <ScrollReveal delay={100}>

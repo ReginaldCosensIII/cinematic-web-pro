@@ -20,9 +20,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "Professional Web Developer | Custom Website Design & Full-Stack Development",
-  description = "Expert web developer specializing in custom website design, full-stack development, and AI-powered solutions. Transform your business with responsive, high-performance websites that drive results.",
-  keywords = "web developer, custom website design, full-stack development, responsive web design, SEO optimization, website redesign, web applications, AI integration",
+  title = "Version III Web Services | Web Development & AI Solutions",
+  description = "Version III Web Services builds modern websites, custom web tools, and practical AI-powered solutions for small to mid-sized businesses ready to improve their digital presence.",
+  keywords = "version iii web services, web development, custom websites, ai solutions, custom web tools, small business websites, modern website design",
   canonicalUrl = "https://webdevpro.io/",
   ogImage = "https://webdevpro.io/og-image.jpg",
   twitterImage = "https://webdevpro.io/twitter-image.jpg",
@@ -35,7 +35,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta name="author" content="Reggie Cosens - WebDevPro.io" />
+      <meta name="author" content="Version III Web Services LLC" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
       
@@ -55,7 +55,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:site_name" content="WebDevPro.io" />
+      <meta property="og:site_name" content="Version III Web Services" />
       <meta property="og:locale" content="en_US" />
       
       {/* Article specific Open Graph tags */}
