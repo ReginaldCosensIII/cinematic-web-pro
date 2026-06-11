@@ -52,7 +52,7 @@ const Services = () => {
             </h2>
             
             <p className="text-xl text-wdp-text-secondary max-w-2xl mx-auto leading-relaxed">
-              From concept to deployment, I deliver custom web applications and scalable digital platforms that drive results.
+              Version III Web Services builds modern, structured, maintainable websites — from new business sites and redesigns to performance, SEO, and content improvements that strengthen your digital foundation.
             </p>
           </div>
         </header>

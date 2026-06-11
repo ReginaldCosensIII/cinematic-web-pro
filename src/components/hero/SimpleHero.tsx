@@ -100,14 +100,21 @@ const SimpleHero: React.FC = () => {
           {...fadeUp(0.62)}
           className="text-lg sm:text-xl text-wdp-text-secondary max-w-2xl mx-auto leading-relaxed text-balance"
         >
-          Crafting exceptional web experiences that captivate your audience and drive real results.
+          Version III Web Services builds modern websites, custom web tools, and AI-powered solutions
+          for businesses ready to move beyond outdated pages, manual workflows, and disconnected technology.
         </motion.p>
 
-        <motion.div {...fadeScale(0.78)} className="flex justify-center">
-          <Link to="/contact" onClick={() => window.scrollTo(0, 0)} aria-label="Start your web development project">
+        <motion.div {...fadeScale(0.78)} className="flex flex-col sm:flex-row justify-center gap-4">
+          <Link to="/contact" onClick={() => window.scrollTo(0, 0)} aria-label="Start your project">
             <Button variant="glass" size="lg" className="group inline-flex items-center gap-2">
               <Sparkles className="w-4 h-4" aria-hidden="true" />
               Start Your Project
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Button>
+          </Link>
+          <Link to="/services" onClick={() => window.scrollTo(0, 0)} aria-label="Explore services">
+            <Button variant="glass" size="lg" className="group inline-flex items-center gap-2">
+              Explore Services
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </Button>
           </Link>
